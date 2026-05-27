@@ -1,0 +1,45 @@
+﻿{%- comment -%}
+  GoFunnelAI storefront embed block.
+  Renders a funnel section identified by `funnel_id` (block setting) by
+  fetching pre-rendered HTML from the merchant's app proxy URL.
+  The lead-capture form posts back through the same app proxy â†’ our
+  /shopify/proxy/funnel/form-submit handler.
+{%- endcomment -%}
+
+<div
+  class="funnel-ai-embed"
+  data-funnel-id="{{ block.settings.funnel_id }}"
+  data-shop="{{ shop.permanent_domain }}"
+  data-proxy="{{ shop.url }}/apps/funnel"
+>
+  <div class="funnel-ai-skeleton" aria-hidden="true">
+    <div class="funnel-ai-skeleton__hero"></div>
+    <div class="funnel-ai-skeleton__row"></div>
+    <div class="funnel-ai-skeleton__row"></div>
+  </div>
+</div>
+
+<style>
+  .funnel-ai-embed { min-height: 480px; position: relative; }
+  .funnel-ai-skeleton { padding: 40px 0; }
+  .funnel-ai-skeleton__hero { height: 220px; background: linear-gradient(90deg, #f4f4f5 0%, #e4e4e7 50%, #f4f4f5 100%); background-size: 200% 100%; animation: funnel-ai-shimmer 1.2s infinite; border-radius: 12px; margin-bottom: 16px; }
+  .funnel-ai-skeleton__row { height: 16px; background: #f4f4f5; border-radius: 8px; margin: 8px 0; }
+  @keyframes funnel-ai-shimmer { 0% { background-position: 0% 0; } 100% { background-position: -200% 0; } }
+</style>
+
+<script src="{{ 'funnel-embed.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "GoFunnelAI Funnel",
+  "target": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "funnel_id",
+      "label": "Funnel ID",
+      "info": "Find this in GoFunnelAI â†’ Funnels â†’ Settings â†’ API."
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,29 @@
+# funnel-api ” Hono + tRPC API server.
+# Originally a Cloudflare Worker; on Railway it runs as a long-running Node
+# process via the @hono/node-server adapter. apps/api/dist/index.js boots
+# Hono on $PORT (Railway sets this; we default to 8080).
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "apps/api/Dockerfile"
+
+[deploy]
+startCommand = "node apps/api/dist/server.js"
+healthcheckPath = "/healthz"
+healthcheckTimeout = 30
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
+numReplicas = 2
+# Migrations run BEFORE the new container takes traffic. Idempotent ”
+# `prisma migrate deploy` is a no-op when the migrations table is current.
+# Backward-compatible migrations only (see docs/08-release-policy.md): no
+# destructive drops within 30 days of release.
+preDeployCommand = "bash packages/db/scripts/migrate-on-deploy.sh"
+
+# Resource hints (Railway translates these into Pro plan slot sizes).
+[deploy.resources]
+cpu = 1
+memoryMB = 1024
+
+# Custom domains (wire post-deploy):
+#   api.gofunnelai.com          â†’ production
+#   api.staging.gofunnelai.com  â†’ staging

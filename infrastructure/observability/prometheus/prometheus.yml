@@ -1,0 +1,136 @@
+###############################################################################
+# GoFunnelAI â€” Prometheus scrape config.
+#
+# Hosted on Grafana Cloud (Prometheus-compatible push gateway + scrape proxy).
+# This file lives in `infrastructure/observability/prometheus/` and is shipped
+# via `grafana-agent` running on each Node worker host. For Cloudflare Workers,
+# metrics are pushed to the Grafana Cloud remote_write endpoint by a tiny
+# OpenTelemetry collector worker (`funnel-otel-collector`) using the metrics
+# subset of OTLP.
+###############################################################################
+
+global:
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  evaluation_interval: 30s
+  external_labels:
+    cluster: funnel-prod
+    org: funnel-ai
+    region: us-east-1
+
+# -----------------------------------------------------------------------------
+# Remote write to Grafana Cloud Prometheus.
+# -----------------------------------------------------------------------------
+remote_write:
+  - url: https://prometheus-prod-13-prod-us-east-0.grafana.net/api/prom/push
+    basic_auth:
+      username: ${GRAFANA_CLOUD_PROM_USER}
+      password: ${GRAFANA_CLOUD_PROM_KEY}
+    queue_config:
+      capacity: 10000
+      max_samples_per_send: 2000
+      batch_send_deadline: 5s
+    metadata_config:
+      send: true
+      send_interval: 1m
+    write_relabel_configs:
+      # Drop noisy go runtime metrics we don't actively use.
+      - source_labels: [__name__]
+        regex: 'go_gc_.*|process_max_fds|process_open_fds'
+        action: drop
+
+# -----------------------------------------------------------------------------
+# Alertmanager target (Grafana Cloud Alertmanager).
+# -----------------------------------------------------------------------------
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+            - alertmanager-us-central1.grafana.net:443
+      scheme: https
+      basic_auth:
+        username: ${GRAFANA_CLOUD_AM_USER}
+        password: ${GRAFANA_CLOUD_AM_KEY}
+
+rule_files:
+  - /etc/prometheus/rules/*.yml
+
+# -----------------------------------------------------------------------------
+# Scrape jobs.
+# -----------------------------------------------------------------------------
+scrape_configs:
+  # ---- Node workers on Fly/Railway expose /metrics on port 9090 ----
+  - job_name: funnel-workers
+    metrics_path: /metrics
+    scheme: https
+    relabel_configs:
+      - source_labels: [__meta_dns_name]
+        target_label: instance
+    dns_sd_configs:
+      - names:
+          - workers.gofunnelai.com.internal
+        type: SRV
+        refresh_interval: 30s
+
+  # ---- Cloudflare Workers push metrics to the OTel collector worker; we
+  # scrape its prom exporter from this Prometheus instance. ----
+  - job_name: cloudflare-workers
+    metrics_path: /metrics
+    scheme: https
+    static_configs:
+      - targets:
+          - otel.gofunnelai.com
+    metric_relabel_configs:
+      - source_labels: [worker_name]
+        target_label: service
+
+  # ---- Postgres exporter sidecar (Neon does not expose prom natively;
+  # the exporter is a Cloudflare cron worker that polls Neon's metrics API
+  # and republishes as prom). ----
+  - job_name: neon-postgres
+    metrics_path: /metrics
+    scheme: https
+    static_configs:
+      - targets:
+          - pg-metrics.gofunnelai.com
+    scrape_interval: 30s
+
+  # ---- Upstash Redis exporter (similar pattern). ----
+  - job_name: upstash-redis
+    metrics_path: /metrics
+    scheme: https
+    static_configs:
+      - targets:
+          - redis-metrics.gofunnelai.com
+    scrape_interval: 30s
+
+  # ---- Cloudflare account-level metrics (Workers invocations, errors, etc.)
+  # pulled via the GraphQL Analytics API once a minute by a cron worker. ----
+  - job_name: cloudflare-account
+    metrics_path: /metrics
+    scheme: https
+    static_configs:
+      - targets:
+          - cf-account-metrics.gofunnelai.com
+    scrape_interval: 60s
+
+  # ---- Provider heartbeats (Resend, Stripe, PayPal, SignalWire, Meta,
+  # Google, TikTok, RevTry) â€” each provider integration emits a synthetic
+  # ping every minute. Status surfaces on the Integration Health dashboard. ----
+  - job_name: provider-heartbeats
+    metrics_path: /metrics
+    scheme: https
+    static_configs:
+      - targets:
+          - heartbeats.gofunnelai.com
+    scrape_interval: 30s
+
+  # ---- Synthetic monitoring (Checkly) results pushed to a textfile
+  # collector which Prometheus scrapes. ----
+  - job_name: checkly-synthetics
+    metrics_path: /metrics
+    scheme: https
+    static_configs:
+      - targets:
+          - checkly-bridge.gofunnelai.com
+    scrape_interval: 60s

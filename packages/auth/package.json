@@ -1,0 +1,70 @@
+{
+  "name": "@funnel/auth",
+  "version": "0.1.0",
+  "private": true,
+  "description": "GoFunnelAI authentication, MFA, sessions, SSO, workspace membership, permissions, API keys and admin role package.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./permissions": {
+      "types": "./dist/permissions.d.ts",
+      "import": "./dist/permissions.js"
+    },
+    "./session": {
+      "types": "./dist/session.d.ts",
+      "import": "./dist/session.js"
+    },
+    "./admin-roles": {
+      "types": "./dist/admin-roles.d.ts",
+      "import": "./dist/admin-roles.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rimraf dist .turbo",
+    "dev": "tsc -p tsconfig.json --watch",
+    "lint": "eslint \"src/**/*.ts\" \"tests/**/*.ts\"",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@funnel/db": "workspace:*",
+    "@funnel/email": "workspace:*",
+    "@funnel/events": "workspace:*",
+    "@funnel/shared": "workspace:*",
+    "@simplewebauthn/server": "^10.0.1",
+    "argon2": "^0.41.1",
+    "jose": "^5.9.0",
+    "nanoid": "^5.0.7",
+    "openid-client": "^5.7.0",
+    "otplib": "^12.0.1",
+    "qrcode": "^1.5.4",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@funnel/tsconfig": "workspace:*",
+    "@types/node": "^20.14.0",
+    "@types/qrcode": "^1.5.5",
+    "eslint": "^8.57.0",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

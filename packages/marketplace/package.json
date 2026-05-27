@@ -1,0 +1,49 @@
+{
+  "name": "@funnel/marketplace",
+  "version": "0.1.0",
+  "private": true,
+  "description": "GoFunnelAI Template Marketplace â€” creator-economy publishing, purchases, clones, reviews, payouts. Viral loop 4.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.js"
+    }
+  },
+  "files": ["dist", "src", "README.md"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rimraf dist .turbo",
+    "dev": "tsc -p tsconfig.json --watch",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@funnel/billing": "workspace:*",
+    "@funnel/db": "workspace:*",
+    "@funnel/events": "workspace:*",
+    "@funnel/shared": "workspace:*",
+    "stripe": "^17.4.0",
+    "ulid": "^2.3.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@funnel/tsconfig": "workspace:*",
+    "@types/node": "^20.14.0",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

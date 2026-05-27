@@ -1,0 +1,80 @@
+{
+  "title": "Funnel — SLO",
+  "uid": "funnel-slo",
+  "tags": ["funnel", "slo", "sla", "error-budget"],
+  "timezone": "utc",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "1m",
+  "time": { "from": "now-30d", "to": "now" },
+  "templating": {
+    "list": [
+      { "name": "env", "type": "custom", "query": "production",
+        "current": { "text": "production", "value": "production" } }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1, "type": "stat", "title": "Funnel rendering — SLA 99.9% / SLO 99.95%",
+      "gridPos": { "h": 7, "w": 6, "x": 0, "y": 0 },
+      "targets": [
+        { "expr": "1 - (sum(increase(funnel_renderer_responses_total{env=\"$env\",status_class=\"5xx\"}[30d])) / sum(increase(funnel_renderer_responses_total{env=\"$env\"}[30d])))" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "percentunit", "thresholds": { "mode": "absolute", "steps": [{ "color": "red" }, { "color": "yellow", "value": 0.999 }, { "color": "green", "value": 0.9995 }] } } }
+    },
+    {
+      "id": 2, "type": "stat", "title": "Generation engine — SLA 99.5% / SLO 99.7%",
+      "gridPos": { "h": 7, "w": 6, "x": 6, "y": 0 },
+      "targets": [
+        { "expr": "1 - (sum(increase(funnel_generation_failed_total{env=\"$env\"}[30d])) / sum(increase(funnel_generation_total{env=\"$env\"}[30d])))" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "percentunit", "thresholds": { "mode": "absolute", "steps": [{ "color": "red" }, { "color": "yellow", "value": 0.995 }, { "color": "green", "value": 0.997 }] } } }
+    },
+    {
+      "id": 3, "type": "stat", "title": "Ad publishing — SLA 99% / SLO 99.3%",
+      "gridPos": { "h": 7, "w": 6, "x": 12, "y": 0 },
+      "targets": [
+        { "expr": "1 - (sum(increase(funnel_ad_publish_failed_total{env=\"$env\"}[30d])) / sum(increase(funnel_ad_publish_attempt_total{env=\"$env\"}[30d])))" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "percentunit", "thresholds": { "mode": "absolute", "steps": [{ "color": "red" }, { "color": "yellow", "value": 0.99 }, { "color": "green", "value": 0.993 }] } } }
+    },
+    {
+      "id": 4, "type": "stat", "title": "RevTry voice — SLA 99.5% / SLO 99.7%",
+      "gridPos": { "h": 7, "w": 6, "x": 18, "y": 0 },
+      "targets": [
+        { "expr": "1 - (sum(increase(funnel_revtry_call_failed_total{env=\"$env\"}[30d])) / sum(increase(funnel_revtry_call_attempt_total{env=\"$env\"}[30d])))" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "percentunit", "thresholds": { "mode": "absolute", "steps": [{ "color": "red" }, { "color": "yellow", "value": 0.995 }, { "color": "green", "value": 0.997 }] } } }
+    },
+    {
+      "id": 5, "type": "timeseries", "title": "30-day error budget burn — Funnel rendering",
+      "gridPos": { "h": 9, "w": 12, "x": 0, "y": 7 },
+      "targets": [
+        { "expr": "(sum(increase(funnel_renderer_responses_total{env=\"$env\",status_class=\"5xx\"}[30d])) / sum(increase(funnel_renderer_responses_total{env=\"$env\"}[30d]))) / 0.0005", "legendFormat": "burn ratio" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "percentunit", "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "color": "yellow", "value": 0.5 }, { "color": "red", "value": 1.0 }] } } }
+    },
+    {
+      "id": 6, "type": "timeseries", "title": "30-day error budget burn — Generation engine",
+      "gridPos": { "h": 9, "w": 12, "x": 12, "y": 7 },
+      "targets": [
+        { "expr": "(sum(increase(funnel_generation_failed_total{env=\"$env\"}[30d])) / sum(increase(funnel_generation_total{env=\"$env\"}[30d]))) / 0.005", "legendFormat": "burn ratio" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "percentunit", "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "color": "yellow", "value": 0.5 }, { "color": "red", "value": 1.0 }] } } }
+    },
+    {
+      "id": 7, "type": "table", "title": "Perf budget snapshot",
+      "gridPos": { "h": 9, "w": 24, "x": 0, "y": 16 },
+      "targets": [
+        { "expr": "histogram_quantile(0.75, sum by (le) (rate(funnel_web_lcp_seconds_bucket{env=\"$env\"}[1h])))", "legendFormat": "LCP p75 (budget 1.5s)" },
+        { "expr": "histogram_quantile(0.75, sum by (le) (rate(funnel_web_ttfb_seconds_bucket{env=\"$env\"}[1h])))", "legendFormat": "TTFB p75 (budget 0.3s)" },
+        { "expr": "histogram_quantile(0.95, sum by (le) (rate(funnel_generation_total_seconds_bucket{env=\"$env\"}[1h])))", "legendFormat": "Generation p95 (budget 30s)" },
+        { "expr": "histogram_quantile(0.95, sum by (le) (rate(funnel_revtry_dial_latency_seconds_bucket{env=\"$env\"}[1h])))", "legendFormat": "RevTry first-dial p95 (budget 60s)" },
+        { "expr": "histogram_quantile(0.95, sum by (le) (rate(funnel_renderer_response_time_seconds_bucket{env=\"$env\",cached=\"true\"}[1h])))", "legendFormat": "Renderer cached p95 (budget 0.1s)" },
+        { "expr": "histogram_quantile(0.95, sum by (le) (rate(funnel_renderer_response_time_seconds_bucket{env=\"$env\",cached=\"false\"}[1h])))", "legendFormat": "Renderer uncached p95 (budget 0.4s)" },
+        { "expr": "histogram_quantile(0.95, sum by (le) (rate(funnel_lead_form_submit_seconds_bucket{env=\"$env\"}[1h])))", "legendFormat": "Form submit p95 (budget 0.5s)" },
+        { "expr": "histogram_quantile(0.95, sum by (le) (rate(funnel_stripe_webhook_to_update_seconds_bucket{env=\"$env\"}[1h])))", "legendFormat": "Stripe webhook -> state p95 (budget 2s)" }
+      ]
+    }
+  ]
+}

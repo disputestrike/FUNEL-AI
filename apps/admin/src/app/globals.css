@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply bg-slate-50 text-slate-900 antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply font-sans;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  *:focus-visible {
+    outline: 2px solid theme("colors.signal.500");
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  table {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+}
+
+@layer components {
+  /* Admin chrome: the red "you are in admin" stripe along the top. */
+  .admin-bar {
+    @apply bg-error-600 text-white font-medium text-body-sm;
+  }
+
+  /* Impersonation banner. Slightly different — sits below admin bar. */
+  .impersonation-bar {
+    @apply bg-error-700 text-white font-semibold text-body-sm border-t border-error-800;
+  }
+}
+
+@layer utilities {
+  .num {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+}

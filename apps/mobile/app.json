@@ -1,0 +1,123 @@
+{
+  "expo": {
+    "name": "GoFunnelAI",
+    "slug": "funnel-ai",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icons/icon.png",
+    "scheme": "funnelai",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#FAFAF9",
+      "dark": {
+        "image": "./assets/splash/splash-dark.png",
+        "backgroundColor": "#17150F"
+      }
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.funnelai.app",
+      "buildNumber": "1",
+      "infoPlist": {
+        "NSFaceIDUsageDescription": "Use Face ID to sign in to GoFunnelAI securely.",
+        "NSMicrophoneUsageDescription": "GoFunnelAI uses the microphone for voice commands to edit funnels and dictate notes.",
+        "NSSpeechRecognitionUsageDescription": "GoFunnelAI transcribes your voice commands locally and sends the text to the generation orchestrator.",
+        "NSContactsUsageDescription": "GoFunnelAI can dial leads from your funnels â€” contacts access is optional.",
+        "UIBackgroundModes": [
+          "remote-notification"
+        ]
+      },
+      "associatedDomains": [
+        "applinks:gofunnelai.com",
+        "applinks:app.gofunnelai.com"
+      ],
+      "entitlements": {
+        "aps-environment": "production"
+      }
+    },
+    "android": {
+      "package": "com.funnelai.app",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icons/adaptive-icon.png",
+        "backgroundColor": "#5B4FFF"
+      },
+      "permissions": [
+        "RECORD_AUDIO",
+        "USE_BIOMETRIC",
+        "USE_FINGERPRINT",
+        "VIBRATE",
+        "POST_NOTIFICATIONS"
+      ],
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "https",
+              "host": "app.gofunnelai.com"
+            }
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ]
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/icons/notification-icon.png",
+          "color": "#5B4FFF",
+          "sounds": [
+            "./assets/sounds/new-lead.wav"
+          ]
+        }
+      ],
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Use Face ID to sign in to GoFunnelAI securely."
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "deploymentTarget": "15.1"
+          },
+          "android": {
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34,
+            "minSdkVersion": 24
+          }
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "tsconfigPaths": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "REPLACE_WITH_EAS_PROJECT_ID"
+      },
+      "apiBaseUrl": "https://api.gofunnelai.com",
+      "wsUrl": "wss://api.gofunnelai.com/realtime"
+    },
+    "owner": "funnelai",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/REPLACE_WITH_EAS_PROJECT_ID"
+    }
+  }
+}

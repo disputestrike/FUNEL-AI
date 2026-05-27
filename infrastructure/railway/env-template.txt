@@ -1,0 +1,178 @@
+################################################################################
+# GoFunnelAI â€” Railway environment variable template
+#
+# Group A (auto-injected): provided by Railway plugins once provisioned.
+#                          DO NOT set manually.
+# Group B (shared):        set ONCE on the Railway project; every service inherits.
+# Group C (per-service):   set on the listed service(s) only.
+#
+# Secrets are referenced ONLY â€” never paste real values into this file or
+# anywhere in the repo. Use `railway variables set --service <svc> KEY=VALUE`
+# or the Railway dashboard. See infrastructure/railway/setup.md and
+# scripts/go-live-checklist.md for provider sign-up instructions.
+################################################################################
+
+# ==============================================================================
+# A. Auto-injected by Railway plugins (DO NOT SET MANUALLY)
+# ==============================================================================
+# Provided by the PostgreSQL plugin (`railway add postgres`):
+#   DATABASE_URL              postgres://...:5432/railway        (all services)
+#   PGHOST, PGPORT, PGUSER, PGPASSWORD, PGDATABASE
+#
+# Provided by the Redis plugin (`railway add redis`):
+#   REDIS_URL                 redis://default:...@host:port      (all services)
+#   REDISHOST, REDISPORT, REDISUSER, REDISPASSWORD
+#
+# Provided automatically by Railway:
+#   PORT                       container listen port (Railway maps to 80/443)
+#   RAILWAY_ENVIRONMENT        "production" | "staging" | <preview-name>
+#   RAILWAY_GIT_COMMIT_SHA     short SHA of the deployed commit
+#   RAILWAY_PROJECT_ID         project UUID
+#   RAILWAY_SERVICE_NAME       e.g. "funnel-api"
+#   RAILWAY_REPLICA_ID         per-replica unique ID
+
+# ==============================================================================
+# B. Shared (set on the project â€” every service inherits)
+# ==============================================================================
+NODE_ENV=production                          # production | staging
+LOG_LEVEL=info                               # trace|debug|info|warn|error|fatal
+RELEASE=                                     # set per deploy (CI populates from git sha)
+REGION=us-east-1                             # informational; for metrics tags
+
+# Public URLs â€” used for redirect URIs, CORS, email links, etc.
+PUBLIC_WEB_URL=https://gofunnelai.com
+PUBLIC_API_URL=https://api.gofunnelai.com
+PUBLIC_ADMIN_URL=https://admin.gofunnelai.com
+PUBLIC_GRADER_URL=https://grade.gofunnelai.com
+PUBLIC_RENDERER_URL=https://pages.gofunnelai.com
+
+# JWT / session signing â€” REQUIRED. 32+ bytes of high-entropy random.
+JWT_SECRET=                                  # openssl rand -base64 48
+SESSION_SECRET=                              # openssl rand -base64 48
+COOKIE_SIGNING_KEY=                          # openssl rand -base64 32
+
+# Observability
+SENTRY_DSN=                                  # https://....ingest.sentry.io/...
+SENTRY_TRACES_SAMPLE_RATE=0.10
+OTEL_EXPORTER_OTLP_ENDPOINT=                 # optional â€” Grafana Cloud or self-hosted
+OTEL_EXPORTER_OTLP_HEADERS=                  # "Authorization=Basic ..."
+PROMETHEUS_PUSHGATEWAY_URL=                  # optional â€” workers push job metrics here
+
+# LLM providers
+ANTHROPIC_API_KEY=                           # primary â€” https://console.anthropic.com
+OPENAI_API_KEY=                              # fallback + Realtime API â€” https://platform.openai.com
+TOGETHER_API_KEY=                            # Llama 3 fallback â€” https://api.together.xyz
+
+# Image / video providers
+REPLICATE_API_TOKEN=                         # Flux + Ideogram + Runway â€” https://replicate.com
+RUNWAY_API_KEY=                              # if going direct (else via Replicate)
+ELEVENLABS_API_KEY=                          # TTS â€” https://elevenlabs.io
+REVTRY_API_KEY=                              # AI voice agent â€” https://revtry.ai
+
+# Storage (Cloudflare R2 â€” S3-compatible)
+R2_ACCOUNT_ID=
+R2_ACCESS_KEY_ID=
+R2_SECRET_ACCESS_KEY=
+R2_BUCKET_ASSETS=funnel-assets
+R2_BUCKET_GENERATIONS=funnel-generations
+R2_PUBLIC_BASE=https://cdn.gofunnelai.com
+
+# Email (Resend â€” primary; SendGrid removed per Trust & Safety doc)
+RESEND_API_KEY=                              # https://resend.com
+RESEND_FROM_EMAIL=hello@gofunnelai.com
+RESEND_FROM_NAME=GoFunnelAI
+RESEND_REPLY_TO=support@gofunnelai.com
+
+# SMS + voice (SignalWire â€” Twilio-compatible)
+SIGNALWIRE_PROJECT_ID=                       # https://signalwire.com
+SIGNALWIRE_AUTH_TOKEN=
+SIGNALWIRE_SPACE_URL=                        # e.g. funnel.signalwire.com
+SIGNALWIRE_FROM_NUMBER=+1...                 # purchased SignalWire number, E.164
+
+# Payments â€” PayPal primary
+PAYPAL_CLIENT_ID=                            # https://developer.paypal.com
+PAYPAL_CLIENT_SECRET=
+PAYPAL_WEBHOOK_ID=
+PAYPAL_ENVIRONMENT=live                      # live | sandbox
+
+# Payments â€” Stripe secondary (Billing + Tax)
+STRIPE_SECRET_KEY=                           # sk_live_... â€” https://dashboard.stripe.com
+STRIPE_PUBLISHABLE_KEY=                      # pk_live_...
+STRIPE_WEBHOOK_SECRET=                       # whsec_...
+STRIPE_TAX_ENABLED=true
+
+# Auth (Clerk â€” initial; custom MFA wraps it)
+CLERK_SECRET_KEY=                            # sk_live_... â€” https://clerk.com
+CLERK_PUBLISHABLE_KEY=                       # pk_live_...
+CLERK_WEBHOOK_SECRET=                        # whsec_...
+
+# Ad-platform integrations (OAuth client IDs/secrets)
+META_APP_ID=
+META_APP_SECRET=
+GOOGLE_OAUTH_CLIENT_ID=
+GOOGLE_OAUTH_CLIENT_SECRET=
+TIKTOK_APP_ID=
+TIKTOK_APP_SECRET=
+LINKEDIN_CLIENT_ID=
+LINKEDIN_CLIENT_SECRET=
+X_API_KEY=
+X_API_SECRET=
+
+# Feature flags / config (Unleash, LaunchDarkly, or self-hosted)
+FEATURE_FLAGS_URL=
+FEATURE_FLAGS_TOKEN=
+
+# Trust & Safety / fraud
+HAVEIBEENPWNED_API_KEY=                      # optional â€” leaked-cred check
+PERSPECTIVE_API_KEY=                         # optional â€” toxicity
+
+# ==============================================================================
+# C. Per-service overrides
+# ==============================================================================
+
+# ---- funnel-api -------------------------------------------------------------
+# (in addition to all shared vars above)
+# PORT                       auto                    Railway sets this
+# CORS_ALLOWED_ORIGINS       https://gofunnelai.com,https://admin.gofunnelai.com
+# RATE_LIMIT_REDIS_PREFIX    api:rl:
+# SHUTDOWN_DRAIN_TIMEOUT_MS  30000                   how long to drain on SIGTERM
+
+# ---- funnel-web -------------------------------------------------------------
+# NEXT_PUBLIC_API_URL        https://api.gofunnelai.com
+# NEXT_PUBLIC_RELEASE        same as RELEASE (Next inlines NEXT_PUBLIC_* at build)
+# NEXT_PUBLIC_SENTRY_DSN     same as SENTRY_DSN (or a client-side-only one)
+# NEXT_PUBLIC_POSTHOG_KEY    optional â€” analytics
+# NEXT_PUBLIC_POSTHOG_HOST   https://app.posthog.com
+
+# ---- funnel-admin -----------------------------------------------------------
+# ADMIN_ALLOWED_EMAILS       comma-separated list of staff emails
+# NEXT_PUBLIC_API_URL        https://api.gofunnelai.com
+# NEXT_PUBLIC_RELEASE        same as RELEASE
+
+# ---- funnel-grader ----------------------------------------------------------
+# NEXT_PUBLIC_GRADER_URL     https://grade.gofunnelai.com
+# GRADER_LEAD_WEBHOOK_URL    optional â€” for piping leads to CRM in real time
+
+# ---- funnel-renderer --------------------------------------------------------
+# RENDERER_CACHE_TTL_S       60
+# RENDERER_AB_COOKIE_KEY     same as COOKIE_SIGNING_KEY
+
+# ---- funnel-workers ---------------------------------------------------------
+# WORKERS_CONCURRENCY                  16
+# WORKERS_QUEUE_PREFIX                 funnel:
+# SHUTDOWN_DRAIN_TIMEOUT_MS            30000
+# DLQ_SINK_URL                         optional â€” send DLQ jobs to Slack/Sentry
+# CRON_INGESTION_KB_SCHEDULE           "0 3 * * *"     nightly KB ingest
+# CRON_ACTIVATION_SCHEDULE             "*/15 * * * *"  activation sweep
+
+################################################################################
+# Setup helpers
+#
+#   # Set a variable on a specific service:
+#   railway variables set --service funnel-api JWT_SECRET="$(openssl rand -base64 48)"
+#
+#   # Bulk-set shared vars (script in scripts/env-check.sh consumes this file):
+#   bash scripts/env-check.sh infrastructure/railway/env-template.txt
+#
+# Provider sign-up walkthroughs live in:  scripts/go-live-checklist.md
+################################################################################

@@ -1,0 +1,55 @@
+{
+  "name": "@funnel/workers",
+  "version": "0.1.0",
+  "private": true,
+  "description": "GoFunnelAI BullMQ workers service â€” long-running Node process that owns every cron job, every async job, every queued unit of work that should not run inside the request-handling API. Deployed separately on Railway / Fly / Render (NOT on Cloudflare Workers â€” this is the long-running Node runtime).",
+  "license": "UNLICENSED",
+  "type": "module",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rimraf dist .turbo",
+    "start": "node dist/index.js",
+    "dev": "tsx watch src/index.ts",
+    "lint": "eslint \"src/**/*.ts\" \"tests/**/*.ts\"",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@funnel/activation": "workspace:*",
+    "@funnel/billing": "workspace:*",
+    "@funnel/compliance": "workspace:*",
+    "@funnel/crm": "workspace:*",
+    "@funnel/db": "workspace:*",
+    "@funnel/email": "workspace:*",
+    "@funnel/events": "workspace:*",
+    "@funnel/integrations": "workspace:*",
+    "@funnel/kb": "workspace:*",
+    "@funnel/notifications": "workspace:*",
+    "@funnel/orchestrator": "workspace:*",
+    "@funnel/revtry": "workspace:*",
+    "@funnel/shared": "workspace:*",
+    "@sentry/node": "^8.34.0",
+    "bullmq": "^5.21.0",
+    "croner": "^8.1.2",
+    "ioredis": "5.10.1",
+    "prom-client": "^15.1.3",
+    "ulid": "^2.3.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@funnel/tsconfig": "workspace:*",
+    "@types/node": "^20.14.0",
+    "@vitest/coverage-v8": "^2.1.0",
+    "eslint": "^8.57.0",
+    "rimraf": "^6.0.1",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "title": "Funnel — Funnel rendering",
+  "uid": "funnel-rendering",
+  "tags": ["funnel", "renderer", "edge"],
+  "timezone": "utc",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "30s",
+  "time": { "from": "now-3h", "to": "now" },
+  "templating": {
+    "list": [
+      {
+        "name": "env",
+        "type": "custom",
+        "query": "production,staging,preview",
+        "current": { "text": "production", "value": "production" }
+      },
+      {
+        "name": "pop",
+        "type": "query",
+        "datasource": "Prometheus",
+        "query": "label_values(funnel_renderer_response_time_seconds, pop)",
+        "includeAll": true,
+        "multi": true
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1, "type": "timeseries", "title": "Edge response time per PoP (p95)",
+      "gridPos": { "h": 9, "w": 24, "x": 0, "y": 0 },
+      "targets": [
+        { "expr": "histogram_quantile(0.95, sum by (pop, le) (rate(funnel_renderer_response_time_seconds_bucket{env=\"$env\",pop=~\"$pop\"}[5m])))", "legendFormat": "{{pop}} p95" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "s", "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "color": "yellow", "value": 0.1 }, { "color": "red", "value": 0.4 }] } } }
+    },
+    {
+      "id": 2, "type": "stat", "title": "Cache hit rate",
+      "gridPos": { "h": 6, "w": 8, "x": 0, "y": 9 },
+      "targets": [
+        { "expr": "sum(rate(funnel_renderer_cache_hits_total{env=\"$env\"}[5m])) / sum(rate(funnel_renderer_requests_total{env=\"$env\"}[5m]))" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "percentunit", "thresholds": { "mode": "absolute", "steps": [{ "color": "red" }, { "color": "yellow", "value": 0.9 }, { "color": "green", "value": 0.95 }] } } }
+    },
+    {
+      "id": 3, "type": "stat", "title": "Custom-domain SSL provisioning success rate (24h)",
+      "gridPos": { "h": 6, "w": 8, "x": 8, "y": 9 },
+      "targets": [
+        { "expr": "sum(rate(funnel_ssl_provision_success_total{env=\"$env\"}[24h])) / (sum(rate(funnel_ssl_provision_attempt_total{env=\"$env\"}[24h])) + 1e-9)" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "percentunit" } }
+    },
+    {
+      "id": 4, "type": "stat", "title": "5xx rate",
+      "gridPos": { "h": 6, "w": 8, "x": 16, "y": 9 },
+      "targets": [
+        { "expr": "sum(rate(funnel_renderer_responses_total{env=\"$env\",status_class=\"5xx\"}[5m])) / sum(rate(funnel_renderer_responses_total{env=\"$env\"}[5m]))" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "percentunit", "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "color": "yellow", "value": 0.0005 }, { "color": "red", "value": 0.001 }] } } }
+    },
+    {
+      "id": 5, "type": "timeseries", "title": "R2 throughput (MB/s)",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 15 },
+      "targets": [
+        { "expr": "sum by (bucket) (rate(funnel_r2_bytes_transferred_total{env=\"$env\"}[5m])) / 1024 / 1024", "legendFormat": "{{bucket}}" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "binBps" } }
+    },
+    {
+      "id": 6, "type": "timeseries", "title": "Worker CPU + memory",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 15 },
+      "targets": [
+        { "expr": "avg by (worker) (funnel_worker_cpu_ms{env=\"$env\"})", "legendFormat": "cpu_ms {{worker}}" },
+        { "expr": "avg by (worker) (funnel_worker_memory_bytes{env=\"$env\"})", "legendFormat": "memory_bytes {{worker}}" }
+      ]
+    }
+  ]
+}

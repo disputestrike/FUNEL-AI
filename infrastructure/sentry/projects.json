@@ -1,0 +1,93 @@
+{
+  "$schema": "https://docs.sentry.io/api/projects/",
+  "organization": "funnel-ai",
+  "team": "engineering",
+  "projects": [
+    {
+      "slug": "funnel-web",
+      "name": "Funnel Web",
+      "platform": "javascript-nextjs",
+      "default_rules": false,
+      "release_tracking": {
+        "auto_assign": true,
+        "commit_tracking": true,
+        "repository": "funnel-ai/funnel"
+      },
+      "client_keys": ["funnel-web-public"],
+      "performance": {
+        "sample_rate": 0.1,
+        "profiling_sample_rate": 0.05
+      },
+      "data_scrubbing": {
+        "scrub_data": true,
+        "scrub_defaults": true,
+        "sensitive_fields": ["email", "phone", "card", "secret", "password", "session_id", "tenant_id"]
+      },
+      "environments": ["production", "staging", "preview"]
+    },
+    {
+      "slug": "funnel-api",
+      "name": "Funnel API",
+      "platform": "javascript-cloudflare",
+      "default_rules": false,
+      "performance": {
+        "sample_rate": 0.25,
+        "profiling_sample_rate": 0.1
+      },
+      "data_scrubbing": {
+        "scrub_data": true,
+        "scrub_defaults": true,
+        "sensitive_fields": ["email", "phone", "card", "secret", "password", "session_id", "tenant_id", "stripe_secret", "anthropic_api_key", "openai_api_key"]
+      },
+      "environments": ["production", "staging", "preview"]
+    },
+    {
+      "slug": "funnel-grader",
+      "name": "Funnel Grader",
+      "platform": "javascript-nextjs",
+      "default_rules": false,
+      "performance": {
+        "sample_rate": 0.5,
+        "profiling_sample_rate": 0.1
+      },
+      "data_scrubbing": {
+        "scrub_data": true,
+        "scrub_defaults": true,
+        "sensitive_fields": ["email", "phone"]
+      },
+      "environments": ["production", "staging", "preview"]
+    },
+    {
+      "slug": "funnel-renderer",
+      "name": "Funnel Renderer",
+      "platform": "javascript-cloudflare",
+      "default_rules": false,
+      "performance": {
+        "sample_rate": 0.05,
+        "profiling_sample_rate": 0.01
+      },
+      "data_scrubbing": {
+        "scrub_data": true,
+        "scrub_defaults": true,
+        "sensitive_fields": ["email", "phone", "lead_data"]
+      },
+      "environments": ["production", "staging", "preview"]
+    },
+    {
+      "slug": "funnel-workers",
+      "name": "Funnel Workers",
+      "platform": "node",
+      "default_rules": false,
+      "performance": {
+        "sample_rate": 0.25,
+        "profiling_sample_rate": 0.1
+      },
+      "data_scrubbing": {
+        "scrub_data": true,
+        "scrub_defaults": true,
+        "sensitive_fields": ["email", "phone", "card", "secret", "password", "stripe_secret", "anthropic_api_key", "openai_api_key", "signalwire_token", "resend_api_key"]
+      },
+      "environments": ["production", "staging"]
+    }
+  ]
+}

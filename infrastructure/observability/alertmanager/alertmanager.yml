@@ -1,0 +1,145 @@
+###############################################################################
+# GoFunnelAI â€” Alertmanager configuration (Grafana Cloud-hosted).
+#
+# Implements the paging matrix from 08-engineering-ops-spec.md Â§C.5:
+#   - Critical: PagerDuty page + #ops-alerts Slack.
+#   - Warning:  #ops Slack only.
+#   - Info:     daily 09:00 UTC digest email.
+#
+# Per-team escalation paths use distinct PD services so the right people get
+# paged for billing, voice, security, and platform incidents.
+###############################################################################
+
+global:
+  resolve_timeout: 5m
+  slack_api_url_file: /etc/alertmanager/secrets/slack-webhook
+  pagerduty_url: https://events.pagerduty.com/v2/enqueue
+
+templates:
+  - /etc/alertmanager/templates/*.tmpl
+
+# -----------------------------------------------------------------------------
+# Route tree.
+# -----------------------------------------------------------------------------
+route:
+  receiver: slack-ops
+  group_by: ["alertname", "service", "severity"]
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 4h
+  routes:
+    # Hard pages â€” page on-call + Slack.
+    - matchers:
+        - severity = critical
+      receiver: page-default
+      group_wait: 0s
+      continue: true
+      routes:
+        - matchers: [team = billing]
+          receiver: page-billing
+        - matchers: [team = security]
+          receiver: page-security
+        - matchers: [team = voice]
+          receiver: page-voice
+        - matchers: [team = platform]
+          receiver: page-platform
+
+    # Warnings â€” Slack only.
+    - matchers: [severity = warning]
+      receiver: slack-ops
+
+    # Info â€” daily digest at 09:00 UTC.
+    - matchers: [severity = info]
+      receiver: digest-email
+      group_wait: 8h
+      group_interval: 24h
+      repeat_interval: 24h
+
+# -----------------------------------------------------------------------------
+# Inhibitions â€” suppress duplicate / cascading pages.
+# -----------------------------------------------------------------------------
+inhibit_rules:
+  # If the renderer is down at the edge, the lead-capture alerts are
+  # downstream noise.
+  - source_matchers: [alertname = "RendererEdgeDown", severity = critical]
+    target_matchers: [service = lead-capture]
+    equal: [env]
+
+  # If Postgres primary is down, every API alert is downstream noise.
+  - source_matchers: [alertname = "PostgresPrimaryDown", severity = critical]
+    target_matchers: [service = funnel-api]
+    equal: [env]
+
+# -----------------------------------------------------------------------------
+# Receivers.
+# -----------------------------------------------------------------------------
+receivers:
+  - name: slack-ops
+    slack_configs:
+      - channel: "#ops"
+        send_resolved: true
+        title: "{{ template \"funnel.title\" . }}"
+        text: "{{ template \"funnel.body\" . }}"
+
+  - name: digest-email
+    email_configs:
+      - to: oncall-digest@gofunnelai.com
+        from: alerts@gofunnelai.com
+        smarthost: smtp.resend.com:587
+        auth_username: resend
+        auth_password_file: /etc/alertmanager/secrets/resend-smtp
+        send_resolved: false
+
+  - name: page-default
+    pagerduty_configs:
+      - service_key_file: /etc/alertmanager/secrets/pd-platform
+        severity: critical
+        send_resolved: true
+    slack_configs:
+      - channel: "#ops-alerts"
+        send_resolved: true
+        title: "PAGE â€” {{ template \"funnel.title\" . }}"
+        text: "{{ template \"funnel.body\" . }}"
+
+  - name: page-billing
+    pagerduty_configs:
+      - service_key_file: /etc/alertmanager/secrets/pd-billing
+        severity: critical
+        send_resolved: true
+    slack_configs:
+      - channel: "#billing-alerts"
+        send_resolved: true
+
+  - name: page-security
+    pagerduty_configs:
+      - service_key_file: /etc/alertmanager/secrets/pd-security
+        severity: critical
+        send_resolved: true
+    slack_configs:
+      - channel: "#security-alerts"
+        send_resolved: true
+    email_configs:
+      - to: security@gofunnelai.com
+        from: alerts@gofunnelai.com
+        smarthost: smtp.resend.com:587
+        auth_username: resend
+        auth_password_file: /etc/alertmanager/secrets/resend-smtp
+        send_resolved: true
+
+  - name: page-voice
+    pagerduty_configs:
+      - service_key_file: /etc/alertmanager/secrets/pd-voice
+        severity: critical
+        send_resolved: true
+    slack_configs:
+      - channel: "#voice-alerts"
+        send_resolved: true
+
+  - name: page-platform
+    pagerduty_configs:
+      - service_key_file: /etc/alertmanager/secrets/pd-platform
+        severity: critical
+        send_resolved: true
+    slack_configs:
+      - channel: "#ops-alerts"
+        send_resolved: true

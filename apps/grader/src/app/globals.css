@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 255 255 255;
+  --foreground: 11 14 20;
+  --muted: 247 247 248;
+  --border: 226 232 240;
+}
+
+html {
+  font-feature-settings: "ss01", "cv11";
+}
+
+body {
+  @apply bg-white text-ink-900 antialiased;
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+.shimmer-bg {
+  background: linear-gradient(
+    90deg,
+    rgba(229, 231, 235, 0.4) 0%,
+    rgba(243, 244, 246, 0.8) 50%,
+    rgba(229, 231, 235, 0.4) 100%
+  );
+  background-size: 200% 100%;
+  @apply animate-shimmer;
+}
+
+/* SSE-stepper dots */
+.step-dot {
+  @apply h-2 w-2 rounded-full bg-ink-100 transition-colors;
+}
+.step-dot[data-active="true"] {
+  @apply bg-brand-500 animate-pulse;
+}
+.step-dot[data-done="true"] {
+  @apply bg-success;
+}

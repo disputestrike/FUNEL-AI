@@ -1,0 +1,170 @@
+name: Preview Deploy
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches: [main]
+
+concurrency:
+  group: preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: "20.x"
+  PNPM_VERSION: "9.12.0"
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+  CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+  NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Open / sync â€” provision the per-PR preview stack and deploy.
+  # ---------------------------------------------------------------------------
+  open:
+    name: open preview
+    if: github.event.action != 'closed'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      pull-requests: write
+      deployments: write
+    env:
+      PR: ${{ github.event.pull_request.number }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: "${{ env.PNPM_VERSION }}" }
+      - uses: actions/setup-node@v4
+        with: { node-version: "${{ env.NODE_VERSION }}", cache: "pnpm" }
+      - run: pnpm install --frozen-lockfile
+
+      - name: Branch Neon DB (preview-pr-N)
+        id: db
+        run: |
+          set -euo pipefail
+          NAME="preview-pr-$PR"
+          PROJECT_ID="${{ secrets.NEON_PROJECT_ID }}"
+          # Re-use existing branch on synchronize.
+          EXISTING=$(curl -s -H "Authorization: Bearer $NEON_API_KEY" \
+            "https://console.neon.tech/api/v2/projects/$PROJECT_ID/branches" \
+            | jq -r --arg n "$NAME" '.branches[] | select(.name==$n) | .id' | head -n1)
+          if [ -z "$EXISTING" ]; then
+            EXISTING=$(curl -s -X POST \
+              -H "Authorization: Bearer $NEON_API_KEY" \
+              -H "Content-Type: application/json" \
+              "https://console.neon.tech/api/v2/projects/$PROJECT_ID/branches" \
+              -d "{\"branch\":{\"name\":\"$NAME\",\"parent_id\":\"${{ secrets.NEON_PREVIEW_TEMPLATE_BRANCH_ID }}\"}}" \
+              | jq -r '.branch.id')
+          fi
+          URI=$(curl -s -H "Authorization: Bearer $NEON_API_KEY" \
+            "https://console.neon.tech/api/v2/projects/$PROJECT_ID/connection_uri?branch_id=$EXISTING&database_name=funnel&role_name=funnel_app&pooled=true" \
+            | jq -r '.uri')
+          echo "branch_id=$EXISTING" >> $GITHUB_OUTPUT
+          echo "::add-mask::$URI"
+          echo "uri=$URI" >> $GITHUB_OUTPUT
+
+      - name: Apply migrations
+        env:
+          DATABASE_URL: ${{ steps.db.outputs.uri }}
+        run: pnpm --filter @funnel/db db:migrate
+
+      - name: Build all apps
+        env:
+          NEXT_PUBLIC_ENV: preview
+          NEXT_PUBLIC_API_BASE_URL: https://api-pr-${{ env.PR }}.preview.gofunnelai.com
+        run: pnpm build
+
+      - name: Deploy renderer (preview)
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ env.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ env.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: apps/renderer
+          command: deploy --name funnel-renderer-pr-${{ env.PR }} --var "PREVIEW_PR:${{ env.PR }}"
+
+      - name: Deploy api (preview)
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ env.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ env.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: apps/api
+          command: deploy --name funnel-api-pr-${{ env.PR }} --var "PREVIEW_PR:${{ env.PR }}"
+
+      - name: Deploy web (Pages preview)
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ env.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ env.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: apps/web
+          command: pages deploy .vercel/output/static --project-name funnel-web --branch pr-${{ env.PR }} --commit-dirty=true
+
+      - name: Deploy grader (Pages preview)
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ env.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ env.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: apps/grader
+          command: pages deploy .vercel/output/static --project-name funnel-grader --branch pr-${{ env.PR }} --commit-dirty=true
+
+      - name: Comment PR
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: preview
+          message: |
+            ### Preview deploy ready
+            - Web: https://pr-${{ env.PR }}.preview.gofunnelai.com
+            - API: https://api-pr-${{ env.PR }}.preview.gofunnelai.com
+            - Grader: https://grader-pr-${{ env.PR }}.preview.gofunnelai.com
+
+            Neon branch: `preview-pr-${{ env.PR }}` (id `${{ steps.db.outputs.branch_id }}`)
+
+            Seeded users:
+            - admin@e2e.funnel.local / `e2e-admin-pw`
+            - member@e2e.funnel.local / `e2e-member-pw`
+
+  # ---------------------------------------------------------------------------
+  # Closed â€” tear down the per-PR preview stack.
+  # ---------------------------------------------------------------------------
+  close:
+    name: close preview
+    if: github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PR: ${{ github.event.pull_request.number }}
+    steps:
+      - name: Delete Neon branch
+        run: |
+          set -euo pipefail
+          NAME="preview-pr-$PR"
+          PROJECT_ID="${{ secrets.NEON_PROJECT_ID }}"
+          BRANCH_ID=$(curl -s -H "Authorization: Bearer $NEON_API_KEY" \
+            "https://console.neon.tech/api/v2/projects/$PROJECT_ID/branches" \
+            | jq -r --arg n "$NAME" '.branches[] | select(.name==$n) | .id' | head -n1)
+          if [ -n "$BRANCH_ID" ]; then
+            curl -s -X DELETE -H "Authorization: Bearer $NEON_API_KEY" \
+              "https://console.neon.tech/api/v2/projects/$PROJECT_ID/branches/$BRANCH_ID"
+          fi
+
+      - name: Delete Cloudflare Workers
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ env.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ env.CLOUDFLARE_ACCOUNT_ID }}
+          command: delete --name funnel-renderer-pr-${{ env.PR }} --force
+
+      - uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ env.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ env.CLOUDFLARE_ACCOUNT_ID }}
+          command: delete --name funnel-api-pr-${{ env.PR }} --force
+
+      - name: Delete CF Pages branches
+        run: |
+          curl -fsS -X DELETE \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/funnel-web/deployments?branch=pr-$PR" || true
+          curl -fsS -X DELETE \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/funnel-grader/deployments?branch=pr-$PR" || true

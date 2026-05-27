@@ -1,0 +1,52 @@
+# GoFunnelAI Shopify app â€” submitted to the public Shopify App Store.
+# See https://shopify.dev/docs/apps/tools/cli/configuration for field docs.
+
+name = "GoFunnelAI"
+handle = "funnel-ai"
+client_id = "REPLACE_WITH_YOUR_CLIENT_ID"
+application_url = "https://app.gofunnelai.com/shopify"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "funnel-ai-dev.myshopify.com"
+include_config_on_deploy = true
+
+[webhooks]
+api_version = "2024-07"
+
+  [[webhooks.subscriptions]]
+  topics = ["app/uninstalled"]
+  uri = "/webhooks/app-uninstalled"
+
+  [[webhooks.subscriptions]]
+  topics = ["shop/update"]
+  uri = "/webhooks/shop-update"
+
+  [[webhooks.subscriptions]]
+  topics = ["orders/create", "orders/paid", "orders/fulfilled"]
+  uri = "/webhooks/orders"
+  include_fields = ["id", "name", "email", "phone", "total_price", "currency", "customer", "line_items"]
+
+  [[webhooks.subscriptions]]
+  topics = ["customers/data_request", "customers/redact", "shop/redact"]
+  uri = "/webhooks/gdpr"
+
+[access_scopes]
+scopes = "write_products,write_discounts,read_customers,read_orders,write_script_tags"
+use_legacy_install_flow = false
+
+[auth]
+redirect_urls = [
+  "https://app.gofunnelai.com/shopify/auth/callback",
+  "https://app.gofunnelai.com/shopify/auth/shopify/callback",
+  "https://app.gofunnelai.com/shopify/api/auth/callback"
+]
+
+[pos]
+embedded = false
+
+[app_proxy]
+url = "https://app.gofunnelai.com/shopify/proxy"
+subpath = "funnel"
+prefix = "apps"

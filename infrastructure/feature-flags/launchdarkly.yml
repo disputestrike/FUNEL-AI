@@ -1,0 +1,229 @@
+###############################################################################
+# GoFunnelAI â€” LaunchDarkly flag definitions (managed via the LD Terraform
+# provider + this YAML manifest). Synced by tooling/launchdarkly-sync.
+#
+# All flags use the OpenFeature spec: variation values are typed and the
+# default variation MUST be the safe value (existing behavior).
+###############################################################################
+
+project: funnel-ai
+environments: [production, staging, preview]
+default_tags: [funnel, managed-by-launchdarkly-yml]
+
+# ---------------------------------------------------------------------------
+# Agent flags â€” one per planned change to each agent.
+# ---------------------------------------------------------------------------
+flags:
+  - key: release.agents.planner-v2
+    name: Planner agent v2 rollout
+    description: Gradual rollout of the v2 planner prompt + graph traversal.
+    kind: boolean
+    temporary: true
+    default_variation: false
+    variations: [false, true]
+    targeting:
+      production:
+        rules:
+          - clause: tenant.cohort = "canary"
+            variation: true
+          - clause: tenant.plan = "internal"
+            variation: true
+        rollout: { default: false, percentage: 0 }
+      staging: { default: true }
+
+  - key: release.agents.hook-v2
+    name: Hook (CTA) agent v2 rollout
+    description: New hook agent with 12-style copy variants.
+    kind: boolean
+    temporary: true
+    default_variation: false
+    variations: [false, true]
+    targeting:
+      production: { default: false, percentage: 0 }
+      staging: { default: true }
+
+  - key: release.agents.compliance-v2
+    name: Compliance v2 (new policy classifier)
+    description: Switch FTC + Meta + Google classifier to the v2 model.
+    kind: boolean
+    temporary: true
+    default_variation: false
+    variations: [false, true]
+    targeting:
+      production: { default: false, percentage: 0 }
+      staging: { default: true }
+
+  - key: release.agents.factcheck-v2
+    name: Fact-check v2
+    kind: boolean
+    temporary: true
+    default_variation: false
+    variations: [false, true]
+    targeting:
+      production: { default: false, percentage: 0 }
+      staging: { default: true }
+
+  - key: release.agents.brand-guard-v2
+    name: Brand guard v2
+    kind: boolean
+    temporary: true
+    default_variation: false
+    variations: [false, true]
+
+  - key: release.agents.qa-v2
+    name: QA agent v2
+    kind: boolean
+    temporary: true
+    default_variation: false
+    variations: [false, true]
+
+  - key: killswitch.agents.all-generation
+    name: Emergency kill-switch â€” all generation
+    description: Hard-disable all generation API endpoints. Used during incidents.
+    kind: boolean
+    temporary: false
+    default_variation: false
+    variations: [false, true]
+    notify_on_change: [pagerduty-platform, slack-#ops-alerts]
+
+  # -------------------------------------------------------------------------
+  # Billing
+  # -------------------------------------------------------------------------
+  - key: release.billing.stripe-rollout
+    name: Stripe Subscriptions rollout
+    description: Route new subscription creations through Stripe (vs PayPal default).
+    kind: boolean
+    temporary: true
+    default_variation: false
+    variations: [false, true]
+
+  - key: release.billing.free-until-1k
+    name: "Free tier: free until 1000 leads"
+    description: Surface and enforce the free-until-1k-leads experiment plan.
+    kind: boolean
+    temporary: true
+    default_variation: false
+    variations: [false, true]
+    targeting:
+      production: { default: false, percentage: 5 }
+
+  - key: killswitch.billing.paypal
+    name: Kill-switch â€” PayPal subscription path
+    kind: boolean
+    temporary: false
+    default_variation: false
+    variations: [false, true]
+    notify_on_change: [pagerduty-billing, slack-#billing-alerts]
+
+  - key: killswitch.billing.stripe
+    name: Kill-switch â€” Stripe payment path
+    kind: boolean
+    temporary: false
+    default_variation: false
+    variations: [false, true]
+    notify_on_change: [pagerduty-billing, slack-#billing-alerts]
+
+  - key: release.billing.new-tier-scale
+    name: New Scale tier visibility
+    kind: boolean
+    temporary: true
+    default_variation: false
+    variations: [false, true]
+
+  # -------------------------------------------------------------------------
+  # Integration flags
+  # -------------------------------------------------------------------------
+  - key: integration.meta.enabled
+    name: Meta Ads integration
+    kind: boolean
+    temporary: false
+    default_variation: true
+    variations: [false, true]
+  - key: integration.google.enabled
+    name: Google Ads integration
+    kind: boolean
+    temporary: false
+    default_variation: true
+    variations: [false, true]
+  - key: integration.tiktok.enabled
+    name: TikTok Ads integration
+    kind: boolean
+    temporary: false
+    default_variation: true
+    variations: [false, true]
+  - key: integration.linkedin.enabled
+    name: LinkedIn Ads integration
+    kind: boolean
+    temporary: false
+    default_variation: true
+    variations: [false, true]
+  - key: integration.revtry.enabled
+    name: RevTry voice integration
+    kind: boolean
+    temporary: false
+    default_variation: true
+    variations: [false, true]
+  - key: integration.signalwire.enabled
+    name: SignalWire SMS integration
+    kind: boolean
+    temporary: false
+    default_variation: true
+    variations: [false, true]
+  - key: integration.resend.enabled
+    name: Resend email integration
+    kind: boolean
+    temporary: false
+    default_variation: true
+    variations: [false, true]
+  - key: integration.replicate.enabled
+    name: Replicate image generation
+    kind: boolean
+    temporary: false
+    default_variation: true
+    variations: [false, true]
+  - key: integration.runway.enabled
+    name: Runway video generation
+    kind: boolean
+    temporary: false
+    default_variation: true
+    variations: [false, true]
+  - key: integration.elevenlabs.enabled
+    name: ElevenLabs voice synthesis
+    kind: boolean
+    temporary: false
+    default_variation: true
+    variations: [false, true]
+
+  # -------------------------------------------------------------------------
+  # Experiment flags
+  # -------------------------------------------------------------------------
+  - key: experiment.funnel.hero-cta-variant
+    name: Hero CTA variant A/B
+    description: A=Get my funnel, B=Build my first funnel free.
+    kind: string
+    temporary: true
+    default_variation: control
+    variations: [control, variant_a, variant_b]
+    targeting:
+      production:
+        rollout: { percentage: 100, weights: { control: 34, variant_a: 33, variant_b: 33 } }
+
+  - key: experiment.onboarding.length
+    name: Onboarding wizard length (3 vs 5 steps)
+    kind: string
+    temporary: true
+    default_variation: control
+    variations: [control, three_step, five_step]
+    targeting:
+      production:
+        rollout: { percentage: 100, weights: { control: 50, three_step: 25, five_step: 25 } }
+
+  - key: experiment.grader.report-style
+    name: Grader report style â€” pdf-only vs interactive
+    kind: string
+    temporary: true
+    default_variation: control
+    variations: [control, interactive]
+    targeting:
+      production:
+        rollout: { percentage: 100, weights: { control: 50, interactive: 50 } }

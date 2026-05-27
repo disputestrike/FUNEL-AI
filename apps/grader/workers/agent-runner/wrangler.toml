@@ -1,0 +1,51 @@
+name = "grader-agent-runner"
+main = "src/index.ts"
+compatibility_date = "2024-10-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Public route â€” only used by the Next.js app for /dispatch, /preview, /pdf.
+# In production this lives at grader-agents.gofunnelai.com (Cloudflare Pages routing).
+[[routes]]
+pattern = "grader-agents.gofunnelai.com/*"
+custom_domain = true
+
+# Headless Chromium for screenshots + DOM extraction.
+[browser]
+binding = "BROWSER"
+
+# Asset storage for screenshots, PDFs, previews.
+[[r2_buckets]]
+binding = "ASSETS"
+bucket_name = "funnel-grader"
+preview_bucket_name = "funnel-grader-preview"
+
+# Cloudflare Queues â€” `dispatchAuditJob` produces, the runner consumes.
+[[queues.producers]]
+queue = "audit-jobs"
+binding = "AUDIT_QUEUE"
+
+[[queues.consumers]]
+queue = "audit-jobs"
+max_batch_size = 5
+max_batch_timeout = 5
+max_retries = 2
+dead_letter_queue = "audit-jobs-dlq"
+
+# Cost-governor / dedupe key/value (cheap reads inside the request hot path).
+[[kv_namespaces]]
+binding = "RUNTIME_KV"
+id = "REPLACE_AT_DEPLOY"
+
+# Secrets configured via `wrangler secret put`:
+#   ANTHROPIC_API_KEY
+#   DATABASE_URL       (Neon serverless connection string)
+#   AGENT_RUNNER_SECRET (shared bearer with the Next.js app)
+#   PAGESPEED_API_KEY  (Google PageSpeed Insights â€” for the speed agent)
+#   R2_PUBLIC_BASE     (e.g. https://r2.gofunnelai.com)
+
+[vars]
+ENVIRONMENT = "production"
+COST_CAP_AUDIT_CENTS = "10"
+COST_CAP_PREVIEW_CENTS = "40"
+DAILY_BUDGET_CENTS = "40000"
+DAILY_HARD_CAP_CENTS = "100000"

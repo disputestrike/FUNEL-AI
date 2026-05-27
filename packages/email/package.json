@@ -1,0 +1,42 @@
+{
+  "name": "@funnel/email",
+  "version": "0.1.0",
+  "private": true,
+  "description": "GoFunnelAI transactional email — Resend-backed, 47 React Email templates, suppression list, time-zone-aware send, idempotency, audit log.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "src", "README.md"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rimraf dist .turbo",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "react": "^18.3.0 || ^19.0.0"
+  },
+  "dependencies": {
+    "@react-email/components": "^0.0.25",
+    "@react-email/render": "^1.0.0",
+    "react": "^18.3.0",
+    "resend": "^4.0.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@funnel/tsconfig": "workspace:*",
+    "@types/node": "^20.14.0",
+    "@types/react": "^18.3.0",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}

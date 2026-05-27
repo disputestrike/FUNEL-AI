@@ -1,0 +1,74 @@
+################################################################################
+# GoFunnelAI â€” Cloudflare KV namespace manifest.
+#
+# Consumed by infrastructure/cloudflare/provision.sh; for each entry the script
+# runs `wrangler kv namespace create <name>` and `wrangler kv namespace create
+# <name> --preview` then writes the returned id back into the .env file the
+# wrangler.toml templates substitute at deploy time.
+################################################################################
+
+[[namespaces]]
+binding = "SESSIONS"
+name    = "funnel-sessions"
+purpose = "User session blobs (signed JWT id -> session record)."
+ttl_default_seconds = 2592000   # 30 days
+
+[[namespaces]]
+binding = "OAUTH_STATE"
+name    = "funnel-oauth-state"
+purpose = "Short-lived OAuth state nonces."
+ttl_default_seconds = 600       # 10 min
+
+[[namespaces]]
+binding = "PAGE_CACHE"
+name    = "funnel-page-cache"
+purpose = "Edge HTML cache for the funnel renderer."
+ttl_default_seconds = 60        # 60s SWR
+
+[[namespaces]]
+binding = "AB_VARIANTS"
+name    = "funnel-ab-variants"
+purpose = "Sticky A/B test assignments keyed by visitor id."
+ttl_default_seconds = 2592000
+
+[[namespaces]]
+binding = "AB_CACHE"
+name    = "funnel-ab-cache"
+purpose = "Renderer-side variant -> rendered HTML cache."
+ttl_default_seconds = 60
+
+[[namespaces]]
+binding = "DOMAIN_CACHE"
+name    = "funnel-domain-cache"
+purpose = "Custom hostname -> tenant lookup (Cloudflare for SaaS)."
+ttl_default_seconds = 300
+
+[[namespaces]]
+binding = "WEBHOOK_DEDUPE"
+name    = "funnel-webhook-dedupe"
+purpose = "Idempotency map for inbound webhooks (provider:event_id)."
+ttl_default_seconds = 1209600   # 14 days
+
+[[namespaces]]
+binding = "IDEMPOTENCY"
+name    = "funnel-idempotency"
+purpose = "Generic idempotency keys for our own API mutations."
+ttl_default_seconds = 86400
+
+[[namespaces]]
+binding = "RATE_LIMITS"
+name    = "funnel-rate-limits"
+purpose = "Fallback distributed rate-limit counters."
+ttl_default_seconds = 3600
+
+[[namespaces]]
+binding = "RATE_LIMIT_FALLBACK"
+name    = "funnel-rate-limit-fallback"
+purpose = "Secondary RL counter pool when the Durable Object is unavailable."
+ttl_default_seconds = 3600
+
+[[namespaces]]
+binding = "FEATURE_FLAGS_CACHE"
+name    = "funnel-feature-flags-cache"
+purpose = "LaunchDarkly cached flag values at the edge."
+ttl_default_seconds = 60

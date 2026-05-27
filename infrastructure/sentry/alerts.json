@@ -1,0 +1,216 @@
+{
+  "$schema": "https://docs.sentry.io/api/alerts/",
+  "organization": "funnel-ai",
+  "rules": [
+    {
+      "project": "funnel-api",
+      "name": "API error rate > 1% for 5min",
+      "type": "metric",
+      "dataset": "events",
+      "query": "event.type:error environment:production",
+      "aggregate": "count_unique(user)",
+      "timeWindow": 5,
+      "triggers": [
+        {
+          "label": "critical",
+          "alertThreshold": 100,
+          "actions": [
+            { "type": "pagerduty", "service": "funnel-platform-primary" },
+            { "type": "slack", "workspace": "funnel-ai", "channel": "#ops-alerts" }
+          ]
+        },
+        {
+          "label": "warning",
+          "alertThreshold": 50,
+          "actions": [
+            { "type": "slack", "workspace": "funnel-ai", "channel": "#ops" }
+          ]
+        }
+      ]
+    },
+    {
+      "project": "funnel-api",
+      "name": "API p95 latency > 2x baseline for 10min",
+      "type": "metric",
+      "dataset": "transactions",
+      "query": "transaction.op:http.server environment:production",
+      "aggregate": "p95(transaction.duration)",
+      "timeWindow": 10,
+      "triggers": [
+        {
+          "label": "critical",
+          "alertThreshold": 2000,
+          "actions": [
+            { "type": "pagerduty", "service": "funnel-platform-primary" },
+            { "type": "slack", "workspace": "funnel-ai", "channel": "#ops-alerts" }
+          ]
+        }
+      ]
+    },
+    {
+      "project": "funnel-renderer",
+      "name": "Renderer 5xx > 0.1% for 2min",
+      "type": "metric",
+      "dataset": "transactions",
+      "query": "transaction.status:internal_error environment:production",
+      "aggregate": "percentage(count(),count_if(transaction.status:internal_error))",
+      "timeWindow": 2,
+      "triggers": [
+        {
+          "label": "critical",
+          "alertThreshold": 0.001,
+          "actions": [
+            { "type": "pagerduty", "service": "funnel-platform-primary" },
+            { "type": "slack", "workspace": "funnel-ai", "channel": "#ops-alerts" },
+            { "type": "statuspage", "component": "Generation", "incident_status": "investigating" }
+          ]
+        }
+      ]
+    },
+    {
+      "project": "funnel-workers",
+      "name": "Generation queue depth > 10000",
+      "type": "metric",
+      "dataset": "custom",
+      "query": "metric:queue.depth queue:generation-runner environment:production",
+      "aggregate": "max(value)",
+      "timeWindow": 5,
+      "triggers": [
+        {
+          "label": "critical",
+          "alertThreshold": 10000,
+          "actions": [
+            { "type": "pagerduty", "service": "funnel-platform-primary" },
+            { "type": "slack", "workspace": "funnel-ai", "channel": "#ops-alerts" }
+          ]
+        }
+      ]
+    },
+    {
+      "project": "funnel-api",
+      "name": "Payment webhook failure rate > 5% for 15min",
+      "type": "metric",
+      "dataset": "custom",
+      "query": "metric:webhook.failure provider:stripe OR provider:paypal environment:production",
+      "aggregate": "percentage(count(),count_if(metric:webhook.failure))",
+      "timeWindow": 15,
+      "triggers": [
+        {
+          "label": "critical",
+          "alertThreshold": 0.05,
+          "actions": [
+            { "type": "pagerduty", "service": "funnel-billing" },
+            { "type": "slack", "workspace": "funnel-ai", "channel": "#ops-alerts" },
+            { "type": "slack", "workspace": "funnel-ai", "channel": "#billing" }
+          ]
+        }
+      ]
+    },
+    {
+      "project": "funnel-workers",
+      "name": "Generation cost > 1.5x daily budget",
+      "type": "metric",
+      "dataset": "custom",
+      "query": "metric:generation.cost.daily environment:production",
+      "aggregate": "max(value)",
+      "timeWindow": 60,
+      "triggers": [
+        {
+          "label": "critical",
+          "alertThreshold": 1.5,
+          "actions": [
+            { "type": "pagerduty", "service": "funnel-platform-primary" },
+            { "type": "slack", "workspace": "funnel-ai", "channel": "#cost" }
+          ]
+        }
+      ]
+    },
+    {
+      "project": "funnel-api",
+      "name": "RLS audit anomaly â€” any cross-tenant query",
+      "type": "issue",
+      "query": "tag:rls_violation:true environment:production",
+      "actions": [
+        { "type": "pagerduty", "service": "funnel-security" },
+        { "type": "slack", "workspace": "funnel-ai", "channel": "#security-alerts" },
+        { "type": "email", "to": "security@gofunnelai.com" }
+      ],
+      "frequency": 1
+    },
+    {
+      "project": "funnel-workers",
+      "name": "RevTry connectivity down for 2min",
+      "type": "metric",
+      "dataset": "custom",
+      "query": "metric:integration.heartbeat provider:revtry environment:production",
+      "aggregate": "min(value)",
+      "timeWindow": 2,
+      "triggers": [
+        {
+          "label": "critical",
+          "alertThreshold": 0,
+          "actions": [
+            { "type": "pagerduty", "service": "funnel-voice" },
+            { "type": "slack", "workspace": "funnel-ai", "channel": "#ops-alerts" }
+          ]
+        }
+      ]
+    },
+    {
+      "project": "funnel-web",
+      "name": "Web error rate > 1% for 5min",
+      "type": "metric",
+      "dataset": "events",
+      "query": "event.type:error environment:production",
+      "timeWindow": 5,
+      "triggers": [
+        {
+          "label": "critical",
+          "alertThreshold": 100,
+          "actions": [
+            { "type": "pagerduty", "service": "funnel-platform-primary" },
+            { "type": "slack", "workspace": "funnel-ai", "channel": "#ops-alerts" }
+          ]
+        }
+      ]
+    },
+    {
+      "project": "funnel-api",
+      "name": "Database primary CPU > 80% for 10min",
+      "type": "metric",
+      "dataset": "custom",
+      "query": "metric:postgres.cpu role:primary environment:production",
+      "aggregate": "avg(value)",
+      "timeWindow": 10,
+      "triggers": [
+        {
+          "label": "critical",
+          "alertThreshold": 0.8,
+          "actions": [
+            { "type": "pagerduty", "service": "funnel-platform-primary" },
+            { "type": "slack", "workspace": "funnel-ai", "channel": "#ops-alerts" }
+          ]
+        }
+      ]
+    },
+    {
+      "project": "funnel-api",
+      "name": "Redis memory > 85%",
+      "type": "metric",
+      "dataset": "custom",
+      "query": "metric:redis.memory.used_pct environment:production",
+      "aggregate": "max(value)",
+      "timeWindow": 5,
+      "triggers": [
+        {
+          "label": "critical",
+          "alertThreshold": 0.85,
+          "actions": [
+            { "type": "pagerduty", "service": "funnel-platform-primary" },
+            { "type": "slack", "workspace": "funnel-ai", "channel": "#ops-alerts" }
+          ]
+        }
+      ]
+    }
+  ]
+}

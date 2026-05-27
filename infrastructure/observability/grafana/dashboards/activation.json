@@ -1,0 +1,87 @@
+{
+  "title": "Funnel — Activation funnel",
+  "uid": "funnel-activation",
+  "tags": ["funnel", "activation", "growth"],
+  "timezone": "utc",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "5m",
+  "time": { "from": "now-7d", "to": "now" },
+  "templating": {
+    "list": [
+      { "name": "env", "type": "custom", "query": "production,staging",
+        "current": { "text": "production", "value": "production" } },
+      { "name": "cohort", "type": "query", "datasource": "Prometheus",
+        "query": "label_values(funnel_activation_step_total, cohort)",
+        "includeAll": true, "multi": true },
+      { "name": "source", "type": "query", "datasource": "Prometheus",
+        "query": "label_values(funnel_activation_step_total, acquisition_source)",
+        "includeAll": true, "multi": true }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1, "type": "bargauge", "title": "Activation funnel — Signup -> First Generation -> Publish -> First Lead -> Paid",
+      "gridPos": { "h": 9, "w": 24, "x": 0, "y": 0 },
+      "targets": [
+        { "expr": "sum by (step) (funnel_activation_step_total{env=\"$env\",cohort=~\"$cohort\",acquisition_source=~\"$source\"})", "legendFormat": "{{step}}" }
+      ],
+      "fieldConfig": { "defaults": { "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }] } } }
+    },
+    {
+      "id": 2, "type": "timeseries", "title": "Signups (24h moving)",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 9 },
+      "targets": [
+        { "expr": "sum by (acquisition_source) (rate(funnel_signup_total{env=\"$env\",acquisition_source=~\"$source\"}[24h]))", "legendFormat": "{{acquisition_source}}" }
+      ]
+    },
+    {
+      "id": 3, "type": "timeseries", "title": "First-generation conversion (24h)",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 9 },
+      "targets": [
+        { "expr": "sum(rate(funnel_first_generation_total{env=\"$env\"}[24h])) / sum(rate(funnel_signup_total{env=\"$env\"}[24h]))" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "percentunit" } }
+    },
+    {
+      "id": 4, "type": "timeseries", "title": "Publish conversion (24h)",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 17 },
+      "targets": [
+        { "expr": "sum(rate(funnel_first_publish_total{env=\"$env\"}[24h])) / sum(rate(funnel_first_generation_total{env=\"$env\"}[24h]))" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "percentunit" } }
+    },
+    {
+      "id": 5, "type": "timeseries", "title": "First-lead conversion (24h)",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 17 },
+      "targets": [
+        { "expr": "sum(rate(funnel_first_lead_total{env=\"$env\"}[24h])) / sum(rate(funnel_first_publish_total{env=\"$env\"}[24h]))" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "percentunit" } }
+    },
+    {
+      "id": 6, "type": "timeseries", "title": "Paid conversion by cohort (7d)",
+      "gridPos": { "h": 9, "w": 24, "x": 0, "y": 25 },
+      "targets": [
+        { "expr": "sum by (cohort) (rate(funnel_first_paid_total{env=\"$env\",cohort=~\"$cohort\"}[7d])) / sum by (cohort) (rate(funnel_signup_total{env=\"$env\",cohort=~\"$cohort\"}[7d]))", "legendFormat": "{{cohort}}" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "percentunit" } }
+    },
+    {
+      "id": 7, "type": "histogram", "title": "Time-to-publish distribution",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 34 },
+      "targets": [
+        { "expr": "sum by (le) (rate(funnel_signup_to_publish_seconds_bucket{env=\"$env\"}[24h]))" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "s" } }
+    },
+    {
+      "id": 8, "type": "histogram", "title": "Time-to-first-lead distribution",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 34 },
+      "targets": [
+        { "expr": "sum by (le) (rate(funnel_publish_to_first_lead_seconds_bucket{env=\"$env\"}[24h]))" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "s" } }
+    }
+  ]
+}

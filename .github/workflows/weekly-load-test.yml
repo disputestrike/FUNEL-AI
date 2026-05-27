@@ -1,0 +1,80 @@
+name: Weekly Load Test
+
+on:
+  schedule:
+    # Sunday 03:00 UTC, per spec 08 Â§A.1.5
+    - cron: "0 3 * * 0"
+  workflow_dispatch:
+    inputs:
+      multiplier:
+        description: traffic multiplier vs launch baseline
+        default: "5"
+        required: true
+
+env:
+  NODE_VERSION: "20.x"
+
+jobs:
+  k6:
+    name: k6 load (${{ github.event.inputs.multiplier || 5 }}x baseline)
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "${{ env.NODE_VERSION }}" }
+      - uses: grafana/setup-k6-action@v1
+
+      - name: Run grader API load scenario
+        env:
+          BASE_URL: https://api.loadtest.gofunnelai.com
+          K6_PROMETHEUS_RW_SERVER_URL: ${{ secrets.GRAFANA_PROM_REMOTE_WRITE_URL }}
+          K6_PROMETHEUS_RW_USERNAME: ${{ secrets.GRAFANA_CLOUD_PROM_USER }}
+          K6_PROMETHEUS_RW_PASSWORD: ${{ secrets.GRAFANA_CLOUD_PROM_KEY }}
+          K6_PROMETHEUS_RW_PUSH_INTERVAL: "5s"
+          MULTIPLIER: ${{ github.event.inputs.multiplier || '5' }}
+        run: |
+          k6 run --tag "scenario=grader-api" -o experimental-prometheus-rw tooling/loadtest/grader-api.js
+
+      - name: Run generation queue scenario
+        env:
+          BASE_URL: https://api.loadtest.gofunnelai.com
+          MULTIPLIER: ${{ github.event.inputs.multiplier || '5' }}
+        run: k6 run --tag "scenario=generation-queue" -o experimental-prometheus-rw tooling/loadtest/generation-queue.js
+
+      - name: Run lead capture spike
+        env:
+          BASE_URL: https://edge.loadtest.gofunnelai.com
+          MULTIPLIER: ${{ github.event.inputs.multiplier || '5' }}
+        run: k6 run --tag "scenario=lead-capture-spike" -o experimental-prometheus-rw tooling/loadtest/lead-capture-spike.js
+
+      - name: Run RevTry dial spike
+        env:
+          BASE_URL: https://api.loadtest.gofunnelai.com
+          MULTIPLIER: ${{ github.event.inputs.multiplier || '5' }}
+        run: k6 run --tag "scenario=revtry-dial-spike" -o experimental-prometheus-rw tooling/loadtest/revtry-dial-spike.js
+
+      - name: Run funnel rendering sustained
+        env:
+          BASE_URL: https://edge.loadtest.gofunnelai.com
+          MULTIPLIER: ${{ github.event.inputs.multiplier || '5' }}
+        run: k6 run --tag "scenario=funnel-rendering" -o experimental-prometheus-rw tooling/loadtest/funnel-rendering.js
+
+      - name: Compare vs last week (p95 regressions)
+        env:
+          GRAFANA_API_TOKEN: ${{ secrets.GRAFANA_CLOUD_API_TOKEN }}
+        run: node tooling/loadtest/compare.mjs --regression-threshold 0.2
+
+      - if: failure()
+        run: |
+          curl -fsS -X POST https://events.pagerduty.com/v2/enqueue \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"routing_key\": \"${{ secrets.PAGERDUTY_ROUTING_KEY_PLATFORM }}\",
+              \"event_action\": \"trigger\",
+              \"payload\": {
+                \"summary\": \"Weekly load test regression detected\",
+                \"severity\": \"warning\",
+                \"source\": \"github-actions-loadtest\"
+              }
+            }"

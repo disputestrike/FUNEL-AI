@@ -1,0 +1,371 @@
+# Cloudflare Worker configuration for the GoFunnelAI API server.
+# Bindings reference resources provisioned in infrastructure/cloudflare.
+name = "funnel-api"
+main = "src/index.ts"
+compatibility_date = "2024-11-01"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = false
+account_id = "${CLOUDFLARE_ACCOUNT_ID}"
+send_metrics = true
+logpush = true
+
+[placement]
+mode = "smart"
+
+[limits]
+cpu_ms = 30000  # Generation orchestration spans many subrequests; raise the CPU budget.
+
+# Tail consumers ” pipe logs into the centralized logging worker which forwards
+# to Datadog Logs and Sentry breadcrumbs.
+[[tail_consumers]]
+service = "funnel-log-shipper"
+
+# --- Vars (non-secret) -----------------------------------------------------
+[vars]
+ENVIRONMENT = "development"
+API_PUBLIC_URL = "https://api.funnel.local"
+WEB_PUBLIC_URL = "https://app.funnel.local"
+ADMIN_PUBLIC_URL = "https://admin.funnel.local"
+ALLOWED_ORIGINS = "https://app.funnel.local,https://admin.funnel.local"
+DEFAULT_REGION = "us-east-1"
+LOG_LEVEL = "info"
+COST_CEILING_USD_PER_GENERATION = "2.50"
+GENERATION_TIMEOUT_SECONDS = "120"
+
+# --- Hyperdrive (Postgres pool to Neon) ------------------------------------
+[[hyperdrive]]
+binding = "DB"
+id = "${HYPERDRIVE_ID}"
+
+[[hyperdrive]]
+binding = "DB_REPLICA"
+id = "${HYPERDRIVE_REPLICA_ID}"
+
+# --- KV --------------------------------------------------------------------
+[[kv_namespaces]]
+binding = "SESSIONS"
+id = "${KV_SESSIONS_ID}"
+
+[[kv_namespaces]]
+binding = "OAUTH_STATE"
+id = "${KV_OAUTH_STATE_ID}"
+
+[[kv_namespaces]]
+binding = "WEBHOOK_DEDUPE"
+id = "${KV_WEBHOOK_DEDUPE_ID}"
+
+[[kv_namespaces]]
+binding = "IDEMPOTENCY"
+id = "${KV_IDEMPOTENCY_ID}"
+
+[[kv_namespaces]]
+binding = "RATE_LIMITS"
+id = "${KV_RATE_LIMITS_ID}"
+
+[[kv_namespaces]]
+binding = "RATE_LIMIT_FALLBACK"
+id = "${KV_RATE_LIMIT_FALLBACK_ID}"
+
+[[kv_namespaces]]
+binding = "PAGE_CACHE"
+id = "${KV_PAGE_CACHE_ID}"
+
+[[kv_namespaces]]
+binding = "AB_VARIANTS"
+id = "${KV_AB_VARIANTS_ID}"
+
+[[kv_namespaces]]
+binding = "FEATURE_FLAGS_CACHE"
+id = "${KV_FEATURE_FLAGS_CACHE_ID}"
+
+# --- R2 ---------------------------------------------------------------------
+[[r2_buckets]]
+binding = "FUNNEL_ASSETS"
+bucket_name = "funnel-assets"
+
+[[r2_buckets]]
+binding = "FUNNEL_AUDITS"
+bucket_name = "funnel-audits"
+
+[[r2_buckets]]
+binding = "FUNNEL_LEADMAGNETS"
+bucket_name = "funnel-leadmagnets"
+
+[[r2_buckets]]
+binding = "FUNNEL_RECORDINGS"
+bucket_name = "funnel-recordings"
+
+[[r2_buckets]]
+binding = "FUNNEL_BACKUPS"
+bucket_name = "funnel-backups"
+
+[[r2_buckets]]
+binding = "WEBHOOK_BODIES"
+bucket_name = "funnel-webhook-bodies"
+
+[[r2_buckets]]
+binding = "GENERATION_ARTIFACTS"
+bucket_name = "funnel-generation-artifacts"
+
+# --- Queues ----------------------------------------------------------------
+[[queues.producers]]
+binding = "Q_GENERATION"
+queue = "generation-runner"
+
+[[queues.producers]]
+binding = "Q_ADS"
+queue = "ads-publisher"
+
+[[queues.producers]]
+binding = "Q_EMAIL"
+queue = "email-sender"
+
+[[queues.producers]]
+binding = "Q_SMS"
+queue = "sms-sender"
+
+[[queues.producers]]
+binding = "Q_WEBHOOKS"
+queue = "webhook-processing"
+
+[[queues.producers]]
+binding = "Q_ACTIVATION"
+queue = "activation-interventions"
+
+[[queues.producers]]
+binding = "Q_DUNNING"
+queue = "billing-dunning"
+
+[[queues.producers]]
+binding = "Q_REVTRY"
+queue = "revtry-speed-to-lead"
+
+[[queues.producers]]
+binding = "Q_ANALYTICS"
+queue = "analytics-conversions"
+
+[[queues.consumers]]
+queue = "webhook-processing"
+max_batch_size = 25
+max_batch_timeout = 10
+max_retries = 5
+dead_letter_queue = "webhook-processing-dlq"
+
+[[queues.consumers]]
+queue = "generation-runner"
+max_batch_size = 1
+max_batch_timeout = 1
+max_retries = 3
+dead_letter_queue = "generation-runner-dlq"
+
+[[queues.consumers]]
+queue = "email-sender"
+max_batch_size = 10
+max_batch_timeout = 5
+max_retries = 5
+dead_letter_queue = "email-sender-dlq"
+
+[[queues.consumers]]
+queue = "sms-sender"
+max_batch_size = 5
+max_batch_timeout = 2
+max_retries = 4
+dead_letter_queue = "sms-sender-dlq"
+
+[[queues.consumers]]
+queue = "ads-publisher"
+max_batch_size = 5
+max_batch_timeout = 5
+max_retries = 5
+dead_letter_queue = "ads-publisher-dlq"
+
+[[queues.consumers]]
+queue = "revtry-speed-to-lead"
+max_batch_size = 5
+max_batch_timeout = 1
+max_retries = 6
+dead_letter_queue = "revtry-speed-to-lead-dlq"
+
+[[queues.consumers]]
+queue = "billing-dunning"
+max_batch_size = 5
+max_batch_timeout = 30
+max_retries = 4
+dead_letter_queue = "billing-dunning-dlq"
+
+[[queues.consumers]]
+queue = "activation-interventions"
+max_batch_size = 10
+max_batch_timeout = 5
+max_retries = 4
+dead_letter_queue = "activation-interventions-dlq"
+
+[[queues.consumers]]
+queue = "lead-capture"
+max_batch_size = 25
+max_batch_timeout = 2
+max_retries = 5
+dead_letter_queue = "lead-capture-dlq"
+
+[[queues.consumers]]
+queue = "analytics-conversions"
+max_batch_size = 50
+max_batch_timeout = 10
+max_retries = 5
+dead_letter_queue = "analytics-conversions-dlq"
+
+# --- Durable Objects --------------------------------------------------------
+[[durable_objects.bindings]]
+name = "RATE_LIMIT_DO"
+class_name = "RateLimitDO"
+
+[[durable_objects.bindings]]
+name = "GENERATION_ACTOR"
+class_name = "GenerationActor"
+
+[[durable_objects.bindings]]
+name = "GENERATION_STREAM_DO"
+class_name = "GenerationStreamDO"
+
+[[migrations]]
+tag = "v1"
+new_classes = ["RateLimitDO", "GenerationStreamDO"]
+
+[[migrations]]
+tag = "v2"
+new_classes = ["GenerationActor"]
+
+# --- Cloudflare-native rate limiting bindings ------------------------------
+[[unsafe.bindings]]
+name = "RL_PUBLIC_API"
+type = "ratelimit"
+namespace_id = "1001"
+simple = { limit = 1000, period = 3600 }
+
+[[unsafe.bindings]]
+name = "RL_AUTH"
+type = "ratelimit"
+namespace_id = "1002"
+simple = { limit = 30, period = 60 }
+
+[[unsafe.bindings]]
+name = "RL_FORM_SUBMIT"
+type = "ratelimit"
+namespace_id = "1003"
+simple = { limit = 60, period = 60 }
+
+[[unsafe.bindings]]
+name = "RL_GENERATION"
+type = "ratelimit"
+namespace_id = "1004"
+simple = { limit = 20, period = 3600 }
+
+# --- Browser Rendering (grader scrape, OG image generation) ----------------
+browser = { binding = "BROWSER" }
+
+# --- Service bindings (worker-to-worker direct RPC) ------------------------
+[[services]]
+binding = "RENDERER"
+service = "funnel-renderer"
+
+[[services]]
+binding = "GRADER"
+service = "funnel-grader"
+
+# --- Cron triggers ---------------------------------------------------------
+[triggers]
+crons = [
+  "0 * * * *",        # hourly reconciliation
+  "*/5 * * * *",      # dunning advancer (every 5 min)
+  "15 2 * * *",       # nightly KB ingestion (02:15 UTC)
+  "30 9 * * *",       # daily activation interventions (09:30 UTC)
+  "0 0 1 */3 *",      # quarterly bias audit
+  "0 3 * * 0",        # weekly stale-flag report (Sun 03:00 UTC)
+  "0 8 * * *",        # daily cost report (08:00 UTC)
+]
+
+# --- Observability ----------------------------------------------------------
+[observability]
+enabled = true
+head_sampling_rate = 1.0
+
+# ---------------------------------------------------------------------------
+# Per-env overrides
+# ---------------------------------------------------------------------------
+[env.staging]
+name = "funnel-api-staging"
+routes = [
+  { pattern = "api.staging.gofunnelai.com/*", zone_name = "gofunnelai.com" },
+]
+[env.staging.vars]
+ENVIRONMENT = "staging"
+API_PUBLIC_URL = "https://api.staging.gofunnelai.com"
+WEB_PUBLIC_URL = "https://app.staging.gofunnelai.com"
+ADMIN_PUBLIC_URL = "https://admin.staging.gofunnelai.com"
+ALLOWED_ORIGINS = "https://app.staging.gofunnelai.com,https://admin.staging.gofunnelai.com"
+LOG_LEVEL = "debug"
+
+[env.production]
+name = "funnel-api"
+routes = [
+  { pattern = "api.gofunnelai.com/*", zone_name = "gofunnelai.com" },
+]
+[env.production.vars]
+ENVIRONMENT = "production"
+API_PUBLIC_URL = "https://api.gofunnelai.com"
+WEB_PUBLIC_URL = "https://app.gofunnelai.com"
+ADMIN_PUBLIC_URL = "https://admin.gofunnelai.com"
+ALLOWED_ORIGINS = "https://app.gofunnelai.com,https://admin.gofunnelai.com"
+LOG_LEVEL = "info"
+
+# Secrets (wrangler secret put):
+#   DATABASE_URL
+#   DATABASE_REPLICA_URL
+#   JWT_SECRET
+#   ENCRYPTION_KEY                   # for at-rest encryption of OAuth tokens
+#   ANTHROPIC_API_KEY
+#   OPENAI_API_KEY
+#   REPLICATE_API_TOKEN
+#   RUNWAY_API_KEY
+#   ELEVENLABS_API_KEY
+#   STRIPE_SECRET_KEY
+#   STRIPE_WEBHOOK_SECRET
+#   PAYPAL_CLIENT_ID
+#   PAYPAL_CLIENT_SECRET
+#   PAYPAL_WEBHOOK_ID
+#   RESEND_API_KEY
+#   RESEND_WEBHOOK_SECRET            # Svix-signed
+#   SIGNALWIRE_PROJECT_ID
+#   SIGNALWIRE_TOKEN
+#   SIGNALWIRE_SPACE_URL
+#   SIGNALWIRE_WEBHOOK_SECRET
+#   SIGNALWIRE_FROM_NUMBER
+#   REVTRY_API_KEY
+#   REVTRY_WEBHOOK_SECRET
+#   META_APP_ID
+#   META_APP_SECRET
+#   META_VERIFY_TOKEN
+#   GOOGLE_CLIENT_ID
+#   GOOGLE_CLIENT_SECRET
+#   GOOGLE_WEBHOOK_TOKEN
+#   TIKTOK_APP_ID
+#   TIKTOK_APP_SECRET
+#   LINKEDIN_CLIENT_ID
+#   LINKEDIN_CLIENT_SECRET
+#   X_CLIENT_ID
+#   X_CLIENT_SECRET
+#   MICROSOFT_CLIENT_ID
+#   MICROSOFT_CLIENT_SECRET
+#   MICROSOFT_GRAPH_CLIENT_STATE
+#   CALCOM_CLIENT_ID
+#   CALCOM_CLIENT_SECRET
+#   CLEARBIT_API_KEY
+#   WHOISXML_API_KEY
+#   LAUNCHDARKLY_SDK_KEY
+#   SENTRY_DSN
+#   SENTRY_AUTH_TOKEN
+#   HONEYCOMB_API_KEY
+#   DATADOG_API_KEY
+#   UPSTASH_REDIS_REST_URL
+#   UPSTASH_REDIS_REST_TOKEN
+#   INTERNAL_INGEST_SECRET

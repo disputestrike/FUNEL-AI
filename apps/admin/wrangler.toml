@@ -1,0 +1,68 @@
+################################################################################
+# Funnel Admin Console ” Cloudflare Pages project (Next.js)
+#
+# Deployed at:  admin.gofunnelai.com
+#               admin.staging.gofunnelai.com
+#
+# Build:        pnpm --filter @funnel/admin build && pnpm exec next-on-pages
+# Deploy:       wrangler pages deploy .vercel/output/static --project-name=funnel-admin
+################################################################################
+
+name = "funnel-admin"
+pages_build_output_dir = ".vercel/output/static"
+compatibility_date = "2024-11-01"
+compatibility_flags = ["nodejs_compat"]
+send_metrics = true
+
+[observability]
+enabled = true
+head_sampling_rate = 1.0
+
+[placement]
+mode = "smart"
+
+[vars]
+ENVIRONMENT = "development"
+ADMIN_PUBLIC_URL = "https://admin.funnel.local"
+API_BASE_URL = "https://api.funnel.local"
+ASSETS_PUBLIC_BASE = "https://assets.funnel.local"
+LOG_LEVEL = "info"
+
+# Admin uses the API service binding for all data access ” no direct DB.
+[[services]]
+binding = "API"
+service = "funnel-api"
+
+# Sessions and OAuth-state KV are shared with apps/api so admin auth is SSO.
+[[kv_namespaces]]
+binding = "SESSIONS"
+id = "REPLACE_AT_DEPLOY_KV_SESSIONS"
+
+[[kv_namespaces]]
+binding = "RATE_LIMITS"
+id = "REPLACE_AT_DEPLOY_KV_RATE_LIMITS"
+
+[env.production]
+name = "funnel-admin"
+[env.production.vars]
+ENVIRONMENT = "production"
+ADMIN_PUBLIC_URL = "https://admin.gofunnelai.com"
+API_BASE_URL = "https://api.gofunnelai.com"
+ASSETS_PUBLIC_BASE = "https://assets.gofunnelai.com"
+LOG_LEVEL = "info"
+
+[env.staging]
+name = "funnel-admin-staging"
+[env.staging.vars]
+ENVIRONMENT = "staging"
+ADMIN_PUBLIC_URL = "https://admin.staging.gofunnelai.com"
+API_BASE_URL = "https://api.staging.gofunnelai.com"
+ASSETS_PUBLIC_BASE = "https://assets.staging.gofunnelai.com"
+LOG_LEVEL = "debug"
+
+# Secrets:
+#   JWT_SECRET
+#   ADMIN_ALLOWED_EMAILS
+#   GOOGLE_OAUTH_CLIENT_ID
+#   GOOGLE_OAUTH_CLIENT_SECRET
+#   SENTRY_DSN

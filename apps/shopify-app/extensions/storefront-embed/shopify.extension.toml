@@ -1,0 +1,9 @@
+# Theme app extension â€” embeds GoFunnelAI funnels and lead-capture forms
+# directly inside the merchant's storefront theme via a section block.
+
+api_version = "2024-07"
+
+[[extensions]]
+name = "GoFunnelAI Storefront Embed"
+handle = "funnel-ai-storefront-embed"
+type = "theme"

@@ -1,0 +1,67 @@
+{
+  "title": "Funnel — Lead capture",
+  "uid": "funnel-lead-capture",
+  "tags": ["funnel", "leads", "revtry"],
+  "timezone": "utc",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "30s",
+  "time": { "from": "now-3h", "to": "now" },
+  "templating": {
+    "list": [
+      { "name": "env", "type": "custom", "query": "production,staging,preview",
+        "current": { "text": "production", "value": "production" } }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1, "type": "timeseries", "title": "Form-submit latency p50/p95/p99",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "targets": [
+        { "expr": "histogram_quantile(0.50, sum by (le) (rate(funnel_lead_form_submit_seconds_bucket{env=\"$env\"}[5m])))", "legendFormat": "p50" },
+        { "expr": "histogram_quantile(0.95, sum by (le) (rate(funnel_lead_form_submit_seconds_bucket{env=\"$env\"}[5m])))", "legendFormat": "p95" },
+        { "expr": "histogram_quantile(0.99, sum by (le) (rate(funnel_lead_form_submit_seconds_bucket{env=\"$env\"}[5m])))", "legendFormat": "p99" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "s" } }
+    },
+    {
+      "id": 2, "type": "timeseries", "title": "SMS auto-reply latency p95",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "targets": [
+        { "expr": "histogram_quantile(0.95, sum by (le) (rate(funnel_sms_autoreply_latency_seconds_bucket{env=\"$env\"}[5m])))", "legendFormat": "p95" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "s", "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "color": "yellow", "value": 10 }, { "color": "red", "value": 30 }] } } }
+    },
+    {
+      "id": 3, "type": "timeseries", "title": "RevTry dial latency p50/p95",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "targets": [
+        { "expr": "histogram_quantile(0.50, sum by (le) (rate(funnel_revtry_dial_latency_seconds_bucket{env=\"$env\"}[5m])))", "legendFormat": "p50" },
+        { "expr": "histogram_quantile(0.95, sum by (le) (rate(funnel_revtry_dial_latency_seconds_bucket{env=\"$env\"}[5m])))", "legendFormat": "p95" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "s" } }
+    },
+    {
+      "id": 4, "type": "timeseries", "title": "Lead-to-CRM sync success rate per integration",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+      "targets": [
+        { "expr": "sum by (provider) (rate(funnel_crm_sync_success_total{env=\"$env\"}[5m])) / sum by (provider) (rate(funnel_crm_sync_attempt_total{env=\"$env\"}[5m]))", "legendFormat": "{{provider}}" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "percentunit" } }
+    },
+    {
+      "id": 5, "type": "stat", "title": "Failed-sync queue depth",
+      "gridPos": { "h": 6, "w": 12, "x": 0, "y": 16 },
+      "targets": [
+        { "expr": "funnel_queue_depth{env=\"$env\",queue=\"crm-sync\"}" }
+      ]
+    },
+    {
+      "id": 6, "type": "stat", "title": "Leads captured (24h)",
+      "gridPos": { "h": 6, "w": 12, "x": 12, "y": 16 },
+      "targets": [
+        { "expr": "sum(increase(funnel_leads_captured_total{env=\"$env\"}[24h]))" }
+      ]
+    }
+  ]
+}

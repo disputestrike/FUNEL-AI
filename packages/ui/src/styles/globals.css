@@ -1,0 +1,152 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * GoFunnelAI base styles. Loaded once at the root of every consumer app.
+ *
+ * CSS-var convention: shadcn-style HSL triplets so consumers can re-theme by
+ * overriding the var values. ThemeProvider can swap these per workspace.
+ *
+ * Tabular figures are enabled on number-heavy UI via `.tnum`. Body text uses
+ * proportional figures by default (doc 22 PART F).
+ */
+
+@layer base {
+  :root {
+    /* Neutrals + brand mapped onto shadcn semantic slots. */
+    --background: 60 13% 98%;             /* slate-50  #FAFAF9 */
+    --foreground: 47 7% 7%;               /* slate-900 #17150F */
+
+    --card: 0 0% 100%;
+    --card-foreground: 47 7% 7%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 47 7% 7%;
+
+    --primary: 244 100% 65%;              /* signal-500 #5B4FFF */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 40 13% 96%;              /* slate-100 #F4F3F1 */
+    --secondary-foreground: 47 7% 7%;
+
+    --muted: 40 13% 96%;
+    --muted-foreground: 40 5% 44%;        /* slate-500 */
+
+    --accent: 180 78% 37%;                /* aqua-500 */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 67% 58%;             /* error-500 */
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 40 13% 90%;                 /* slate-200 */
+    --input: 40 13% 90%;
+    --ring: 244 100% 65%;                 /* signal-500 â€” focus ring */
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* Dark mode per doc 22 PART M: muted brand for eye strain, lighter semantics. */
+    --background: 47 7% 7%;               /* slate-900 */
+    --foreground: 60 13% 98%;             /* slate-50 */
+
+    --card: 47 13% 13%;                   /* slate-800 */
+    --card-foreground: 60 13% 98%;
+
+    --popover: 47 13% 13%;
+    --popover-foreground: 60 13% 98%;
+
+    --primary: 244 100% 74%;              /* signal-400 â€” muted for dark mode */
+    --primary-foreground: 47 7% 7%;
+
+    --secondary: 47 13% 13%;
+    --secondary-foreground: 60 13% 98%;
+
+    --muted: 47 13% 13%;
+    --muted-foreground: 40 7% 65%;        /* slate-400 */
+
+    --accent: 180 60% 42%;
+    --accent-foreground: 60 13% 98%;
+
+    --destructive: 0 60% 60%;
+    --destructive-foreground: 60 13% 98%;
+
+    --border: 47 7% 22%;                  /* slate-700 */
+    --input: 47 7% 22%;
+    --ring: 244 100% 65%;                 /* signal-500 retained for contrast */
+  }
+
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  html {
+    /* AAA body text: slate-700 on slate-50 = 11.2:1. */
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  .tnum {
+    font-feature-settings: "tnum" 1, "cv02", "cv03", "cv04", "cv11";
+  }
+
+  /* Focus ring per doc 22 PART L. Visible on every interactive element. */
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+    border-radius: var(--radius);
+  }
+}
+
+@layer components {
+  /* Shimmer fill for skeleton screens â€” never spinners. */
+  .skeleton-shimmer {
+    background-image: linear-gradient(
+      100deg,
+      hsl(var(--muted)) 0%,
+      hsl(40 13% 88%) 50%,
+      hsl(var(--muted)) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s linear infinite;
+  }
+
+  .dark .skeleton-shimmer {
+    background-image: linear-gradient(
+      100deg,
+      hsl(var(--muted)) 0%,
+      hsl(47 7% 22%) 50%,
+      hsl(var(--muted)) 100%
+    );
+  }
+}
+
+/*
+ * Reduce-motion: collapse durations and disable transforms globally
+ * (doc 22 PART I). Implemented once here so individual components don't opt in.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .skeleton-shimmer {
+    background-image: none;
+    background-color: hsl(var(--muted));
+    animation: none;
+  }
+}

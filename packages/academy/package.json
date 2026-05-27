@@ -1,0 +1,98 @@
+{
+  "name": "@funnel/academy",
+  "version": "0.1.0",
+  "private": true,
+  "description": "GoFunnelAI Academy â€” courses, certifications, capstones, college pipeline, paid programs. See docs/17-prd-pack-v2.md (Section 17) and docs/13-agency-enablement-kit.md (Section 3).",
+  "license": "UNLICENSED",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.js"
+    },
+    "./courses": {
+      "types": "./dist/courses.d.ts",
+      "import": "./dist/courses.js"
+    },
+    "./modules": {
+      "types": "./dist/modules.d.ts",
+      "import": "./dist/modules.js"
+    },
+    "./lessons": {
+      "types": "./dist/lessons.d.ts",
+      "import": "./dist/lessons.js"
+    },
+    "./video-hosting": {
+      "types": "./dist/video-hosting.d.ts",
+      "import": "./dist/video-hosting.js"
+    },
+    "./progress": {
+      "types": "./dist/progress.d.ts",
+      "import": "./dist/progress.js"
+    },
+    "./quizzes": {
+      "types": "./dist/quizzes.d.ts",
+      "import": "./dist/quizzes.js"
+    },
+    "./certifications": {
+      "types": "./dist/certifications.d.ts",
+      "import": "./dist/certifications.js"
+    },
+    "./capstones": {
+      "types": "./dist/capstones.d.ts",
+      "import": "./dist/capstones.js"
+    },
+    "./college-pipeline": {
+      "types": "./dist/college-pipeline.d.ts",
+      "import": "./dist/college-pipeline.js"
+    },
+    "./paid-academy": {
+      "types": "./dist/paid-academy.d.ts",
+      "import": "./dist/paid-academy.js"
+    },
+    "./cohorts": {
+      "types": "./dist/cohorts.d.ts",
+      "import": "./dist/cohorts.js"
+    },
+    "./seo": {
+      "types": "./dist/seo.d.ts",
+      "import": "./dist/seo.js"
+    }
+  },
+  "files": ["dist", "src", "README.md"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rimraf dist .turbo",
+    "dev": "tsc -p tsconfig.json --watch",
+    "lint": "echo \"(no linter configured)\"",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@funnel/billing": "workspace:*",
+    "@funnel/db": "workspace:*",
+    "@funnel/email": "workspace:*",
+    "@funnel/events": "workspace:*",
+    "@funnel/shared": "workspace:*",
+    "ulid": "^2.3.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@funnel/tsconfig": "workspace:*",
+    "@types/node": "^20.14.0",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

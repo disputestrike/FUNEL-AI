@@ -1,0 +1,60 @@
+{
+  "name": "@funnel/api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "GoFunnelAI API server ” Hono + tRPC v11 on Cloudflare Workers. Hosts every public endpoint (REST v1), every webhook receiver, every OAuth callback, and the tRPC routers consumed by apps/web and apps/admin.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "main": "./src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "build": "tsc -p tsconfig.json --noEmit && wrangler deploy --dry-run --outdir dist",
+    "deploy": "wrangler deploy",
+    "deploy:staging": "wrangler deploy --env staging",
+    "deploy:production": "wrangler deploy --env production",
+    "tail": "wrangler tail",
+    "lint": "eslint \"src/**/*.ts\" \"tests/**/*.ts\"",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "openapi": "tsx scripts/generate-openapi.ts",
+    "clean": "rimraf dist .turbo .wrangler"
+  },
+  "dependencies": {
+    "@funnel/auth": "workspace:*",
+    "@funnel/billing": "workspace:*",
+    "@funnel/compliance": "workspace:*",
+    "@funnel/crm": "workspace:*",
+    "@funnel/db": "workspace:*",
+    "@funnel/email": "workspace:*",
+    "@funnel/events": "workspace:*",
+    "@funnel/integrations": "workspace:*",
+    "@funnel/notifications": "workspace:*",
+    "@funnel/orchestrator": "workspace:*",
+    "@funnel/revtry": "workspace:*",
+    "@funnel/shared": "workspace:*",
+    "@hono/trpc-server": "^0.3.4",
+    "@hono/zod-openapi": "^0.16.4",
+    "@trpc/server": "^11.0.0",
+    "@sentry/cloudflare": "^8.34.0",
+    "hono": "^4.6.5",
+    "ulid": "^2.3.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241011.0",
+    "@funnel/tsconfig": "workspace:*",
+    "@types/node": "^20.14.0",
+    "@vitest/coverage-v8": "^2.1.0",
+    "eslint": "^8.57.0",
+    "rimraf": "^6.0.1",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0",
+    "wrangler": "^3.80.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

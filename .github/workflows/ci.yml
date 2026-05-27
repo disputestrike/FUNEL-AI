@@ -1,0 +1,277 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+  NODE_VERSION: "20.x"
+  PNPM_VERSION: "9.12.0"
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Static checks â€” lint, typecheck, dependency audit. Fast feedback.
+  # ---------------------------------------------------------------------------
+  static:
+    name: static checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: pnpm/action-setup@v4
+        with: { version: "${{ env.PNPM_VERSION }}" }
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - name: Conventional commits check
+        if: github.event_name == 'pull_request'
+        uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Snyk dependency audit
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high --all-projects
+      - name: Semgrep SAST
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: >-
+            p/typescript
+            p/owasp-top-ten
+            p/security-audit
+            tooling/semgrep/funnel-rules.yml
+
+  # ---------------------------------------------------------------------------
+  # Unit tests with coverage gate (80% critical path).
+  # ---------------------------------------------------------------------------
+  unit:
+    name: unit tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: funnel_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+      redis:
+        image: redis:7-alpine
+        ports: ["6379:6379"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: "${{ env.PNPM_VERSION }}" }
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - name: Apply DB migrations
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/funnel_test
+        run: pnpm --filter @funnel/db db:migrate
+      - name: Test unit
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/funnel_test
+          REDIS_URL: redis://localhost:6379
+          NODE_ENV: test
+        run: pnpm test:unit:ci
+      - name: Upload coverage
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
+          flags: unit
+          file: ./coverage/lcov.info
+
+  # ---------------------------------------------------------------------------
+  # Integration tests (provider mocks only; full sandbox suite runs nightly).
+  # ---------------------------------------------------------------------------
+  integration-mocked:
+    name: integration tests (mocked)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env: { POSTGRES_PASSWORD: postgres, POSTGRES_USER: postgres, POSTGRES_DB: funnel_test }
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+      redis:
+        image: redis:7-alpine
+        ports: ["6379:6379"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: "${{ env.PNPM_VERSION }}" }
+      - uses: actions/setup-node@v4
+        with: { node-version: "${{ env.NODE_VERSION }}", cache: "pnpm" }
+      - run: pnpm install --frozen-lockfile
+      - env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/funnel_test
+        run: pnpm --filter @funnel/db db:migrate
+      - env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/funnel_test
+          REDIS_URL: redis://localhost:6379
+          NODE_ENV: test
+          MOCK_INTEGRATIONS: "1"
+        run: pnpm test:integration:mocked
+
+  # ---------------------------------------------------------------------------
+  # E2E smoke (1 + 2 = signup -> publish, upgrade path) against PR preview.
+  # ---------------------------------------------------------------------------
+  e2e-smoke:
+    name: e2e smoke
+    needs: [static, unit]
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: "${{ env.PNPM_VERSION }}" }
+      - uses: actions/setup-node@v4
+        with: { node-version: "${{ env.NODE_VERSION }}", cache: "pnpm" }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium webkit
+      - name: Wait for preview deploy
+        run: |
+          for i in {1..60}; do
+            if curl -fsS "https://pr-${{ github.event.number }}.preview.gofunnelai.com/healthz" >/dev/null; then
+              echo "preview is live"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "preview deploy timed out" >&2
+          exit 1
+      - env:
+          BASE_URL: https://pr-${{ github.event.number }}.preview.gofunnelai.com
+          PLAYWRIGHT_PROJECT: smoke
+        run: pnpm test:e2e:smoke
+
+  # ---------------------------------------------------------------------------
+  # Lighthouse CI (perf + a11y + best-practices + seo).
+  # ---------------------------------------------------------------------------
+  lighthouse:
+    name: lighthouse
+    needs: e2e-smoke
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: "${{ env.PNPM_VERSION }}" }
+      - uses: actions/setup-node@v4
+        with: { node-version: "${{ env.NODE_VERSION }}", cache: "pnpm" }
+      - run: pnpm install --frozen-lockfile
+      - name: Lighthouse CI
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+          BASE_URL: https://pr-${{ github.event.number }}.preview.gofunnelai.com
+        run: pnpm lighthouse:ci
+
+  # ---------------------------------------------------------------------------
+  # a11y (axe in Playwright).
+  # ---------------------------------------------------------------------------
+  a11y:
+    name: a11y (axe)
+    needs: e2e-smoke
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: "${{ env.PNPM_VERSION }}" }
+      - uses: actions/setup-node@v4
+        with: { node-version: "${{ env.NODE_VERSION }}", cache: "pnpm" }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - env:
+          BASE_URL: https://pr-${{ github.event.number }}.preview.gofunnelai.com
+        run: pnpm test:a11y
+
+  # ---------------------------------------------------------------------------
+  # Agent regression suite (only if agents/* or prompts/* changed).
+  # ---------------------------------------------------------------------------
+  agent-regression:
+    name: agent regression
+    needs: unit
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: Detect changes
+        id: changes
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            agents:
+              - 'packages/agents/**'
+              - 'prompts/**'
+              - 'eval/agents/corpus/**'
+      - if: steps.changes.outputs.agents == 'true'
+        uses: pnpm/action-setup@v4
+        with: { version: "${{ env.PNPM_VERSION }}" }
+      - if: steps.changes.outputs.agents == 'true'
+        uses: actions/setup-node@v4
+        with: { node-version: "${{ env.NODE_VERSION }}", cache: "pnpm" }
+      - if: steps.changes.outputs.agents == 'true'
+        run: pnpm install --frozen-lockfile
+      - if: steps.changes.outputs.agents == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY_CI }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY_CI }}
+        run: pnpm test:agents:regression
+
+  # ---------------------------------------------------------------------------
+  # Final aggregator â€” branch-protection requires this single job to be green.
+  # ---------------------------------------------------------------------------
+  ci-passed:
+    name: ci passed
+    needs: [static, unit, integration-mocked, e2e-smoke, lighthouse, a11y, agent-regression]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify all checks succeeded
+        run: |
+          for r in '${{ needs.static.result }}' '${{ needs.unit.result }}' \
+                   '${{ needs.integration-mocked.result }}' \
+                   '${{ needs.e2e-smoke.result }}' \
+                   '${{ needs.lighthouse.result }}' '${{ needs.a11y.result }}'; do
+            if [ "$r" != "success" ] && [ "$r" != "skipped" ]; then
+              echo "Required check failed: $r"
+              exit 1
+            fi
+          done
+          echo "All CI checks passed."

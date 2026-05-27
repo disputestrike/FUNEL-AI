@@ -1,0 +1,139 @@
+name: Migration Deploy
+
+on:
+  pull_request:
+    paths:
+      - "packages/db/prisma/migrations/**"
+      - "packages/db/prisma/schema.prisma"
+  workflow_dispatch:
+    inputs:
+      target:
+        description: target environment
+        required: true
+        default: staging
+        type: choice
+        options: [staging, production]
+
+env:
+  NODE_VERSION: "20.x"
+  PNPM_VERSION: "9.12.0"
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Pre-merge rehearsal — fork last-night staging dump, run the migration,
+  # measure wall-clock + lock-holding time, enforce the forward/backward
+  # compat rule via paired down.sql, comment results on the PR.
+  # ---------------------------------------------------------------------------
+  rehearse:
+    name: rehearse on staging dump
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: "${{ env.PNPM_VERSION }}" }
+      - uses: actions/setup-node@v4
+        with: { node-version: "${{ env.NODE_VERSION }}", cache: "pnpm" }
+      - run: pnpm install --frozen-lockfile
+
+      - name: Provision rehearsal branch on Neon
+        id: branch
+        env:
+          NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+        run: |
+          set -euo pipefail
+          NAME="migration-rehearsal-pr-${{ github.event.pull_request.number }}"
+          PROJECT_ID="${{ secrets.NEON_PROJECT_ID }}"
+          # Fork from staging so we rehearse against realistic data.
+          BRANCH_ID=$(curl -fsS -X POST \
+            -H "Authorization: Bearer $NEON_API_KEY" \
+            -H "Content-Type: application/json" \
+            "https://console.neon.tech/api/v2/projects/$PROJECT_ID/branches" \
+            -d "{\"branch\":{\"name\":\"$NAME\",\"parent_id\":\"${{ secrets.NEON_STAGING_BRANCH_ID }}\"}}" \
+            | jq -r '.branch.id')
+          URI=$(curl -fsS -H "Authorization: Bearer $NEON_API_KEY" \
+            "https://console.neon.tech/api/v2/projects/$PROJECT_ID/connection_uri?branch_id=$BRANCH_ID&database_name=funnel&role_name=funnel_app&pooled=false" \
+            | jq -r '.uri')
+          echo "::add-mask::$URI"
+          echo "uri=$URI" >> $GITHUB_OUTPUT
+          echo "branch_id=$BRANCH_ID" >> $GITHUB_OUTPUT
+
+      - name: Run migration with timing
+        id: run
+        env:
+          DATABASE_URL: ${{ steps.branch.outputs.uri }}
+        run: |
+          START=$(date +%s%N)
+          pnpm --filter @funnel/db db:migrate:deploy
+          END=$(date +%s%N)
+          ELAPSED_MS=$(( (END - START) / 1000000 ))
+          echo "elapsed_ms=$ELAPSED_MS" >> $GITHUB_OUTPUT
+
+      - name: Verify down.sql round-trip
+        env:
+          DATABASE_URL: ${{ steps.branch.outputs.uri }}
+        run: pnpm --filter @funnel/db db:migrate:roundtrip
+
+      - name: Check forward-compat (no destructive drops within 30d window)
+        env:
+          DATABASE_URL: ${{ steps.branch.outputs.uri }}
+        run: pnpm --filter @funnel/db db:migrate:check:forward-compat
+
+      - name: Check RLS pairing (any policy change has a paired test)
+        run: pnpm --filter @funnel/rls test:policies:pairing-check
+
+      - name: Comment timing
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: migration
+          message: |
+            ### Migration rehearsal
+            - Wall-clock: **${{ steps.run.outputs.elapsed_ms }} ms** on the staging snapshot.
+            - Down-migration round-trip: passed.
+            - Forward-compat: passed (no destructive drops within 30d window).
+            - RLS pairing: passed.
+
+            > Migrations forecast > 30s on production-scale data must use `CREATE INDEX CONCURRENTLY`,
+            > batched updates, or `pg_repack`-style offline maintenance.
+
+      - name: Delete rehearsal branch
+        if: always()
+        env:
+          NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+        run: |
+          curl -fsS -X DELETE \
+            -H "Authorization: Bearer $NEON_API_KEY" \
+            "https://console.neon.tech/api/v2/projects/${{ secrets.NEON_PROJECT_ID }}/branches/${{ steps.branch.outputs.branch_id }}"
+
+  # ---------------------------------------------------------------------------
+  # Manual prod migration. Use sparingly — most migrations ride the regular
+  # deploy-production pipeline. This workflow exists for emergencies and
+  # batched-update / pg_repack maintenance that must run off the deploy path.
+  # ---------------------------------------------------------------------------
+  deploy:
+    name: apply (${{ github.event.inputs.target }})
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: ${{ github.event.inputs.target }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: "${{ env.PNPM_VERSION }}" }
+      - uses: actions/setup-node@v4
+        with: { node-version: "${{ env.NODE_VERSION }}", cache: "pnpm" }
+      - run: pnpm install --frozen-lockfile
+      - name: Apply
+        env:
+          DATABASE_URL: ${{ github.event.inputs.target == 'production' && secrets.PRODUCTION_DATABASE_URL || secrets.STAGING_DATABASE_URL }}
+        run: pnpm --filter @funnel/db db:migrate:deploy:safe
+      - name: Notify Slack
+        uses: slackapi/slack-github-action@v1.27.0
+        with:
+          payload: |
+            { "text": ":hammer_and_wrench: Migration applied to ${{ github.event.inputs.target }}." }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_OPS_WEBHOOK }}

@@ -1,0 +1,123 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "name": "Deploys",
+        "datasource": "Prometheus",
+        "enable": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "expr": "changes(funnel_deploy_event{service=\"api\"}[1m]) > 0",
+        "titleFormat": "Deploy {{version}}"
+      }
+    ]
+  },
+  "title": "Funnel — Generation pipeline",
+  "uid": "funnel-generation-pipeline",
+  "tags": ["funnel", "generation", "ai"],
+  "timezone": "utc",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "30s",
+  "time": { "from": "now-6h", "to": "now" },
+  "templating": {
+    "list": [
+      {
+        "name": "env",
+        "type": "custom",
+        "query": "production,staging,preview",
+        "current": { "text": "production", "value": "production" }
+      },
+      {
+        "name": "agent",
+        "type": "query",
+        "datasource": "Prometheus",
+        "query": "label_values(funnel_agent_latency_seconds, agent)",
+        "includeAll": true,
+        "multi": true
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1, "type": "timeseries", "title": "Latency per agent — p50/p95/p99",
+      "gridPos": { "h": 9, "w": 24, "x": 0, "y": 0 },
+      "targets": [
+        { "expr": "histogram_quantile(0.50, sum by (agent, le) (rate(funnel_agent_latency_seconds_bucket{env=\"$env\",agent=~\"$agent\"}[5m])))", "legendFormat": "{{agent}} p50" },
+        { "expr": "histogram_quantile(0.95, sum by (agent, le) (rate(funnel_agent_latency_seconds_bucket{env=\"$env\",agent=~\"$agent\"}[5m])))", "legendFormat": "{{agent}} p95" },
+        { "expr": "histogram_quantile(0.99, sum by (agent, le) (rate(funnel_agent_latency_seconds_bucket{env=\"$env\",agent=~\"$agent\"}[5m])))", "legendFormat": "{{agent}} p99" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "s" } }
+    },
+    {
+      "id": 2, "type": "timeseries", "title": "Cost per generation (USD)",
+      "gridPos": { "h": 9, "w": 12, "x": 0, "y": 9 },
+      "targets": [
+        { "expr": "histogram_quantile(0.50, sum by (le) (rate(funnel_generation_cost_usd_bucket{env=\"$env\"}[5m])))", "legendFormat": "p50" },
+        { "expr": "histogram_quantile(0.95, sum by (le) (rate(funnel_generation_cost_usd_bucket{env=\"$env\"}[5m])))", "legendFormat": "p95" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "currencyUSD" } }
+    },
+    {
+      "id": 3, "type": "histogram", "title": "Quality score distribution",
+      "gridPos": { "h": 9, "w": 12, "x": 12, "y": 9 },
+      "targets": [
+        { "expr": "sum by (le) (rate(funnel_generation_quality_score_bucket{env=\"$env\"}[1h]))", "legendFormat": "score" }
+      ]
+    },
+    {
+      "id": 4, "type": "stat", "title": "Regeneration rate (24h)",
+      "gridPos": { "h": 6, "w": 6, "x": 0, "y": 18 },
+      "targets": [
+        { "expr": "sum(rate(funnel_generation_regenerated_total{env=\"$env\"}[24h])) / sum(rate(funnel_generation_total{env=\"$env\"}[24h]))" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "percentunit", "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }, { "color": "yellow", "value": 0.1 }, { "color": "red", "value": 0.2 }] } } }
+    },
+    {
+      "id": 5, "type": "stat", "title": "Compliance block rate (24h)",
+      "gridPos": { "h": 6, "w": 6, "x": 6, "y": 18 },
+      "targets": [
+        { "expr": "sum(rate(funnel_compliance_block_total{env=\"$env\"}[24h])) / sum(rate(funnel_generation_total{env=\"$env\"}[24h]))" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "percentunit" } }
+    },
+    {
+      "id": 6, "type": "stat", "title": "Fact-check rewrite rate (24h)",
+      "gridPos": { "h": 6, "w": 6, "x": 12, "y": 18 },
+      "targets": [
+        { "expr": "sum(rate(funnel_factcheck_rewrite_total{env=\"$env\"}[24h])) / sum(rate(funnel_generation_total{env=\"$env\"}[24h]))" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "percentunit" } }
+    },
+    {
+      "id": 7, "type": "stat", "title": "Brand-guard rewrite rate (24h)",
+      "gridPos": { "h": 6, "w": 6, "x": 18, "y": 18 },
+      "targets": [
+        { "expr": "sum(rate(funnel_brandguard_rewrite_total{env=\"$env\"}[24h])) / sum(rate(funnel_generation_total{env=\"$env\"}[24h]))" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "percentunit" } }
+    },
+    {
+      "id": 8, "type": "timeseries", "title": "Queue depth — generation-runner",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 24 },
+      "targets": [
+        { "expr": "funnel_queue_depth{env=\"$env\",queue=\"generation-runner\"}", "legendFormat": "depth" }
+      ]
+    },
+    {
+      "id": 9, "type": "timeseries", "title": "Queue age p95 (seconds) — generation-runner",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 24 },
+      "targets": [
+        { "expr": "histogram_quantile(0.95, sum by (le) (rate(funnel_queue_job_age_seconds_bucket{env=\"$env\",queue=\"generation-runner\"}[5m])))", "legendFormat": "p95 age" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "s" } }
+    },
+    {
+      "id": 10, "type": "timeseries", "title": "Agent error rate by model",
+      "gridPos": { "h": 9, "w": 24, "x": 0, "y": 32 },
+      "targets": [
+        { "expr": "sum by (model, agent) (rate(funnel_agent_error_total{env=\"$env\"}[5m])) / sum by (model, agent) (rate(funnel_agent_invocations_total{env=\"$env\"}[5m]))", "legendFormat": "{{model}} / {{agent}}" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "percentunit" } }
+    }
+  ]
+}

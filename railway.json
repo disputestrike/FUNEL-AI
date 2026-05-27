@@ -1,0 +1,143 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "_comment": "GoFunnelAI monorepo ” one Railway service per app. Each app's own apps/<name>/railway.toml takes precedence over this file at the service level; this root file declares the project layout for Railway's monorepo detector and provides defaults that every service inherits unless overridden.",
+  "build": {
+    "builder": "DOCKERFILE",
+    "dockerfilePath": "Dockerfile",
+    "buildCommand": null
+  },
+  "deploy": {
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 10,
+    "numReplicas": 1,
+    "sleepApplication": false
+  },
+  "services": [
+    {
+      "name": "funnel-api",
+      "source": {
+        "repo": "funnel-ai",
+        "rootDirectory": "/"
+      },
+      "build": {
+        "builder": "DOCKERFILE",
+        "dockerfilePath": "apps/api/Dockerfile"
+      },
+      "deploy": {
+        "startCommand": "node apps/api/dist/server.js",
+        "healthcheckPath": "/healthz",
+        "healthcheckTimeout": 30,
+        "numReplicas": 2,
+        "restartPolicyType": "ON_FAILURE",
+        "restartPolicyMaxRetries": 10,
+        "preDeployCommand": "pnpm --filter @funnel/db db:migrate:deploy"
+      }
+    },
+    {
+      "name": "funnel-web",
+      "source": {
+        "repo": "funnel-ai",
+        "rootDirectory": "/"
+      },
+      "build": {
+        "builder": "DOCKERFILE",
+        "dockerfilePath": "apps/web/Dockerfile"
+      },
+      "deploy": {
+        "startCommand": "node apps/web/server.js",
+        "healthcheckPath": "/api/healthz",
+        "healthcheckTimeout": 30,
+        "numReplicas": 2,
+        "restartPolicyType": "ON_FAILURE",
+        "restartPolicyMaxRetries": 10
+      }
+    },
+    {
+      "name": "funnel-admin",
+      "source": {
+        "repo": "funnel-ai",
+        "rootDirectory": "/"
+      },
+      "build": {
+        "builder": "DOCKERFILE",
+        "dockerfilePath": "apps/admin/Dockerfile"
+      },
+      "deploy": {
+        "startCommand": "node apps/admin/server.js",
+        "healthcheckPath": "/api/healthz",
+        "healthcheckTimeout": 30,
+        "numReplicas": 1,
+        "restartPolicyType": "ON_FAILURE",
+        "restartPolicyMaxRetries": 10
+      }
+    },
+    {
+      "name": "funnel-grader",
+      "source": {
+        "repo": "funnel-ai",
+        "rootDirectory": "/"
+      },
+      "build": {
+        "builder": "DOCKERFILE",
+        "dockerfilePath": "apps/grader/Dockerfile"
+      },
+      "deploy": {
+        "startCommand": "node apps/grader/server.js",
+        "healthcheckPath": "/api/healthz",
+        "healthcheckTimeout": 30,
+        "numReplicas": 1,
+        "restartPolicyType": "ON_FAILURE",
+        "restartPolicyMaxRetries": 10
+      }
+    },
+    {
+      "name": "funnel-renderer",
+      "source": {
+        "repo": "funnel-ai",
+        "rootDirectory": "/"
+      },
+      "build": {
+        "builder": "DOCKERFILE",
+        "dockerfilePath": "apps/renderer/Dockerfile"
+      },
+      "deploy": {
+        "startCommand": "node apps/renderer/dist/server.js",
+        "healthcheckPath": "/healthz",
+        "healthcheckTimeout": 30,
+        "numReplicas": 1,
+        "restartPolicyType": "ON_FAILURE",
+        "restartPolicyMaxRetries": 10
+      }
+    },
+    {
+      "name": "funnel-workers",
+      "source": {
+        "repo": "funnel-ai",
+        "rootDirectory": "/"
+      },
+      "build": {
+        "builder": "DOCKERFILE",
+        "dockerfilePath": "apps/workers/Dockerfile"
+      },
+      "deploy": {
+        "startCommand": "node apps/workers/dist/index.js",
+        "healthcheckPath": "/healthz",
+        "healthcheckTimeout": 30,
+        "numReplicas": 3,
+        "restartPolicyType": "ON_FAILURE",
+        "restartPolicyMaxRetries": 10,
+        "preDeployCommand": "pnpm --filter @funnel/db db:migrate:deploy"
+      }
+    }
+  ],
+  "plugins": [
+    {
+      "name": "postgresql",
+      "_comment": "Postgres 16 with pgvector. Auto-injects DATABASE_URL into every service. Enable pgvector via Railway connect: CREATE EXTENSION IF NOT EXISTS vector;"
+    },
+    {
+      "name": "redis",
+      "_comment": "Redis 7. Auto-injects REDIS_URL into every service. BullMQ + idempotency + rate limits + sessions KV."
+    }
+  ]
+}

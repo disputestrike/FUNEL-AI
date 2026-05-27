@@ -1,0 +1,38 @@
+{
+  "name": "@funnel/cost-governor",
+  "version": "0.1.0",
+  "private": true,
+  "description": "GoFunnelAI Cost Governor: per-generation budgets, per-workspace ledger, graceful degradation ladder, ad-spend caps, abuse caps, FinOps reporting.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "src"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rm -rf dist .turbo",
+    "dev": "tsc -p tsconfig.json --watch",
+    "lint": "echo \"(no linter configured)\"",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@funnel/db": "workspace:*",
+    "@funnel/events": "workspace:*",
+    "@funnel/shared": "workspace:*",
+    "ioredis": "^5.4.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@funnel/tsconfig": "workspace:*",
+    "@types/node": "^20.14.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}

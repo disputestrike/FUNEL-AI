@@ -1,0 +1,148 @@
+# .github/workflows/railway-deploy.yml
+#
+# Triggers Railway to deploy every GoFunnelAI service on push to main.
+# Railway also auto-deploys via its own GitHub integration; this workflow
+# adds:
+#   - explicit per-service deploy invocation (so we control ordering)
+#   - post-deploy smoke tests
+#   - automatic rollback if smoke tests fail
+#
+# Required GitHub secrets:
+#   RAILWAY_TOKEN              project-scoped token (Railway â†’ Settings â†’ Tokens)
+#   RAILWAY_PROJECT_ID         the project's UUID
+#   SMOKE_TEST_BEARER          short-lived token for hitting authenticated endpoints
+#
+# Required GitHub variables:
+#   RAILWAY_ENVIRONMENT        "production" (or "staging" if running from staging branch)
+
+name: railway-deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      services:
+        description: "Comma-separated list of services to deploy (default: all)"
+        required: false
+        default: "funnel-api,funnel-workers,funnel-web,funnel-admin,funnel-grader,funnel-renderer"
+      environment:
+        description: "Railway environment"
+        required: false
+        default: "production"
+
+concurrency:
+  group: railway-deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # 1. Deploy each service in order. Workers + API go first (they own
+  #    migrations); the rest follow once the DB schema is current.
+  # ---------------------------------------------------------------------------
+  deploy:
+    name: Deploy to Railway
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      deployments: write
+    outputs:
+      release_sha: ${{ github.sha }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Railway CLI
+        run: |
+          curl -fsSL https://railway.app/install.sh | sh
+          echo "$HOME/.railway/bin" >> $GITHUB_PATH
+
+      - name: Authenticate
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: railway whoami
+
+      - name: Deploy migrations first (api)
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          railway up \
+            --service funnel-api \
+            --environment "${{ github.event.inputs.environment || vars.RAILWAY_ENVIRONMENT || 'production' }}" \
+            --detach
+
+      - name: Wait for api healthy
+        env:
+          API_URL: https://api.gofunnelai.com
+        run: |
+          for i in $(seq 1 60); do
+            if curl -fsS "$API_URL/healthz" >/dev/null; then
+              echo "api healthy after ${i}0s"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "api never came up healthy"
+          exit 1
+
+      - name: Deploy remaining services in parallel
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          for svc in funnel-workers funnel-web funnel-admin funnel-grader funnel-renderer; do
+            railway up --service "$svc" \
+              --environment "${{ github.event.inputs.environment || vars.RAILWAY_ENVIRONMENT || 'production' }}" \
+              --detach &
+          done
+          wait
+
+  # ---------------------------------------------------------------------------
+  # 2. Smoke tests â€” every health + readiness endpoint must return 200.
+  # ---------------------------------------------------------------------------
+  smoke-test:
+    name: Smoke test
+    needs: deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Wait for all services to settle
+        run: sleep 30
+
+      - name: Run smoke tests
+        env:
+          API_URL: https://api.gofunnelai.com
+          WEB_URL: https://gofunnelai.com
+          ADMIN_URL: https://admin.gofunnelai.com
+          GRADER_URL: https://grade.gofunnelai.com
+          RENDERER_URL: https://pages.gofunnelai.com
+          SMOKE_BEARER: ${{ secrets.SMOKE_TEST_BEARER }}
+        run: bash scripts/health-check.sh production
+
+  # ---------------------------------------------------------------------------
+  # 3. If smoke tests fail, roll back every service to the previous
+  #    successful deployment. Railway exposes per-service redeploy IDs in
+  #    `railway service status --json`.
+  # ---------------------------------------------------------------------------
+  rollback:
+    name: Rollback on failure
+    needs: [deploy, smoke-test]
+    if: failure()
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Railway CLI
+        run: |
+          curl -fsSL https://railway.app/install.sh | sh
+          echo "$HOME/.railway/bin" >> $GITHUB_PATH
+
+      - name: Roll back every service
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: bash scripts/rollback.sh production

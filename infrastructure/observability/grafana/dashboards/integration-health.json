@@ -1,0 +1,69 @@
+{
+  "title": "Funnel — Integration health",
+  "uid": "funnel-integration-health",
+  "tags": ["funnel", "integrations"],
+  "timezone": "utc",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "30s",
+  "time": { "from": "now-3h", "to": "now" },
+  "templating": {
+    "list": [
+      { "name": "env", "type": "custom", "query": "production,staging",
+        "current": { "text": "production", "value": "production" } },
+      { "name": "provider", "type": "query", "datasource": "Prometheus",
+        "query": "label_values(funnel_integration_request_total, provider)",
+        "includeAll": true, "multi": true }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1, "type": "stat", "title": "Per-provider availability (heartbeat last 5m)",
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 0 },
+      "targets": [
+        { "expr": "min by (provider) (max_over_time(funnel_integration_heartbeat{env=\"$env\",provider=~\"$provider\"}[5m]))", "legendFormat": "{{provider}}" }
+      ],
+      "fieldConfig": { "defaults": { "thresholds": { "mode": "absolute", "steps": [{ "color": "red" }, { "color": "yellow", "value": 0.5 }, { "color": "green", "value": 1 }] } } }
+    },
+    {
+      "id": 2, "type": "timeseries", "title": "Rate-limit headroom %",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "targets": [
+        { "expr": "(funnel_integration_rate_limit_remaining{env=\"$env\",provider=~\"$provider\"} / funnel_integration_rate_limit_total{env=\"$env\",provider=~\"$provider\"})", "legendFormat": "{{provider}}" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "percentunit", "thresholds": { "mode": "absolute", "steps": [{ "color": "red" }, { "color": "yellow", "value": 0.2 }, { "color": "green", "value": 0.5 }] } } }
+    },
+    {
+      "id": 3, "type": "timeseries", "title": "Error rate per provider",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+      "targets": [
+        { "expr": "sum by (provider) (rate(funnel_integration_request_error_total{env=\"$env\",provider=~\"$provider\"}[5m])) / sum by (provider) (rate(funnel_integration_request_total{env=\"$env\",provider=~\"$provider\"}[5m]))", "legendFormat": "{{provider}}" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "percentunit" } }
+    },
+    {
+      "id": 4, "type": "timeseries", "title": "Retry success rate",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 16 },
+      "targets": [
+        { "expr": "sum by (provider) (rate(funnel_integration_retry_success_total{env=\"$env\",provider=~\"$provider\"}[5m])) / sum by (provider) (rate(funnel_integration_retry_attempt_total{env=\"$env\",provider=~\"$provider\"}[5m]))", "legendFormat": "{{provider}}" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "percentunit" } }
+    },
+    {
+      "id": 5, "type": "timeseries", "title": "p95 latency per provider",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 16 },
+      "targets": [
+        { "expr": "histogram_quantile(0.95, sum by (provider, le) (rate(funnel_integration_request_duration_seconds_bucket{env=\"$env\",provider=~\"$provider\"}[5m])))", "legendFormat": "{{provider}} p95" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "s" } }
+    },
+    {
+      "id": 6, "type": "timeseries", "title": "Webhook lag (event_time -> processed_time)",
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 24 },
+      "targets": [
+        { "expr": "histogram_quantile(0.95, sum by (provider, le) (rate(funnel_webhook_lag_seconds_bucket{env=\"$env\",provider=~\"$provider\"}[5m])))", "legendFormat": "{{provider}} p95" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "s" } }
+    }
+  ]
+}

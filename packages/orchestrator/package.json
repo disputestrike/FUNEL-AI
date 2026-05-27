@@ -1,0 +1,50 @@
+{
+  "name": "@funnel/orchestrator",
+  "version": "0.1.0",
+  "private": true,
+  "description": "GoFunnelAI generation orchestrator â€” 6-phase DAG, cost meter, quality gate, prompt caching, retry/fallback, SSE streaming.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.js"
+    },
+    "./streaming": {
+      "types": "./dist/streaming.d.ts",
+      "import": "./dist/streaming.js"
+    },
+    "./offer-intelligence": {
+      "types": "./dist/offer-intelligence.d.ts",
+      "import": "./dist/offer-intelligence.js"
+    }
+  },
+  "files": ["dist", "src"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rm -rf dist .turbo",
+    "dev": "tsc -p tsconfig.json --watch",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@funnel/cost-governor": "workspace:*",
+    "@funnel/db": "workspace:*",
+    "@funnel/events": "workspace:*",
+    "@funnel/trust-safety": "workspace:*",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@funnel/tsconfig": "workspace:*",
+    "@types/node": "^20.14.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}

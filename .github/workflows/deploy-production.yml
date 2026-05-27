@@ -1,0 +1,247 @@
+name: Deploy Production
+
+on:
+  workflow_run:
+    workflows: [Deploy Staging]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      sha:
+        description: Override SHA to deploy (defaults to staging's latest)
+        required: false
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+env:
+  NODE_VERSION: "20.x"
+  PNPM_VERSION: "9.12.0"
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+  PRODUCTION_BASELINE_ERROR_RATE: "0.005"
+  PRODUCTION_BASELINE_P95_LATENCY_MS: "800"
+
+jobs:
+  guard:
+    name: guard
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    outputs:
+      sha: ${{ steps.resolve.outputs.sha }}
+    steps:
+      - id: resolve
+        run: |
+          if [ -n "${{ github.event.inputs.sha }}" ]; then
+            echo "sha=${{ github.event.inputs.sha }}" >> $GITHUB_OUTPUT
+          else
+            echo "sha=${{ github.event.workflow_run.head_sha }}" >> $GITHUB_OUTPUT
+          fi
+
+  migrate:
+    name: db migrate (production, forward-compatible only)
+    needs: guard
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: ${{ needs.guard.outputs.sha }} }
+      - uses: pnpm/action-setup@v4
+        with: { version: "${{ env.PNPM_VERSION }}" }
+      - uses: actions/setup-node@v4
+        with: { node-version: "${{ env.NODE_VERSION }}", cache: "pnpm" }
+      - run: pnpm install --frozen-lockfile
+      - env:
+          DATABASE_URL: ${{ secrets.PRODUCTION_DATABASE_URL }}
+        run: pnpm --filter @funnel/db db:migrate:deploy:safe
+
+  canary-1:
+    name: canary (1% â€” internal + opt-in)
+    needs: [guard, migrate]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: ${{ needs.guard.outputs.sha }} }
+      - uses: pnpm/action-setup@v4
+        with: { version: "${{ env.PNPM_VERSION }}" }
+      - uses: actions/setup-node@v4
+        with: { node-version: "${{ env.NODE_VERSION }}", cache: "pnpm" }
+      - run: pnpm install --frozen-lockfile
+      - env:
+          NEXT_PUBLIC_ENV: production
+          NEXT_PUBLIC_API_BASE_URL: https://api.gofunnelai.com
+        run: pnpm build
+
+      - name: Deploy new version (api) with 1% gradual rollout
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ env.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ env.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: apps/api
+          command: versions upload --env production --tag canary-${{ needs.guard.outputs.sha }}
+
+      - name: Route 1% to canary (api)
+        run: |
+          curl -fsS -X POST \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts/funnel-api/deployments" \
+            -d '{"versions":[{"percentage":99,"version_id":"previous"},{"percentage":1,"version_id":"canary-${{ needs.guard.outputs.sha }}"}],"annotations":{"workers/triggered_by":"github-actions"}}'
+
+      - name: Deploy new version (renderer) with 1% gradual rollout
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ env.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ env.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: apps/renderer
+          command: versions upload --env production --tag canary-${{ needs.guard.outputs.sha }}
+
+      - name: Health check (5min observation)
+        run: bash scripts/health-check.sh --window 5m --baseline-error "$PRODUCTION_BASELINE_ERROR_RATE" --baseline-p95 "$PRODUCTION_BASELINE_P95_LATENCY_MS"
+
+  ramp-10:
+    name: ramp (10%)
+    needs: [guard, canary-1]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - run: |
+          curl -fsS -X POST \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts/funnel-api/deployments" \
+            -d '{"versions":[{"percentage":90,"version_id":"previous"},{"percentage":10,"version_id":"canary-${{ needs.guard.outputs.sha }}"}],"annotations":{"workers/triggered_by":"github-actions"}}'
+      - uses: actions/checkout@v4
+        with: { ref: ${{ needs.guard.outputs.sha }} }
+      - run: bash scripts/health-check.sh --window 5m --baseline-error "$PRODUCTION_BASELINE_ERROR_RATE" --baseline-p95 "$PRODUCTION_BASELINE_P95_LATENCY_MS"
+
+  ramp-50:
+    name: ramp (50%)
+    needs: [guard, ramp-10]
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - run: |
+          curl -fsS -X POST \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts/funnel-api/deployments" \
+            -d '{"versions":[{"percentage":50,"version_id":"previous"},{"percentage":50,"version_id":"canary-${{ needs.guard.outputs.sha }}"}],"annotations":{"workers/triggered_by":"github-actions"}}'
+      - uses: actions/checkout@v4
+        with: { ref: ${{ needs.guard.outputs.sha }} }
+      - run: bash scripts/health-check.sh --window 10m --baseline-error "$PRODUCTION_BASELINE_ERROR_RATE" --baseline-p95 "$PRODUCTION_BASELINE_P95_LATENCY_MS"
+
+  full:
+    name: ramp (100%)
+    needs: [guard, ramp-50]
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - run: |
+          curl -fsS -X POST \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts/funnel-api/deployments" \
+            -d '{"versions":[{"percentage":100,"version_id":"canary-${{ needs.guard.outputs.sha }}"}],"annotations":{"workers/triggered_by":"github-actions"}}'
+      - uses: actions/checkout@v4
+        with: { ref: ${{ needs.guard.outputs.sha }} }
+      - run: bash scripts/health-check.sh --window 10m --baseline-error "$PRODUCTION_BASELINE_ERROR_RATE" --baseline-p95 "$PRODUCTION_BASELINE_P95_LATENCY_MS"
+
+      - name: Deploy Web (Pages production)
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ env.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ env.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: apps/web
+          command: pages deploy .vercel/output/static --project-name funnel-web --branch main
+
+      - name: Deploy Grader (Pages production)
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ env.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ env.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: apps/grader
+          command: pages deploy .vercel/output/static --project-name funnel-grader --branch main
+
+      - name: Deploy Admin (Pages production)
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ env.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ env.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: apps/admin
+          command: pages deploy .vercel/output/static --project-name funnel-admin --branch main
+
+      - name: Deploy Node workers (Fly)
+        uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: flyctl deploy --remote-only --app funnel-workers --config apps/workers/fly.toml
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+      - name: Tag Sentry release
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: funnel-ai
+          ENVIRONMENT: production
+          RELEASE_VERSION: ${{ needs.guard.outputs.sha }}
+        run: bash infrastructure/sentry/releases.sh
+
+      - name: Post-deploy smoke (synthetic)
+        run: bash scripts/health-check.sh --smoke-only --base-url https://app.gofunnelai.com
+
+      - name: Notify deploy success
+        uses: slackapi/slack-github-action@v1.27.0
+        with:
+          payload: |
+            { "text": ":rocket: Production deploy ${{ needs.guard.outputs.sha }} reached 100% â€” error rate ok, p95 ok." }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_OPS_WEBHOOK }}
+
+  rollback:
+    name: auto-rollback
+    needs: [guard, canary-1, ramp-10, ramp-50, full]
+    if: failure()
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Re-route 100% to previous version
+        run: |
+          curl -fsS -X POST \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts/funnel-api/deployments" \
+            -d '{"versions":[{"percentage":100,"version_id":"previous"}],"annotations":{"workers/triggered_by":"github-actions-rollback"}}'
+          curl -fsS -X POST \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts/funnel-renderer/deployments" \
+            -d '{"versions":[{"percentage":100,"version_id":"previous"}],"annotations":{"workers/triggered_by":"github-actions-rollback"}}'
+
+      - name: File PagerDuty incident
+        env:
+          PD_ROUTING_KEY: ${{ secrets.PAGERDUTY_ROUTING_KEY_PLATFORM }}
+          SHA: ${{ needs.guard.outputs.sha }}
+        run: |
+          curl -fsS -X POST https://events.pagerduty.com/v2/enqueue \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"routing_key\": \"$PD_ROUTING_KEY\",
+              \"event_action\": \"trigger\",
+              \"payload\": {
+                \"summary\": \"Auto-rollback fired for production deploy $SHA\",
+                \"severity\": \"critical\",
+                \"source\": \"github-actions\",
+                \"component\": \"deploy-production\"
+              }
+            }"
+
+      - name: Notify Slack
+        uses: slackapi/slack-github-action@v1.27.0
+        with:
+          payload: |
+            { "text": ":rotating_light: AUTO-ROLLBACK: production deploy ${{ needs.guard.outputs.sha }} reverted. PagerDuty paged." }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_OPS_WEBHOOK }}

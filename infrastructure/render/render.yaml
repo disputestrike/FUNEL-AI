@@ -1,0 +1,244 @@
+# infrastructure/render/render.yaml
+#
+# Render.com fallback deploy spec. Mirror of the Railway setup â€” same
+# Dockerfiles, same env-var contract, same /healthz + /readyz endpoints.
+# Use this if/when Railway is unavailable or pricing tilts.
+#
+# Push this repo to render.com and click "New Blueprint Instance" â†’
+# Render reads this file and provisions every service + addon.
+#
+# Docs: https://render.com/docs/blueprint-spec
+
+databases:
+  - name: funnel-postgres
+    plan: standard         # 4 GB RAM, 1 GB storage starter; scale via dashboard
+    databaseName: funnel
+    user: funnel
+    postgresMajorVersion: 16
+    # pgvector is preinstalled on Render Postgres 16; still requires the
+    # CREATE EXTENSION call which the migrate script does idempotently.
+
+services:
+  # ------- Redis (BullMQ + idempotency + rate limits + sessions) -----------
+  - type: redis
+    name: funnel-redis
+    plan: standard
+    ipAllowList: []        # internal only â€” only Render services can reach it
+    maxmemoryPolicy: noeviction
+
+  # ------- funnel-api ------------------------------------------------------
+  - type: web
+    name: funnel-api
+    runtime: docker
+    plan: standard
+    dockerfilePath: ./apps/api/Dockerfile
+    dockerContext: .
+    healthCheckPath: /healthz
+    numInstances: 2
+    autoDeploy: true
+    branch: main
+    preDeployCommand: bash packages/db/scripts/migrate-on-deploy.sh
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "8080"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: funnel-postgres
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          name: funnel-redis
+          type: redis
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: COOKIE_SIGNING_KEY
+        generateValue: true
+      - key: ANTHROPIC_API_KEY
+        sync: false        # set in dashboard
+      - key: RESEND_API_KEY
+        sync: false
+      - key: SIGNALWIRE_PROJECT_ID
+        sync: false
+      - key: SIGNALWIRE_AUTH_TOKEN
+        sync: false
+      - key: PAYPAL_CLIENT_ID
+        sync: false
+      - key: PAYPAL_CLIENT_SECRET
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: SENTRY_DSN
+        sync: false
+      - key: R2_ACCESS_KEY_ID
+        sync: false
+      - key: R2_SECRET_ACCESS_KEY
+        sync: false
+      - key: CLERK_SECRET_KEY
+        sync: false
+
+  # ------- funnel-web ------------------------------------------------------
+  - type: web
+    name: funnel-web
+    runtime: docker
+    plan: standard
+    dockerfilePath: ./apps/web/Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/healthz
+    numInstances: 2
+    autoDeploy: true
+    branch: main
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "3000"
+      - key: NEXT_PUBLIC_API_URL
+        value: https://api.gofunnelai.com
+      - key: DATABASE_URL
+        fromDatabase:
+          name: funnel-postgres
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          name: funnel-redis
+          type: redis
+          property: connectionString
+      - key: SENTRY_DSN
+        sync: false
+      - key: CLERK_PUBLISHABLE_KEY
+        sync: false
+      - key: CLERK_SECRET_KEY
+        sync: false
+      - key: STRIPE_PUBLISHABLE_KEY
+        sync: false
+
+  # ------- funnel-admin ----------------------------------------------------
+  - type: web
+    name: funnel-admin
+    runtime: docker
+    plan: standard
+    dockerfilePath: ./apps/admin/Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/healthz
+    numInstances: 1
+    autoDeploy: true
+    branch: main
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "3010"
+      - key: NEXT_PUBLIC_API_URL
+        value: https://api.gofunnelai.com
+      - key: DATABASE_URL
+        fromDatabase:
+          name: funnel-postgres
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          name: funnel-redis
+          type: redis
+          property: connectionString
+      - key: ADMIN_ALLOWED_EMAILS
+        sync: false
+      - key: SENTRY_DSN
+        sync: false
+
+  # ------- funnel-grader ---------------------------------------------------
+  - type: web
+    name: funnel-grader
+    runtime: docker
+    plan: standard
+    dockerfilePath: ./apps/grader/Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/healthz
+    numInstances: 1
+    autoDeploy: true
+    branch: main
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "3001"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: funnel-postgres
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          name: funnel-redis
+          type: redis
+          property: connectionString
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: RESEND_API_KEY
+        sync: false
+
+  # ------- funnel-renderer -------------------------------------------------
+  - type: web
+    name: funnel-renderer
+    runtime: docker
+    plan: standard
+    dockerfilePath: ./apps/renderer/Dockerfile
+    dockerContext: .
+    healthCheckPath: /healthz
+    numInstances: 1
+    autoDeploy: true
+    branch: main
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "8787"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: funnel-postgres
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          name: funnel-redis
+          type: redis
+          property: connectionString
+
+  # ------- funnel-workers (long-running, no public domain) -----------------
+  - type: worker
+    name: funnel-workers
+    runtime: docker
+    plan: standard
+    dockerfilePath: ./apps/workers/Dockerfile
+    dockerContext: .
+    numInstances: 3
+    autoDeploy: true
+    branch: main
+    preDeployCommand: bash packages/db/scripts/migrate-on-deploy.sh
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: HEALTH_PORT
+        value: "8080"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: funnel-postgres
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          name: funnel-redis
+          type: redis
+          property: connectionString
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: RESEND_API_KEY
+        sync: false
+      - key: SIGNALWIRE_PROJECT_ID
+        sync: false
+      - key: SIGNALWIRE_AUTH_TOKEN
+        sync: false
+      - key: SENTRY_DSN
+        sync: false

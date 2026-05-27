@@ -1,0 +1,114 @@
+name: Nightly Tests
+
+on:
+  schedule:
+    # 02:00 UTC every day
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: "20.x"
+  PNPM_VERSION: "9.12.0"
+
+jobs:
+  e2e-full:
+    name: E2E full suite (staging)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: "${{ env.PNPM_VERSION }}" }
+      - uses: actions/setup-node@v4
+        with: { node-version: "${{ env.NODE_VERSION }}", cache: "pnpm" }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium webkit
+      - env:
+          BASE_URL: https://app.staging.gofunnelai.com
+        run: pnpm test:e2e:full
+      - if: failure()
+        uses: slackapi/slack-github-action@v1.27.0
+        with:
+          payload: '{ "text": "Nightly E2E full suite FAILED on staging. Paging on-call." }'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_OPS_WEBHOOK }}
+      - if: failure()
+        run: |
+          curl -fsS -X POST https://events.pagerduty.com/v2/enqueue \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"routing_key\": \"${{ secrets.PAGERDUTY_ROUTING_KEY_PLATFORM }}\",
+              \"event_action\": \"trigger\",
+              \"payload\": {
+                \"summary\": \"Nightly E2E failed\",
+                \"severity\": \"error\",
+                \"source\": \"github-actions-nightly\"
+              }
+            }"
+
+  integration-sandbox:
+    name: Integration suite (provider sandboxes)
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env: { POSTGRES_PASSWORD: postgres, POSTGRES_USER: postgres, POSTGRES_DB: funnel_test }
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 5s
+          --health-timeout 5s --health-retries 10
+      redis:
+        image: redis:7-alpine
+        ports: ["6379:6379"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: "${{ env.PNPM_VERSION }}" }
+      - uses: actions/setup-node@v4
+        with: { node-version: "${{ env.NODE_VERSION }}", cache: "pnpm" }
+      - run: pnpm install --frozen-lockfile
+      - env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/funnel_test
+        run: pnpm --filter @funnel/db db:migrate
+      - env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/funnel_test
+          REDIS_URL: redis://localhost:6379
+          # All sandbox / test creds.
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_TEST_KEY }}
+          STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_TEST_WEBHOOK_SECRET }}
+          PAYPAL_CLIENT_ID: ${{ secrets.PAYPAL_SANDBOX_CLIENT_ID }}
+          PAYPAL_CLIENT_SECRET: ${{ secrets.PAYPAL_SANDBOX_CLIENT_SECRET }}
+          META_APP_ID: ${{ secrets.META_TEST_APP_ID }}
+          META_APP_SECRET: ${{ secrets.META_TEST_APP_SECRET }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_TEST_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_TEST_CLIENT_SECRET }}
+          TIKTOK_APP_ID: ${{ secrets.TIKTOK_SANDBOX_APP_ID }}
+          TIKTOK_APP_SECRET: ${{ secrets.TIKTOK_SANDBOX_APP_SECRET }}
+          LINKEDIN_CLIENT_ID: ${{ secrets.LINKEDIN_TEST_CLIENT_ID }}
+          LINKEDIN_CLIENT_SECRET: ${{ secrets.LINKEDIN_TEST_CLIENT_SECRET }}
+          REVTRY_API_KEY: ${{ secrets.REVTRY_STAGING_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_TEST_KEY }}
+          SIGNALWIRE_PROJECT_ID: ${{ secrets.SIGNALWIRE_TEST_PROJECT_ID }}
+          SIGNALWIRE_TOKEN: ${{ secrets.SIGNALWIRE_TEST_TOKEN }}
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_CANARY_KEY }}
+          REPLICATE_API_TOKEN: ${{ secrets.REPLICATE_CANARY_KEY }}
+          RUNWAY_API_KEY: ${{ secrets.RUNWAY_CANARY_KEY }}
+          DAILY_PROVIDER_CANARY_BUDGET_USD: "0.50"
+        run: pnpm test:integration:sandbox
+
+  agent-regression:
+    name: Agent regression suite (full corpus)
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: "${{ env.PNPM_VERSION }}" }
+      - uses: actions/setup-node@v4
+        with: { node-version: "${{ env.NODE_VERSION }}", cache: "pnpm" }
+      - run: pnpm install --frozen-lockfile
+      - env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY_CI }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY_CI }}
+        run: pnpm test:agents:regression:full

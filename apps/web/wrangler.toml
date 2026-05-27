@@ -1,0 +1,101 @@
+################################################################################
+# Funnel Web App â€” Cloudflare Pages project (Next.js)
+#
+# Deployed at:  gofunnelai.com          (marketing)
+#               app.gofunnelai.com      (signed-in app â€” same Pages project, host gate)
+#               www.gofunnelai.com      (apex redirect via worker route)
+#
+# Build:        pnpm --filter @funnel/web build && pnpm exec next-on-pages
+# Deploy:       wrangler pages deploy .vercel/output/static --project-name=funnel-web
+################################################################################
+
+name = "funnel-web"
+pages_build_output_dir = ".vercel/output/static"
+compatibility_date = "2024-11-01"
+compatibility_flags = ["nodejs_compat"]
+send_metrics = true
+
+[observability]
+enabled = true
+head_sampling_rate = 0.25
+
+[placement]
+mode = "smart"
+
+[vars]
+ENVIRONMENT = "development"
+WEB_PUBLIC_URL = "https://app.funnel.local"
+API_BASE_URL = "https://api.funnel.local"
+ADMIN_PUBLIC_URL = "https://admin.funnel.local"
+RENDERER_PUBLIC_URL = "https://edge.funnel.local"
+ASSETS_PUBLIC_BASE = "https://assets.funnel.local"
+LOG_LEVEL = "info"
+ANALYTICS_BEACON_URL = "https://api.funnel.local/v1/beacon"
+
+# --- Service bindings so the web app can call api/renderer via internal RPC.
+[[services]]
+binding = "API"
+service = "funnel-api"
+
+[[services]]
+binding = "RENDERER"
+service = "funnel-renderer"
+
+# --- KV (sessions shared with api so SSO works across hostnames).
+[[kv_namespaces]]
+binding = "SESSIONS"
+id = "REPLACE_AT_DEPLOY_KV_SESSIONS"
+
+[[kv_namespaces]]
+binding = "PAGE_CACHE"
+id = "REPLACE_AT_DEPLOY_KV_PAGE_CACHE"
+
+[[kv_namespaces]]
+binding = "AB_VARIANTS"
+id = "REPLACE_AT_DEPLOY_KV_AB"
+
+# --- R2 (read-only access to the public assets bucket for direct rewrites)
+[[r2_buckets]]
+binding = "FUNNEL_ASSETS"
+bucket_name = "funnel-assets"
+
+[env.production]
+name = "funnel-web"
+[env.production.vars]
+ENVIRONMENT = "production"
+WEB_PUBLIC_URL = "https://app.gofunnelai.com"
+API_BASE_URL = "https://api.gofunnelai.com"
+ADMIN_PUBLIC_URL = "https://admin.gofunnelai.com"
+RENDERER_PUBLIC_URL = "https://edge.gofunnelai.com"
+ASSETS_PUBLIC_BASE = "https://assets.gofunnelai.com"
+LOG_LEVEL = "info"
+ANALYTICS_BEACON_URL = "https://api.gofunnelai.com/v1/beacon"
+
+[env.staging]
+name = "funnel-web-staging"
+[env.staging.vars]
+ENVIRONMENT = "staging"
+WEB_PUBLIC_URL = "https://app.staging.gofunnelai.com"
+API_BASE_URL = "https://api.staging.gofunnelai.com"
+ADMIN_PUBLIC_URL = "https://admin.staging.gofunnelai.com"
+RENDERER_PUBLIC_URL = "https://edge.staging.gofunnelai.com"
+ASSETS_PUBLIC_BASE = "https://assets.staging.gofunnelai.com"
+LOG_LEVEL = "debug"
+ANALYTICS_BEACON_URL = "https://api.staging.gofunnelai.com/v1/beacon"
+
+# Secrets:
+#   JWT_SECRET
+#   NEXTAUTH_SECRET
+#   GOOGLE_OAUTH_CLIENT_ID
+#   GOOGLE_OAUTH_CLIENT_SECRET
+#   META_OAUTH_CLIENT_ID
+#   META_OAUTH_CLIENT_SECRET
+#   STRIPE_PUBLISHABLE_KEY
+#   STRIPE_SECRET_KEY
+#   PAYPAL_CLIENT_ID
+#   PAYPAL_CLIENT_SECRET
+#   TURNSTILE_SITE_KEY
+#   TURNSTILE_SECRET_KEY
+#   SENTRY_DSN
+#   SENTRY_AUTH_TOKEN
+#   LAUNCHDARKLY_SDK_KEY

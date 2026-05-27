@@ -1,0 +1,58 @@
+{
+  "title": "Funnel — Cost",
+  "uid": "funnel-cost",
+  "tags": ["funnel", "cost", "finance"],
+  "timezone": "utc",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "5m",
+  "time": { "from": "now-30d", "to": "now" },
+  "templating": {
+    "list": [
+      { "name": "env", "type": "custom", "query": "production,staging",
+        "current": { "text": "production", "value": "production" } }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1, "type": "timeseries", "title": "Daily cost by category (USD)",
+      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 0 },
+      "targets": [
+        { "expr": "sum by (category) (increase(funnel_cost_usd_total{env=\"$env\"}[1d]))", "legendFormat": "{{category}}" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "currencyUSD" } }
+    },
+    {
+      "id": 2, "type": "timeseries", "title": "Cost anomaly bands (current vs 7-day moving avg)",
+      "gridPos": { "h": 9, "w": 24, "x": 0, "y": 10 },
+      "targets": [
+        { "expr": "sum by (category) (increase(funnel_cost_usd_total{env=\"$env\"}[1d]))", "legendFormat": "today {{category}}" },
+        { "expr": "avg_over_time(sum by (category) (increase(funnel_cost_usd_total{env=\"$env\"}[1d]))[7d:1d])", "legendFormat": "7d avg {{category}}" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "currencyUSD" } }
+    },
+    {
+      "id": 3, "type": "table", "title": "Per-tenant outlier list (top 10 by 24h spend)",
+      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 19 },
+      "targets": [
+        { "expr": "topk(10, sum by (tenant_id_hash) (increase(funnel_cost_usd_total{env=\"$env\"}[24h])))" }
+      ]
+    },
+    {
+      "id": 4, "type": "stat", "title": "Projected month-end (USD)",
+      "gridPos": { "h": 7, "w": 12, "x": 0, "y": 29 },
+      "targets": [
+        { "expr": "sum(increase(funnel_cost_usd_total{env=\"$env\"}[30d])) / 30 * day_of_month(timestamp(time())) / day_of_month(timestamp(time()))" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "currencyUSD" } }
+    },
+    {
+      "id": 5, "type": "stat", "title": "MTD vs budget",
+      "gridPos": { "h": 7, "w": 12, "x": 12, "y": 29 },
+      "targets": [
+        { "expr": "sum(increase(funnel_cost_usd_total{env=\"$env\"}[1d] offset 1d)) / funnel_cost_budget_usd_monthly{env=\"$env\"}" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "percentunit", "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "color": "yellow", "value": 0.8 }, { "color": "red", "value": 1.0 }] } } }
+    }
+  ]
+}

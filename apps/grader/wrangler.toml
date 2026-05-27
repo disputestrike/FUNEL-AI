@@ -1,0 +1,118 @@
+################################################################################
+# Funnel Grader â€” Cloudflare Pages project (Next.js via @cloudflare/next-on-pages)
+#
+# Deployed at:  grader.gofunnelai.com   (production)
+#               grader.staging.gofunnelai.com (staging)
+#
+# Build:        pnpm --filter @funnel/grader build && pnpm exec next-on-pages
+# Deploy:       wrangler pages deploy .vercel/output/static --project-name=funnel-grader
+################################################################################
+
+name = "funnel-grader"
+pages_build_output_dir = ".vercel/output/static"
+compatibility_date = "2024-11-01"
+compatibility_flags = ["nodejs_compat"]
+send_metrics = true
+
+# Workers Logs / observability â€” keep traces on always so the AI team can
+# debug grader latency without redeploying.
+[observability]
+enabled = true
+head_sampling_rate = 1.0
+
+[placement]
+mode = "smart"
+
+# Non-secret vars (shared across envs unless overridden).
+[vars]
+ENVIRONMENT = "development"
+GRADER_PUBLIC_URL = "https://grader.funnel.local"
+API_BASE_URL = "https://api.funnel.local"
+ASSETS_PUBLIC_BASE = "https://assets.funnel.local"
+LOG_LEVEL = "info"
+GRADE_PDF_BUCKET = "funnel-audits"
+
+############################
+# Bindings (preview env)
+############################
+
+[[hyperdrive]]
+binding = "DB"
+id = "REPLACE_AT_DEPLOY_HYPERDRIVE_GRADER"
+
+[[r2_buckets]]
+binding = "FUNNEL_ASSETS"
+bucket_name = "funnel-assets"
+preview_bucket_name = "funnel-assets-preview"
+
+[[r2_buckets]]
+binding = "FUNNEL_AUDITS"
+bucket_name = "funnel-audits"
+preview_bucket_name = "funnel-audits-preview"
+
+[[kv_namespaces]]
+binding = "PAGE_CACHE"
+id = "REPLACE_AT_DEPLOY_KV_PAGE_CACHE"
+
+[[kv_namespaces]]
+binding = "RATE_LIMITS"
+id = "REPLACE_AT_DEPLOY_KV_RATE_LIMITS"
+
+[[kv_namespaces]]
+binding = "AB_VARIANTS"
+id = "REPLACE_AT_DEPLOY_KV_AB"
+
+# Producer-side queue bindings â€” grader fires a generation job after audit so
+# the user can convert the report into a real funnel without leaving the page.
+[[queues.producers]]
+binding = "Q_GENERATION"
+queue = "generation-runner"
+
+[[queues.producers]]
+binding = "Q_EMAIL"
+queue = "email-sender"
+
+# Browser Rendering â€” used to scrape the audited page and build the OG image.
+browser = { binding = "BROWSER" }
+
+# Service binding to apps/api so the grader can hand a user off into a real
+# generation flow via an authenticated internal RPC instead of a public route.
+[[services]]
+binding = "API"
+service = "funnel-api"
+
+############################
+# Production env
+############################
+[env.production]
+name = "funnel-grader"
+[env.production.vars]
+ENVIRONMENT = "production"
+GRADER_PUBLIC_URL = "https://grader.gofunnelai.com"
+API_BASE_URL = "https://api.gofunnelai.com"
+ASSETS_PUBLIC_BASE = "https://assets.gofunnelai.com"
+LOG_LEVEL = "info"
+GRADE_PDF_BUCKET = "funnel-audits"
+
+############################
+# Staging env
+############################
+[env.staging]
+name = "funnel-grader-staging"
+[env.staging.vars]
+ENVIRONMENT = "staging"
+GRADER_PUBLIC_URL = "https://grader.staging.gofunnelai.com"
+API_BASE_URL = "https://api.staging.gofunnelai.com"
+ASSETS_PUBLIC_BASE = "https://assets.staging.gofunnelai.com"
+LOG_LEVEL = "debug"
+GRADE_PDF_BUCKET = "funnel-audits-staging"
+
+# Secrets (wrangler pages secret put --project-name=funnel-grader):
+#   ANTHROPIC_API_KEY
+#   OPENAI_API_KEY
+#   RESEND_API_KEY
+#   SENTRY_DSN
+#   TURNSTILE_SECRET_KEY
+#   INTERNAL_INGEST_SECRET
+#   CLEARBIT_API_KEY
+#   WHOISXML_API_KEY

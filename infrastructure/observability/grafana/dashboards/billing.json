@@ -1,0 +1,70 @@
+{
+  "title": "Funnel — Billing",
+  "uid": "funnel-billing",
+  "tags": ["funnel", "billing", "stripe", "paypal"],
+  "timezone": "utc",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "1m",
+  "time": { "from": "now-24h", "to": "now" },
+  "templating": {
+    "list": [
+      { "name": "env", "type": "custom", "query": "production,staging",
+        "current": { "text": "production", "value": "production" } }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1, "type": "piechart", "title": "Subscription state distribution",
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 0 },
+      "targets": [
+        { "expr": "sum by (state) (funnel_subscription_count{env=\"$env\"})", "legendFormat": "{{state}}" }
+      ]
+    },
+    {
+      "id": 2, "type": "bargauge", "title": "Dunning step completion funnel",
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 0 },
+      "targets": [
+        { "expr": "sum by (step) (funnel_dunning_completions_total{env=\"$env\"})", "legendFormat": "{{step}}" }
+      ]
+    },
+    {
+      "id": 3, "type": "stat", "title": "MRR estimate (USD)",
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 0 },
+      "targets": [
+        { "expr": "sum(funnel_subscription_mrr_usd{env=\"$env\",state=\"active\"})" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "currencyUSD" } }
+    },
+    {
+      "id": 4, "type": "timeseries", "title": "Webhook delivery rate per provider",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "targets": [
+        { "expr": "sum by (provider) (rate(funnel_webhook_received_total{env=\"$env\"}[5m]))", "legendFormat": "{{provider}}" }
+      ]
+    },
+    {
+      "id": 5, "type": "stat", "title": "Reconciliation discrepancy count (24h)",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+      "targets": [
+        { "expr": "sum(increase(funnel_billing_recon_discrepancy_total{env=\"$env\"}[24h]))" }
+      ],
+      "fieldConfig": { "defaults": { "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "color": "yellow", "value": 1 }, { "color": "red", "value": 5 }] } } }
+    },
+    {
+      "id": 6, "type": "timeseries", "title": "Churn rate (rolling 30d)",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 16 },
+      "targets": [
+        { "expr": "sum(increase(funnel_subscription_cancelled_total{env=\"$env\"}[30d])) / sum(funnel_subscription_count{env=\"$env\",state=\"active\"} offset 30d)" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "percentunit" } }
+    },
+    {
+      "id": 7, "type": "timeseries", "title": "Failed-payment volume",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 16 },
+      "targets": [
+        { "expr": "sum by (provider) (rate(funnel_payment_failed_total{env=\"$env\"}[1h]))", "legendFormat": "{{provider}}" }
+      ]
+    }
+  ]
+}

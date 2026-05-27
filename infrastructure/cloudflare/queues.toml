@@ -1,0 +1,185 @@
+################################################################################
+# GoFunnelAI â€” Cloudflare Queues configuration manifest.
+#
+# Format: this file is consumed by infrastructure/cloudflare/provision.sh which
+# parses it and runs `wrangler queues create` / `wrangler queues consumer add`
+# against the live account. It's a manifest, not native wrangler.toml â€” keep
+# the queue topology versioned in one place even though Cloudflare requires a
+# separate API call per queue.
+################################################################################
+
+[meta]
+account = "funnel-ai"
+description = "Topology of every async queue in the platform."
+
+# ---------------------------------------------------------------------------
+# Generation pipeline
+# ---------------------------------------------------------------------------
+[[queues]]
+name = "generation-runner"
+producer_app = "funnel-api"
+consumer_app = "funnel-api"
+dlq = "generation-runner-dlq"
+max_retries = 3
+max_batch_size = 1
+max_batch_timeout_seconds = 1
+max_message_size_bytes = 131072
+visibility_timeout_seconds = 90
+purpose = "Drive a full agent pipeline run for one generation job."
+
+[[queues]]
+name = "generation-runner-dlq"
+producer_app = ""
+consumer_app = "funnel-api"
+max_retries = 0
+purpose = "Dead-letter for generation-runner. Replayed manually by ops."
+
+# ---------------------------------------------------------------------------
+# Ads publishing
+# ---------------------------------------------------------------------------
+[[queues]]
+name = "ads-publisher"
+producer_app = "funnel-api"
+consumer_app = "funnel-api"
+dlq = "ads-publisher-dlq"
+max_retries = 5
+max_batch_size = 5
+max_batch_timeout_seconds = 5
+purpose = "Push generated creatives + campaigns to Meta/Google/TikTok/LinkedIn."
+
+[[queues]]
+name = "ads-publisher-dlq"
+purpose = "Dead-letter for ads-publisher."
+
+# ---------------------------------------------------------------------------
+# Email (Resend)
+# ---------------------------------------------------------------------------
+[[queues]]
+name = "email-sender"
+producer_app = "funnel-api"
+consumer_app = "funnel-api"
+dlq = "email-sender-dlq"
+max_retries = 5
+max_batch_size = 10
+max_batch_timeout_seconds = 5
+purpose = "Outbound transactional + drip email via Resend."
+
+[[queues]]
+name = "email-sender-dlq"
+purpose = "Dead-letter for email-sender."
+
+# ---------------------------------------------------------------------------
+# SMS (SignalWire) â€” speed-to-lead RevTry warm-up + drip
+# ---------------------------------------------------------------------------
+[[queues]]
+name = "sms-sender"
+producer_app = "funnel-api"
+consumer_app = "funnel-api"
+dlq = "sms-sender-dlq"
+max_retries = 4
+max_batch_size = 5
+max_batch_timeout_seconds = 2
+purpose = "Outbound SMS via SignalWire."
+
+[[queues]]
+name = "sms-sender-dlq"
+purpose = "Dead-letter for sms-sender."
+
+# ---------------------------------------------------------------------------
+# Webhooks (inbound replay)
+# ---------------------------------------------------------------------------
+[[queues]]
+name = "webhook-processing"
+producer_app = "funnel-api"
+consumer_app = "funnel-api"
+dlq = "webhook-processing-dlq"
+max_retries = 5
+max_batch_size = 25
+max_batch_timeout_seconds = 10
+purpose = "Process verified inbound webhooks from every provider."
+
+[[queues]]
+name = "webhook-processing-dlq"
+purpose = "Dead-letter for webhook-processing."
+
+# ---------------------------------------------------------------------------
+# Activation drip / interventions
+# ---------------------------------------------------------------------------
+[[queues]]
+name = "activation-interventions"
+producer_app = "funnel-api"
+consumer_app = "funnel-api"
+dlq = "activation-interventions-dlq"
+max_retries = 4
+max_batch_size = 10
+max_batch_timeout_seconds = 5
+purpose = "Customer-success activation drip (06a framework)."
+
+[[queues]]
+name = "activation-interventions-dlq"
+purpose = "Dead-letter for activation-interventions."
+
+# ---------------------------------------------------------------------------
+# Billing dunning
+# ---------------------------------------------------------------------------
+[[queues]]
+name = "billing-dunning"
+producer_app = "funnel-api"
+consumer_app = "funnel-api"
+dlq = "billing-dunning-dlq"
+max_retries = 4
+max_batch_size = 5
+max_batch_timeout_seconds = 30
+purpose = "Advance dunning state machine per scheduled retry."
+
+[[queues]]
+name = "billing-dunning-dlq"
+purpose = "Dead-letter for billing-dunning."
+
+# ---------------------------------------------------------------------------
+# RevTry speed-to-lead
+# ---------------------------------------------------------------------------
+[[queues]]
+name = "revtry-speed-to-lead"
+producer_app = "funnel-api"
+consumer_app = "funnel-api"
+dlq = "revtry-speed-to-lead-dlq"
+max_retries = 6
+max_batch_size = 5
+max_batch_timeout_seconds = 1
+purpose = "Trigger RevTry outbound dial within seconds of lead capture."
+
+[[queues]]
+name = "revtry-speed-to-lead-dlq"
+purpose = "Dead-letter for revtry-speed-to-lead."
+
+# ---------------------------------------------------------------------------
+# Lead capture (producer = renderer, consumer = api)
+# ---------------------------------------------------------------------------
+[[queues]]
+name = "lead-capture"
+producer_app = "funnel-renderer"
+consumer_app = "funnel-api"
+dlq = "lead-capture-dlq"
+max_retries = 5
+max_batch_size = 25
+max_batch_timeout_seconds = 2
+purpose = "Renderer captures a lead form submission; API persists + fans out."
+
+[[queues]]
+name = "lead-capture-dlq"
+purpose = "Dead-letter for lead-capture."
+
+[[queues]]
+name = "analytics-conversions"
+producer_app = "funnel-renderer"
+consumer_app = "funnel-api"
+dlq = "analytics-conversions-dlq"
+max_retries = 5
+max_batch_size = 50
+max_batch_timeout_seconds = 10
+purpose = "Server-side conversion forwarding to Meta CAPI / TikTok Events / GA4."
+
+[[queues]]
+name = "analytics-conversions-dlq"
+purpose = "Dead-letter for analytics-conversions."

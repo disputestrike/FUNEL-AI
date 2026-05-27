@@ -1,0 +1,61 @@
+{
+  "name": "@funnel/crm",
+  "version": "0.1.0",
+  "private": true,
+  "description": "GoFunnelAI native CRM + Lead Engine â€” contacts, leads, pipelines, scoring, bookings, speed-to-lead enforcer.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./contacts": {
+      "types": "./dist/contacts.d.ts",
+      "import": "./dist/contacts.js"
+    },
+    "./leads": {
+      "types": "./dist/leads.d.ts",
+      "import": "./dist/leads.js"
+    },
+    "./pipelines": {
+      "types": "./dist/pipelines.d.ts",
+      "import": "./dist/pipelines.js"
+    },
+    "./bookings": {
+      "types": "./dist/bookings.d.ts",
+      "import": "./dist/bookings.js"
+    },
+    "./speed-to-lead": {
+      "types": "./dist/speed-to-lead.d.ts",
+      "import": "./dist/speed-to-lead.js"
+    }
+  },
+  "files": ["dist", "src"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rm -rf dist .turbo",
+    "dev": "tsc -p tsconfig.json --watch",
+    "lint": "echo \"(no linter configured)\"",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@funnel/db": "workspace:*",
+    "@funnel/events": "workspace:*",
+    "@funnel/integrations": "workspace:*",
+    "@funnel/notifications": "workspace:*",
+    "@funnel/shared": "workspace:*",
+    "nanoid": "^5.0.7",
+    "ulid": "^2.3.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@funnel/tsconfig": "workspace:*",
+    "@types/node": "^20.14.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}

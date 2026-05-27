@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "description": "GoFunnelAI web app â€” static asset routing for Cloudflare Pages.",
+  "include": ["/*"],
+  "exclude": [
+    "/_next/static/*",
+    "/static/*",
+    "/favicon.ico",
+    "/robots.txt",
+    "/sitemap.xml",
+    "/manifest.webmanifest",
+    "/legal/*.html",
+    "/fonts/*",
+    "/images/*"
+  ]
+}

@@ -1,0 +1,109 @@
+# GoFunnelAI â€” public status page (status.gofunnelai.com)
+# Managed via the statuspage.io API; this file is the source of truth and is
+# applied by tools/statuspage-sync (a small node script invoked from CI).
+page:
+  url: status.gofunnelai.com
+  name: GoFunnelAI Platform
+  default_language: en
+  branding:
+    logo: https://assets.gofunnelai.com/brand/logo-funnel-mark.svg
+    favicon: https://assets.gofunnelai.com/brand/favicon.png
+
+components:
+  - id: generation
+    name: Generation
+    description: AI agent pipeline that produces funnels, ads, and follow-ups.
+    automation:
+      source_metric: slo.generation
+      yellow_threshold: 5x_baseline_1h
+      red_on_incident: true
+
+  - id: publishing
+    name: Publishing
+    description: Push to Meta, Google, TikTok, LinkedIn ad accounts.
+    automation:
+      source_metric: slo.ad_publishing
+      yellow_threshold: 5x_baseline_1h
+      red_on_incident: true
+
+  - id: billing
+    name: Billing
+    description: Plan management, Stripe checkout, PayPal subscriptions.
+    automation:
+      source_metric: slo.billing
+      yellow_threshold: 5x_baseline_1h
+      red_on_incident: true
+
+  - id: revtry
+    name: RevTry (voice)
+    description: Outbound autodial and inbound IVR for speed-to-lead.
+    automation:
+      source_metric: slo.revtry
+      yellow_threshold: 5x_baseline_1h
+      red_on_incident: true
+
+  - id: email
+    name: Email (Resend)
+    description: Transactional + drip delivery.
+    automation:
+      source_metric: slo.email
+      yellow_threshold: 5x_baseline_1h
+      red_on_incident: true
+
+  - id: sms
+    name: SMS (SignalWire)
+    description: Lead-capture autoresponders and outbound drip.
+    automation:
+      source_metric: slo.sms
+      yellow_threshold: 5x_baseline_1h
+      red_on_incident: true
+
+  - id: admin
+    name: Admin (app.gofunnelai.com)
+    description: Logged-in dashboard, editor, settings.
+    automation:
+      source_metric: slo.web
+      yellow_threshold: 5x_baseline_1h
+      red_on_incident: true
+
+  - id: api
+    name: API (api.gofunnelai.com)
+    description: Public + internal REST/RPC endpoints.
+    automation:
+      source_metric: slo.api
+      yellow_threshold: 5x_baseline_1h
+      red_on_incident: true
+
+subscribers:
+  - email
+  - sms
+  - webhook
+  - atom
+  - rss
+
+retention_months: 12
+
+incident_templates:
+  - id: investigating
+    name: We're investigating
+    body: |
+      We're investigating reports of {{component_names}} issues. We'll post an
+      update within 30 minutes. Customers may experience {{impact}}.
+
+  - id: identified
+    name: We've identified the issue
+    body: |
+      We've identified the root cause of {{component_names}} disruption.
+      Mitigation is underway. Next update by {{next_update_time}}.
+
+  - id: monitoring
+    name: Monitoring the fix
+    body: |
+      A fix is rolled out and we're monitoring {{component_names}}. We expect
+      full resolution by {{resolution_time}}.
+
+  - id: resolved
+    name: Resolved
+    body: |
+      {{component_names}} is fully restored. A post-mortem will be linked
+      here within 5 business days.
