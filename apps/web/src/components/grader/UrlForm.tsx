@@ -55,7 +55,10 @@ export function UrlForm({ turnstileSitekey }: UrlFormProps) {
       const resp = await fetch("/api/audit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url: candidate, turnstile_token: turnstileToken }),
+        body: JSON.stringify({
+          url: candidate,
+          ...(turnstileToken ? { turnstile_token: turnstileToken } : {}),
+        }),
       });
       if (!resp.ok) {
         const body = (await resp.json().catch(() => ({}))) as { error?: string };

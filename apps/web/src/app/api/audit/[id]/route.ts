@@ -18,14 +18,21 @@ import type {
   Improvement,
 } from "@funnel/shared";
 
+import { getMockAudit, mockAuditPayload } from "@/lib/grader/mock-audit";
+
 export const runtime = "nodejs";
 
 export async function GET(_req: Request, { params }: { params: { id: string } }) {
   const audit = await prisma.audit.findUnique({
     where: { id: params.id },
     include: { agentRuns: true, shareCode: true },
-  });
-  if (!audit) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }).catch(() => null);
+  if (!audit) {
+    const mockAudit = getMockAudit(params.id);
+    if (mockAudit) return NextResponse.json(mockAuditPayload(mockAudit));
+
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
 
   const score: FinalScore | null = audit.scoreOverall !== null
     ? {

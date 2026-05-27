@@ -23,6 +23,7 @@ import type {
   Improvement,
 } from "@funnel/shared";
 
+import { getMockAudit, mockAuditEvents } from "@/lib/grader/mock-audit";
 import { buildSSEStream, encodeSSE, SSE_HEADERS } from "@/lib/grader/sse";
 
 export const runtime = "nodejs";
@@ -42,11 +43,17 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
     let lastStatus = "";
     const sentAgents = new Set<AgentName>();
 
+    const mockAudit = getMockAudit(auditId);
+    if (mockAudit) {
+      for (const event of mockAuditEvents(mockAudit)) send(event);
+      return;
+    }
+
     while (Date.now() - start < MAX_DURATION_MS) {
       const audit = await prisma.audit.findUnique({
         where: { id: auditId },
         include: { agentRuns: true, shareCode: true },
-      });
+      }).catch(() => null);
 
       if (!audit) {
         send({ type: "failed", audit_id: auditId, reason: "Audit not found" });

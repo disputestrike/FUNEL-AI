@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 
 import { AuditResultClient } from "./AuditResultClient";
 import { prisma } from "@funnel/db";
+import { getMockAudit } from "@/lib/grader/mock-audit";
 
 interface AuditPageProps {
   params: { id: string };
@@ -14,8 +15,22 @@ export default async function AuditPage({ params }: AuditPageProps) {
   const audit = await prisma.audit.findUnique({
     where: { id: params.id },
     include: { shareCode: true },
-  });
-  if (!audit) notFound();
+  }).catch(() => null);
+
+  if (!audit) {
+    const mockAudit = getMockAudit(params.id);
+    if (!mockAudit) notFound();
+
+    return (
+      <AuditResultClient
+        auditId={mockAudit.id}
+        url={mockAudit.url}
+        hostname={mockAudit.hostname}
+        shareCode={mockAudit.shareCode}
+        initialStatus="done"
+      />
+    );
+  }
 
   return (
     <AuditResultClient

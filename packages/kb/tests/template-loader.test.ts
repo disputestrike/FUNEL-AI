@@ -49,8 +49,7 @@ describe("parsePackMarkdown", () => {
     expect(pack.metadata.embedding_model).toBe("text-embedding-3-large");
   });
 
-  it("parses a stub template with TODO placeholders preserved", async () => {
-    const stubPath = path.join(PACKS_DIR, "hvac", "us-en.md");
+  it("parses the HVAC pack with canonical content populated", async () => {
     const pack = await loadPack({
       industry: "hvac",
       geo: "us",
@@ -58,9 +57,8 @@ describe("parsePackMarkdown", () => {
       packsDir: PACKS_DIR,
     });
     expect(pack.industry).toBe("hvac");
-    // Stubs carry TODO markers in their bodies.
-    expect(pack.sections.market_overview.toLowerCase()).toContain("todo");
-    void stubPath;
+    expect(pack.sections.market_overview).toBeTruthy();
+    expect(pack.sections.market_overview.toLowerCase()).not.toContain("todo");
   });
 
   it("metadata defaults are applied when YAML block is missing", () => {

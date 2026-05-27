@@ -85,9 +85,9 @@ export function redactPII(s: string): string {
   return s
     .replace(EMAIL_RE, "[email]")
     .replace(SSN_RE, "[ssn]")
+    .replace(IPV4_RE, "[ip]")
     .replace(CC_RE, (m) => (looksLikeCC(m) ? "[card]" : m))
-    .replace(PHONE_RE, (m) => (looksLikePhone(m) ? "[phone]" : m))
-    .replace(IPV4_RE, "[ip]");
+    .replace(PHONE_RE, (m) => (looksLikePhone(m) ? "[phone]" : m));
 }
 
 function looksLikeCC(s: string): boolean {

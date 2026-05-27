@@ -23,12 +23,12 @@ const COLUMNS = [
   {
     title: "Resources",
     items: [
-      { label: "Funnel Academy", href: "/academy" },
+      { label: "GoFunnel Academy", href: "/academy" },
       { label: "Help Center", href: "/help" },
       { label: "Blog", href: "/blog" },
       { label: "Community", href: "/community" },
-      { label: "Funnel Awards", href: "/awards" },
-      { label: "FunnelCon", href: "/funnelcon" },
+      { label: "GoFunnel Awards", href: "/awards" },
+      { label: "GoFunnelCon", href: "/funnelcon" },
     ],
   },
   {

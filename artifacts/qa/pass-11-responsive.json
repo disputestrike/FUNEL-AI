@@ -1,0 +1,30 @@
+{
+  "pass": true,
+  "checkedAt": "2026-05-27T04:45:33.590Z",
+  "viewport": 320,
+  "metrics": {
+    "docScrollWidth": 320,
+    "innerWidth": 320,
+    "links": [
+      {
+        "href": "/login",
+        "right": 198.85000228881836,
+        "text": "Sign in"
+      },
+      {
+        "href": "/signup",
+        "right": 269.7875061035156,
+        "text": "Sign up"
+      },
+      {
+        "href": "/login",
+        "right": 304,
+        "text": "Sign in"
+      }
+    ],
+    "menu": {
+      "right": 309.7875061035156,
+      "width": 36
+    }
+  }
+}

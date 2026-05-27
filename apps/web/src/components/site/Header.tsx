@@ -28,12 +28,12 @@ const NAV: NavGroup[] = [
   {
     label: "Resources",
     items: [
-      { label: "Funnel Academy", href: "/academy" },
+      { label: "GoFunnel Academy", href: "/academy" },
       { label: "Help Center", href: "/help" },
       { label: "Blog", href: "/blog" },
       { label: "Community", href: "/community" },
-      { label: "Funnel Awards", href: "/awards" },
-      { label: "FunnelCon", href: "/funnelcon" },
+      { label: "GoFunnel Awards", href: "/awards" },
+      { label: "GoFunnelCon", href: "/funnelcon" },
     ],
   },
   {
@@ -117,21 +117,21 @@ export function Header() {
           </Button>
         </div>
 
-        <div className="flex shrink-0 items-center gap-1.5 lg:hidden">
+        <div className="flex shrink-0 items-center gap-1 lg:hidden">
           <Link
             href="/login"
-            className="inline-flex h-9 items-center rounded-md px-2 text-body-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-slate-950 max-[360px]:hidden"
+            className="inline-flex h-9 items-center rounded-md px-1.5 text-body-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-slate-950"
           >
             Sign in
           </Link>
           <Link
             href="/signup"
-            className="inline-flex h-9 items-center rounded-md bg-[linear-gradient(135deg,#6817d2_0%,#d91a8f_48%,#ff7a00_100%)] px-3 text-body-sm font-semibold text-white shadow-sm hover:brightness-110"
+            className="inline-flex h-9 items-center rounded-md bg-[linear-gradient(135deg,#6817d2_0%,#d91a8f_48%,#ff7a00_100%)] px-2 text-body-sm font-semibold text-white shadow-sm hover:brightness-110"
           >
             Sign up
           </Link>
           <button
-            className="inline-flex size-10 items-center justify-center rounded-md text-slate-700 hover:bg-slate-100"
+            className="inline-flex size-9 items-center justify-center rounded-md text-slate-700 hover:bg-slate-100"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             onClick={() => setOpen(!open)}

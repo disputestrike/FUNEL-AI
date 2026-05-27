@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, BadgeCheck } from "lucide-react";
+import { ContactForm } from "@/components/marketing/ContactForm";
 
 type PageContent = {
   title: string;
@@ -8,6 +9,7 @@ type PageContent = {
   intro: string;
   sections: Array<{ title: string; body: string; points: string[] }>;
   cta: string;
+  ctaHref?: string;
 };
 
 const PAGES: Record<string, PageContent> = {
@@ -61,7 +63,7 @@ const PAGES: Record<string, PageContent> = {
   },
   academy: {
     eyebrow: "Resources",
-    title: "Funnel Academy turns operators into better closers.",
+    title: "GoFunnel Academy turns operators into better closers.",
     intro:
       "The academy gives customers the training path behind the software: offer math, lead magnet strategy, ad review, follow-up, compliance, and conversion diagnosis.",
     sections: [
@@ -157,7 +159,7 @@ const PAGES: Record<string, PageContent> = {
   },
   awards: {
     eyebrow: "Resources",
-    title: "Funnel Awards recognize work that earns attention and revenue.",
+    title: "GoFunnel Awards recognize work that earns attention and revenue.",
     intro:
       "Awards are tied to measurable improvements: stronger hooks, better free assets, faster launches, lower CPL, and better booked-call rates.",
     sections: [
@@ -181,7 +183,7 @@ const PAGES: Record<string, PageContent> = {
   },
   funnelcon: {
     eyebrow: "Resources",
-    title: "FunnelCon is for operators who want the machine in public.",
+    title: "GoFunnelCon is for operators who want the machine in public.",
     intro:
       "The event is built around live generation, live teardown, and the operating systems behind autonomous lead generation.",
     sections: [
@@ -274,6 +276,7 @@ const PAGES: Record<string, PageContent> = {
       },
     ],
     cta: "Start from the generator",
+    ctaHref: "/generate",
   },
   customers: {
     eyebrow: "Proof",
@@ -323,6 +326,31 @@ const PAGES: Record<string, PageContent> = {
     ],
     cta: "Run a funnel grade",
   },
+  ppp: {
+    eyebrow: "Pricing",
+    title: "PPP pricing makes GoFunnelAI workable across markets.",
+    intro:
+      "Purchasing-power pricing is designed for operators outside the highest-cost markets who still need the same generation, lead magnet, follow-up, and launch systems.",
+    sections: [
+      {
+        title: "How it works",
+        body: "Eligible accounts see a regional price adjustment at checkout while keeping the same product capabilities and quality floor.",
+        points: ["Country-based eligibility", "Same funnel engine", "Same support path"],
+      },
+      {
+        title: "What changes",
+        body: "Only the subscription price changes. Provider pass-through costs such as voice minutes, ad spend, payment fees, and generated media remain based on the provider charge.",
+        points: ["No feature downgrade", "Transparent provider costs", "Plan limits stay visible"],
+      },
+      {
+        title: "Review",
+        body: "Agency and enterprise PPP requests can be reviewed manually when a team operates across several countries.",
+        points: ["Multi-country teams", "Agency workspaces", "Manual plan review"],
+      },
+    ],
+    cta: "Contact the team",
+    ctaHref: "/contact",
+  },
 };
 
 export function generateStaticParams() {
@@ -341,6 +369,7 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
 export default function MarketingInfoPage({ params }: { params: { slug: string } }) {
   const page = PAGES[params.slug];
   if (!page) notFound();
+  const isContact = params.slug === "contact";
 
   return (
     <main className="bg-slate-50">
@@ -350,7 +379,7 @@ export default function MarketingInfoPage({ params }: { params: { slug: string }
           <h1 className="mt-4 text-4xl font-bold tracking-tight text-slate-950 md:text-6xl">{page.title}</h1>
           <p className="mt-6 text-body-lg text-slate-600">{page.intro}</p>
           <Link
-            href="/signup"
+            href={page.ctaHref ?? "/signup"}
             className="mt-8 inline-flex items-center gap-2 rounded-md bg-slate-950 px-5 py-3 text-body-sm font-semibold text-white hover:bg-slate-800"
           >
             {page.cta}
@@ -376,6 +405,11 @@ export default function MarketingInfoPage({ params }: { params: { slug: string }
             </article>
           ))}
         </div>
+        {isContact ? (
+          <div className="mt-8 max-w-3xl">
+            <ContactForm />
+          </div>
+        ) : null}
       </section>
     </main>
   );

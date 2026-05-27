@@ -1,0 +1,69 @@
+{
+  "pass": true,
+  "checkedAt": "2026-05-27T04:37:26.179Z",
+  "summary": {
+    "flows": 8,
+    "passed": 8,
+    "failed": 0
+  },
+  "results": [
+    {
+      "name": "mobile-header-auth-links",
+      "ok": true,
+      "ms": 1570,
+      "signIn": true,
+      "signUp": true,
+      "width": 390,
+      "scrollWidth": 390,
+      "logoWidth": "113px"
+    },
+    {
+      "name": "home-hero-generates-preview",
+      "ok": true,
+      "ms": 4035,
+      "preview": "Free Solar Savings Plan",
+      "quality": 94
+    },
+    {
+      "name": "signup-routes-to-welcome",
+      "ok": true,
+      "ms": 11208,
+      "url": "http://127.0.0.1:3000/welcome"
+    },
+    {
+      "name": "login-routes-to-dashboard",
+      "ok": true,
+      "ms": 10498,
+      "url": "http://127.0.0.1:3000/dashboard"
+    },
+    {
+      "name": "generate-page-produces-evidence",
+      "ok": true,
+      "ms": 3808,
+      "evidence": true,
+      "leadMagnet": "Free Solar Savings Plan"
+    },
+    {
+      "name": "contact-form-routes-ticket",
+      "ok": true,
+      "ms": 14880,
+      "count": 2,
+      "latest": "qacontact@gofunnelai.com",
+      "routing": "support@gofunnelai.com"
+    },
+    {
+      "name": "grader-creates-audit-result",
+      "ok": true,
+      "ms": 6051,
+      "url": "http://127.0.0.1:3000/grade/audit/aud_mpnkov79"
+    },
+    {
+      "name": "offer-intelligence-api",
+      "ok": true,
+      "ms": 22,
+      "quality": 94,
+      "leadMagnet": "Free Solar Savings Plan"
+    }
+  ],
+  "browserErrorLogs": []
+}

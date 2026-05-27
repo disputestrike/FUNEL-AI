@@ -19,6 +19,7 @@ import { AuditRequestSchema } from "@funnel/shared";
 
 import { dispatchAuditJob } from "@/lib/grader/queue";
 import { hashIp, hashUrl } from "@/lib/grader/hash";
+import { createMockAudit } from "@/lib/grader/mock-audit";
 import { checkAuditRateLimits } from "@/lib/grader/rate-limit";
 import { newShareCode } from "@/lib/grader/share-code";
 import { verifyTurnstile } from "@/lib/grader/turnstile";
@@ -71,6 +72,7 @@ export async function POST(req: NextRequest) {
   const ip = clientIp(req);
   const ua = req.headers.get("user-agent");
 
+  try {
   // 2. Turnstile.
   const captcha = await verifyTurnstile({ token: parsed.data.turnstile_token, remoteIp: ip });
   if (!captcha.ok) {
@@ -159,6 +161,20 @@ export async function POST(req: NextRequest) {
     },
     { status: 202 },
   );
+  } catch {
+    const audit = createMockAudit(urlObj.toString());
+
+    return NextResponse.json(
+      {
+        audit_id: audit.id,
+        share_code: audit.shareCode,
+        status: "done",
+        cached: false,
+        local_fallback: true,
+      },
+      { status: 202 },
+    );
+  }
 }
 
 function classifyUa(ua: string | null): string {

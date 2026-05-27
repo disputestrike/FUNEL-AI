@@ -1,0 +1,526 @@
+{
+  "pass": true,
+  "checkedAt": "2026-05-27T04:39:05.057Z",
+  "summary": {
+    "pages": 64,
+    "failedPages": 0,
+    "internalLinks": 914,
+    "brokenLinks": 0
+  },
+  "failedPages": [],
+  "brokenLinks": [],
+  "pages": [
+    {
+      "path": "/",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 26,
+      "ms": 157
+    },
+    {
+      "path": "/grade",
+      "status": 200,
+      "ok": true,
+      "title": "Free Funnel Audit - Grade Any Landing Page in 15 Seconds | GoFunnelAI - GoFunnelAI",
+      "linkCount": 25,
+      "ms": 156
+    },
+    {
+      "path": "/pricing",
+      "status": 200,
+      "ok": true,
+      "title": "Pricing - GoFunnelAI",
+      "linkCount": 30,
+      "ms": 129
+    },
+    {
+      "path": "/industries",
+      "status": 200,
+      "ok": true,
+      "title": "30 industries. One funnel engine that knows each one. - GoFunnelAI",
+      "linkCount": 54,
+      "ms": 113
+    },
+    {
+      "path": "/integrations",
+      "status": 200,
+      "ok": true,
+      "title": "Integrations that launch the funnel, not a to-do list. | gofunnelai.com - GoFunnelAI",
+      "linkCount": 24,
+      "ms": 101
+    },
+    {
+      "path": "/roadmap",
+      "status": 200,
+      "ok": true,
+      "title": "Roadmap built around launch, proof, and scale. | gofunnelai.com - GoFunnelAI",
+      "linkCount": 24,
+      "ms": 109
+    },
+    {
+      "path": "/academy",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnel Academy turns operators into better closers. | gofunnelai.com - GoFunnelAI",
+      "linkCount": 24,
+      "ms": 79
+    },
+    {
+      "path": "/help",
+      "status": 200,
+      "ok": true,
+      "title": "Help Center for launch blockers. | gofunnelai.com - GoFunnelAI",
+      "linkCount": 24,
+      "ms": 95
+    },
+    {
+      "path": "/blog",
+      "status": 200,
+      "ok": true,
+      "title": "Field notes on funnels that actually convert. | gofunnelai.com - GoFunnelAI",
+      "linkCount": 24,
+      "ms": 82
+    },
+    {
+      "path": "/community",
+      "status": 200,
+      "ok": true,
+      "title": "A community for people shipping funnels, not talking about them. | gofunnelai.com - GoFunnelAI",
+      "linkCount": 24,
+      "ms": 90
+    },
+    {
+      "path": "/awards",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnel Awards recognize work that earns attention and revenue. | gofunnelai.com - GoFunnelAI",
+      "linkCount": 24,
+      "ms": 112
+    },
+    {
+      "path": "/funnelcon",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelCon is for operators who want the machine in public. | gofunnelai.com - GoFunnelAI",
+      "linkCount": 24,
+      "ms": 95
+    },
+    {
+      "path": "/about",
+      "status": 200,
+      "ok": true,
+      "title": "About — we&#x27;re building the last lead gen tool you&#x27;ll ever need. - GoFunnelAI",
+      "linkCount": 24,
+      "ms": 92
+    },
+    {
+      "path": "/careers",
+      "status": 200,
+      "ok": true,
+      "title": "Careers for builders who care about revenue systems. | gofunnelai.com - GoFunnelAI",
+      "linkCount": 24,
+      "ms": 90
+    },
+    {
+      "path": "/press",
+      "status": 200,
+      "ok": true,
+      "title": "Press resources for the autonomous lead generation company. | gofunnelai.com - GoFunnelAI",
+      "linkCount": 24,
+      "ms": 92
+    },
+    {
+      "path": "/contact",
+      "status": 200,
+      "ok": true,
+      "title": "Contact the GoFunnelAI team. | gofunnelai.com - GoFunnelAI",
+      "linkCount": 25,
+      "ms": 104
+    },
+    {
+      "path": "/legal/privacy",
+      "status": 200,
+      "ok": true,
+      "title": "Privacy Policy | gofunnelai.com - GoFunnelAI",
+      "linkCount": 24,
+      "ms": 107
+    },
+    {
+      "path": "/legal/terms",
+      "status": 200,
+      "ok": true,
+      "title": "Terms of Service | gofunnelai.com - GoFunnelAI",
+      "linkCount": 24,
+      "ms": 81
+    },
+    {
+      "path": "/legal/free-until-1k",
+      "status": 200,
+      "ok": true,
+      "title": "Free Until Your First $1,000 | gofunnelai.com - GoFunnelAI",
+      "linkCount": 25,
+      "ms": 75
+    },
+    {
+      "path": "/ppp",
+      "status": 200,
+      "ok": true,
+      "title": "PPP pricing makes GoFunnelAI workable across markets. | gofunnelai.com - GoFunnelAI",
+      "linkCount": 25,
+      "ms": 77
+    },
+    {
+      "path": "/grade/learn/how-we-score",
+      "status": 200,
+      "ok": true,
+      "title": "How We Score | gofunnelai.com - GoFunnelAI",
+      "linkCount": 25,
+      "ms": 70
+    },
+    {
+      "path": "/login",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 4,
+      "ms": 68
+    },
+    {
+      "path": "/signup",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 62
+    },
+    {
+      "path": "/methodology",
+      "status": 200,
+      "ok": true,
+      "title": "Methodology behind pipeline and quality claims. | gofunnelai.com - GoFunnelAI",
+      "linkCount": 25,
+      "ms": 90
+    },
+    {
+      "path": "/customers",
+      "status": 200,
+      "ok": true,
+      "title": "Customer stories built around outcomes, not adjectives. | gofunnelai.com - GoFunnelAI",
+      "linkCount": 25,
+      "ms": 91
+    },
+    {
+      "path": "/legal/aup",
+      "status": 200,
+      "ok": true,
+      "title": "Acceptable Use Policy | gofunnelai.com - GoFunnelAI",
+      "linkCount": 24,
+      "ms": 78
+    },
+    {
+      "path": "/legal/refund",
+      "status": 200,
+      "ok": true,
+      "title": "Refund Policy | gofunnelai.com - GoFunnelAI",
+      "linkCount": 24,
+      "ms": 92
+    },
+    {
+      "path": "/legal/subprocessors",
+      "status": 200,
+      "ok": true,
+      "title": "Subprocessors | gofunnelai.com - GoFunnelAI",
+      "linkCount": 24,
+      "ms": 80
+    },
+    {
+      "path": "/legal/cookies",
+      "status": 200,
+      "ok": true,
+      "title": "Cookie Settings | gofunnelai.com - GoFunnelAI",
+      "linkCount": 24,
+      "ms": 118
+    },
+    {
+      "path": "/signup?plan=starter",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 81
+    },
+    {
+      "path": "/signup?plan=growth",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 49
+    },
+    {
+      "path": "/contact?plan=scale",
+      "status": 200,
+      "ok": true,
+      "title": "Contact the GoFunnelAI team. | gofunnelai.com - GoFunnelAI",
+      "linkCount": 26,
+      "ms": 110
+    },
+    {
+      "path": "/contact?plan=agency",
+      "status": 200,
+      "ok": true,
+      "title": "Contact the GoFunnelAI team. | gofunnelai.com - GoFunnelAI",
+      "linkCount": 26,
+      "ms": 86
+    },
+    {
+      "path": "/signup?industry=solar",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 69
+    },
+    {
+      "path": "/signup?industry=roofing",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 75
+    },
+    {
+      "path": "/signup?industry=hvac",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 81
+    },
+    {
+      "path": "/signup?industry=dental",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 65
+    },
+    {
+      "path": "/signup?industry=chiro",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 47
+    },
+    {
+      "path": "/signup?industry=med-spa",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 56
+    },
+    {
+      "path": "/signup?industry=cosmetic-surgery",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 73
+    },
+    {
+      "path": "/signup?industry=weight-loss-glp1",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 65
+    },
+    {
+      "path": "/signup?industry=hair-restoration",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 54
+    },
+    {
+      "path": "/signup?industry=personal-injury-law",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 70
+    },
+    {
+      "path": "/signup?industry=family-law",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 76
+    },
+    {
+      "path": "/signup?industry=dui-defense",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 256
+    },
+    {
+      "path": "/signup?industry=bankruptcy",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 107
+    },
+    {
+      "path": "/signup?industry=insurance",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 44
+    },
+    {
+      "path": "/signup?industry=mortgage",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 56
+    },
+    {
+      "path": "/signup?industry=financial-advisors",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 52
+    },
+    {
+      "path": "/signup?industry=real-estate-agents",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 58
+    },
+    {
+      "path": "/signup?industry=property-managers",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 56
+    },
+    {
+      "path": "/signup?industry=coaches",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 56
+    },
+    {
+      "path": "/signup?industry=course-creators",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 48
+    },
+    {
+      "path": "/signup?industry=fitness-trainers",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 42
+    },
+    {
+      "path": "/signup?industry=ecom-physical",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 46
+    },
+    {
+      "path": "/signup?industry=supplements",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 47
+    },
+    {
+      "path": "/signup?industry=saas-demo-requests",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 445
+    },
+    {
+      "path": "/signup?industry=recruiting-staffing",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 360
+    },
+    {
+      "path": "/signup?industry=windows",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 118
+    },
+    {
+      "path": "/signup?industry=garage-doors",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 49
+    },
+    {
+      "path": "/signup?industry=pest-control",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 54
+    },
+    {
+      "path": "/signup?industry=cleaning",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 39
+    },
+    {
+      "path": "/signup?industry=landscaping",
+      "status": 200,
+      "ok": true,
+      "title": "GoFunnelAI - Type your business. Get a customer.",
+      "linkCount": 5,
+      "ms": 43
+    },
+    {
+      "path": "/generate",
+      "status": 307,
+      "ok": true,
+      "title": "",
+      "linkCount": 0,
+      "ms": 16
+    }
+  ]
+}

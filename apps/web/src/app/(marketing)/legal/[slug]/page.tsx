@@ -139,6 +139,28 @@ const LEGAL: Record<string, LegalPage> = {
       },
     ],
   },
+  "free-until-1k": {
+    title: "Free Until Your First $1,000",
+    intro:
+      "This policy explains the GoFunnelAI free-until-revenue promise for eligible self-serve accounts.",
+    sections: [
+      {
+        title: "Eligibility",
+        body:
+          "Eligible users can build and run their first funnel without a platform subscription charge until they report or connect the first $1,000 in revenue attributed to GoFunnelAI-generated leads.",
+      },
+      {
+        title: "What is not included",
+        body:
+          "Third-party pass-through costs such as ad spend, voice minutes, payment fees, SMS, and generated media are not waived when those providers charge real usage costs.",
+      },
+      {
+        title: "After the first $1,000",
+        body:
+          "Once the account crosses the threshold, the selected paid plan starts on the next billing cycle. Users can cancel, downgrade, or export data before that point.",
+      },
+    ],
+  },
 };
 
 export function generateStaticParams() {
