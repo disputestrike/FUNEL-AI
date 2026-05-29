@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { AUTH_COOKIE } from "@/lib/auth-cookie";
+import { applySecurityHeaders } from "@/lib/platform/security";
 
 /**
  * Auth gate (stubbed for launch UX).
@@ -21,6 +22,7 @@ const PROTECTED_PREFIXES = [
   "/welcome",
   "/onboarding",
   "/generate",
+  "/admin",
 ];
 
 function isProtected(pathname: string) {
@@ -33,18 +35,24 @@ export function middleware(req: NextRequest) {
   const { pathname, search } = req.nextUrl;
 
   if (!isProtected(pathname)) {
-    return NextResponse.next();
+    const response = NextResponse.next();
+    applySecurityHeaders(response.headers);
+    return response;
   }
 
   const session = req.cookies.get(AUTH_COOKIE)?.value;
   if (session) {
-    return NextResponse.next();
+    const response = NextResponse.next();
+    applySecurityHeaders(response.headers);
+    return response;
   }
 
   const url = req.nextUrl.clone();
   url.pathname = "/login";
   url.search = `?next=${encodeURIComponent(pathname + search)}`;
-  return NextResponse.redirect(url);
+  const response = NextResponse.redirect(url);
+  applySecurityHeaders(response.headers);
+  return response;
 }
 
 export const config = {

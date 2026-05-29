@@ -3,6 +3,8 @@ export * from "./streaming.js";
 export * from "./agents.js";
 export * from "./offer-intelligence.js";
 export * from "./automated-funnel.js";
+export * from "./workflow-engine.js";
+export * from "./enterprise-readiness.js";
 
 import { stableHash } from "./idempotency.js";
 import {

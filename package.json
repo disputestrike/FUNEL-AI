@@ -12,6 +12,7 @@
     "typecheck": "turbo run typecheck",
     "db:migrate": "pnpm --filter @funnel/db db:migrate",
     "db:seed": "pnpm --filter @funnel/db db:seed",
+    "enterprise:preflight": "node scripts/enterprise-preflight.mjs",
     "clean": "turbo run clean && rm -rf node_modules"
   },
   "devDependencies": {
