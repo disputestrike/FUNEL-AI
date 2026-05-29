@@ -5,7 +5,7 @@ import {
   buildOfferCrosswalk,
   buildOfferIntelligence,
 } from "../src/offer-intelligence.js";
-import { funnelService, generate, runInlineEdit } from "../src/index.js";
+import { buildAutomatedFunnel, funnelService, generate, runInlineEdit } from "../src/index.js";
 
 describe("offer intelligence fusion", () => {
   it("selects an industry-specific free asset before the ask", () => {
@@ -83,6 +83,32 @@ describe("offer intelligence fusion", () => {
     expect(Array.isArray(funnel.upsell_ladder)).toBe(true);
     expect(Array.isArray(funnel.creative_assets)).toBe(true);
     expect(Array.isArray(funnel.evidence)).toBe(true);
+    expect(funnel.automated_funnel).toMatchObject({
+      schema_version: "gofunnelai.automated-funnel.v1",
+      status: "published",
+    });
+    expect(Array.isArray(funnel.pages)).toBe(true);
+  });
+
+  it("builds a no-handwork automated funnel package", () => {
+    const funnel = buildAutomatedFunnel({
+      generationId: "gen_auto_001",
+      workspaceId: "ws_auto",
+      industry: "Solar",
+      audience: "Homeowners with high power bills",
+      offer: "Give a free savings plan first, then book qualified consultations",
+      appUrl: "https://preview.gofunnelai.com",
+      providerReadiness: { openai: true, googleAuth: true },
+    });
+
+    expect(funnel.schema_version).toBe("gofunnelai.automated-funnel.v1");
+    expect(funnel.status).toBe("published");
+    expect(funnel.public_url).toContain("/f/solar-gen-auto-001");
+    expect(funnel.pages.map((page) => page.id)).toEqual(["landing", "thank_you", "upsell"]);
+    expect(funnel.pages[0]?.sections.some((section) => section.type === "qualification_form")).toBe(true);
+    expect(funnel.assets.some((asset) => asset.role === "hero" && asset.url.startsWith("data:image/svg+xml"))).toBe(true);
+    expect(funnel.automation.userWorkRequired).toBe("none");
+    expect(funnel.provider_readiness.openai).toBe(true);
   });
 
   it("supports the public funnel service proof path", async () => {

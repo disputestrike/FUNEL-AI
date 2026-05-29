@@ -12,6 +12,7 @@ type PreviewState = {
   modules: string[];
   cta: string;
   quality: number;
+  publishedUrl: string | null;
 };
 
 const DEFAULT_PROMPT = "I sell solar installs to homeowners in Phoenix";
@@ -23,6 +24,7 @@ const DEFAULT_PREVIEW: PreviewState = {
   modules: ["Bill worksheet", "Roof-fit checklist", "Incentive review"],
   cta: "Get my solar savings plan",
   quality: 91,
+  publishedUrl: null,
 };
 
 /**
@@ -40,7 +42,7 @@ export function HomeHero() {
   async function generatePreview() {
     setLoading(true);
     try {
-      const response = await fetch("/api/generate/offer-intelligence", {
+      const response = await fetch("/api/generate/funnel", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -54,12 +56,13 @@ export function HomeHero() {
       const data = await response.json();
       const intel = data.funnel?.offer_intelligence;
       setPreview({
-        headline: data.funnel?.page?.hero?.headline ?? preview.headline,
-        subhead: data.funnel?.page?.hero?.subhead ?? preview.subhead,
+        headline: intel?.offerStack?.corePromise ?? preview.headline,
+        subhead: intel?.leadMagnet?.promise ?? preview.subhead,
         leadMagnet: intel?.leadMagnet?.title ?? preview.leadMagnet,
         modules: intel?.leadMagnet?.modules?.slice(0, 3) ?? preview.modules,
         cta: intel?.offerStack?.mainCta ?? preview.cta,
-        quality: data.quality_score ?? preview.quality,
+        quality: data.funnel?.quality_score ?? preview.quality,
+        publishedUrl: data.publish_url ?? null,
       });
     } catch {
       setPreview(buildLocalPreview(prompt));
@@ -153,8 +156,16 @@ function HeroScenePreview({
           className="inline-flex h-9 w-full items-center justify-center gap-2 rounded-md bg-[linear-gradient(135deg,#6817d2_0%,#d91a8f_48%,#ff7a00_100%)] px-3 text-body-sm font-semibold text-white shadow-sm hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
         >
           <Sparkles className="size-4" />
-          {loading ? "Generating preview..." : "Generate preview"}
+          {loading ? "Building live funnel..." : "Build live funnel"}
         </button>
+        {preview.publishedUrl ? (
+          <Link
+            href={preview.publishedUrl}
+            className="inline-flex h-9 w-full items-center justify-center gap-2 rounded-md border border-slate-200 bg-white px-3 text-body-sm font-semibold text-slate-900 hover:bg-slate-50"
+          >
+            Open generated funnel <ArrowRight className="size-4" />
+          </Link>
+        ) : null}
       </div>
 
       <div className="flex-1 rounded-lg border border-slate-200 bg-slate-50 p-4">
@@ -240,5 +251,6 @@ function buildLocalPreview(prompt: string): PreviewState {
     modules: ["Instant checklist", "Proof review", "Booking handoff"],
     cta: `Get my ${leadMagnet.toLowerCase()}`,
     quality: 89,
+    publishedUrl: null,
   };
 }

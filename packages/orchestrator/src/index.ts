@@ -2,6 +2,7 @@ export * from "./types.js";
 export * from "./streaming.js";
 export * from "./agents.js";
 export * from "./offer-intelligence.js";
+export * from "./automated-funnel.js";
 
 import { stableHash } from "./idempotency.js";
 import {
@@ -9,6 +10,7 @@ import {
   buildOfferIntelligence,
   type OfferIntelligenceProfile,
 } from "./offer-intelligence.js";
+import { buildAutomatedFunnel } from "./automated-funnel.js";
 
 export interface GenerateArgs {
   generationId: string;
@@ -47,6 +49,15 @@ export async function generate(input: GenerateArgs): Promise<GeneratedFunnelResu
     awareness: "cold",
   };
   const offerIntel = buildOfferIntelligence(profile);
+  const automatedFunnel = buildAutomatedFunnel({
+    generationId: input.generationId,
+    workspaceId: input.workspaceId,
+    industry: input.vertical,
+    audience: profile.target_customer ?? "qualified buyers",
+    offer: input.prompt,
+    geography: profile.geography,
+    appUrl: MYFUNNELA_APP_URL,
+  });
   const slug = slugify(`${input.vertical}-${input.generationId}`);
   const publicUrl = `${MYFUNNELA_APP_URL}/f/${slug}`;
 
@@ -75,6 +86,9 @@ export async function generate(input: GenerateArgs): Promise<GeneratedFunnelResu
       ],
     },
     offer_intelligence: offerIntel,
+    automated_funnel: automatedFunnel,
+    pages: automatedFunnel.pages,
+    style_guide: automatedFunnel.styleGuide,
     lead_magnet: offerIntel.leadMagnet,
     upsell_ladder: offerIntel.upsellLadder,
     creative_assets: offerIntel.creativeAssets,

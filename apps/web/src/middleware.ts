@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { AUTH_COOKIE } from "@/lib/auth-cookie";
 
 /**
  * Auth gate (stubbed for launch UX).
@@ -10,8 +11,6 @@ import type { NextRequest } from "next/server";
  * Real auth (Auth.js / Clerk / WorkOS) will replace this without
  * changing the protected-paths list.
  */
-const AUTH_COOKIE = "mock-auth-session";
-
 const PROTECTED_PREFIXES = [
   "/dashboard",
   "/funnels",

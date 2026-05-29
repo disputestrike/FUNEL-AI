@@ -46,5 +46,8 @@ next-env.d.ts
 .wrangler/
 .dev.vars
 
+# Local generated funnel preview storage
+.gofunnelai-data/
+
 # Prisma
 prisma/.env
