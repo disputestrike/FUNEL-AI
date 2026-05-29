@@ -1,565 +1,209 @@
-﻿# GoFunnelAI KB Pack â€” Garage Doors (US)
-
-> **Pack ID:** `garage-doors-us`
-> **Version:** 1.0
-> **Last updated:** 2026-Q2
-> **Editor:** GoFunnelAI Domain Team â€” Home Services
-> **Legal reviewer:** GoFunnelAI Compliance Council
-> **Status:** v1.
-
----
-
-## 1. Market overview
-
-### 1.1 Vertical definition
-- **Industry name:** Residential garage door sales, installation, repair, and opener service.
-- **NAICS:** 238290 (Other Building Equipment Contractors).
-- **Sub-segments included:** New door installation (sectional steel, wood, full-view aluminum-glass, insulated), spring/roller/cable repair, opener installation/repair (LiftMaster, Genie, Chamberlain, MyQ), smart-door retrofit.
-- **Sub-segments excluded:** Commercial overhead doors, rolling steel curtains, automotive vehicle gates.
-- **Geographic scope:** Continental US; weighted to suburban single-family housing.
-
-### 1.2 TAM / SAM / SOM
-- **TAM:** $13.4B US garage door services 2025 [Source: IBISWorld Garage Door Repair 2025].
-- **SAM:** Regional installer 800â€“3,000 jobs/yr captures $1.5â€“$6M.
-- **SOM:** $400Kâ€“$1.8M year 1.
-- **Operators:** ~28,000 [Source: IDA 2025].
-- **Annual demand:** 8.4M repair calls + 2.1M new installs/yr [Source: IDEA 2025].
-
-### 1.3 Deal economics
-- **Median:** Repair $350; spring replacement $475; opener install $625; new door $2,800 [Source: Angi Cost Guide 2025].
-- **10/90:** $180 / $9,800 (custom wood double).
-- **GM:** 45â€“62%.
-- **LTV:** $3,800 over 10 yrs (repair â†’ opener â†’ replacement â†’ referrals).
-- **CAC:** $80â€“$240.
-- **CPL:** $18â€“$80.
-
-### 1.4 Sales cycle
-- Emergency repair: 4 hours. New door: 21 days.
-- Stall: 3-quote shopping for new-door (28%).
-- Accelerant: Same-day dispatch (3x close).
-
-### 1.5 Buying triggers
-- Broken spring / door won't open â€” "garage door won't open"; 24â€“48 hrs.
-- Opener failure â€” "garage opener not working"; 48â€“72 hrs.
-- Storm damage â€” "garage door blown in"; 7â€“14 days.
-- Aesthetic upgrade â€” "modern garage doors"; 60â€“180 days.
-- New home â€” "garage door inspection new home"; 60 days.
-- Insurance claim post-burglary or vehicle impact â€” 14 days.
-- Smart-home retrofit / EV charging integration â€” 30â€“60 days.
-
----
-
-## 2. Buyer personas
-
-### Persona 1 â€” "Stranded Stan" (~48%)
-- Garage door broken, car stuck inside or out.
-- Age 30â€“70, all geo. Verbatim: "Door won't open and my car is inside." Wins: Same-day fix.
-- Fears: Gouging; spring replacement scam.
-
-### Persona 2 â€” "Aesthetic Adam" (~20%)
-- Replacing for curb appeal.
-- Age 40â€“60, $120k+. Wants Clopay Modern Steel / Northwest Door / Wayne Dalton glass.
-- Fears: Wrong style; install gap; ROI uncertainty.
-
-### Persona 3 â€” "Storm-Damage Diane" (~14%)
-- Garage door dented or blown in by storm.
-- FL/TX/Plains. Insurance claim driver.
-- Fears: Insurance denial; out-of-state storm chaser.
-
-### Persona 4 â€” "Smart-Home Sam" (~10%)
-- Wants MyQ / Apple Home / EV-integrated opener.
-- Age 30â€“50, tech-fluent. Verbatim: "Does it work with HomeKit?"
+# GoFunnelAI KB Pack — Residential Garage Doors (US-EN)
 
-### Persona 5 â€” "Preventive Patty" (~8%)
-- Annual maintenance / inspection buyer.
-- Age 55+, long-tenured owner. Wants $99 tune-up.
+> Pack ID: `garage-doors-us-en` | Vertical: Garage door install / repair / openers | Geo: US | Language: EN
 
----
+## 1. Market Overview
+
+US residential garage door market is $5.8B in 2025, growing 5–7% YoY [industry estimate based on Door & Access Systems Manufacturers Association 2025]. Approximately 4.2M residential garage doors are installed or replaced per year, and the service/repair side (broken springs, off-track, opener failure) represents an additional ~12M annual transactions. Average ticket: $1,250 new opener install, $380 broken spring replacement, $2,400 single 16×7 insulated steel door installed, $3,800 same for premium carriage-house, $7,500+ for full-view aluminum/glass premium, $1,500–$4,000 for keypad/Wi-Fi/Smart upgrades.
+
+Gross margin: 45–60% on service; 28–38% on door install. Sales cycle: same-day for service (spring/opener), 3–9 days for install. LTV: ~$2,800 over 12 years including service. Acceptable CAC: $80–$220 service, $250–$550 install. Acceptable CPL: $14–$48 service, $42–$95 install.
+
+Buying triggers: (1) broken torsion spring (most common emergency); (2) opener died; (3) door off track / damaged by vehicle; (4) curb-appeal upgrade (pre-sale, post-renovation); (5) noise upgrade to belt-drive; (6) smart-home integration (Apple Home / Google / Alexa / MyQ); (7) insulation for attached garage / home office in garage; (8) new construction; (9) HOA violation. Recent insurance carriers (FL, TX coast) are requiring wind-rated doors for hurricane compliance.
+
+## 2. Buyer Personas
+
+**Persona 1: Broken-Spring Emergency (44%).** Any age, garage won't open, car trapped or stuck open. JTBD: "Fix it today." Verbatim: "It made a loud bang and now it won't open." Fear: getting overcharged in a panic. Winning: same-day service, written quote before work. **Persona 2: Opener Replacement (22%).** Older opener died, may include new keypad/Wi-Fi. JTBD: "Replace fast, quieter, with phone app." **Persona 3: Curb-Appeal Upgrader (18%).** Pre-sale or post-paint. JTBD: "Carriage-house or modern flush look." **Persona 4: Hurricane-Wind-Rated (10%).** FL, TX coast, NC, SC. JTBD: "Code-compliant, insurance-discount." **Persona 5: Smart-Home Integrator (6%).** Tech-forward, Apple Home / Matter. JTBD: "App control + voice."
+
+## 3. Pain Points
+
+- **P1 — Service tech upsells on capacitor or hardware.** Hook: "Photo-documented diagnostic. We don't replace what's not broken."
+- **P2 — Stuck with car in garage.** Hook: "Same-day service. 90 min response."
+- **P3 — Cheap doors dent and rust.** Hook: "Steel-stamped insulated with paint warranty."
+- **P4 — Loud belt/chain.** Hook: "Quiet belt-drive DC motor."
+- **P5 — Confused by opener brands (Liftmaster vs Genie vs Chamberlain vs Linear).** Hook: "Brand comparison side-by-side."
+- **P6 — Track damage hidden.** Hook: "Full system inspection in every service."
+- **P7 — Insulation R-value confusion.** Hook: "R-value vs U-factor explained."
+- **P8 — Wi-Fi / smart-home pairing.** Hook: "We set up MyQ / Apple Home before we leave."
+- **P9 — HOA paint color match.** Hook: "We match your HOA-approved palette."
+- **P10 — Warranty unclear.** Hook: "Written warranty — labor 2 years, parts per mfr."
 
-## 3. Pain points
+## 4. Urgency Triggers
 
-### P1 â€” Emergency lockout (car stuck) â€” Freq 70%, Int 5. Hook: "Same-day dispatch â€” usually under 2 hours."
-### P2 â€” Spring-replacement scam fear â€” Freq 76%, Int 5. Hook: "Flat-rate spring pricing. Photos before and after."
-### P3 â€” Opener failure â€” Freq 58%, Int 3. Hook: "We diagnose, we fix or replace, you decide."
-### P4 â€” Pricing opacity â€” Freq 64%, Int 4. Hook: "Up-front flat-rate quote before any work."
-### P5 â€” Noise / vibration â€” Freq 32%, Int 2. Hook: "Belt-drive opener: whisper quiet."
-### P6 â€” Curb appeal embarrassment â€” Freq 38%, Int 3. Hook: "Modern steel + glass â€” magazine-grade install."
-### P7 â€” Aging-house safety (broken cable, sagging) â€” Freq 41%, Int 3. Hook: "Free safety inspection."
-### P8 â€” Storm/burglary damage â€” Freq 22%, Int 4. Hook: "Insurance-funded replacement specialists."
-### P9 â€” Warranty fine print â€” Freq 36%, Int 3. Hook: "Lifetime springs, 10-yr opener, transferable."
-### P10 â€” Smart-home integration confusion â€” Freq 28%, Int 2. Hook: "MyQ + HomeKit + Alexa setup included."
+Seasonal: winter cold-snap spring breakage (steel contracts and snaps); summer storm-related impacts; spring curb-appeal pre-listing. Financial: insurance discounts for wind-rated doors (coastal); homeowner refinance triggering inspection. Regulatory: FL wind-rated door requirement (Miami-Dade NOA, Florida Product Approval), TX windstorm certification, ASTM E1996/E1886 impact glass requirements where applicable, UL 325 opener entrapment protection updates.
 
----
+## 5. Common Objections
 
-## 4. Urgency triggers
+- **O1 — "Your service price is high."** Rebuttal: "We carry the part on the truck, fix it today, and warranty it 2 years. Compare to a $X cheaper call who comes back twice."
+- **O2 — "I'll just buy the door on Amazon."** Rebuttal: "We do install-only with warranty caveats. Let me explain what isn't covered if you DIY-source."
+- **O3 — "My HOA has rules."** Rebuttal: "Send the CC&Rs — we pick HOA-compliant SKU/color."
+- **O4 — "I want to wait."** Rebuttal: "Broken spring = car trapped — and they break in pairs. Next side is days away."
+- **O5 — "Can you waive the diagnostic fee?"** Rebuttal: "Waived when we do the repair. Standalone diagnostic $79."
+- **O6 — "I don't trust online reviews."** Rebuttal: "Here are our 200+ Google reviews; you can call any."
+- **O7 — "I want quietest."** Rebuttal: "Belt-drive DC + jackshaft option."
+- **O8 — "Insulation worth it?"** Rebuttal: "If garage is attached or used as workshop — R-12 minimum makes a difference."
+- **O9 — "What if it breaks again?"** Rebuttal: "2-year labor warranty + manufacturer spring warranty."
+- **O10 — "How long to install?"** Rebuttal: "3 hours for a single door, half a day for double + opener."
 
-### 4.1 Seasonal
-- Cold-snap spring breaks (Janâ€“Feb North).
-- Summer storm damage (Junâ€“Aug).
-- Holiday-season aesthetic projects (Nov for curb appeal).
+## 6. Proof Types
 
-### 4.2 Financial
-- Â§25C limited applicability for insulated doors (R-12+) qualifying for Â§25C $250 per door subcategory under "Building Envelope" subject to $1,200 cap [Source: IRC Â§25C, IRA 2022] â€” tax advisor caveat.
-- Insurance claim payouts in storm zones.
+(1) LiftMaster ProVantage / Clopay Master Authorized Dealer / Wayne Dalton Distinguished badges. (2) IDA certifications. (3) BBB A+. (4) FL Product Approval for wind-rated doors. (5) Google reviews 4.8+. (6) Local install photos. (7) UL 325 compliance. (8) Insurance claim documentation. (9) HOA approval letters.
 
-### 4.3 Regulatory
-- UL 325 safety standard for openers (auto-reverse).
-- 2008 Federal CPSC standard for garage door safety sensors.
-- FL HVHZ wind ratings per FL Building Code Â§1626.
+## 7. Offer Archetypes
 
-### 4.4 Competitive / supply
-- LiftMaster / Chamberlain (same parent) part shortages occasional.
-- Custom door lead times 4â€“10 wks.
+(1) $79 diagnostic, waived with repair. (2) Free in-home consult for new door. (3) Spring + roller bundle. (4) Smart opener + keypad upgrade bundle. (5) Hurricane-wind upgrade quote.
 
----
+## 8. Lead Magnets
 
-## 5. Common objections
+- LM1 — "When to repair vs replace your garage door — flowchart."
+- LM2 — "Garage door style guide 2026."
+- LM3 — "Smart opener buyer's guide (MyQ vs Genie vs Apple Home)."
+- LM4 — "Hurricane-wind-rated door requirements by county (FL, TX, NC, SC)."
+- LM5 — "$25 off any spring repair coupon."
+- LM6 — "Garage door insulation R-value guide."
+- LM7 — "Homeowner's spring-snap warning signs PDF."
+- LM8 — "HOA-friendly color palette catalog."
 
-### O1 â€” "Too expensive" â€” Primary: "Flat-rate menu pricing. Want to see the breakdown?"
-### O2 â€” "Spring replacement scam fear" â€” "Photo of broken spring + serial # before quote. You sign off before we replace."
-### O3 â€” "Just repair, don't replace" â€” "Agreed â€” if repair makes sense, we repair. If you're 3 springs in this year, replacement saves you money."
-### O4 â€” "Get more quotes" â€” "Smart. 3 questions: warranty length, parts source (OEM vs aftermarket), is the tech IDA-certified?"
-### O5 â€” "Storm chaser?" â€” "Local since [year]. License #XXXX. Three local references in your zip."
-### O6 â€” "Insurance won't cover" â€” "Storm damage is usually covered under dwelling. We document and meet your adjuster."
-### O7 â€” "DIY spring replacement?" â€” "Hard NO â€” torsion springs kill DIYers. CPSC data: 13 deaths/yr. Let us handle it."
-### O8 â€” "How long does new install take?" â€” "Same day for stock; 4â€“10 wks for custom."
-### O9 â€” "Warranty?" â€” "Lifetime springs, 10-yr opener, transferable on home sale."
-### O10 â€” "Smart-home â€” will it really work?" â€” "MyQ standard. We set up HomeKit/Alexa during install."
+## 9. Funnel Archetypes
 
----
+- **FA1 — Broken Spring Emergency (Google LSA + Search).** Address + symptom form → call within 60 sec. CPL $14–$32.
+- **FA2 — New Door Quote (Meta).** Style picker → in-home or virtual consult. CPL $42–$95.
+- **FA3 — Smart Upgrade Bundle.** Existing customer / opener-only intent. CPL $28–$58.
 
-## 6. Proof types
+## 10. Ad Angles
 
-### 6.1 Testimonials
-- 30â€“45s video; technician at door; FTC Â§255.5.
+- AA1 — "Spring snapped? Same-day repair."
+- AA2 — "Carriage house door — turn heads, no big budget."
+- AA3 — "Quiet belt-drive — sleep above the garage."
+- AA4 — "Hurricane wind-rated for FL code."
+- AA5 — "MyQ + Apple Home setup included."
+- AA6 — "Full-view aluminum + glass — modern look."
+- AA7 — "Insulated R-12 — heated garage finally."
+- AA8 — "$79 diagnostic, waived with repair."
+- AA9 — "Why springs break in pairs."
+- AA10 — "Stuck open / closed — call us today."
+- AA11 — "Pre-listing curb appeal in 48 hours."
+- AA12 — "Veteran-owned local."
+- AA13 — "Spanish-language family local."
+- AA14 — "We service every brand opener."
+- AA15 — "0% / 12 months financing on new doors."
 
-### 6.2 Photos / before-after
-- Truck pulls up â†’ installed door. Drone curb-appeal.
+## 11. Prohibited Claims
 
-### 6.3 Certifications / licenses
-- State contractor license (where required), IDA Accredited Installer / IDA Certified Door Dealer, LiftMaster ProVantage / Genie Authorized Dealer.
+Banned: "free door," "lifetime warranty" without proration disclosure, "FEMA garage door grant," "guaranteed lowest price," "unbreakable spring," "hurricane proof" (use "wind-rated to X mph"), fake same-day urgency.
 
-### 6.4 Third-party badges
-- Google â‰¥4.6, BBB A+, Angi A+, Nextdoor Fave.
+**Hard-block exact strings:**
+- `"free garage door"`
+- `"government garage door program"`
+- `"federal garage door grant"`
+- `"FEMA garage door program"`
+- `"unbreakable spring"`
+- `"hurricane proof"`
+- `"lifetime no-cost warranty"`
+- `"$0 down forever"`
+- `"guaranteed lowest price"`
+- `"act before midnight"`
+- `"only 3 doors left in stock"`
+- `"insurance pays for door replacement"`
+- `"100% covered by insurance"`
+- `"government storm relief door"`
+- `"new homeowner door program"`
+- `"federal weatherization door"`
+- `"insurance approval guaranteed"`
+- `"warranty for life no exclusions"`
+- `"never breaks"`
+- `"qualify before midnight"`
 
-### 6.5 Press
-- Local news; "Best of" lists.
+## 12. Compliance Rules
 
-### 6.6 Case studies
-- 150-word + 2 photos; curb-appeal before/after.
+**TCPA / CAN-SPAM / FTC §5** standard. **UL 325** entrapment protection (photo-eye sensors, force settings) — required on every install. **ASTM E1996/E1886** impact glass standards where applicable. **FL Florida Product Approval / Miami-Dade NOA** for wind-rated doors in HVHZ zones. **TX windstorm certification (TDI WPI-8)** for coastal counties. **State contractor licensing:** varies (CA C-61/D-28; FL CGC/CRC; TX TDLR; NY varies). License # on every ad. **FTC Cooling-Off Rule** for in-home sales — 3-day rescission required in writing. **EPA RRP** for pre-1978 homes if drilling/cutting drywall. **ADA/WCAG 2.1 AA.**
 
-### 6.7 Live counters
-- "X repairs today in [city]" allowed if true.
+## 13. Form Fields
 
-### 6.8 Authority figures
-- IDA (International Door Association) member badge.
+ZIP, address (autocomplete), homeowner Y/N (DQ if N), single/double door, urgency, current problem (dropdown: spring/opener/off-track/dent/replace/new), name, email, phone. Hidden: UTM/gclid/IP.
 
----
+## 14. Lead Scoring Rules
 
-## 7. Offer archetypes
+Homeowner +20 (renter DQ unless landlord-paid). Emergency (broken spring) +25. New door install + budget >$2k +15. Wind-rated hurricane county +15. Both spouses on form +10. <5 min SMS +15. A 70+, B 50–69, C 30–49, DQ <30.
 
-### 7.1 Lead magnet â€” "Garage Door Safety Check (Free)"
-### 7.2 Tripwire â€” $39 diagnostic / $99 tune-up (credited to repair).
-### 7.3 Free consult â€” 15-min phone qualifier + on-site.
-### 7.4 Free audit â€” Safety inspection.
-### 7.5 Instant quote â€” Spring replacement $475 flat; opener install $625.
+## 15. RevTry Voice Call Script
 
----
+**Opener:** "Hi [name], it's [agent] with [garage door co] — calling about the [repair/quote] you requested. Got a minute?" **Qualifying:** "Address?" "What's happening — spring, opener, off-track?" "Single or double door?" "When did it stop working?" "Anyone else on the decision?" "Budget range?" **Objections:** O1–O10. **Booking close:** "Tech available [time] today or [time] tomorrow — which?" **TCPA:** Recording + STOP disclosure.
 
-## 8. Lead magnets
+## 16. SMS Sequences
 
-### LM1 â€” "Garage Door Safety Self-Check"
-- 1-page PDF. Pains P7. Headline: "5 Signs Your Garage Door Is About To Fail." Opt-in: 32%.
+- T+5 min: "Hi [name], [agent] from [co]. Got your request. What's the symptom — spring, opener, off-track? STOP to opt out."
+- T+1 hr: "Quick — when did it stop working? We can be there today. STOP to opt out."
+- T+24 hr: "[Name], last text — schedule or close file? STOP to opt out."
 
-### LM2 â€” "Spring Type Identifier" (torsion vs extension)
-- Quiz. Pains P2. Opt-in: 24%.
+## 17. Email Sequences
 
-### LM3 â€” "Modern Garage Door Style Picker"
-- Quiz. Pains P6. Opt-in: 19%.
+- E1: "Your service is being scheduled."
+- E2 (T+1d): "Spring vs cable vs opener — what likely broke."
+- E3 (T+3d): "Why springs break in pairs."
+- E4 (T+5d): "Smart opener buyer's guide."
+- E5 (T+8d): "Hurricane-wind-rated door — code by county."
+- E6 (T+12d): "HOA color matching."
+- E7 (T+16d): "Closing your file."
 
-### LM4 â€” "Opener Comparison: LiftMaster vs Genie vs Chamberlain"
-- PDF. Pains P3, P9. Opt-in: 22%.
-
-### LM5 â€” "Smart-Home Compatibility Checker"
-- Quiz. Pains P10. Opt-in: 18%.
-
-### LM6 â€” "Tune-Up Worth It? ROI Calc"
-- Calc. Pains P9. Opt-in: 17%.
-
-### LM7 â€” "Insurance Claim Checklist (Storm)"
-- PDF. Pains P8. Opt-in: 22%.
-
-### LM8 â€” "Cost Guide: Repair vs Replace"
-- PDF. Pains P4. Opt-in: 26%.
-
----
-
-## 9. Funnel archetypes
-
-### FA1 â€” "Click-to-Call â†’ Same-Day Dispatch" (rank 1)
-- Hero: phone-first CTA. Form short. End-to-end booked: 9.2%.
-
-### FA2 â€” "Style Picker â†’ Quote â†’ In-Home Consult" (rank 2)
-- Aesthetic angle. CR: 2.8%.
-
-### FA3 â€” "Storm Damage Quiz â†’ Inspection" (rank 3)
-- FL/TX. CR: 3.4%.
-
----
-
-## 10. Ad angles
-
-### AA1 â€” "Garage door broken? Same-day fix" â€” P1, CPL $18â€“$48.
-### AA2 â€” "Flat-rate spring replacement â€” no scams" â€” P2, CPL $22â€“$58.
-### AA3 â€” "$99 tune-up before winter" â€” P7, CPL $25â€“$65.
-### AA4 â€” "New door, installed in a day" â€” P6, CPL $38â€“$95.
-### AA5 â€” "Quiet belt-drive opener" â€” P5, CPL $32â€“$78.
-### AA6 â€” "Smart home + EV ready" â€” P10, CPL $42â€“$95.
-### AA7 â€” "Storm damage? Insurance specialist" â€” P8, CPL $35â€“$85.
-### AA8 â€” "Modern steel + glass â€” magazine ready" â€” P6, CPL $42â€“$110.
-### AA9 â€” "Local family-owned since [year]" â€” P2, CPL $28â€“$72.
-### AA10 â€” "$0 service-call fee with repair" â€” P4, CPL $22â€“$58.
-### AA11 â€” "5 signs your garage door is failing" â€” P7, CPL $25â€“$65.
-### AA12 â€” "Lifetime springs + 10-yr opener warranty" â€” P9, CPL $35â€“$82.
-### AA13 â€” "Don't DIY your torsion spring â€” here's why" â€” P2 trust-builder, CPL $22â€“$58.
-### AA14 â€” "What your neighbors paid" â€” P4, CPL $30â€“$72.
-### AA15 â€” "Founder story" â€” CPL $35â€“$80.
-
----
-
-## 11. Prohibited claims
-
-### 11.1 Universal (FTC) â€” banned â†’ allowed
-
-| Banned | Why | Allowed |
-|---|---|---|
-| "Free spring replacement" | Deceptive if anything owed. | "Free diagnostic; flat-rate repair quote." |
-| "Lifetime free" | Misleading. | "Lifetime springs; labor 10-yr." |
-| "Guaranteed cheapest" | Unverifiable. | "Transparent flat-rate pricing." |
-| "Insurance pays for everything" | False. | "Most storm damage may qualify under dwelling coverage." |
-| "Government rebate" | False. | "Â§25C up to $250/door for qualifying insulated products." |
-| "Limited time" with reset | Fake urgency. | Real seasonal urgency. |
-
-### 11.2 Industry-specific
-- **"IDA Certified"** without active cert.
-- **"LiftMaster ProVantage"** / **"Genie Authorized"** without active dealer status.
-- **"Hurricane proof"** â€” doors are wind-RATED to specific psf.
-- **"Lifetime opener"** â€” typically 10-yr motor, lifetime is the housing only.
-- **"Free installation"** when material price inflated to cover labor.
-
-### 11.3 State-by-state variances
-
-| State | Restriction | Source |
-|---|---|---|
-| FL | CILB license required >$1k; HVHZ wind ratings Â§1626. | DBPR |
-| CA | CSLB D-28 (Doors) license. | CSLB |
-| NJ | HIC registration; 3-day rescission. | DCA |
-| TX | No state license; local permits. | â€” |
-| MA | HIC + 3-day rescission. | OCABR |
-
-### 11.4 Hard-block list
-
-- "free spring"
-- "free opener"
-- "free installation" (without disclosed material markup)
-- "lifetime free"
-- "lifetime opener" (without manufacturer doc)
-- "hurricane proof"
-- "indestructible"
-- "100% safe" (UL 325 specific only)
-- "IDA certified" (without active cert)
-- "LiftMaster authorized" (without status)
-- "Genie authorized" (without status)
-- "Chamberlain authorized" (without status)
-- "guaranteed cheapest"
-- "insurance pays everything"
-- "limited time" (with reset)
-- "only [N] left"
-- "no out of pocket" (when deductible applies)
-- "government will pay"
-- "biden door program"
-- "tax-free door"
-
----
-
-## 12. Compliance rules
-
-### 12.1 TCPA â€” One-to-one consent; quiet hours; DNC 31-day; $500â€“$1,500/violation.
-
-### 12.2 CAN-SPAM â€” Address + unsubscribe 24h.
-
-### 12.3 HIPAA â€” N/A.
-
-### 12.4 State licensing
-- Display license # (FL CILB, CA D-28, NJ HIC, MA HIC).
-- 3-day rescission for in-home sales >$25 per FTC 16 CFR Â§429.
-
-### 12.5 Financing â€” TILA disclosure; dealer-fee disclosure (FTC v. Sunlight 2024).
-
-### 12.6 Industry boilerplate
-> "Flat-rate quotes provided after on-site diagnostic. Insurance coverage decisions made solely by your carrier. [Company], state license #XXXX. UL 325 compliant openers."
-
-### 12.7 ADA â€” WCAG 2.1 AA.
-
----
-
-## 13. Form fields
-
-### 13.1 Recommended
-
-| Field | Required | Score |
-|---|---|---|
-| Zip | Yes | +5 |
-| Phone | Yes | +10 (mobile) |
-| Email | Yes | +0 |
-| Name | Yes | +0 |
-| Situation (Broken/Opener/Storm/Replace) | Yes | +25/+15/+15/+10 |
-| Ownership | Yes | -100 rent |
-| Best time | No | +0 |
-
-### 13.2 Avoid â€” SSN, DOB, free-text descriptions.
-
-### 13.3 Progressive â€” Phone-first for emergency; full form for replacement.
-
-### 13.4 Hidden â€” UTM, geo, device, referrer, time-on-page.
-
----
-
-## 14. Lead scoring
-
-### 14.1 Demographic â€” Homeowner +20, zip +10.
-
-### 14.2 Behavioral â€” Time on page >40s +5; SMS reply +20.
-
-### 14.3 Intent â€” Google "garage door won't open" +30; LSA +25; referral +25.
-
-### 14.4 Negative â€” Renter (disqualify); out-of-area (disqualify).
-
-### 14.5 Thresholds â€” 80+ same-day dispatch; 60â€“79 24h; <40 nurture.
-
-### 14.6 Predicts-closure â€” Emergency situation +200%; LSA source +95%; SMS reply <1h +60%.
-
----
-
-## 15. RevTry voice script
-
-### 15.1 Opener
-> "Hi [First], [Rep] from [Company] â€” got your garage door request. Is it broken right now or planning ahead?"
-
-### 15.2 Qualifying
-Q1 Homeowner? Q2 Emergency or planned? Q3 What's broken/needed? Q4 Make/age of opener? Q5 Best dispatch window?
-
-### 15.3 Discovery â€” "What happened?" / "Did you hear a loud bang?"
-
-### 15.4 Objection handlers â€” Map to O1â€“O10.
-
-### 15.5 Booking close â€” "I have 2 PM open, take it?"
-
-### 15.6 Won't book â€” Text quote-range + 14d callback.
-
-### 15.7 Voicemail â€” "Hi [First], [Rep] from [Company] â€” saw your request. [Number] or reply YES."
-
-### 15.8 Compliance â€” Record; DNC immediate.
-
----
-
-## 16. SMS sequences
-
-### SMS 1 â€” T+2 min â€” "Hi [First], [Rep] â€” got your request. Need same-day? Reply 1. STOP to opt out."
-### SMS 2 â€” T+22h â€” "[First] â€” here's our safety self-check: [link]. Want a tune-up Wed? Reply YES/STOP."
-### SMS 3 â€” T+72h â€” "[First] â€” last note. Wed 2 PM or Fri 4 PM? Reply 1 or 2. STOP."
-
-**10DLC:** TCR. **Risky words:** "free", "guarantee". **Sender:** "[Company] â€” STOP to opt out".
-
----
-
-## 17. Email sequences
-
-E1 (T+0): Confirmation. E2 (T+1d): Founder/local story. E3 (T+3d): Repair-vs-replace guide. E4 (T+6d): Case study. E5 (T+9d): Quote checklist. E6 (T+13d): Seasonal urgency. E7 (T+18d): Break-up.
-
-**Sender:** Rep + Company. Tueâ€“Thu 7:30 AM. **Footer:** Address, unsubscribe, license #.
-
----
+CAN-SPAM footer in all.
 
 ## 18. Benchmark CPL
 
-### 18.1 By channel
+By geo (median): TX $22 service / $58 install; FL $26 / $68; CA $48 / $115; NY $52 / $128; OH $18 / $52; AZ $24 / $62.
 
-| Channel | Lower | Median | Upper |
-|---|---|---|---|
-| Google Search (emergency) | $12 | $28 | $65 |
-| LSA | $10 | $22 | $48 |
-| Meta | $18 | $42 | $95 |
-| YouTube | $25 | $55 | $115 |
-| Referral | $0 | $12 | $40 |
+## 19. Benchmark Conversion Rates
 
-### 18.2 By geo
-- T1: $42 / T2: $32 / T3: $22.
+Ad → LP: Meta 2.6%, Google search 5.8%, LSA 14%. LP → form: 13% service, 10% install. Form → set: 78% service, 64% install. Set → show: 88% service, 76% install. Show → close: 78% service, 38% install. Net lead → close: 40–55% service, 6–10% install.
 
-### 18.3 Drivers â€” +60% cold snap weeks; LSA dominates emergency.
+## 20. Seasonal Cycles
 
----
+Demand: Jan 145 (cold-snap springs), Feb 130, Mar 105, Apr 102, May 95, Jun 92, Jul 100 (storms), Aug 102, Sep 110 (hurricanes), Oct 90, Nov 88, Dec 102 (cold). CPL lowest summer.
 
-## 19. Conversion rates
+## 21. Top 20 Example Funnels
 
-### 19.1 Stage
+- EX1 — Google LSA broken-spring emergency. CR 24% (LSA).
+- EX2 — Meta carriage-house curb-appeal. CR 8%.
+- EX3 — Smart opener Apple Home funnel. CR 7%.
+- EX4 — Hurricane-wind-rated FL/TX. CR 11%.
+- EX5 — Full-view modern aluminum + glass. CR 5%.
+- EX6 — Belt-drive quiet opener pitch. CR 9%.
+- EX7 — Pre-listing curb appeal funnel. CR 11%.
+- EX8 — HOA color-match catalog. CR 7%.
+- EX9 — Insulated workshop angle. CR 6%.
+- EX10 — Veteran-owned local. CR 8%.
+- EX11 — Spanish-language. CR 12%.
+- EX12 — Senior accessibility (keypad + sensor). CR 5%.
+- EX13 — Spring + roller + lube bundle. CR 14%.
+- EX14 — Smart-home integrator referral. CR 9%.
+- EX15 — Insurance wind-discount funnel. CR 6%.
+- EX16 — Realtor referral pre-sale. CR 11%.
+- EX17 — New construction builder partner. CR 8%.
+- EX18 — Apartment building rollup quote. CR 4%.
+- EX19 — Same-day repair urgency. CR 18%.
+- EX20 — Brand comparison Liftmaster/Genie. CR 6%.
 
-| Stage | Median |
-|---|---|
-| Visitor â†’ form | 38% |
-| Form â†’ submit | 72% |
-| Lead â†’ call | 78% |
-| Call â†’ dispatch booked | 82% |
-| Dispatch held | 92% |
-| Quote â†’ close (repair) | 88% |
-| Quote â†’ close (new door) | 35% |
-| Lead â†’ close (repair) | 52% |
-| Lead â†’ close (new door) | 14% |
+## 22. Pitfalls
 
-### 19.2 Channel-mix â€” LSA repair 70%; Google repair 60%; Meta new door 8%.
+(1) Charging diagnostic without warranty offer. (2) Skipping UL 325 photo-eye install (federal violation + injury liability). (3) "Hurricane proof" instead of wind-rated. (4) Selling unapproved doors in FL HVHZ. (5) No 3-day cooling-off notice on in-home install. (6) Slow dispatch >2 hr on emergency. (7) "Free door" anywhere. (8) Not checking spring pair condition. (9) Lifetime warranty without proration. (10) Skipping permit in jurisdictions requiring one.
 
-### 19.3 Speed-to-lead â€” 5 min: 6x connect for emergency.
-
----
-
-## 20. Seasonal cycles
-
-### 20.1 Demand index
-Jan 110, Feb 105 (cold-snap broken springs), Mar 95, Apr 100, May 110, Jun 115, Jul 110, Aug 115, Sep 100, Oct 105, Nov 90, Dec 80.
-
-### 20.2 CPL index â€” Janâ€“Feb +25%; Dec âˆ’20%.
-
-### 20.3 Close-rate â€” Highest Sepâ€“Nov pre-winter at 110; lowest Dec 80.
-
-### 20.4 Calendar â€” Scale: Janâ€“Feb (broken springs) + Sepâ€“Oct (replacements). Cut: Dec.
-
----
-
-## 21. Top 20 example funnels
-
-### EX1 â€” Precision Door (public)
-- URL: precisiondoor.net / FA1. National franchise.
-
-### EX2 â€” Overhead Door (public)
-- URL: overheaddoor.com.
-
-### EX3 â€” Clopay dealer locator (public)
-
-### EX4 â€” LiftMaster dealer locator (public)
-
-### EX5 â€” Anonymized AZ â€” "Desert Door"
-- Hook: "Same-day repair in Phoenix." CR: 8.4%.
-
-### EX6 â€” Anonymized TX â€” "Lone Star Doors"
-- Hook: "Hurricane-rated install." CR: 4.2%.
-
-### EX7 â€” Anonymized FL â€” "Sunshine Doors"
-- Hook: "HVHZ-certified for Miami-Dade." CR: 3.8%.
-
-### EX8 â€” Anonymized MI â€” "Great Lakes Door"
-- Hook: "Cold-snap repair specialists." CR: 6.4%.
-
-### EX9 â€” Anonymized OH â€” "Buckeye Door"
-- Hook: "$59 diagnostic. No upsell." CR: 7.2%.
-
-### EX10 â€” Anonymized CA â€” "Coast Door"
-- Hook: "MyQ + HomeKit + Tesla-ready." CR: 4.1%.
-
-### EX11 â€” Anonymized NY â€” "Empire Door"
-- Hook: "Whisper-quiet belt drives." CR: 5.2%.
-
-### EX12 â€” Anonymized CO â€” "Mile High Door"
-- Hook: "Hail-rated steel doors." CR: 4.8%.
-
-### EX13 â€” Anonymized GA â€” "Peach State Door"
-- Hook: "Atlanta storm specialists." CR: 4.6%.
-
-### EX14 â€” Anonymized aesthetic â€” "Modern Door Co"
-- Hook: "Glass + steel â€” magazine ready." CR: 2.4%.
-
-### EX15 â€” Anonymized MN â€” "Twin Cities Door"
-- Hook: "Spring season ready." CR: 5.8%.
-
-### EX16 â€” Anonymized NJ â€” "Garden State Door"
-- Hook: "Family-owned, 3-day rescission." CR: 4.4%.
-
-### EX17 â€” Anonymized PA â€” "Keystone Door"
-- Hook: "Same-day in Philly." CR: 6.0%.
-
-### EX18 â€” Anonymized WA â€” "Cascade Door"
-- Hook: "PNW rain-rated." CR: 4.1%.
-
-### EX19 â€” Anonymized retiree â€” "Honest Door"
-- Hook: "No-upsell repair." CR: 5.5%.
-
-### EX20 â€” GoFunnelAI best-in-class
-- Internal ID: `fa-bench-doors-tx-2026-q1`. FA1 + click-to-call. Hook: "Garage door broken in [city]? 90-min response." CR: 11.4% to dispatch.
-
----
-
-## 22. Glossary
-
-| Term | Def | Avoid? |
-|---|---|---|
-| Torsion spring | Spring over door header (most common). | Define |
-| Extension spring | Spring along horizontal track. | Define |
-| Drum / Cable | Tensioning components. | OK |
-| Sectional door | Horizontal-panel rolling door. | OK |
-| Carriage-style | Decorative swing-look door. | OK |
-| Full-view door | Glass-panel aluminum door. | OK |
-| R-value | Insulation rating. | OK |
-| Wind load / DP rating | Design pressure rating. | OK |
-| HVHZ | High Velocity Hurricane Zone (FL). | Define |
-| UL 325 | Safety standard for openers (auto-reverse). | Define |
-| Photo eye | Safety sensor (UL 325). | OK |
-| Belt drive | Quiet opener type. | OK |
-| Chain drive | Loud cheap opener. | OK |
-| Screw drive | Mid-tier opener. | OK |
-| Jackshaft | Side-mount opener (10-ft+ ceilings). | OK |
-| MyQ | LiftMaster app/cloud. | OK |
-| HomeKit / Alexa / Google Home | Smart-home ecosystems. | OK |
-| IDA | International Door Association. | OK |
-| IDEA | International Door & Equipment Association. | OK |
-| LiftMaster ProVantage | Dealer tier. | OK |
-| Genie Authorized | Dealer tier. | OK |
-| Clopay | Largest residential door manufacturer. | OK |
-| Wayne Dalton | Major manufacturer. | OK |
-| Northwest Door | Wood specialist. | OK |
-| Â§25C | Federal energy credit for insulated doors. | OK |
-
----
-
-## 23. Sources and citations
-
-- IBISWorld Garage Door Repair 2025.
-- IDA / IDEA industry reports 2025.
-- Angi Cost Guide 2025.
-- IRC Â§25C / IRA 2022.
-- CPSC garage door safety data 2024.
-- UL 325 standard.
-- FL Building Code Â§1626 / HVHZ.
-- CA CSLB D-28.
-- FCC 22-72 / 47 CFR Â§64.1200.
-- FTC 16 CFR Â§429 (Cooling-Off); 16 CFR Part 255.
-- GoFunnelAI internal 2026-Q1.
-
----
-
-## 24. Pack metadata
+## 23. Metadata Block
 
 ```yaml
-pack_id: garage-doors-us
-version: 1.0
-last_updated: 2026-Q2
-editor: GoFunnelAI Domain Team â€” Home Services
-reviewer_legal: GoFunnelAI Compliance Council
-reviewer_ops: GoFunnelAI RevOps
+pack_id: garage-doors-us-en
+geo: us
+language: en
+vertical: garage-doors
 embedding_model: text-embedding-3-large
-chunk_strategy: by_section_heading
-status: active
+chunk_strategy: by_section_h2
+pgvector_dimensions: 3072
+expected_chunks: 24
+ingestion_freshness_target_days: 30
+last_ingestion_run: 2026-04-15
+freshness_status: green
 license: internal
+status: production
 ```
 
----
+## 24. Version + Author + Last Reviewed
 
-**End of pack. Do not delete this footer line.**
+Version 1.0.0 | Author: GoFunnelAI Domain Team — Home Services | Legal reviewer: GoFunnelAI Compliance Council | Last reviewed 2026-04-15 | Next review 2026-07-15

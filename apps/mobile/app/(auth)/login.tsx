@@ -81,7 +81,7 @@ export default function LoginScreen() {
         <Text className="text-body text-slate-600 dark:text-slate-300 mb-8">
           {stage === "enter_email"
             ? "Sign in with the email on your GoFunnelAI account."
-            : "Check your email â€” we sent a six-digit code."}
+            : "Check your email — we sent a six-digit code."}
         </Text>
 
         {stage === "enter_email" ? (

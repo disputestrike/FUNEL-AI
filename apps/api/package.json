@@ -2,7 +2,7 @@
   "name": "@funnel/api",
   "version": "0.1.0",
   "private": true,
-  "description": "GoFunnelAI API server ” Hono + tRPC v11 on Cloudflare Workers. Hosts every public endpoint (REST v1), every webhook receiver, every OAuth callback, and the tRPC routers consumed by apps/web and apps/admin.",
+  "description": "GoFunnelAI API server — Hono + tRPC v11 on Cloudflare Workers. Hosts every public endpoint (REST v1), every webhook receiver, every OAuth callback, and the tRPC routers consumed by apps/web and apps/admin.",
   "license": "UNLICENSED",
   "type": "module",
   "main": "./src/index.ts",

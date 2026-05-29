@@ -15,7 +15,7 @@ const SECURITY = {
     scheme: "bearer" as const,
     bearerFormat: "API Key",
     description:
-      "Use a workspace API key: `Authorization: Bearer fnl_live_â€¦`. Generate keys at https://app.gofunnelai.com/settings/api-keys.",
+      "Use a workspace API key: `Authorization: Bearer fnl_live_…`. Generate keys at https://app.gofunnelai.com/settings/api-keys.",
   },
 };
 

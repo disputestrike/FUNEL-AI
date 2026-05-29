@@ -1,4 +1,4 @@
-﻿# FunelAI â€” Engineering Operational Spec
+# GoFunnelAI — Engineering Operational Spec
 
 **Owner:** Engineering
 **Status:** Authoritative pre-launch baseline
@@ -6,23 +6,23 @@
 **Audience:** Founding four engineers, plus every engineer who joins the team through month 12 (~25 engineers)
 **Stack assumptions:** Next.js (App Router) on Cloudflare Pages/Workers, Cloudflare R2 for object storage, Postgres (Neon or Supabase) with pgvector, Prisma ORM, BullMQ on Redis (Upstash) for queues, Claude + OpenAI for generation, RevTry for outbound voice.
 
-This document is the single source of truth for how FunelAI tests, ships, and runs its software. It is split into three parts:
+This document is the single source of truth for how GoFunnelAI tests, ships, and runs its software. It is split into three parts:
 
-- **Part A â€” Testing Strategy:** what we test, how, and where the bar sits.
-- **Part B â€” CI/CD Pipeline:** how code gets from a laptop to production safely.
-- **Part C â€” Observability:** how we know the system is healthy and how we respond when it isn't.
+- **Part A — Testing Strategy:** what we test, how, and where the bar sits.
+- **Part B — CI/CD Pipeline:** how code gets from a laptop to production safely.
+- **Part C — Observability:** how we know the system is healthy and how we respond when it isn't.
 
-If you are an engineer joining FunelAI, you should be able to set up the entire operational stack from this document plus the linked secrets in 1Password. If something is missing, fix the doc.
+If you are an engineer joining GoFunnelAI, you should be able to set up the entire operational stack from this document plus the linked secrets in 1Password. If something is missing, fix the doc.
 
 ---
 
-## PART A â€” Testing Strategy
+## PART A — Testing Strategy
 
-FunelAI's product promise is "a paying customer gets a published, lead-capturing funnel in 60 seconds." Every test we write either protects that promise or protects the customer's money. We do not write tests for vanity coverage.
+GoFunnelAI's product promise is "a paying customer gets a published, lead-capturing funnel in 60 seconds." Every test we write either protects that promise or protects the customer's money. We do not write tests for vanity coverage.
 
 ### A.1 The Testing Pyramid
 
-The pyramid below is enforced in CI. Numbers in parentheses are the floor â€” exceeding them is encouraged, falling below them blocks merge.
+The pyramid below is enforced in CI. Numbers in parentheses are the floor — exceeding them is encouraged, falling below them blocks merge.
 
 ```
                   /\
@@ -44,14 +44,14 @@ The pyramid below is enforced in CI. Numbers in parentheses are the floor â€�
 
 **Coverage floor:** 80% line + 80% branch on critical-path modules. The set of critical-path modules is enforced by an explicit allow-list at `tooling/coverage/critical-paths.json` so we don't accidentally lose the floor when files move. The list:
 
-- `packages/billing/**` â€” Stripe + PayPal adapters, plan enforcement, proration, dunning state machine, idempotency keys, webhook signature verification, refund flows.
-- `packages/auth/**` â€” session validation, permission checks, plan-gated capability checks.
-- `packages/rls/**` â€” every RLS policy has a unit test that asserts both the allow case and the deny case across tenant boundaries.
-- `packages/agents/orchestrator/**` â€” agent graph traversal, retry policies, partial-failure handling, cost ceiling enforcement.
-- `packages/agents/fact-check/**` â€” claim extraction, claim verification, rewrite triggers.
-- `packages/agents/compliance/**` â€” disallowed-claims classifier, geographic gating, FTC + Meta + Google policy rules.
-- `packages/agents/brand-guard/**` â€” voice + visual brand-drift detection.
-- `packages/webhooks/**` â€” signature verification per provider (Stripe, PayPal, Meta, Google, TikTok, LinkedIn, RevTry, SendGrid, Twilio), idempotency dedupe, replay protection.
+- `packages/billing/**` — Stripe + PayPal adapters, plan enforcement, proration, dunning state machine, idempotency keys, webhook signature verification, refund flows.
+- `packages/auth/**` — session validation, permission checks, plan-gated capability checks.
+- `packages/rls/**` — every RLS policy has a unit test that asserts both the allow case and the deny case across tenant boundaries.
+- `packages/agents/orchestrator/**` — agent graph traversal, retry policies, partial-failure handling, cost ceiling enforcement.
+- `packages/agents/fact-check/**` — claim extraction, claim verification, rewrite triggers.
+- `packages/agents/compliance/**` — disallowed-claims classifier, geographic gating, FTC + Meta + Google policy rules.
+- `packages/agents/brand-guard/**` — voice + visual brand-drift detection.
+- `packages/webhooks/**` — signature verification per provider (Stripe, PayPal, Meta, Google, TikTok, LinkedIn, RevTry, SendGrid, Twilio), idempotency dedupe, replay protection.
 
 **Run trigger:** every PR, every merge to main, every nightly.
 
@@ -61,11 +61,11 @@ The pyramid below is enforced in CI. Numbers in parentheses are the floor â€�
 
 - One file per module: `foo.ts` -> `foo.test.ts` colocated.
 - No live network. No live DB. Use `vitest-mock-extended` for collaborator stubs.
-- Time is injected via `@/lib/clock` â€” never `Date.now()` directly. Tests advance the clock with `vi.useFakeTimers()`.
+- Time is injected via `@/lib/clock` — never `Date.now()` directly. Tests advance the clock with `vi.useFakeTimers()`.
 - Money is `Money` (bigint, currency tag). Tests that pass `number` to billing code fail typecheck.
 - Snapshot tests are banned for anything except deterministic markdown rendering and prompt templates. Snapshot diffs on logic are a smell.
 
-**RLS policy testing:** every policy has a paired test in `packages/rls/__tests__/policies.test.ts` that uses a SQL-level harness (pgTAP-style assertions executed through a throwaway local Postgres) â€” a unit-level mock is not sufficient because the policy lives in the database. These run in CI against a fresh container, take ~12 seconds, and are non-negotiable.
+**RLS policy testing:** every policy has a paired test in `packages/rls/__tests__/policies.test.ts` that uses a SQL-level harness (pgTAP-style assertions executed through a throwaway local Postgres) — a unit-level mock is not sufficient because the policy lives in the database. These run in CI against a fresh container, take ~12 seconds, and are non-negotiable.
 
 #### A.1.2 Integration Tests
 
@@ -101,7 +101,7 @@ Every external integration ships with a dedicated suite. The matrix:
 
 **Framework:** Playwright (TypeScript, Chromium + WebKit, mobile viewport for the funnel renderer).
 
-**Required E2E flows** â€” these are the customer journeys we contractually guarantee:
+**Required E2E flows** — these are the customer journeys we contractually guarantee:
 
 1. **The 60-second journey:** signup -> onboarding wizard -> generate funnel -> publish -> first lead. Asserts time-to-publish < 60s in CI. Runs against a fixture set of "Plumber in Austin", "Yoga studio in Brooklyn", "B2B SaaS in SF" to catch vertical-specific regressions.
 2. **The upgrade path:** free signup -> trigger Pro Boost CTA -> Stripe Checkout (test card) -> plan upgrade reflected in DB + UI -> paid-only features unlocked.
@@ -111,8 +111,8 @@ Every external integration ships with a dedicated suite. The matrix:
 6. **The agent-block path:** generate with input that triggers Compliance ("guaranteed results") -> compliance block surfaces in UI with explanation -> user edits input -> regeneration succeeds.
 
 **Run trigger:**
-- PR: smoke set (flows #1 and #2) â€” ~3 minutes.
-- Every deploy to staging: full set â€” ~12 minutes.
+- PR: smoke set (flows #1 and #2) — ~3 minutes.
+- Every deploy to staging: full set — ~12 minutes.
 - Nightly against production: read-only subset (synthetic monitoring).
 
 **Data isolation:** every E2E test runs in its own tenant created in `beforeAll` and torn down in `afterAll`. Tests share zero state. Test tenants are tagged with `e2e_run_id=<uuid>` and a nightly sweep deletes any tenant older than 24h that still carries that tag (safety net against flaky teardown).
@@ -121,7 +121,7 @@ Every external integration ships with a dedicated suite. The matrix:
 
 #### A.1.4 Agent Regression Suite
 
-This is unique to FunelAI and is the single most important quality gate after RLS. The four agents â€” **Compliance**, **Fact-Check**, **Brand Guard**, **QA** â€” interact, and a change to any one of them can silently degrade the others.
+This is unique to GoFunnelAI and is the single most important quality gate after RLS. The four agents — **Compliance**, **Fact-Check**, **Brand Guard**, **QA** — interact, and a change to any one of them can silently degrade the others.
 
 **Corpus:** `eval/agents/corpus/`
 - 100 known-good generation inputs with the expected pass-through outputs (or, where exact match is impossible, a Claude-as-judge rubric pinned to a model snapshot).
@@ -140,9 +140,9 @@ This is unique to FunelAI and is the single most important quality gate after RL
 
 #### A.1.5 Load Tests
 
-**Tool:** k6 (preferred â€” JS scripts, prom output) with Artillery as fallback for the WebSocket-heavy generation status stream.
+**Tool:** k6 (preferred — JS scripts, prom output) with Artillery as fallback for the WebSocket-heavy generation status stream.
 
-**Scenarios** â€” each must pass at **5x expected launch traffic**:
+**Scenarios** — each must pass at **5x expected launch traffic**:
 
 | Scenario | Target | Pass criteria |
 |---|---|---|
@@ -160,14 +160,14 @@ This is unique to FunelAI and is the single most important quality gate after RL
 
 Three layers:
 
-1. **Automated SAST/DAST in CI** â€” Semgrep (with custom Funnel ruleset for tenant-id leakage, raw SQL, missing RLS), `npm audit` + Snyk on dependencies, OWASP ZAP baseline scan against preview environments.
-2. **Targeted security tests in the regular test suite** â€” explicit Playwright + Vitest tests for:
+1. **Automated SAST/DAST in CI** — Semgrep (with custom Funnel ruleset for tenant-id leakage, raw SQL, missing RLS), `npm audit` + Snyk on dependencies, OWASP ZAP baseline scan against preview environments.
+2. **Targeted security tests in the regular test suite** — explicit Playwright + Vitest tests for:
    - SQLi probes across every search/filter input.
    - XSS probes across every rich-text + user-supplied content rendering point.
    - CSRF on every state-changing endpoint (verify the SameSite + token defense).
    - IDOR: brute-force URL ID enumeration across tenant boundaries. The test creates Tenant A + Tenant B, captures every public-looking ID from A's session, then asserts B's session gets 404/403 on every one.
    - Permission escalation: low-privilege user attempting every admin endpoint.
-3. **External pen test** â€” monthly automated scan via a contracted firm, plus a quarterly manual deep pen test. Findings get tracked in `security/findings/` with severity, owner, deadline.
+3. **External pen test** — monthly automated scan via a contracted firm, plus a quarterly manual deep pen test. Findings get tracked in `security/findings/` with severity, owner, deadline.
 
 **Run trigger:** layers 1 + 2 on every PR. Layer 3 on cadence.
 
@@ -234,11 +234,11 @@ Wall-clock target: < 8 minutes from "PR pushed" to "all checks green" at p75. An
 - Full dependency audit + outdated report.
 - Stale-flag report.
 
-**Failed tests block deploy.** No exceptions. A red main is a Sev-2 incident â€” the merger fixes or reverts within 30 minutes.
+**Failed tests block deploy.** No exceptions. A red main is a Sev-2 incident — the merger fixes or reverts within 30 minutes.
 
 ---
 
-## PART B â€” CI/CD Pipeline
+## PART B — CI/CD Pipeline
 
 ### B.1 Source Control
 
@@ -257,9 +257,9 @@ Four environments, four DNS namespaces, four Cloudflare projects, four Postgres 
 | Env | URL pattern | Database | Data | Who deploys |
 |---|---|---|---|---|
 | Local | localhost:3000 | docker-compose Postgres | seed fixtures | each engineer |
-| Preview | `<branch-slug>.preview.funelai.com` | shared preview cluster, schema-per-PR | anonymized seed | auto on PR open |
-| Staging | `staging.funelai.com` | dedicated cluster, prod-mirror schema | nightly anonymized prod copy | auto on merge to main |
-| Production | `funelai.com` + `app.funelai.com` + `*.funnels.live` | prod cluster (multi-AZ) | real | gradual rollout (see B.3) |
+| Preview | `<branch-slug>.preview.gofunnelai.com` | shared preview cluster, schema-per-PR | anonymized seed | auto on PR open |
+| Staging | `staging.gofunnelai.com` | dedicated cluster, prod-mirror schema | nightly anonymized prod copy | auto on merge to main |
+| Production | `gofunnelai.com` + `app.gofunnelai.com` + `*.funnels.live` | prod cluster (multi-AZ) | real | gradual rollout (see B.3) |
 
 **Local dev:** `pnpm dev` boots Next, Workers (via `wrangler dev`), Postgres, Redis, MinIO (R2 stand-in), and a `mock-integrations` server replaying contract fixtures. First-run takes < 5 minutes from clean clone.
 
@@ -267,23 +267,23 @@ Four environments, four DNS namespaces, four Cloudflare projects, four Postgres 
 - Created automatically by a GitHub Action on PR open. Torn down on PR close or after 7 days of inactivity.
 - Each preview gets its own Postgres schema (not its own cluster) inside the shared preview cluster, seeded from `seed/anonymized.sql.gz`.
 - Each preview gets its own Worker, its own KV namespace, and a scoped R2 bucket prefix.
-- Each preview is gated by Cloudflare Access â€” must be authenticated as a FunelAI engineer or guest reviewer.
+- Each preview is gated by Cloudflare Access — must be authenticated as a GoFunnelAI engineer or guest reviewer.
 - Preview URLs are commented on the PR by a bot, along with login credentials for a seeded admin + member user.
 
 **Staging:**
 - Production-mirror infrastructure (same Worker config, same Postgres version, same Redis version, same R2 region).
-- Data refreshed nightly via the `staging-refresh` job: `pg_dump prod | anonymize | psql staging`. Anonymization rules in `tooling/anonymizer/rules.yaml` â€” every PII column is rewritten with deterministic faker (so foreign keys stay valid). The job is idempotent and runs at 02:00 UTC.
+- Data refreshed nightly via the `staging-refresh` job: `pg_dump prod | anonymize | psql staging`. Anonymization rules in `tooling/anonymizer/rules.yaml` — every PII column is rewritten with deterministic faker (so foreign keys stay valid). The job is idempotent and runs at 02:00 UTC.
 - Used by QA, customer support runbook drills, and pre-release manual acceptance.
-- Public read-only status accessible to investors / pilot customers via `staging.funelai.com/demo` (separate tenant, hand-curated).
+- Public read-only status accessible to investors / pilot customers via `staging.gofunnelai.com/demo` (separate tenant, hand-curated).
 
 **Production:**
-- Multi-region for the renderer (Cloudflare's edge â€” every PoP).
+- Multi-region for the renderer (Cloudflare's edge — every PoP).
 - Single primary Postgres in us-east-1 with read replicas in us-west-2 and eu-west-1.
 - R2 buckets in `auto` location with replication policies for compliance-sensitive data (per data-residency spec).
 
 ### B.3 Deployment
 
-#### B.3.1 Cloudflare Workers â€” gradual rollout
+#### B.3.1 Cloudflare Workers — gradual rollout
 
 Every production deploy goes through the same four-stage rollout, gated on automated health checks.
 
@@ -307,7 +307,7 @@ Rollout is driven by Cloudflare's gradual deployments feature plus a custom `fun
    - Smoke synthetic on production fails 3 consecutive runs.
 4. If healthy, advances to the next stage. If unhealthy, routes 100% back to v(N-1), files an incident, pages the on-call.
 
-The 1% stage routes specifically to a cohort tagged `canary=true` rather than uniformly random â€” these are internal team tenants + a hand-picked set of pilot customers who've opted in to early bits. This catches workflow regressions that uniform random sampling misses.
+The 1% stage routes specifically to a cohort tagged `canary=true` rather than uniformly random — these are internal team tenants + a hand-picked set of pilot customers who've opted in to early bits. This catches workflow regressions that uniform random sampling misses.
 
 #### B.3.2 Database migrations
 
@@ -321,7 +321,7 @@ The 1% stage routes specifically to a cohort tagged `canary=true` rather than un
 
 **Backward-compatible rule:** within a 30-day window after a release, no destructive drops. `DROP COLUMN`, `DROP TABLE`, `DROP INDEX`, type narrowing, and `NOT NULL` constraint additions on existing columns are all "destructive" under this rule.
 
-**Pre-flight check:** every migration PR runs the migration against a fresh restore of the previous-night staging dump in CI. The CI step measures wall-clock time and reports it; migrations expected to take > 30s on production must use `CREATE INDEX CONCURRENTLY`, batched updates, or `pg_repack`-style offline maintenance â€” never a long-locking statement on the hot path.
+**Pre-flight check:** every migration PR runs the migration against a fresh restore of the previous-night staging dump in CI. The CI step measures wall-clock time and reports it; migrations expected to take > 30s on production must use `CREATE INDEX CONCURRENTLY`, batched updates, or `pg_repack`-style offline maintenance — never a long-locking statement on the hot path.
 
 **RLS migrations:** any migration that adds/modifies an RLS policy requires a paired test in the same PR (see Part A.1.1). The CI step fails if the policy file changed but the test file didn't.
 
@@ -344,7 +344,7 @@ For every deploy we tag the previous version in Cloudflare and keep it warm. The
 
 End-to-end "I noticed a problem -> traffic is on the previous version" target: **60 seconds**.
 
-Database migrations are *not* rolled back automatically â€” see B.3.2. Because we deploy forward-compatibly, the previous code version is always compatible with the current schema, so a code-only rollback is always safe.
+Database migrations are *not* rolled back automatically — see B.3.2. Because we deploy forward-compatibly, the previous code version is always compatible with the current schema, so a code-only rollback is always safe.
 
 ### B.4 Feature Flags
 
@@ -380,13 +380,13 @@ Database migrations are *not* rolled back automatically â€” see B.3.2. Beca
 
 **Two exceptions:**
 
-1. **Major Feature launches** â€” anything tagged `release-type: major` in the PR (new vertical, new integration, plan structure change, agent overhaul) requires a launch-readiness scorecard signed off before the rollout starts. The scorecard lives at `docs/launch-readiness.md` and covers: dashboards built, alerts configured, on-call briefed, runbook written, kill switch in place, rollback plan documented, customer comms drafted, support team briefed, load test passed, security review signed off.
-2. **Schema migrations affecting hot tables** â€” paused during peak traffic windows (defined as 09:00â€“22:00 in any of US-East, US-West, EU-West, regardless of which region the migration runs in). Off-peak deploy window only.
+1. **Major Feature launches** — anything tagged `release-type: major` in the PR (new vertical, new integration, plan structure change, agent overhaul) requires a launch-readiness scorecard signed off before the rollout starts. The scorecard lives at `docs/launch-readiness.md` and covers: dashboards built, alerts configured, on-call briefed, runbook written, kill switch in place, rollback plan documented, customer comms drafted, support team briefed, load test passed, security review signed off.
+2. **Schema migrations affecting hot tables** — paused during peak traffic windows (defined as 09:00–22:00 in any of US-East, US-West, EU-West, regardless of which region the migration runs in). Off-peak deploy window only.
 
 **Weekly release notes** are auto-generated from conventional commit messages by the `release-notes` action every Friday at 18:00 UTC. The bot posts a draft to `#release-notes` for the eng-lead-on-duty to edit, then publishes to:
 
 - Internal: `#all-hands` Slack channel.
-- External: `changelog.funelai.com` (public), `funnel-ai/changelog` email list.
+- External: `changelog.gofunnelai.com` (public), `funnel-ai/changelog` email list.
 
 **Customer-impacting changes** (new pricing, breaking API change, deprecated feature) follow the customer-comms playbook and are never bundled into the auto-generated notes.
 
@@ -396,9 +396,9 @@ For Sev-1 or Sev-2 incidents requiring a code change:
 
 1. Branch from the current production tag, not from main (main may contain undeployed work).
 2. Apply the minimal fix.
-3. Open a hotfix PR. CI runs the full unit + integration-mocked + smoke E2E suite â€” the long-tail tests are skipped to save time. Allowed only with the `hotfix` label.
+3. Open a hotfix PR. CI runs the full unit + integration-mocked + smoke E2E suite — the long-tail tests are skipped to save time. Allowed only with the `hotfix` label.
 4. Deploy to staging for a 15-minute smoke window (real synthetic monitoring against staging plus a human smoke check by the incident commander).
-5. Deploy to production via the standard gradual rollout but compressed (1% -> 100% over 10 minutes instead of 30) â€” guarded by the same automated health checks.
+5. Deploy to production via the standard gradual rollout but compressed (1% -> 100% over 10 minutes instead of 30) — guarded by the same automated health checks.
 6. Forward-merge the hotfix branch back into main immediately. No exceptions.
 7. **Post-incident review** within 48 hours, written up in `incidents/<date>-<slug>.md`. Required sections: timeline, root cause, customer impact, what worked, what didn't, action items with owners + deadlines.
 
@@ -406,7 +406,7 @@ Hotfixes that bypass any step above are themselves a Sev-2 incident the next bus
 
 ---
 
-## PART C â€” Observability
+## PART C — Observability
 
 The observability stack is intentionally boring. Boring tools mean engineers stay paged, not paging themselves to debug the monitoring.
 
@@ -440,7 +440,7 @@ The observability stack is intentionally boring. Boring tools mean engineers sta
 
 ### C.3 Mandatory Dashboards (built before Day 90)
 
-Every dashboard lives in `observability/dashboards/<name>.json` and is provisioned by the `grafana-sync` GitHub Action â€” dashboards are code, not click-ops. Ownership column = team responsible for keeping it green.
+Every dashboard lives in `observability/dashboards/<name>.json` and is provisioned by the `grafana-sync` GitHub Action — dashboards are code, not click-ops. Ownership column = team responsible for keeping it green.
 
 | Dashboard | Key panels | Owner |
 |---|---|---|
@@ -457,7 +457,7 @@ Every dashboard has a `?env=` template variable and works for `preview`, `stagin
 
 ### C.4 Service Level Agreements
 
-Publicly committed on `funelai.com/sla` and on `status.funelai.com`. SLA = customer-facing promise; SLO = internal target, set tighter than the SLA so we have headroom.
+Publicly committed on `gofunnelai.com/sla` and on `status.gofunnelai.com`. SLA = customer-facing promise; SLO = internal target, set tighter than the SLA so we have headroom.
 
 | Service | SLA | SLO | Error budget (30d) |
 |---|---|---|---|
@@ -466,7 +466,7 @@ Publicly committed on `funelai.com/sla` and on `status.funelai.com`. SLA = custo
 | Ad publishing | 99% | 99.3% | 7h 12m |
 | RevTry voice | 99.5% (joint with RevTry) | 99.7% | 3h 36m |
 
-**Why funnel rendering is 99.9%:** every minute of downtime is leads our customers do not receive. This is the contractual core promise. Renderer code paths must be ruthlessly simple â€” no DB read on the hot path, everything served from edge KV + R2.
+**Why funnel rendering is 99.9%:** every minute of downtime is leads our customers do not receive. This is the contractual core promise. Renderer code paths must be ruthlessly simple — no DB read on the hot path, everything served from edge KV + R2.
 
 **Ad publishing has the lowest SLA** because we depend on third-party APIs (Meta, Google, TikTok, LinkedIn) whose own availability is below 99%. We make this explicit to customers.
 
@@ -502,19 +502,19 @@ Publicly committed on `funelai.com/sla` and on `status.funelai.com`. SLA = custo
 
 **Alert hygiene:**
 - Every paging alert has a runbook linked in the alert payload (`runbooks/<alert>.md`).
-- Every alert that fires more than 3 times in 30 days without being a real incident is reviewed by the platform team â€” either tighten the alert or fix the underlying flake.
+- Every alert that fires more than 3 times in 30 days without being a real incident is reviewed by the platform team — either tighten the alert or fix the underlying flake.
 - The "alert review" is a weekly 30-min meeting; the agenda is auto-generated from PagerDuty + alert history.
 
 **On-call rotation:**
-- Weeks 1â€“4 of launch: rotation among the four founders, one-week shifts.
-- Month 2â€“5: rotation expands to all engineers comfortable with the stack, one-week shifts, secondary on-call always paired with primary.
+- Weeks 1–4 of launch: rotation among the four founders, one-week shifts.
+- Month 2–5: rotation expands to all engineers comfortable with the stack, one-week shifts, secondary on-call always paired with primary.
 - Month 6+: dedicated SRE hired and joins the rotation. SRE owns the alerting hygiene + runbooks.
 - Rotation managed in PagerDuty. Compensation per on-call shift per the people-ops doc.
 - A pager during business hours gets a 5-min response target; after-hours 15-min response target.
 
 ### C.6 Status Page
 
-**URL:** `status.funelai.com`, public, hosted on statuspage.io.
+**URL:** `status.gofunnelai.com`, public, hosted on statuspage.io.
 
 **Components:**
 
@@ -524,16 +524,16 @@ Publicly committed on `funelai.com/sla` and on `status.funelai.com`. SLA = custo
 - RevTry (voice)
 - Email (SendGrid)
 - SMS (Twilio)
-- Admin (app.funelai.com)
+- Admin (app.gofunnelai.com)
 - API
 
-Each component's status is driven *automatically* by the SLO dashboard â€” a component goes yellow when its 1-hour error rate exceeds 5x its 24h baseline, and red when an incident is declared. Manual override available to the incident commander.
+Each component's status is driven *automatically* by the SLO dashboard — a component goes yellow when its 1-hour error rate exceeds 5x its 24h baseline, and red when an incident is declared. Manual override available to the incident commander.
 
 **Incident posts:** required within 15 minutes of a Sev-1 or Sev-2 incident, updated every 30 minutes until resolved, with a post-mortem link added within 5 business days.
 
 **Subscribers:** email + SMS + webhook + Atom feed. The customer success team is automatically subscribed.
 
-**History:** 12 months retained, publicly browsable. We do not edit history â€” corrections happen as updates to the original post.
+**History:** 12 months retained, publicly browsable. We do not edit history — corrections happen as updates to the original post.
 
 ### C.7 Cost Monitoring
 
@@ -541,7 +541,7 @@ Each component's status is driven *automatically* by the SLO dashboard â€” 
 
 - Compute (Cloudflare, any non-Workers compute).
 - Storage (R2, Postgres, Redis).
-- AI providers (Claude, OpenAI, ElevenLabs, Flux, Runway) â€” split by tenant cohort.
+- AI providers (Claude, OpenAI, ElevenLabs, Flux, Runway) — split by tenant cohort.
 - Voice (RevTry).
 - SMS (Twilio).
 - Email (SendGrid).
@@ -560,7 +560,7 @@ Each component's status is driven *automatically* by the SLO dashboard â€” 
   - Current headroom on every constrained resource: Postgres connections, Postgres CPU + IOPS, Redis memory + ops/sec, Cloudflare Worker invocations, R2 storage + ops, AI provider rate limits, voice channel concurrency, SMS throughput per long code / short code / toll-free.
   - 90-day forecast based on the actual growth curve from the activation funnel dashboard.
   - Items breaching forecast.
-- **Provider escalations:** for any limit forecast to breach within 60 days, the platform lead opens a rate-limit-increase ticket with the provider that quarter, not the quarter the breach is forecast for. Providers reliably take 4â€“6 weeks for non-trivial limit increases.
+- **Provider escalations:** for any limit forecast to breach within 60 days, the platform lead opens a rate-limit-increase ticket with the provider that quarter, not the quarter the breach is forecast for. Providers reliably take 4–6 weeks for non-trivial limit increases.
 - **Pre-launch capacity bake:** in the two weeks before Day 90, we run the load-test battery (Part A.1.5) every weekday morning and review the deltas. Any regression vs. the prior day blocks the launch checklist item.
 
 ---
@@ -586,6 +586,6 @@ Each component's status is driven *automatically* by the SLO dashboard â€” 
 
 ## Appendix: Open items for review
 
-- Confirm Honeycomb vs. Datadog APM after 90 days â€” consolidate if Datadog APM hasn't earned its keep.
+- Confirm Honeycomb vs. Datadog APM after 90 days — consolidate if Datadog APM hasn't earned its keep.
 - Decide between LaunchDarkly and a self-hosted OpenFeature backend at month 9 based on cost.
 - Decide whether to bring SRE in-house or contract via a managed-SRE vendor for months 4-6 before the full-time hire.

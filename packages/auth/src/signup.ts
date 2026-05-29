@@ -3,7 +3,7 @@
  *
  * 1. Validate email + password (zod + password-policy).
  * 2. If a row already exists at `email_normalized`, return `email_already_in_use`
- *    UNLESS the existing row is in `pending_verification` and older than 1h â€”
+ *    UNLESS the existing row is in `pending_verification` and older than 1h —
  *    in that case we re-issue a verification email but keep the row.
  * 3. argon2id-hash the password.
  * 4. Insert the user row in `pending_verification`.
@@ -12,7 +12,7 @@
  * 7. Emit `user_signed_up`.
  *
  * IMPORTANT: We do NOT log in the user at this step. They must verify their
- * email first. This is a deliberate trade-off â€” slightly more friction in
+ * email first. This is a deliberate trade-off — slightly more friction in
  * exchange for a clean signal that bots can't easily fake.
  */
 
@@ -32,7 +32,7 @@ const SignupInput = z.object({
   email: z.string().email().max(320),
   password: z.string().min(1).max(256),
   full_name: z.string().trim().min(1).max(120).optional(),
-  /** Optional invite token â€” auto-binds the signup to a workspace invite. */
+  /** Optional invite token — auto-binds the signup to a workspace invite. */
   invite_token: z.string().min(1).max(256).optional(),
 });
 
@@ -100,7 +100,7 @@ export async function signupWithEmail(
       data: { verify_link: link, ttl_hours: Math.round(ttl / 3600) },
     });
   } catch {
-    // We do NOT fail the signup if email queuing fails â€” we expose `resend`.
+    // We do NOT fail the signup if email queuing fails — we expose `resend`.
     queued = false;
   }
 

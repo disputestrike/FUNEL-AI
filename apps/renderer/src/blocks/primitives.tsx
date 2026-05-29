@@ -203,7 +203,27 @@ export function Img(props: {
 }): React.ReactElement | null {
   if (!props.assetId) return null;
   const a = props.ctx.registries.assets[props.assetId];
-  if (!a) return null;
+
+  // Skeleton state — asset slot exists in the schema but the image hasn't been
+  // generated/uploaded yet. The image agent populates the registry on the next
+  // render pass once R2 has the file.
+  if (!a || !a.url || isPendingPlaceholder(a.url)) {
+    return (
+      <div
+        role="img"
+        aria-label="Image loading"
+        data-asset-pending={props.assetId}
+        className={`relative animate-pulse bg-[var(--color-neutral-100)] ${props.className ?? ""}`}
+        style={{
+          aspectRatio: props.aspectRatio ?? "16/9",
+          ...(a?.dimensions?.width_px ? { width: a.dimensions.width_px } : {}),
+        }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-neutral-100)] via-[var(--color-neutral-200)] to-[var(--color-neutral-100)]" />
+      </div>
+    );
+  }
+
   return (
     <img
       src={a.url}
@@ -216,6 +236,11 @@ export function Img(props: {
       style={props.aspectRatio ? { aspectRatio: props.aspectRatio } : undefined}
     />
   );
+}
+
+/** Placeholder URLs are emitted by the image agent before an image lands in R2. */
+function isPendingPlaceholder(url: string): boolean {
+  return url.includes("photo-placeholder") || url.startsWith("pending://");
 }
 
 // ---- Form (renders fields; the wire-up is handled by the form-handler endpoint) ----
@@ -414,6 +439,19 @@ function ConsentBlock(props: { consent: Record<string, unknown> }): React.ReactE
   const marketing = props.consent.marketing_consent_required
     ? (props.consent.marketing_consent_copy as string)
     : null;
+  // PEWC (Prior Express Written Consent) — required by FCC 2024 rules for AI-
+  // generated voice calls. Surfaces as a separate checkbox so the lead's
+  // affirmative agreement to AI voice is captured independently of marketing
+  // consent. The form-submit handler reads `consent.voice` from this field.
+  const pewcRequired = (props.consent.pewc_required ?? props.consent.voice_consent_required) as
+    | boolean
+    | undefined;
+  const businessName =
+    (props.consent.business_name as string | undefined) ?? "this business";
+  const pewc = pewcRequired
+    ? ((props.consent.pewc_copy as string | undefined) ??
+        `I agree to receive AI-generated calls and texts from ${businessName} at the phone number provided, including via automated technology. Message and data rates may apply. Consent is not required to purchase.`)
+    : null;
   const gdpr = props.consent.gdpr_required ? (props.consent.data_processor_disclosure as string) : null;
   return (
     <div className="space-y-2 text-xs text-[var(--color-neutral-600)]">
@@ -427,6 +465,12 @@ function ConsentBlock(props: { consent: Record<string, unknown> }): React.ReactE
         <label className="flex items-start gap-2">
           <input type="checkbox" name="consent_tcpa" required />
           <span>{tcpa}</span>
+        </label>
+      )}
+      {pewc && (
+        <label className="flex items-start gap-2">
+          <input type="checkbox" name="consent_voice" required />
+          <span>{pewc}</span>
         </label>
       )}
       {gdpr && <p>{gdpr}</p>}

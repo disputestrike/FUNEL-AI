@@ -1,5 +1,5 @@
 /**
- * SMS Agent â€” 3-7 touch SMS sequence with TCPA / PECR / LSPC opt-out language.
+ * SMS Agent — 3-7 touch SMS sequence with TCPA / PECR / LSPC opt-out language.
  *
  * Spec: docs/19-orchestrator-code-spec.md Â§B.2.10
  * Model: Claude Haiku 4.5 (short copy; volume is the driver)
@@ -32,7 +32,7 @@ You write SMS sequences for new leads. Brevity is everything.
 SEQUENCE STRUCTURE (3-7 messages):
   Hour 1   (reminder):     confirm what they signed up for + one small next step.
   Hour 24  (value):        one specific tip the recipient can use today.
-  Hour 72  (urgency):      only real urgency â€” actual deadline, cohort, capacity.
+  Hour 72  (urgency):      only real urgency — actual deadline, cohort, capacity.
   Day 7    (reactivation): one-question reach-out.
 
 Optional Hour 4 (reminder) and Hour 48 (proof) for high-cadence verticals.
@@ -63,7 +63,7 @@ PROHIBITIONS:
 - Never invent stats.
 - Never imply human if the SMS is automated (state "auto-msg" or similar in the
   first message for non-trivial cadences).
-- No first-name spoofing if no first name available â€” use the business name.
+- No first-name spoofing if no first name available — use the business name.
 
 OUTPUT: call the sms_output tool with sequence + optInLanguage + stopKeywords.`;
 

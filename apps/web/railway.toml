@@ -1,4 +1,4 @@
-# funnel-web â€” Next.js 14 (standalone output) marketing + app.
+# funnel-web — Next.js 14 (standalone output) marketing + app.
 [build]
 builder = "DOCKERFILE"
 dockerfilePath = "apps/web/Dockerfile"

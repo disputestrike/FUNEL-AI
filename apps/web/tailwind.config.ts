@@ -44,7 +44,7 @@ const config: Config = {
         warning: BRAND_TOKENS.warning,
         error: BRAND_TOKENS.error,
         info: BRAND_TOKENS.info,
-        // shadcn semantic aliases â€” mapped to brand neutrals
+        // shadcn semantic aliases — mapped to brand neutrals
         background: BRAND_TOKENS.slate[50],
         foreground: BRAND_TOKENS.slate[900],
         muted: BRAND_TOKENS.slate[100],
@@ -137,7 +137,7 @@ const config: Config = {
         code: ["14px", { lineHeight: "20px", letterSpacing: "0", fontWeight: "400" }],
       },
       spacing: {
-        // 4, 8, 12, 16, 24, 32, 48, 64, 96, 128 â€” Tailwind already covers most
+        // 4, 8, 12, 16, 24, 32, 48, 64, 96, 128 — Tailwind already covers most
         18: "72px",
         22: "88px",
         26: "104px",

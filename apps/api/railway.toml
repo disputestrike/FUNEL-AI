@@ -1,4 +1,4 @@
-# funnel-api ” Hono + tRPC API server.
+# funnel-api — Hono + tRPC API server.
 # Originally a Cloudflare Worker; on Railway it runs as a long-running Node
 # process via the @hono/node-server adapter. apps/api/dist/index.js boots
 # Hono on $PORT (Railway sets this; we default to 8080).

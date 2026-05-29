@@ -17,7 +17,7 @@ export function Footer() {
                 style={{ height: 36, width: "auto" }}
               />
             </Link>
-            <div className="mt-1 text-xs">Autonomous lead generation â€” coming soon.</div>
+            <div className="mt-1 text-xs">Autonomous lead generation — coming soon.</div>
           </div>
           <nav className="flex flex-wrap items-center gap-4 text-sm">
             <Link href="/grade" className="hover:text-ink-900">Grade a page</Link>

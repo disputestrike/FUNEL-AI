@@ -1,5 +1,5 @@
 /**
- * Resend provider â€” primary transactional email backend.
+ * Resend provider — primary transactional email backend.
  *
  * SPF / DKIM / DMARC config (configured at the Resend dashboard, not in code):
  *   - SPF: `v=spf1 include:_spf.resend.com ~all`
@@ -11,7 +11,7 @@
  *
  * Failover provider:
  *   We intentionally do NOT ship a SendGrid fallback. If a second provider is
- *   added later it should plug in via the `Email` interface â€” wire it in here.
+ *   added later it should plug in via the `Email` interface — wire it in here.
  */
 
 import { Resend } from "resend";
@@ -19,7 +19,7 @@ import type { Email, SendInput, SendResult } from "../index.js";
 
 export interface ResendEmailOptions {
   apiKey: string;
-  /** Default From: address â€” must be a verified domain in Resend. */
+  /** Default From: address — must be a verified domain in Resend. */
   defaultFrom?: string;
 }
 

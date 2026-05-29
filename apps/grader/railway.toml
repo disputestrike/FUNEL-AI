@@ -1,4 +1,4 @@
-# funnel-grader â€” Next.js public grader (gofunnelai.com/grade) with grader worker
+# funnel-grader — Next.js public grader (gofunnelai.com/grade) with grader worker
 # emulating the Cloudflare Worker path via @hono/node-server.
 [build]
 builder = "DOCKERFILE"

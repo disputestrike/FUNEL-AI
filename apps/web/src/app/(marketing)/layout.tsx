@@ -5,7 +5,11 @@ import { Footer } from "@/components/site/Footer";
  * Layout shared by all public marketing routes.
  * The dashboard has its own layout under (dashboard).
  */
-export default function MarketingLayout({ children }: { children: React.ReactNode }) {
+export default async function MarketingLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <div className="flex min-h-screen flex-col">
       <Header />

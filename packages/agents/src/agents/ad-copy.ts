@@ -1,5 +1,5 @@
 /**
- * Ad Copy Agent â€” 8-10 ad variants per platform, in each platform's structured
+ * Ad Copy Agent — 8-10 ad variants per platform, in each platform's structured
  * format (Meta primary text + headline + description, TikTok hook + description,
  * Google RSA headlines + descriptions, LinkedIn intro text + headline, YouTube
  * companion banner copy).
@@ -47,7 +47,7 @@ TikTok:
   primaryText: hook in first 3 seconds of copy (â‰¤ 100 chars)
   headline: â‰¤ 40 chars
   cta: Learn More, Sign Up, Download, Watch More, Shop Now
-  Tone: native to TikTok â€” UGC voice, not polished.
+  Tone: native to TikTok — UGC voice, not polished.
 
 Google Search (RSA):
   headline: â‰¤ 30 chars (you'll produce multiple short headlines)
@@ -61,7 +61,7 @@ YouTube (companion):
   Tone: spoken-first, video-companion.
 
 LinkedIn:
-  primaryText: â‰¤ 150 chars (600 max â€” but short performs)
+  primaryText: â‰¤ 150 chars (600 max — but short performs)
   headline: â‰¤ 70 chars
   description: â‰¤ 100 chars
   cta: Learn More, Sign Up, Register, Apply, Download
@@ -128,7 +128,7 @@ export function createAdCopyAgent(deps: AdCopyAgentDeps): Agent<AdCopyInput, AdC
 
       const hookSection = input.hook
         ? `Primary hook: "${input.hook.primary.headline}" / "${input.hook.primary.subhead}" / CTA: ${input.hook.primary.cta}\nAngle variants from Hook agent:\n${input.hook.variants.map((v) => `  - [${v.angleId ?? "?"}] ${v.headline}`).join("\n")}`
-        : "(no hook output â€” derive from brief alone)";
+        : "(no hook output — derive from brief alone)";
 
       const userTail = `Brief from Planner:
 ${input.brief}

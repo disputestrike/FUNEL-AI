@@ -4,7 +4,7 @@
  * `@shopify/shopify-app-remix` gives us:
  *   - The OAuth handshake against the shop (offline + online tokens).
  *   - `authenticate.admin(request)` / `authenticate.webhook(request)` helpers.
- *   - Session storage (Prisma adapter â€” see prisma/schema.prisma).
+ *   - Session storage (Prisma adapter — see prisma/schema.prisma).
  *
  * Every GoFunnelAI surface (extension/WP/Webflow/this) uses the same
  * @funnel/sdk against api.gofunnelai.com. Shopify auth lives here only so we can

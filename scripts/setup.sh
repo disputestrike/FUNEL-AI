@@ -1,6 +1,6 @@
-﻿#!/usr/bin/env bash
+#!/usr/bin/env bash
 ###############################################################################
-# GoFunnelAI â€” first-time setup.
+# GoFunnelAI — first-time setup.
 #
 # Run once on a fresh clone. Idempotent on re-run.
 #
@@ -48,7 +48,7 @@ fi
 # --- env file -------------------------------------------------------------
 if [[ ! -f .env ]]; then
   if [[ ! -f .env.example ]]; then
-    die ".env.example missing â€” repo state is broken"
+    die ".env.example missing — repo state is broken"
   fi
   bold "Creating .env from .env.example..."
   cp .env.example .env
@@ -70,7 +70,7 @@ if [[ -f docker-compose.yml ]] && command -v docker >/dev/null; then
     sleep 1
   done
 else
-  warn "docker not available â€” skipping local stack. Install Docker Desktop for full dev experience."
+  warn "docker not available — skipping local stack. Install Docker Desktop for full dev experience."
 fi
 
 # --- DB migrate + seed ----------------------------------------------------
@@ -105,9 +105,9 @@ prompt_secret() {
 
 if [[ "$NON_INTERACTIVE" == "0" ]]; then
   bold "Optional: paste keys for the providers you have. Leave blank to skip."
-  prompt_secret ANTHROPIC_API_KEY "Anthropic Claude API key (sk-ant-â€¦)"
-  prompt_secret OPENAI_API_KEY "OpenAI API key (sk-â€¦)"
-  prompt_secret RESEND_API_KEY "Resend (email) API key (re_â€¦)"
+  prompt_secret ANTHROPIC_API_KEY "Anthropic Claude API key (sk-ant-…)"
+  prompt_secret OPENAI_API_KEY "OpenAI API key (sk-…)"
+  prompt_secret RESEND_API_KEY "Resend (email) API key (re_…)"
   prompt_secret CLOUDFLARE_API_TOKEN "Cloudflare API token (scoped: Workers Scripts, KV, R2, Hyperdrive, Pages Edit)"
   prompt_secret CLOUDFLARE_ACCOUNT_ID "Cloudflare Account ID"
 fi

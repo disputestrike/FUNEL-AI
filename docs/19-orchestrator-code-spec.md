@@ -1,8 +1,8 @@
-﻿# 19 â€” Generation Orchestrator: Code-Level Spec
+# 19 — Generation Orchestrator: Code-Level Spec
 
 Owner: Head of Platform Engineering
 Status: Day-90 launch baseline. Engineers should be able to start building from this on Monday.
-Related: `12-prd-pack-v1.md` (Generation Engine PRD â€” the WHAT), `07c-cost-governor.md`, `07a-trust-and-safety-policy.md`, `07b-human-review-queue.md`, `02a-kb-pack-template.md`, `03-event-taxonomy-and-schemas.md`, `08-engineering-ops-spec.md`.
+Related: `12-prd-pack-v1.md` (Generation Engine PRD — the WHAT), `07c-cost-governor.md`, `07a-trust-and-safety-policy.md`, `07b-human-review-queue.md`, `02a-kb-pack-template.md`, `03-event-taxonomy-and-schemas.md`, `08-engineering-ops-spec.md`.
 Review cadence: Weekly during build; monthly post-launch.
 
 This document is the **HOW**. Doc 12 says "generate a funnel from a Business Profile in ~60s." This doc tells engineers which agents run, in what order, with what prompts, with what fallbacks, with what cost ceilings, and with what events emitted over SSE.
@@ -11,23 +11,23 @@ This document is the **HOW**. Doc 12 says "generate a funnel from a Business Pro
 
 ## Table of contents
 
-- Part A â€” Orchestrator architecture
-- Part B â€” Agent interface + 16 agent specs
-- Part C â€” Parallelization + dependency graph
-- Part D â€” Streaming pipeline (SSE)
-- Part E â€” Cost accounting hooks
-- Part F â€” Prompt caching strategy
-- Part G â€” Error handling + retry logic
-- Part H â€” Testing the orchestrator
-- Appendix â€” Repo layout, env vars, deploy
+- Part A — Orchestrator architecture
+- Part B — Agent interface + 16 agent specs
+- Part C — Parallelization + dependency graph
+- Part D — Streaming pipeline (SSE)
+- Part E — Cost accounting hooks
+- Part F — Prompt caching strategy
+- Part G — Error handling + retry logic
+- Part H — Testing the orchestrator
+- Appendix — Repo layout, env vars, deploy
 
 ---
 
-## Part A â€” Orchestrator architecture
+## Part A — Orchestrator architecture
 
 ### A.1 Runtime + topology
 
-The orchestrator is a stateless serverless TypeScript service. Two supported deploy targets â€” the same code compiles to both:
+The orchestrator is a stateless serverless TypeScript service. Two supported deploy targets — the same code compiles to both:
 
 - **Primary (US/EU):** Cloudflare Workers + Durable Objects. Each `generate()` call owns one Durable Object instance (the "GenerationActor") that holds the in-flight DAG state and pumps the SSE response. We use Workers because: edge-close SSE, 30-minute CPU cap on Durable Objects covers our worst-case generation, and we already use R2 for asset storage.
 - **Secondary (regulated regions, agency on-prem):** AWS Lambda (Node 22) + API Gateway WebSockets, with the GenerationActor backed by DynamoDB single-table state. Same TS source, different adapter.
@@ -97,7 +97,7 @@ export interface OrchestratorDeps {
   videoGen: VideoGenClient;       // multiplexes Runway / Veo / stock B-roll
   voiceGen: VoiceGenClient;       // ElevenLabs / Cartesia
   kb: KbClient;                   // pgvector retrieval
-  cg: CostGovernorClient;         // cg-svc â€” Doc 7c
+  cg: CostGovernorClient;         // cg-svc — Doc 7c
   hrq: HumanReviewQueueClient;    // Doc 7b
   db: DbClient;                   // funnel, audit, ledger writes
   events: EventBusClient;         // Doc 3
@@ -109,7 +109,7 @@ export interface OrchestratorDeps {
 export type GenerationInput = {
   workspaceId: string;
   userId: string;
-  businessProfile: BusinessProfile;   // from onboarding â€” see Doc 12 Â§4.2
+  businessProfile: BusinessProfile;   // from onboarding — see Doc 12 Â§4.2
   language: string;                   // BCP-47, e.g. "en-US", "fr-CA"
   geography: string;                  // ISO-3166-1 alpha-2, e.g. "US"
   options?: {
@@ -150,22 +150,22 @@ async *generate(input: GenerationInput) {
   const ctx = await this.bootstrap(input);          // validate, auth, budget, idempotency
   yield ev('generation_started', { ... });
 
-  // Phase 1 â€” Planner
+  // Phase 1 — Planner
   yield ev('planner_started', { ... });
   const plan = await this.runPlanner(ctx);
   yield ev('planner_completed', { archetype: plan.archetype, agents: plan.dispatch });
 
-  // Phase 2 â€” parallel content + brand
+  // Phase 2 — parallel content + brand
   const phase2 = this.runPhase2(ctx, plan);          // returns AsyncIterable<AgentEvent>
   for await (const e of phase2) yield e;
 
-  // Phase 3 â€” Fact-Check + Compliance on assembled draft
+  // Phase 3 — Fact-Check + Compliance on assembled draft
   yield ev('assembly_started', { ... });
   const draft = ctx.assemble();
   const phase3 = this.runPhase3(ctx, draft);
   for await (const e of phase3) yield e;
 
-  // Phase 4 â€” QA coherence; conditional regen
+  // Phase 4 — QA coherence; conditional regen
   const qa = await this.runQA(ctx, draft);
   yield ev('quality_scored', qa);
   if (qa.overall < 80) {
@@ -173,14 +173,14 @@ async *generate(input: GenerationInput) {
     for await (const e of this.runPhase2Targeted(ctx, plan, qa.failingDimensions)) yield e;
   }
 
-  // Phase 5 â€” Human review gating (Doc 7b)
+  // Phase 5 — Human review gating (Doc 7b)
   if (ctx.hrq.shouldQueue(draft, ctx.findings)) {
     yield ev('human_review_required', { ... });
     await ctx.hrq.enqueue(draft);                    // generation pauses; SSE stays open w/ heartbeats
     await ctx.hrq.awaitDecision();                   // resumes or rejects
   }
 
-  // Phase 6 â€” Video last (longest tail)
+  // Phase 6 — Video last (longest tail)
   for await (const e of this.runPhase6(ctx, draft)) yield e;
 
   // Finalize
@@ -210,7 +210,7 @@ async *generate(input: GenerationInput) {
 
 ---
 
-## Part B â€” Agent interface + 16 agent specs
+## Part B — Agent interface + 16 agent specs
 
 ### B.1 Agent interface
 
@@ -302,7 +302,7 @@ Below each agent gets: input/output types, model, prompt, retrieval, est. tokens
 - **KB retrieval:** `industry_pack(industry, geography)` top-8 + `archetype_examples(industry)` top-5.
 - **System prompt (cacheable head):**
   ```
-  You are the Planner agent of FunelAI's autonomous generation engine.
+  You are the Planner agent of GoFunnelAI's autonomous generation engine.
   Your job is to decide the optimal funnel ARCHETYPE for a specific business
   and to brief the downstream agents. You do NOT write copy or design pages.
 
@@ -319,7 +319,7 @@ Below each agent gets: input/output types, model, prompt, retrieval, est. tokens
 
   Produce a JSON object that matches the PlannerOutput schema EXACTLY.
   Briefs must be 60-150 words, specific, and actionable. Do NOT invent
-  facts about the business â€” if a fact is missing, instruct the relevant
+  facts about the business — if a fact is missing, instruct the relevant
   downstream agent to leave a placeholder and flag it to Fact-Check.
 
   Constraints:
@@ -366,8 +366,8 @@ Below each agent gets: input/output types, model, prompt, retrieval, est. tokens
   ```
 - **Est. tokens / cost:** ~14K cached + 3K fresh input, 1.5K output â†’ ~$0.08 with cache, ~$0.32 cold. Sonnet fallback ~$0.04.
 - **Streaming:** emit `chunk` deltas as the rationale, then dispatch briefs stream in; emit `final` only after schema-valid parse.
-- **Retry policy:** 3 retries on 429/503; on schema-invalid JSON, single re-prompt with `"Your prior reply did not parse. Errors: â€¦. Fix and resend."`; on second fail, downgrade to Sonnet and retry once.
-- **Cache key:** `planner:v3:{industry}:{geography}:{tier}` â€” caches the head + KB excerpts (industry & archetype templates rarely change).
+- **Retry policy:** 3 retries on 429/503; on schema-invalid JSON, single re-prompt with `"Your prior reply did not parse. Errors: …. Fix and resend."`; on second fail, downgrade to Sonnet and retry once.
+- **Cache key:** `planner:v3:{industry}:{geography}:{tier}` — caches the head + KB excerpts (industry & archetype templates rarely change).
 
 ---
 
@@ -389,7 +389,7 @@ Below each agent gets: input/output types, model, prompt, retrieval, est. tokens
 - **Est. cost:** ~$0.015 per call.
 - **Streaming:** stream the `primary` first (so the user sees the hero text appearing word-by-word), then variants, then rationale.
 - **Retry:** 2 retries on transient; re-prompt on length-violation.
-- **Cache key:** `hook:v2:{industry}:{angle}:{language}` â€” caches the hooks-library few-shots.
+- **Cache key:** `hook:v2:{industry}:{angle}:{language}` — caches the hooks-library few-shots.
 
 ---
 
@@ -464,7 +464,7 @@ Below each agent gets: input/output types, model, prompt, retrieval, est. tokens
   ```
 - **Model:** Flux 1.1 Pro. Fallback: Ideogram v2 â†’ Unsplash stock.
 - **KB retrieval:** none (style tokens come from Brand Guardian).
-- **System prompt:** N/A â€” Flux/Ideogram take text prompts, not chat. The orchestrator constructs prompts deterministically: `"<scene>, <brand.palette>, <brand.mood>, <style modifiers>, photographic, no text, no faces of specific identifiable people"` + negative prompt block.
+- **System prompt:** N/A — Flux/Ideogram take text prompts, not chat. The orchestrator constructs prompts deterministically: `"<scene>, <brand.palette>, <brand.mood>, <style modifiers>, photographic, no text, no faces of specific identifiable people"` + negative prompt block.
 - **Safety:** every image goes through `safety_classifier.run()` (Doc 7a). Fails â†’ regenerate with stricter prompt; second fail â†’ fall back to stock.
 - **Est. cost:** ~$0.04 / image Ã— ~4 images = ~$0.16.
 - **Streaming:** progress events at 0/25/50/75/100% per slot.
@@ -489,7 +489,7 @@ Below each agent gets: input/output types, model, prompt, retrieval, est. tokens
 - **Est. cost:** ~$0.40 / clip; this is the single most expensive agent.
 - **Streaming:** progress events; emits `video_polishing` after 30s so the UI can keep the user calm.
 - **Retry:** 1 retry only; fall back fast.
-- **Runs LAST** in Phase 6 â€” the funnel can publish without video and attach it asynchronously.
+- **Runs LAST** in Phase 6 — the funnel can publish without video and attach it asynchronously.
 
 ---
 
@@ -507,7 +507,7 @@ Below each agent gets: input/output types, model, prompt, retrieval, est. tokens
         description?: string;
         cta: string;
         characterCounts: Record<string, number>;
-        complianceFlags: string[];   // pre-flight, e.g. "uses superlative â€” needs proof"
+        complianceFlags: string[];   // pre-flight, e.g. "uses superlative — needs proof"
       }[];
     }[];
   };
@@ -641,7 +641,7 @@ Below each agent gets: input/output types, model, prompt, retrieval, est. tokens
   };
   ```
 - **Model:** Opus 4.7 (high-stakes; this is the agent that catches hallucinations). Fallback: Sonnet 4.6 + extra retrieval depth.
-- **KB retrieval:** `factual_grounding({businessProfile.id})` â€” pulls every claim source the user has provided.
+- **KB retrieval:** `factual_grounding({businessProfile.id})` — pulls every claim source the user has provided.
 - **System prompt:** ~700 words. Defines the four verdict classes, requires citing the BusinessProfile field that contradicts each problematic claim, instructs that any quantitative claim without a source in the BusinessProfile is `fabricated_stat`, allows generic best-practice statements only when no specific number is given.
 - **Est. cost:** ~$0.18 per call (assembled draft is the largest input).
 - **Streaming:** finding-by-finding.
@@ -668,10 +668,10 @@ Below each agent gets: input/output types, model, prompt, retrieval, est. tokens
   };
   ```
 - **Model:** Opus 4.7. Fallback: Sonnet 4.6 + larger ruleset retrieval.
-- **KB retrieval:** `compliance_rules({geography, industry, archetype})` top-30 (the largest single KB call in the system â€” this is why we cache it).
-- **System prompt:** ~750 words. Spells out the rule taxonomy (FTC, GDPR/UCPD, CASL, TCPA, vertical-specific like HIPAA-adjacent for health/wellness, FINRA-adjacent for financial). Requires citing a `ruleId` for every finding. Forbids generic "consult a lawyer" outputs â€” must be specific.
+- **KB retrieval:** `compliance_rules({geography, industry, archetype})` top-30 (the largest single KB call in the system — this is why we cache it).
+- **System prompt:** ~750 words. Spells out the rule taxonomy (FTC, GDPR/UCPD, CASL, TCPA, vertical-specific like HIPAA-adjacent for health/wellness, FINRA-adjacent for financial). Requires citing a `ruleId` for every finding. Forbids generic "consult a lawyer" outputs — must be specific.
 - **Est. cost:** ~$0.20 per call.
-- **Cache key:** `compliance:v4:{geography}:{industry}:{archetype}` â€” the rules pack is the high-value cache hit.
+- **Cache key:** `compliance:v4:{geography}:{industry}:{archetype}` — the rules pack is the high-value cache hit.
 
 ---
 
@@ -718,13 +718,13 @@ Below each agent gets: input/output types, model, prompt, retrieval, est. tokens
   };
   ```
 - **Model:** Sonnet 4.6. Fallback: Haiku 4.5.
-- **System prompt:** ~350 words. If the BusinessProfile has explicit brand assets, use them verbatim; if it doesn't, derive defaults from industry and a 6-question heuristic. Output is consumed by Image, Video, and Page agents â€” must be deterministic given the same input.
+- **System prompt:** ~350 words. If the BusinessProfile has explicit brand assets, use them verbatim; if it doesn't, derive defaults from industry and a 6-question heuristic. Output is consumed by Image, Video, and Page agents — must be deterministic given the same input.
 - **Est. cost:** ~$0.015 per call.
-- **Cache key:** `brand:v2:{workspaceId}` â€” same workspace usually has the same brand.
+- **Cache key:** `brand:v2:{workspaceId}` — same workspace usually has the same brand.
 
 ---
 
-## Part C â€” Parallelization + dependency graph
+## Part C — Parallelization + dependency graph
 
 ### C.1 The DAG
 
@@ -745,7 +745,7 @@ Below each agent gets: input/output types, model, prompt, retrieval, est. tokens
                                                                                   â”‚ Image (Flux)  â”‚  starts ONLY
                                                                                   â””â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”˜  after BrandGuard
                                                                                           â”‚
-                            (Phase 2 join â€” all of the above must finish)                 â”‚
+                            (Phase 2 join — all of the above must finish)                 â”‚
                             â–¼                                                             â”‚
                      â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”                                              â”‚
                      â”‚ Assemble draft      â”‚                                              â”‚
@@ -784,7 +784,7 @@ Below each agent gets: input/output types, model, prompt, retrieval, est. tokens
 
 - **Brand Guardian must finish before Image.** Image consumes brand tokens. Implementation: in Phase 2 the scheduler treats `image` as having `dependsOn: ['brand_guardian']`. All other Phase 2 agents are independent.
 - **Page benefits from Hook but does not require it.** If Hook is mid-flight when Page starts, Page uses the Planner brief alone and stitches in Hook output during assembly. This avoids a long serial chain.
-- **Phase 3 starts the instant Phase 2 joins.** No need to wait for Phase 6 (Video) â€” Fact-Check and Compliance operate on text + image alt-text, not video.
+- **Phase 3 starts the instant Phase 2 joins.** No need to wait for Phase 6 (Video) — Fact-Check and Compliance operate on text + image alt-text, not video.
 - **QA can re-trigger Phase 2 agents.** When QA emits `failingDimensions[].suggestedAgentsToRerun`, the orchestrator re-runs only those agents, then re-runs QA on the patched draft. Max one re-run cycle to bound cost.
 - **Video never blocks publish.** If Video fails or runs long, the funnel publishes without it and the video attaches asynchronously via a `funnel.video_attached` event (Doc 3).
 
@@ -825,7 +825,7 @@ export class Phase2Scheduler {
 
 ---
 
-## Part D â€” Streaming pipeline (SSE)
+## Part D — Streaming pipeline (SSE)
 
 ### D.1 Wire format
 
@@ -1015,12 +1015,12 @@ export function useGeneration(input: GenerationInput) {
 
 ### D.4 Backpressure + reconnection
 
-- The orchestrator writes events through an in-process queue with a 1MB high-watermark. When a slow client backs up, the orchestrator buffers up to 1MB then drops `agent_chunk` events (which are recoverable from `agent_completed.output`) â€” never drops state-changing events.
+- The orchestrator writes events through an in-process queue with a 1MB high-watermark. When a slow client backs up, the orchestrator buffers up to 1MB then drops `agent_chunk` events (which are recoverable from `agent_completed.output`) — never drops state-changing events.
 - On client disconnect, the GenerationActor keeps running until terminal. The client can reconnect via `GET /v1/generations/{id}/stream` with `Last-Event-ID`; we replay from the audit log.
 
 ---
 
-## Part E â€” Cost accounting hooks
+## Part E — Cost accounting hooks
 
 ### E.1 Recording cost
 
@@ -1107,11 +1107,11 @@ INSERT INTO cost_ledger (
 ) VALUES (...);
 ```
 
-â€¦and emits `generation.cost.recorded` (Doc 3) for downstream margin reporting.
+…and emits `generation.cost.recorded` (Doc 3) for downstream margin reporting.
 
 ---
 
-## Part F â€” Prompt caching strategy
+## Part F — Prompt caching strategy
 
 ### F.1 What we cache
 
@@ -1129,7 +1129,7 @@ Anthropic prompt caching has a 5-minute TTL (extendable to 1h on Sonnet/Opus 4.x
 
 ### F.2 Prompt structure for max cache hit
 
-Order matters â€” Anthropic caches a prefix, so everything stable goes first:
+Order matters — Anthropic caches a prefix, so everything stable goes first:
 
 ```
 system:
@@ -1149,15 +1149,15 @@ The fresh tail is typically <2K tokens. Cache hit savings are ~90% on the cached
 ### F.3 Cache warming
 
 - Per industry per geography, we **prewarm** the top 20 industries Ã— top 8 geographies after every KB pack push, by running a no-op Planner call. This guarantees first-request latency in those slices is sub-5s.
-- Brand Guardian outputs are cached at the application layer (Postgres) keyed by `(workspaceId, brandHash)` â€” Anthropic's TTL is too short to be useful for brand-token reuse across generations.
+- Brand Guardian outputs are cached at the application layer (Postgres) keyed by `(workspaceId, brandHash)` — Anthropic's TTL is too short to be useful for brand-token reuse across generations.
 
 ### F.4 Cache hit observability
 
-Every `AgentEvent.final` carries `cacheHits: { cachedInputTokens, freshInputTokens, ratio }`. The cost ledger aggregates this per generation. We alert if `mean(cacheHitRatio)` across all generations drops below 0.55 over a 1-hour window â€” that's our signal that the KB packs are versioning faster than expected.
+Every `AgentEvent.final` carries `cacheHits: { cachedInputTokens, freshInputTokens, ratio }`. The cost ledger aggregates this per generation. We alert if `mean(cacheHitRatio)` across all generations drops below 0.55 over a 1-hour window — that's our signal that the KB packs are versioning faster than expected.
 
 ---
 
-## Part G â€” Error handling + retry logic
+## Part G — Error handling + retry logic
 
 ### G.1 Error taxonomy
 
@@ -1249,7 +1249,7 @@ export function withRetry<TIn, TOut>(agent: Agent<TIn, TOut>): Agent<TIn, TOut> 
 |---|---|---|
 | Claude Opus 4.7 | Claude Sonnet 4.6 | GPT-4o |
 | Claude Sonnet 4.6 | Claude Haiku 4.5 | GPT-4o-mini |
-| Claude Haiku 4.5 | GPT-4o-mini | â€” |
+| Claude Haiku 4.5 | GPT-4o-mini | — |
 | Flux 1.1 Pro | Ideogram v2 | Unsplash stock |
 | Runway Gen-3 | Veo 3 | Curated stock B-roll |
 | ElevenLabs Multilingual v3 | Cartesia Sonic | (text-only fallback; voice agent emits `voice_unavailable`) |
@@ -1269,11 +1269,11 @@ export function withRetry<TIn, TOut>(agent: Agent<TIn, TOut>): Agent<TIn, TOut> 
 
 ---
 
-## Part H â€” Testing the orchestrator
+## Part H — Testing the orchestrator
 
 ### H.1 Fixture corpus
 
-`tests/fixtures/business_profiles/` â€” 100 known-good profiles **per industry** (target 20 industries Day 90 â†’ 2,000 fixtures total). Each fixture is:
+`tests/fixtures/business_profiles/` — 100 known-good profiles **per industry** (target 20 industries Day 90 â†’ 2,000 fixtures total). Each fixture is:
 
 ```json
 {
@@ -1304,7 +1304,7 @@ export function withRetry<TIn, TOut>(agent: Agent<TIn, TOut>): Agent<TIn, TOut> 
 - 100 **known-good** inputs (expected `pass: true`).
 - 100 **known-bad** inputs (expected `pass: false` with specific `ruleId`s).
 
-CI fails if either pass-rate drops below 97% on the good set or 95% on the bad set. The bad set is curated weekly by the Trust & Safety lead (Doc 7a) â€” adding new exemplars as new failure modes are observed in production.
+CI fails if either pass-rate drops below 97% on the good set or 95% on the bad set. The bad set is curated weekly by the Trust & Safety lead (Doc 7a) — adding new exemplars as new failure modes are observed in production.
 
 ### H.4 Cost regression tests
 
@@ -1320,7 +1320,7 @@ A 5% regression on the mean **fails CI** and blocks deploy.
 `tests/load/` uses k6:
 - **Steady state:** 500 parallel generations sustained for 10 minutes. Asserts P50 < 60s, P99 < 240s, zero `internal` failures.
 - **Spike:** 0 â†’ 2000 generations over 30s. Asserts the queue drains within 5 minutes and no client gets dropped without a final terminal event.
-- **Provider-outage drill:** chaos-monkey style â€” kill Anthropic for 60s, verify all in-flight generations succeed via fallback (GPT-4o) within the SLA.
+- **Provider-outage drill:** chaos-monkey style — kill Anthropic for 60s, verify all in-flight generations succeed via fallback (GPT-4o) within the SLA.
 
 ### H.6 Local dev harness
 
@@ -1333,7 +1333,7 @@ pnpm orchestrator:bench --industries solar,coaching,ecommerce      # cost+latenc
 
 ---
 
-## Appendix â€” Repo layout, env vars, deploy
+## Appendix — Repo layout, env vars, deploy
 
 ### Repo layout
 

@@ -1,4 +1,4 @@
-﻿# 07c â€” Cost Governor
+# 07c — Cost Governor
 
 Owner: Head of Platform Engineering + Head of Finance
 Status: Day-90 launch baseline
@@ -9,7 +9,7 @@ Review cadence: Weekly cost-vs-revenue dashboard, monthly thresholds, quarterly 
 
 ## 1. Purpose
 
-FunelAI's autonomous generation pipeline calls expensive APIs (LLMs, image gen, video gen, voice/TTS, SMS, email, storage) and orchestrates customer ad spend across platforms. Without governance, a single buggy loop or one bad-actor account can spend thousands per hour. The cost-governor service (`cg-svc`) enforces per-generation, per-account, per-channel limits in real time, with graceful degradation rather than hard failure where possible.
+GoFunnelAI's autonomous generation pipeline calls expensive APIs (LLMs, image gen, video gen, voice/TTS, SMS, email, storage) and orchestrates customer ad spend across platforms. Without governance, a single buggy loop or one bad-actor account can spend thousands per hour. The cost-governor service (`cg-svc`) enforces per-generation, per-account, per-channel limits in real time, with graceful degradation rather than hard failure where possible.
 
 This document specifies:
 1. Per-generation budgets by tier Ã— industry Ã— complexity.
@@ -21,7 +21,7 @@ This document specifies:
 
 ---
 
-## 2. Cost meter â€” per-generation
+## 2. Cost meter — per-generation
 
 ### 2.1 Generation lifecycle and the meter
 
@@ -49,7 +49,7 @@ When a generation starts, the orchestrator:
 | Outbound webhook + scraping | per call | Bright Data / Apify metered |
 | Search / web fetch | per query | Brave / Tavily / Serper posted rate |
 
-Ad spend is **not** part of the per-generation meter â€” it's separately governed in Â§6.
+Ad spend is **not** part of the per-generation meter — it's separately governed in Â§6.
 
 ### 2.3 Charging contract
 
@@ -154,7 +154,7 @@ Thresholds are per-cycle. Reset on cycle rollover.
 
 ## 5. Graceful degradation paths
 
-When a generation hits `near_limit_80` (per Â§2.3) or a workspace is in `hard_cap_150`, the orchestrator's agent-picker switches strategies. Degradation is per-agent-call, not per-generation â€” we don't fail; we adapt.
+When a generation hits `near_limit_80` (per Â§2.3) or a workspace is in `hard_cap_150`, the orchestrator's agent-picker switches strategies. Degradation is per-agent-call, not per-generation — we don't fail; we adapt.
 
 ### 5.1 Tactic ladder (in order of preference)
 
@@ -171,11 +171,11 @@ Degradation is invisible to the user unless it materially affects output. When i
 | Situation | Customer-facing message |
 |---|---|
 | Video generation skipped on Free tier | "Want a 15-second hero video? Upgrade to Growth and we'll generate one for this funnel." |
-| Used Sonnet instead of Opus on Growth in regulated vertical | (no message â€” quality target met; tracked internally for QA) |
+| Used Sonnet instead of Opus on Growth in regulated vertical | (no message — quality target met; tracked internally for QA) |
 | Skipped extra A/B variants | "Generated 2 variants. Upgrade to Scale for 5 variants per asset." |
 | Hard-cap reached mid-cycle | "You're getting incredible mileage from your plan. Upgrade now to unlock the rest of this month without limits." |
 
-NEVER: "Your budget is exhausted", "You've hit your cap", "Service degraded" â€” all read as punishment.
+NEVER: "Your budget is exhausted", "You've hit your cap", "Service degraded" — all read as punishment.
 
 ### 5.3 Quality floor
 Degradation cannot drop quality below the floor for any regulated industry. If degradation would push expected quality below 80 (the auto-pass threshold per 07b Â§2.3), the generation is paused and the customer is offered a one-click upgrade or a wait-until-next-cycle option. No silent quality collapse in healthcare/legal/financial.
@@ -191,7 +191,7 @@ Ad spend is the largest financial axis on the platform and most exposed to fraud
 - Workspace has a verified payment method on the ad platform itself (not just on Funnel).
 - Workspace KYB score (07a Â§4) â‰¤ 30, OR KYB completed.
 - Industry passes 07a Â§5 prohibited-category check.
-- Free tier: ad publishing **disabled regardless** â€” must Pro Boost or upgrade to a paid tier.
+- Free tier: ad publishing **disabled regardless** — must Pro Boost or upgrade to a paid tier.
 
 ### 6.2 New-account daily caps (first 7 days post-first-ad)
 
@@ -251,7 +251,7 @@ These are the bottom-line rate limits that protect the platform from runaway. Th
 | Image generations | 20/day | 200/day | 2,000/day | 20,000/day | per sub-account |
 | Video seconds generated | 0/day | 0/day | 300 sec/day | 3,000 sec/day | per sub-account |
 
-Caps are soft until 90% utilization (Slack alert to ops), hard at 100%. Customer sees "You've hit today's [resource] cap â€” upgrade or come back tomorrow" with upgrade CTA.
+Caps are soft until 90% utilization (Slack alert to ops), hard at 100%. Customer sees "You've hit today's [resource] cap — upgrade or come back tomorrow" with upgrade CTA.
 
 ### 7.3 Burst protection
 Token-bucket at the API gateway:
@@ -324,7 +324,7 @@ ad-cap-svc        # cap enforcement against ad-platform APIs, reconciliation
 rate-limit-svc    # token-bucket at gateway
 ```
 
-### 9.2 Tables (additive â€” referenced from 07a/07b)
+### 9.2 Tables (additive — referenced from 07a/07b)
 
 ```
 generation:
@@ -365,9 +365,9 @@ Consumed by: orchestrator (degradation decisions), customer notifications, ops d
 
 ## 10. Open items (Day-180 review)
 
-- Cached-output policy needs explicit per-vertical opt-in â€” some regulated verticals shouldn't reuse content across customers due to brand/uniqueness obligations.
+- Cached-output policy needs explicit per-vertical opt-in — some regulated verticals shouldn't reuse content across customers due to brand/uniqueness obligations.
 - Pricing reconciliation: list-rate vs negotiated-rate margin tracking is currently a manual spreadsheet; productize in Q2.
 - Multi-currency: ad-spend caps currently USD; add per-currency tables once we have non-US customers > 10% of base.
 - Predictive cost model: when ML signal that a workspace will exceed expected cost by week 1 of cycle gets reliable (>80% precision), front-load CSM outreach instead of waiting for 80% threshold.
 - Ad-spend velocity-vs-conversion-rate model: current rules are heuristic; train a model on Day-90+ data.
-- Carbon footprint reporting (LLM tokens Ã— estimated kWh) for sustainability disclosures â€” likely required by EU customers in 2027; pre-build in Q3.
+- Carbon footprint reporting (LLM tokens Ã— estimated kWh) for sustainability disclosures — likely required by EU customers in 2027; pre-build in Q3.

@@ -1,8 +1,8 @@
 /**
- * Planner Agent â€” picks funnel archetype, dispatches downstream agents.
+ * Planner Agent — picks funnel archetype, dispatches downstream agents.
  *
  * Spec: docs/19-orchestrator-code-spec.md Â§B.2.1
- * Model: Claude Opus 4.7 (high-stakes â€” sets the whole run)
+ * Model: Claude Opus 4.7 (high-stakes — sets the whole run)
  * Fallback chain: Sonnet 4.6 â†’ GPT-4o
  */
 import type { z } from "zod";
@@ -45,7 +45,7 @@ Choose the archetype that maximizes expected lead value given:
 
 Produce a JSON object that matches the PlannerOutput schema EXACTLY.
 Briefs must be 60-150 words, specific, and actionable. Do NOT invent
-facts about the business â€” if a fact is missing, instruct the relevant
+facts about the business — if a fact is missing, instruct the relevant
 downstream agent to leave a placeholder and flag it to Fact-Check.
 
 Constraints:
@@ -137,7 +137,7 @@ export function createPlannerAgent(deps: PlannerAgentDeps): Agent<PlannerInput, 
       const model = pickModel(ctx, primary);
       yield startedEvent(ctx, "planner", model) as AgentEvent<PlannerOutput>;
 
-      // KB retrieval â€” industry + archetypes
+      // KB retrieval — industry + archetypes
       const kbIndustry =
         input.kbIndustryDocs ??
         (await ctx.kb.retrieve({
@@ -167,7 +167,7 @@ ${renderBusinessProfile(ctx.businessProfile)}
 Industry KB excerpt:
 ${renderKb(kbIndustry)}
 
-Archetype hint from user: ${input.archetypeHint ?? "(none â€” choose freely)"}
+Archetype hint from user: ${input.archetypeHint ?? "(none — choose freely)"}
 
 Language: ${ctx.language}
 Geography: ${ctx.geography}

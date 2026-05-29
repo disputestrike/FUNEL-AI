@@ -1,17 +1,17 @@
 # @funnel/shopify-app
 
-GoFunnelAI for Shopify â€” built for App Store submission with Shopify CLI +
+GoFunnelAI for Shopify — built for App Store submission with Shopify CLI +
 Remix + Polaris.
 
 ## What it does
 
-- **Admin app** (Polaris UI in the embedded Shopify admin) â€” dashboard,
+- **Admin app** (Polaris UI in the embedded Shopify admin) — dashboard,
   funnel browser, lead inbox, discount automation, settings.
-- **Theme app extension** â€” drag-in storefront section that embeds any
+- **Theme app extension** — drag-in storefront section that embeds any
   GoFunnelAI funnel directly into the merchant's theme.
-- **Order sync** â€” orders/create + orders/paid + orders/fulfilled webhooks
+- **Order sync** — orders/create + orders/paid + orders/fulfilled webhooks
   forward to the GoFunnelAI CRM so funnels know when leads convert.
-- **Discount automation** â€” when a lead completes a configured funnel,
+- **Discount automation** — when a lead completes a configured funnel,
   GoFunnelAI calls our app proxy and we issue a single-use Shopify discount
   code, sent to the lead via Resend + SignalWire from the GoFunnelAI server.
 
@@ -28,8 +28,8 @@ Remix + Polaris.
 | `app/routes/webhooks.orders.tsx` | Order sync |
 | `app/routes/webhooks.app-uninstalled.tsx` | Cleanup on uninstall |
 | `app/routes/webhooks.gdpr.tsx` | GDPR webhooks |
-| `app/routes/shopify.proxy.funnel.discount-issued.tsx` | App proxy â€” discount issuance |
-| `app/routes/shopify.proxy.funnel.form-submit.tsx` | App proxy â€” form submit |
+| `app/routes/shopify.proxy.funnel.discount-issued.tsx` | App proxy — discount issuance |
+| `app/routes/shopify.proxy.funnel.form-submit.tsx` | App proxy — form submit |
 | `extensions/storefront-embed/` | Theme app extension (storefront) |
 
 ## Install (development)
@@ -61,12 +61,12 @@ pnpm exec shopify app deploy
 
 Two OAuth flows happen back-to-back:
 
-1. **Shopify install OAuth** â€” merchant installs the app; we receive an
+1. **Shopify install OAuth** — merchant installs the app; we receive an
    admin session and shop access token.
-2. **GoFunnelAI OAuth** â€” merchant clicks *Connect to GoFunnelAI* on
+2. **GoFunnelAI OAuth** — merchant clicks *Connect to GoFunnelAI* on
    `/app/settings`; we redirect through `login.gofunnelai.com` and persist the
    workspace token in the `FunnelLink` row keyed by shop domain.
 
 All GoFunnelAI API calls from this app flow through `@funnel/sdk` via
-`funnelClient(shop)`. No SendGrid/Twilio â€” outreach is Resend + SignalWire
+`funnelClient(shop)`. No SendGrid/Twilio — outreach is Resend + SignalWire
 on the GoFunnelAI server.

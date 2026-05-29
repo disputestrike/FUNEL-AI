@@ -5,7 +5,7 @@
  *   - <title>, <meta description>, canonical URL
  *   - schema.org Product + Offer + AggregateRating + Review microdata
  *   - Open Graph + Twitter cards
- *   - Breadcrumb (Marketplace â€º Category â€º Template title)
+ *   - Breadcrumb (Marketplace "º Category "º Template title)
  *
  * Returns a `MarketplaceSeoBlob` ready for the renderer to inline as
  * JSON-LD <script type="application/ld+json">.
@@ -139,7 +139,7 @@ export function renderTemplateSeo(args: {
   }
 
   return {
-    title: `${args.template.title} â€” GoFunnelAI Template`,
+    title: `${args.template.title} — GoFunnelAI Template`,
     description: args.template.description.slice(0, 160),
     canonical_url: url,
     jsonld,

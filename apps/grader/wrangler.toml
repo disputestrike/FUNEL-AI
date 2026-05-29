@@ -1,5 +1,5 @@
 ################################################################################
-# Funnel Grader â€” Cloudflare Pages project (Next.js via @cloudflare/next-on-pages)
+# Funnel Grader — Cloudflare Pages project (Next.js via @cloudflare/next-on-pages)
 #
 # Deployed at:  grader.gofunnelai.com   (production)
 #               grader.staging.gofunnelai.com (staging)
@@ -14,7 +14,7 @@ compatibility_date = "2024-11-01"
 compatibility_flags = ["nodejs_compat"]
 send_metrics = true
 
-# Workers Logs / observability â€” keep traces on always so the AI team can
+# Workers Logs / observability — keep traces on always so the AI team can
 # debug grader latency without redeploying.
 [observability]
 enabled = true
@@ -62,7 +62,7 @@ id = "REPLACE_AT_DEPLOY_KV_RATE_LIMITS"
 binding = "AB_VARIANTS"
 id = "REPLACE_AT_DEPLOY_KV_AB"
 
-# Producer-side queue bindings â€” grader fires a generation job after audit so
+# Producer-side queue bindings — grader fires a generation job after audit so
 # the user can convert the report into a real funnel without leaving the page.
 [[queues.producers]]
 binding = "Q_GENERATION"
@@ -72,7 +72,7 @@ queue = "generation-runner"
 binding = "Q_EMAIL"
 queue = "email-sender"
 
-# Browser Rendering â€” used to scrape the audited page and build the OG image.
+# Browser Rendering — used to scrape the audited page and build the OG image.
 browser = { binding = "BROWSER" }
 
 # Service binding to apps/api so the grader can hand a user off into a real

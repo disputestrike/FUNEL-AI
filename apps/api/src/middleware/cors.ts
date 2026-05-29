@@ -2,8 +2,8 @@
  * CORS lockdown.
  *
  * We never use `Access-Control-Allow-Origin: *`. The allowlist is built from:
- *   1. `env.ALLOWED_ORIGINS` (comma-separated) â€” fixed GoFunnelAI surfaces.
- *   2. Workspace custom domains â€” looked up by Origin host when present.
+ *   1. `env.ALLOWED_ORIGINS` (comma-separated) — fixed GoFunnelAI surfaces.
+ *   2. Workspace custom domains — looked up by Origin host when present.
  *
  * Webhook endpoints under `/webhooks` and OAuth callbacks under `/oauth`
  * intentionally have NO CORS (they are server-to-server only).
@@ -26,7 +26,7 @@ export function buildCors(): MiddlewareHandler<HonoEnv> {
       const allowed = new Set(parseAllowed(env));
       if (allowed.has(origin)) return origin;
       // Workspace custom domains: production wires a lookup against
-      // `custom_domains` table. The stub returns null (denied) â€” strict by
+      // `custom_domains` table. The stub returns null (denied) — strict by
       // default. Once the lookup is implemented, swap in `lookupCustomDomain`.
       return null;
     },

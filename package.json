@@ -2,7 +2,7 @@
   "name": "funnel-ai",
   "version": "0.1.0",
   "private": true,
-  "description": "GoFunnelAI ” Autonomous Lead Generation platform",
+  "description": "GoFunnelAI — Autonomous Lead Generation platform",
   "packageManager": "pnpm@9.12.0",
   "scripts": {
     "build": "turbo run build",

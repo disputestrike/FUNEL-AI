@@ -1,7 +1,7 @@
-﻿# 17 â€” PRD Pack v2 (Day-90 Launch)
+# 17 — PRD Pack v2 (Day-90 Launch)
 
 **Owner:** VP Engineering
-**Status:** Engineering source of truth â€” locked for Day-90 launch (companion to `12-prd-pack-v1.md`)
+**Status:** Engineering source of truth — locked for Day-90 launch (companion to `12-prd-pack-v1.md`)
 **Audience:** Engineering, QA, T&S, Trust, Billing, Admin Console, ML/MLOps, Comms/Notifications, Ads, Voice teams
 **Cross-references:**
 - Event taxonomy & DB schemas: `03-event-taxonomy-and-schemas.md`
@@ -9,7 +9,7 @@
 - Legal flows: `05a-terms-of-service.md`, `05b-privacy-policy.md`, `05c-acceptable-use-policy.md`, `05d-refund-policy.md`, `05e-publish-acknowledgment-and-indemnification.md`
 - Trust & Safety: `07a-trust-and-safety-policy.md`, `07b-human-review-queue.md`, `07c-cost-governor.md`
 - Engineering ops: `08-engineering-ops-spec.md`
-- v1 PRD pack: `12-prd-pack-v1.md` (PRDs 1â€“5)
+- v1 PRD pack: `12-prd-pack-v1.md` (PRDs 1–5)
 - Country launch matrix (TCPA + A2P + ad policy quirks): `15-country-launch-checklists.md`
 - Viral loops + referral hooks: `16-viral-loops-spec.md`
 
@@ -17,7 +17,7 @@
 
 > **Event taxonomy anchor.** Every event in a "telemetry events emitted" table MUST exist in Doc 03 Part A. Events tagged **NEW** must land in Doc 03 in the same PR and pass `tooling/eventschema/` lint.
 
-> **Compliance gates anchor.** All auto-block / auto-review / escalate gates resolve to one of: 07a Â§R1â€“R7, 07b Â§2.1â€“2.4, 07c Â§3.
+> **Compliance gates anchor.** All auto-block / auto-review / escalate gates resolve to one of: 07a Â§R1–R7, 07b Â§2.1–2.4, 07c Â§3.
 
 > **Cross-pack interaction anchor.** v2 modules sit downstream of v1's Generation Engine (v1 PRD 2) and Lead Engine (v1 PRD 3), and consume plan state from v1 PRD 4 (Billing) + admin actions from v1 PRD 5. Wherever this pack says "PRD N" without a "v1" or "v2" suffix, the table of contents below resolves the reference.
 
@@ -25,28 +25,28 @@
 
 ## Table of contents
 
-- [PRD 6 â€” RevTry Integration](#prd-6--revtry-integration)
-- [PRD 7 â€” Ad Publishing](#prd-7--ad-publishing)
-- [PRD 8 â€” Email + SMS Engine](#prd-8--email--sms-engine)
-- [PRD 9 â€” Notification Engine](#prd-9--notification-engine)
-- [PRD 10 â€” Recursive Learning Pipeline](#prd-10--recursive-learning-pipeline)
-- [Appendix A â€” Cross-PRD interaction map (v1 + v2)](#appendix-a--cross-prd-interaction-map-v1--v2)
-- [Appendix B â€” New events introduced by v2 (to land in Doc 03)](#appendix-b--new-events-introduced-by-v2-to-land-in-doc-03)
-- [Appendix C â€” Cross-cutting non-negotiables](#appendix-c--cross-cutting-non-negotiables)
+- [PRD 6 — RevTry Integration](#prd-6--revtry-integration)
+- [PRD 7 — Ad Publishing](#prd-7--ad-publishing)
+- [PRD 8 — Email + SMS Engine](#prd-8--email--sms-engine)
+- [PRD 9 — Notification Engine](#prd-9--notification-engine)
+- [PRD 10 — Recursive Learning Pipeline](#prd-10--recursive-learning-pipeline)
+- [Appendix A — Cross-PRD interaction map (v1 + v2)](#appendix-a--cross-prd-interaction-map-v1--v2)
+- [Appendix B — New events introduced by v2 (to land in Doc 03)](#appendix-b--new-events-introduced-by-v2-to-land-in-doc-03)
+- [Appendix C — Cross-cutting non-negotiables](#appendix-c--cross-cutting-non-negotiables)
 
 ---
 
-# PRD 6 â€” RevTry Integration
+# PRD 6 — RevTry Integration
 
 **Workstream owner:** Voice squad (Tech lead + 2 BE + 1 telephony eng + 1 ML eng for transcript ingestion + 1 SRE partner for SLA monitoring)
 **Source-of-truth services:** `revtry-orchestrator`, `revtry-worker` (consumer of v1 PRD 3 events), `voice-meter-svc`, `dnc-svc`, `voice-fallback-svc` (Twilio Programmable Voice adapter), `transcript-ingest-svc`.
-**Cross-PRD interactions:** consumes leads from v1 PRD 3 (Lead Engine â€” the 60s speed-to-lead SLA is shared); outcomes write back to v1 PRD 3 (`leads.status`, activity timeline); minute-meter accounting flows to v1 PRD 4 (Billing) for overage invoicing; admin replay / kill-switch lives in v1 PRD 5 (Admin Console); voice scripts come from v1 PRD 2 (Voice Script agent) and bind to a `script_version` per `revtry_calls` row (Doc 03 Â§B.12).
+**Cross-PRD interactions:** consumes leads from v1 PRD 3 (Lead Engine — the 60s speed-to-lead SLA is shared); outcomes write back to v1 PRD 3 (`leads.status`, activity timeline); minute-meter accounting flows to v1 PRD 4 (Billing) for overage invoicing; admin replay / kill-switch lives in v1 PRD 5 (Admin Console); voice scripts come from v1 PRD 2 (Voice Script agent) and bind to a `script_version` per `revtry_calls` row (Doc 03 Â§B.12).
 
 ## 1. Module overview
 
-RevTry is the AI voice agent layer that converts captured leads into qualified conversations within 60 seconds â€” and re-engages them on cadence after no-answer / voicemail. Every `lead_captured` event (v1 PRD 3 Â§6, Doc 03 Â§A.5 #1) for a workspace whose plan includes RevTry minutes routes to `revtry-orchestrator`, which composes a dial plan, checks suppression + DNC + quiet-hours + per-jurisdiction TCPA windows (Doc 15 country matrix), then dispatches to `revtry-worker` for outbound dial. Inbound calls to a workspace's RevTry number land in the same worker for inbound-handling personae. Scripts are industry-tuned (sourced from the same KB pack pinned at `business_profile_version`-time in v1 PRD 1) and persona-matched (voice ID + speaking pace + objection-handling style chosen per vertical Ã— geo Ã— language). TCPA opt-out language is read at the start of every outbound call ("Press 9 or say STOP to be removed") and captures are routed to the global suppression list (Doc 03 Â§B.16) so the opt-out is honored across every channel, every workspace, forever.
+RevTry is the AI voice agent layer that converts captured leads into qualified conversations within 60 seconds — and re-engages them on cadence after no-answer / voicemail. Every `lead_captured` event (v1 PRD 3 Â§6, Doc 03 Â§A.5 #1) for a workspace whose plan includes RevTry minutes routes to `revtry-orchestrator`, which composes a dial plan, checks suppression + DNC + quiet-hours + per-jurisdiction TCPA windows (Doc 15 country matrix), then dispatches to `revtry-worker` for outbound dial. Inbound calls to a workspace's RevTry number land in the same worker for inbound-handling personae. Scripts are industry-tuned (sourced from the same KB pack pinned at `business_profile_version`-time in v1 PRD 1) and persona-matched (voice ID + speaking pace + objection-handling style chosen per vertical Ã— geo Ã— language). TCPA opt-out language is read at the start of every outbound call ("Press 9 or say STOP to be removed") and captures are routed to the global suppression list (Doc 03 Â§B.16) so the opt-out is honored across every channel, every workspace, forever.
 
-Outcomes follow a strict state machine: `queued â†’ dialing â†’ connected | no_answer | voicemail | busy | failed | do_not_call â†’ qualified | disqualified | booked | transferred`. Each transition emits the corresponding A.5 event (Doc 03), updates `revtry_calls`, and writes to `leads.activity_timeline`. Recordings + transcripts are gated on consent (recorded jurisdiction-by-jurisdiction per Doc 15 â€” single-party vs two-party consent rules), encrypted at rest in S3 (`s3://funnel-lake-<region>/raw/integrations/revtry/...` per Doc 03 Â§C.4), and surfaced in the CRM timeline with a "PII access logged" overlay (v1 PRD 5 Â§2 story 10). Voice minutes are metered against the plan ledger (`workspace_ledger` per Doc 07c Â§4.1) at the resolution of seconds, rolled up nightly, and exposed in v1 PRD 4's billing UI. Overage at $0.18/minute (configurable per region in `pricing-config`) is invoiced on the next billing cycle.
+Outcomes follow a strict state machine: `queued â†’ dialing â†’ connected | no_answer | voicemail | busy | failed | do_not_call â†’ qualified | disqualified | booked | transferred`. Each transition emits the corresponding A.5 event (Doc 03), updates `revtry_calls`, and writes to `leads.activity_timeline`. Recordings + transcripts are gated on consent (recorded jurisdiction-by-jurisdiction per Doc 15 — single-party vs two-party consent rules), encrypted at rest in S3 (`s3://funnel-lake-<region>/raw/integrations/revtry/...` per Doc 03 Â§C.4), and surfaced in the CRM timeline with a "PII access logged" overlay (v1 PRD 5 Â§2 story 10). Voice minutes are metered against the plan ledger (`workspace_ledger` per Doc 07c Â§4.1) at the resolution of seconds, rolled up nightly, and exposed in v1 PRD 4's billing UI. Overage at $0.18/minute (configurable per region in `pricing-config`) is invoiced on the next billing cycle.
 
 RevTry's SLA is 99.5% monthly availability for *outbound* dial within 60s P95. When `revtry-svc` health crosses the Â§8 outage threshold, the orchestrator transparently fails over to `voice-fallback-svc` (Twilio Programmable Voice with a TwiML-driven script + Deepgram for ASR + ElevenLabs/Cartesia for TTS via PAL); persona fidelity is reduced but the lead is still contacted. The fallback is one-way (we don't gate the rest of the queue on RevTry recovery once we've cut over). Once RevTry is healthy and a debounce window passes, new dials route back. Fallback dials are tagged on the call record (`carrier_metadata.fallback_provider='twilio'`) so analytics can separate them.
 
@@ -54,10 +54,10 @@ RevTry's SLA is 99.5% monthly availability for *outbound* dial within 60s P95. W
 
 1. **GIVEN** a `lead_captured` event for a Growth-tier workspace **WHEN** the lead's country is in our voice launch list (Doc 15) and consent permits **THEN** `revtry-orchestrator` enqueues a dial within 5s, `revtry-worker` initiates the call within the 60s speed-to-lead SLA at P95, and `lead_revtry_call_started` (Doc 03 Â§A.5 #6) is emitted with `attempt_n=1`, `agent_voice_id`, `script_version`, and the workspace's RevTry-allocated `from_number`.
 2. **GIVEN** an outbound call connects to a human **WHEN** the RevTry agent reads the TCPA opt-out preamble ("Press 9 to be removed; this call may be recorded") **THEN** `consent_recorded=true` is set on `revtry_calls`, the lead-side disposition is `answered`, and a `consent_captured` (Doc 03 Â§A.9 #2) event is emitted with `purpose='revtry_recording'`, `method='ivr_inbound_preamble'`, `version=<preamble_version_hash>`.
-3. **GIVEN** the callee presses 9 OR says any opt-out keyword from the Â§3 list **WHEN** the worker detects it via DTMF or ASR keyword spotting **THEN** the call ends, `lead_sms_opted_out` is reused with `channel='call'` (or the new event `lead_call_opted_out` (**NEW**, add to Doc 03 Â§A.5) â€” *see Â§6 below*), the lead is added to the global `suppression_list` (Doc 03 Â§B.16) with `channel='call'`, and **all** future outbound voice/SMS to that identifier is blocked across **all** workspaces (TCPA boundary).
-4. **GIVEN** a no-answer or busy outcome on attempt N **WHEN** the retry policy allows another attempt (default: 3 attempts on day 0 at +10m / +60m / +4h; 1 attempt/day on days 1â€“3 in the lead's local-business-hours window; total cap 6 attempts) **THEN** `revtry-orchestrator` schedules the next dial; the `revtry_calls` row records `outcome='no_answer'` and `lead_revtry_call_completed` is emitted with the disposition.
+3. **GIVEN** the callee presses 9 OR says any opt-out keyword from the Â§3 list **WHEN** the worker detects it via DTMF or ASR keyword spotting **THEN** the call ends, `lead_sms_opted_out` is reused with `channel='call'` (or the new event `lead_call_opted_out` (**NEW**, add to Doc 03 Â§A.5) — *see Â§6 below*), the lead is added to the global `suppression_list` (Doc 03 Â§B.16) with `channel='call'`, and **all** future outbound voice/SMS to that identifier is blocked across **all** workspaces (TCPA boundary).
+4. **GIVEN** a no-answer or busy outcome on attempt N **WHEN** the retry policy allows another attempt (default: 3 attempts on day 0 at +10m / +60m / +4h; 1 attempt/day on days 1–3 in the lead's local-business-hours window; total cap 6 attempts) **THEN** `revtry-orchestrator` schedules the next dial; the `revtry_calls` row records `outcome='no_answer'` and `lead_revtry_call_completed` is emitted with the disposition.
 5. **GIVEN** the dial reaches voicemail **WHEN** voicemail detection (Twilio AMD or RevTry's native AMD) confidently fires **THEN** the worker plays the configured voicemail script (or skips per workspace setting), emits `lead_voicemail_left` (Doc 03 Â§A.5 #8) with `script_version` + `vm_audio_url`, and schedules a follow-up SMS via v2 PRD 8 with idempotency on `(lead_id, attempt_n)`.
-6. **GIVEN** a number is on the workspace's local DNC list OR on the synced national DNC list (US â€” DNC.gov daily delta; UK â€” TPS via partner; CA â€” CRTC) **WHEN** the orchestrator pre-checks before dialing **THEN** the call is *not* placed, the lead status moves to `disqualified` with `reason_code='dnc_listed'`, `lead_disqualified` is emitted, and no minutes are metered.
+6. **GIVEN** a number is on the workspace's local DNC list OR on the synced national DNC list (US — DNC.gov daily delta; UK — TPS via partner; CA — CRTC) **WHEN** the orchestrator pre-checks before dialing **THEN** the call is *not* placed, the lead status moves to `disqualified` with `reason_code='dnc_listed'`, `lead_disqualified` is emitted, and no minutes are metered.
 7. **GIVEN** a transcript completes **WHEN** `transcript-ingest-svc` processes the diarized transcript **THEN** PII redaction runs (regex + NER for emails, phones, SSN-like, card-like, address-like patterns), the redacted transcript is stored in `revtry_calls.transcript_s3_uri`, and `lead_revtry_call_completed` is updated with `objections[]` and `sentiment_score`.
 8. **GIVEN** a Scale-tier workspace exceeds 2,500 minutes in a billing cycle **WHEN** the next dial would exceed the ledger ceiling **THEN** the orchestrator continues to dial but flags every additional second as `overage=true`; nightly billing roll-up writes an overage invoice line item at $0.18/min (configurable per `pricing-config`) into v1 PRD 4's `invoices`.
 9. **GIVEN** an Agency-tier parent workspace pools minutes across N sub-workspaces **WHEN** any sub-workspace dials **THEN** the meter charges the *parent's* pool first, falls through to the sub-workspace's plan ceiling only if the parent has opted out of pooling for that sub (`agency_pool_settings.opted_out=true`), and emits `voice_minutes_metered` (**NEW**, A.7) with `pool_id` set.
@@ -67,11 +67,11 @@ RevTry's SLA is 99.5% monthly availability for *outbound* dial within 60s P95. W
 13. **GIVEN** the caller asks to talk to a human **WHEN** the workspace has `human_transfer_enabled=true` and a transfer target (PSTN or SIP URI) is on duty per the on-call schedule **THEN** the worker warm-transfers via Twilio `<Dial>` or SIP REFER, emits `lead_revtry_call_completed` with `outcome='transferred'`, and the activity timeline shows the transfer + the duration up to transfer.
 14. **GIVEN** an admin (v1 PRD 5 `super_admin` w/ `pii:read`) replays a single call from the admin console **WHEN** they click "Play recording" **THEN** the recording streams from S3 via a signed URL (60s TTL), `pii_access_recorded` (Doc 03 Â§A.9 NEW per v1) is emitted, and an audit row is written.
 15. **GIVEN** the workspace owner toggles "Record calls" to OFF **WHEN** any subsequent call is placed **THEN** `record_call=false` is passed to the worker; the preamble switches to a no-recording variant; `revtry_calls.recording_s3_uri` stays null; existing recordings remain (with a per-workspace retention override path through v1 PRD 5).
-16. **GIVEN** a user in a single-party-consent jurisdiction (e.g. most US states) **WHEN** a call connects **THEN** the preamble is short ("This call may be recorded for quality"); **GIVEN** a user in a two-party-consent jurisdiction (e.g. CA, FL, IL, PA, WA â€” Doc 15) **WHEN** the call connects **THEN** the preamble is the explicit consent variant ("â€¦by continuing this call you consentâ€¦"), and if the callee declines, the worker continues without recording.
+16. **GIVEN** a user in a single-party-consent jurisdiction (e.g. most US states) **WHEN** a call connects **THEN** the preamble is short ("This call may be recorded for quality"); **GIVEN** a user in a two-party-consent jurisdiction (e.g. CA, FL, IL, PA, WA — Doc 15) **WHEN** the call connects **THEN** the preamble is the explicit consent variant ("…by continuing this call you consent…"), and if the callee declines, the worker continues without recording.
 
 ## 3. Edge cases (â‰¥ 15)
 
-1. Lead captured at 11:58 PM local â€” TCPA quiet-hours start at 9 PM (US) â†’ dial deferred to 8 AM the next morning (jurisdictional rules from Doc 15); `lead_revtry_call_started` not emitted until actual dial.
+1. Lead captured at 11:58 PM local — TCPA quiet-hours start at 9 PM (US) â†’ dial deferred to 8 AM the next morning (jurisdictional rules from Doc 15); `lead_revtry_call_started` not emitted until actual dial.
 2. Lead's phone resolves to two countries (e.g. NANP US/CA shared range) â†’ use the funnel's stated geo + `lead.ip_hash` country signal as a tiebreaker; if still ambiguous, apply the *stricter* of the two jurisdictions' rules.
 3. The number is a known landline that doesn't accept SMS but the script's voicemail fallback is SMS-only â†’ skip the SMS fallback step, mark the lead with `voicemail_followup_skipped=true`.
 4. Number is on a recycled-number list (T-Mobile-style) â†’ require fresh consent before any further outbound; if no fresh consent, dial only once and only with the opt-out preamble.
@@ -82,7 +82,7 @@ RevTry's SLA is 99.5% monthly availability for *outbound* dial within 60s P95. W
 9. Workspace plan changes from Growth â†’ Starter mid-cycle â†’ minute ceiling drops; in-flight calls complete, future scheduled dials beyond the new ceiling are paused (not canceled) and the user is notified via v2 PRD 9.
 10. Twilio fallback also degraded (rare double outage) â†’ all dials queue with TTL = next business day; v2 PRD 9 sends the workspace a SEV banner; no minutes metered.
 11. Call connects but the speaker is an answering service / IVR loop (not a human, not a voicemail) â†’ AMD escalates to `loop_detected`; worker ends the call after 12s with `outcome='failed'` `disposition_code='ivr_loop'`; no recording stored.
-12. Caller emits sensitive PII verbally ("my SSN is â€¦") â†’ real-time PII bleeper masks audio in the recording (60ms duck) and redacts in the transcript before storage; emit `pii_leak_blocked` (Doc 03 Â§A.9).
+12. Caller emits sensitive PII verbally ("my SSN is …") â†’ real-time PII bleeper masks audio in the recording (60ms duck) and redacts in the transcript before storage; emit `pii_leak_blocked` (Doc 03 Â§A.9).
 13. Persona-matched voice ID has been removed from the provider (ElevenLabs disabled the voice) â†’ orchestrator selects the next-best persona in the vertical's persona library (v2 PRD 10 weights from the learning pipeline), emits a degraded-quality warning to the workspace via v2 PRD 9.
 14. Workspace owner uploads a custom voicemail audio that exceeds 30s OR fails content scan â†’ reject upload with a friendly message; do not silently truncate.
 15. Same lead captured twice in 30s from two different funnels in the same workspace â†’ orchestrator dedupes by `(workspace_id, contact_hash)` for 60 minutes; second `lead_captured` joins the first's dial queue rather than creating a parallel dial.
@@ -109,9 +109,9 @@ RevTry's SLA is 99.5% monthly availability for *outbound* dial within 60s P95. W
 - `notification-svc` (v2 PRD 9): degraded-quality + overage notifications.
 - `feature-flags`: `release.revtry.v1`, `killswitch.revtry.global`, `killswitch.revtry.<vertical>`, `killswitch.revtry.<region>`, `release.revtry.fallback`.
 
-**External (via PAL â€” Doc 04)**
+**External (via PAL — Doc 04)**
 - RevTry (the AI voice vendor).
-- Twilio Programmable Voice + Twilio Lookup (carrier, line-type) â€” fallback path.
+- Twilio Programmable Voice + Twilio Lookup (carrier, line-type) — fallback path.
 - Deepgram ASR (fallback path; RevTry has its own ASR).
 - ElevenLabs / Cartesia / OpenAI TTS (fallback path).
 - DNC.gov daily download endpoint (US).
@@ -120,13 +120,13 @@ RevTry's SLA is 99.5% monthly availability for *outbound* dial within 60s P95. W
 
 ## 5. Database tables / objects touched
 
-- `revtry_calls` (Doc 03 Â§B.12) â€” read + write.
-- `leads` (Doc 03 Â§B.5) â€” write status, activity timeline.
-- `suppression_list` (Doc 03 Â§B.16) â€” write (opt-outs).
-- `workspace_ledger` (Doc 07c Â§4.1) â€” write seconds/cost.
-- `audit_log` (Doc 03 Â§B.9) â€” every state transition.
-- `event_log` â€” emitter hot-tail.
-- `consent_records` â€” preamble consent captures.
+- `revtry_calls` (Doc 03 Â§B.12) — read + write.
+- `leads` (Doc 03 Â§B.5) — write status, activity timeline.
+- `suppression_list` (Doc 03 Â§B.16) — write (opt-outs).
+- `workspace_ledger` (Doc 07c Â§4.1) — write seconds/cost.
+- `audit_log` (Doc 03 Â§B.9) — every state transition.
+- `event_log` — emitter hot-tail.
+- `consent_records` — preamble consent captures.
 
 **New helper schemas (must land in Doc 03 Â§B in the same PR):**
 
@@ -145,7 +145,7 @@ CREATE TABLE revtry_dial_plan (
 CREATE INDEX rdp_next_action_idx ON revtry_dial_plan (next_action_at) WHERE state IN ('queued','in_progress');
 
 CREATE TABLE voice_minute_ledger (
-  id              TEXT PRIMARY KEY,           -- vml_â€¦
+  id              TEXT PRIMARY KEY,           -- vml_…
   workspace_id    TEXT NOT NULL REFERENCES workspaces(id) ON DELETE CASCADE,
   call_id         TEXT NOT NULL REFERENCES revtry_calls(id) ON DELETE CASCADE,
   pool_id         TEXT,
@@ -166,7 +166,7 @@ CREATE TABLE dnc_lists (
 CREATE UNIQUE INDEX dnc_unique ON dnc_lists (jurisdiction, identifier_sha256);
 
 CREATE TABLE revtry_personae (
-  id              TEXT PRIMARY KEY,           -- rvp_â€¦
+  id              TEXT PRIMARY KEY,           -- rvp_…
   vertical        TEXT NOT NULL,
   language        TEXT NOT NULL,
   region          TEXT,
@@ -193,7 +193,7 @@ CREATE TABLE revtry_personae (
 | `lead_call_opted_out` **NEW** (A.5) | A.5 | When the caller opts out specifically of voice. `channel='call'`, full payload mirrors `lead_sms_opted_out`. Add to Doc 03. |
 | `consent_captured` (A.9 #2) | A.9 | Preamble accepted. `purpose='revtry_recording'`. |
 | `pii_leak_blocked` (A.9) | A.9 | PII bleeper triggered mid-call. |
-| `voice_minutes_metered` **NEW** (A.7 â€” SaaS revenue family) | A.7 | Nightly + real-time on overage threshold cross. Add to Doc 03 Â§A.7. Properties: `workspace_id`, `pool_id?`, `seconds`, `overage_seconds`, `cost_micros`, `currency`. |
+| `voice_minutes_metered` **NEW** (A.7 — SaaS revenue family) | A.7 | Nightly + real-time on overage threshold cross. Add to Doc 03 Â§A.7. Properties: `workspace_id`, `pool_id?`, `seconds`, `overage_seconds`, `cost_micros`, `currency`. |
 | `revtry_fallback_activated` **NEW** (A.9) | A.9 | Health-check trip; carries `reason`, `provider='twilio'`. Add to Doc 03 Â§A.9. |
 | `revtry_fallback_deactivated` **NEW** (A.9) | A.9 | Cut back to RevTry after health stable for the debounce window. |
 | `dnc_match_blocked` **NEW** (A.5) | A.5 | Dial pre-empted by DNC. `jurisdiction`, `identifier_sha256`. Add to Doc 03. |
@@ -216,7 +216,7 @@ All events carry the canonical envelope (Doc 03 Â§A.0). `revtry_calls` is the 
 | Add/remove from workspace DNC list | âœ… | âœ… | âœ… | âŒ | âŒ | âŒ |
 
 Admin-console (v1 PRD 5):
-- `support`: view metadata + transcripts (PII redacted view) â€” no raw recording.
+- `support`: view metadata + transcripts (PII redacted view) — no raw recording.
 - `engineering`: replay failed dials, retry from DLQ, view fallback activation log, view per-region health.
 - `super_admin` w/ `pii:read`: stream raw recording (signed-URL, `pii_access_recorded` emitted).
 - `billing_admin`: view minute ledger + apply credit for SLA breach.
@@ -231,7 +231,7 @@ Admin-console (v1 PRD 5):
 | Transcript pipeline backed up | Recordings stored, transcripts delayed; UI shows "transcript pending"; SLA: 15 min P95 | Auto on backlog drain |
 | Persona library empty for a vertical | Use generic-persona fallback (`rvp_generic_<lang>`); flag KB-pack gap to T&S | T&S provisions persona |
 | Minute meter write failure | Call still proceeds (do not block on metering); reconcile from `revtry_calls.duration_sec` nightly | Auto recon |
-| Opt-out write failure (suppression-list 5xx) | Fail closed â€” block call, retry write, page on-call (legal exposure if we lose an opt-out) | Manual escalation |
+| Opt-out write failure (suppression-list 5xx) | Fail closed — block call, retry write, page on-call (legal exposure if we lose an opt-out) | Manual escalation |
 | Recording S3 write failure | Call still completes; recording marked `pending_upload`; background job retries 6Ã— over 24h | Auto |
 | Workspace ledger exhausted mid-call | Current call completes (we don't hang up mid-sentence); next dial blocked + upgrade banner | User-initiated upgrade or wait for renewal |
 | Pooled Agency partner workspace closed mid-call | Call completes; cost attributed to parent; sub-workspace removed from pool on next cycle | Auto |
@@ -243,7 +243,7 @@ Admin-console (v1 PRD 5):
 - [ ] Opt-out keyword detection F1 â‰¥ 0.95 on the 5,000-utterance test corpus (`eval/revtry/optout/`).
 - [ ] AMD (answering-machine detection) accuracy â‰¥ 0.92 measured against the held-out call-recording set.
 - [ ] TCPA quiet-hours enforced per US state + per international jurisdiction (Doc 15); regression suite has 50+ positive + 50+ negative cases.
-- [ ] Two-party-consent jurisdiction preamble triggers in CA, FL, IL, PA, WA (and any others in Doc 15) â€” verified by a Playwright/Twilio recorded-call test.
+- [ ] Two-party-consent jurisdiction preamble triggers in CA, FL, IL, PA, WA (and any others in Doc 15) — verified by a Playwright/Twilio recorded-call test.
 - [ ] Fallback to Twilio is fully automatic within 60 s of `revtry-svc` health degradation (load-test verified by killing the RevTry adapter).
 - [ ] Minute meter accuracy: seconds metered vs `revtry_calls.duration_sec` summed match within 0.1% nightly (drift > 0.1% pages voice-ops).
 - [ ] Overage invoicing math verified end-to-end against v1 PRD 4 invoices; cents-precise.
@@ -257,7 +257,7 @@ Admin-console (v1 PRD 5):
 ## 10. Launch blockers
 
 1. End-to-end happy-path: `lead_captured` â†’ dial â†’ connect â†’ outcome â†’ `leads.status` update â†’ activity timeline entry, within the 60s SLA P95.
-2. Global suppression list integration â€” opt-outs cross-channel and cross-workspace.
+2. Global suppression list integration — opt-outs cross-channel and cross-workspace.
 3. DNC integration live for US (DNC.gov) at minimum; UK + CA can be staged but must be present for those launch markets per Doc 15.
 4. TCPA quiet-hours + two-party-consent jurisdiction handling.
 5. Twilio fallback fully wired, tested under simulated RevTry outage.
@@ -265,7 +265,7 @@ Admin-console (v1 PRD 5):
 7. Recording + transcript storage encrypted at rest, signed-URL access with `pii_access_recorded` emission.
 8. Persona library populated for every Day-90 launch vertical Ã— launch language.
 9. Kill switches: `killswitch.revtry.global`, `killswitch.revtry.<vertical>`, `killswitch.revtry.<region>` (Doc 08 Â§362 naming).
-10. Reconciliation: `revtry_calls` rows vs `lead_revtry_call_completed` Kafka offsets â†” `voice_minute_ledger` â€” clean for 7 days pre-launch (Doc 03 Â§C.5).
+10. Reconciliation: `revtry_calls` rows vs `lead_revtry_call_completed` Kafka offsets â†” `voice_minute_ledger` — clean for 7 days pre-launch (Doc 03 Â§C.5).
 11. SEV-2 + SEV-1 runbooks (Doc 08 Â§306) for vendor outage scenarios.
 
 ## 11. Post-launch enhancements
@@ -276,7 +276,7 @@ Admin-console (v1 PRD 5):
 - Multi-party calls (3-way for sales-engineer assist).
 - Inbound auto-routing rules ("if caller mentions pricing, route to billing-trained persona").
 - Live transcription streamed to the CRM page for users watching the call in real time.
-- WebRTC widget on the funnel page â€” visitor clicks "Talk now", connects in-browser to the AI agent.
+- WebRTC widget on the funnel page — visitor clicks "Talk now", connects in-browser to the AI agent.
 - Conversational-intelligence dashboard (objection frequency, win-correlated phrases).
 
 ## 12. Test plan
@@ -308,7 +308,7 @@ Admin-console (v1 PRD 5):
 
 ---
 
-# PRD 7 â€” Ad Publishing
+# PRD 7 — Ad Publishing
 
 **Workstream owner:** Ads squad (Tech lead + 2 BE + 2 FE + 1 ML eng for creative variant ranking + 1 compliance eng partner)
 **Source-of-truth services:** `ads-svc`, `creative-svc`, `audience-svc`, `pixel-svc`, `ad-policy-svc` (pre-flight compliance), `ad-rejection-resolver-svc`, `attribution-svc`.
@@ -316,26 +316,26 @@ Admin-console (v1 PRD 5):
 
 ## 1. Module overview
 
-Ad Publishing connects FunelAI workspaces to the eight launch ad platforms â€” Meta (Facebook + Instagram), Google (Search + Display + YouTube + Performance Max), TikTok, LinkedIn, X (Twitter), Pinterest, Snap, Reddit â€” via OAuth, and orchestrates campaign creation, creative variant generation (5â€“10 per platform), audience targeting, budget pacing, and conversion tracking. The Generation Engine (v1 PRD 2) produces a *creative bank* (copy + image + video assets per platform aspect ratio); `creative-svc` selects 5â€“10 variants for the chosen platforms based on each platform's spec (Meta Reels 9:16, Google Display 1.91:1 + 1:1, TikTok 9:16, LinkedIn 1:1, X 1.91:1, Pinterest 2:3, Snap 9:16, Reddit 1.91:1). `audience-svc` proposes 1â€“3 audiences using each platform's targeting (interest + lookalike + custom-audience) based on the `business_profile_versions.payload.audience_hints` (v1 PRD 1) plus historical conversion data (v2 PRD 10).
+Ad Publishing connects GoFunnelAI workspaces to the eight launch ad platforms — Meta (Facebook + Instagram), Google (Search + Display + YouTube + Performance Max), TikTok, LinkedIn, X (Twitter), Pinterest, Snap, Reddit — via OAuth, and orchestrates campaign creation, creative variant generation (5–10 per platform), audience targeting, budget pacing, and conversion tracking. The Generation Engine (v1 PRD 2) produces a *creative bank* (copy + image + video assets per platform aspect ratio); `creative-svc` selects 5–10 variants for the chosen platforms based on each platform's spec (Meta Reels 9:16, Google Display 1.91:1 + 1:1, TikTok 9:16, LinkedIn 1:1, X 1.91:1, Pinterest 2:3, Snap 9:16, Reddit 1.91:1). `audience-svc` proposes 1–3 audiences using each platform's targeting (interest + lookalike + custom-audience) based on the `business_profile_versions.payload.audience_hints` (v1 PRD 1) plus historical conversion data (v2 PRD 10).
 
 Budget guardrails: new ad accounts (workspace Ã— platform combo with no prior spend) are capped at $50/day for the first 7 days; after 7 days of clean spend (no fraud signals, no rejection rate spike), the cap auto-lifts to the workspace's plan-tier limit (Starter $200/day, Growth $1,000, Scale $5,000, Agency uncapped). Pre-flight compliance runs *before* the platform API call: `ad-policy-svc` checks the creative against Meta Advertising Policies (text overlay %, prohibited categories, before/after restrictions), Google Ads Policies (misrepresentation, dangerous products), TikTok Branded Content + Ad Policies, and platform-specific quirks (X political-ads ban in launch markets per Doc 15, LinkedIn restricted categories). Pre-flight uses a hybrid LLM + rules engine; rules in `packages/ad-policy/rules/<platform>.yaml` are versioned. Failures route to v2 PRD 10's compliance-learning hook (rejection reasons feed back into KB).
 
-Once live, `ads-svc` auto-rotates creative on a `winners-stay / losers-pause` policy (default: pause after 50 impressions with CPC > 2Ã— campaign-avg OR CTR < 50% of campaign-avg, and refresh frontier when 3+ creatives are paused), scales winners by reallocating 20% of budget per day to the top-2 creatives (capped at 70% concentration), and pulls performance metrics every 30 min via each platform's reporting API. Conversion tracking uses GA4 + Meta Pixel + TikTok Pixel + LinkedIn Insight Tag + Pinterest Tag + Snap Pixel + Reddit Pixel (client-side) plus server-side fallback via the Conversion API equivalents (Meta CAPI, Google Enhanced Conversions, TikTok Events API, LinkedIn CAPI) for iOS / cookie-blocked traffic. Pixel install is one-click â€” `pixel-svc` injects the chosen platform tags into every published funnel via the funnel renderer's `<head>` slot (v1 PRD 2 publish hook), with per-platform consent gating (GDPR/EU users see a CMP banner before pixels fire).
+Once live, `ads-svc` auto-rotates creative on a `winners-stay / losers-pause` policy (default: pause after 50 impressions with CPC > 2Ã— campaign-avg OR CTR < 50% of campaign-avg, and refresh frontier when 3+ creatives are paused), scales winners by reallocating 20% of budget per day to the top-2 creatives (capped at 70% concentration), and pulls performance metrics every 30 min via each platform's reporting API. Conversion tracking uses GA4 + Meta Pixel + TikTok Pixel + LinkedIn Insight Tag + Pinterest Tag + Snap Pixel + Reddit Pixel (client-side) plus server-side fallback via the Conversion API equivalents (Meta CAPI, Google Enhanced Conversions, TikTok Events API, LinkedIn CAPI) for iOS / cookie-blocked traffic. Pixel install is one-click — `pixel-svc` injects the chosen platform tags into every published funnel via the funnel renderer's `<head>` slot (v1 PRD 2 publish hook), with per-platform consent gating (GDPR/EU users see a CMP banner before pixels fire).
 
-When a platform rejects an ad, `ad-rejection-resolver-svc` parses the rejection text, classifies it against a known-cause taxonomy (e.g. `prohibited_text_in_image`, `misleading_claim`, `before_after_health`, `policy_personalization_attributes`), and attempts an *auto-fix* (e.g. regenerate the image without the offending text overlay, soften the claim using the Compliance agent â€” v1 PRD 2). If auto-fix succeeds and re-passes pre-flight, the campaign is automatically re-submitted; if not, the user gets a friendly explanation + a one-click "regenerate with these constraints" CTA.
+When a platform rejects an ad, `ad-rejection-resolver-svc` parses the rejection text, classifies it against a known-cause taxonomy (e.g. `prohibited_text_in_image`, `misleading_claim`, `before_after_health`, `policy_personalization_attributes`), and attempts an *auto-fix* (e.g. regenerate the image without the offending text overlay, soften the claim using the Compliance agent — v1 PRD 2). If auto-fix succeeds and re-passes pre-flight, the campaign is automatically re-submitted; if not, the user gets a friendly explanation + a one-click "regenerate with these constraints" CTA.
 
 ## 2. User stories
 
 1. **GIVEN** a `funnel_published` event (Doc 03 Â§A.3) for a Growth-tier workspace **WHEN** the user clicks "Run ads on Meta" **THEN** OAuth is checked (re-prompt if expired), `ad_campaign_created` (Doc 03 Â§A.4 #1) is emitted with `platform='meta'`, 7 creative variants are generated for the platform's aspect ratios, and the campaign enters `status='draft'` until pre-flight + user confirm.
 2. **GIVEN** a draft campaign **WHEN** the user clicks "Launch" **THEN** `ad-policy-svc` runs pre-flight; on PASS, the campaign is submitted to the platform's API and `ad_campaign_launched` (Doc 03 Â§A.4 #2) is emitted; on FAIL, the user is shown the failing creative + the specific rule and offered "fix it for me" (auto-regen) or "edit manually".
-3. **GIVEN** the workspace has no prior spend on TikTok **WHEN** the user tries to set a daily budget of $300 **THEN** the slider clamps to $50/day with a banner "New-account guardrail â€” auto-lifts to your plan limit after 7 days of clean spend".
+3. **GIVEN** the workspace has no prior spend on TikTok **WHEN** the user tries to set a daily budget of $300 **THEN** the slider clamps to $50/day with a banner "New-account guardrail — auto-lifts to your plan limit after 7 days of clean spend".
 4. **GIVEN** a campaign has been running for 48h **WHEN** the rotation policy fires **THEN** the worst creative (per Â§1's rule) is paused, `ad_campaign_paused` (Doc 03 Â§A.4 #3) is emitted with `auto_pause_rule_id=rotation.cpc_2x_above_avg`, and budget reallocates to the top performer.
 5. **GIVEN** a platform returns a rejection on a creative **WHEN** the webhook arrives **THEN** `ad_rejected` (Doc 03 Â§A.4 #4) is emitted, `ad-rejection-resolver-svc` classifies the reason, attempts an auto-fix once, and either auto-resubmits OR notifies the user via v2 PRD 9 with the parsed reason + the regenerate CTA.
 6. **GIVEN** a workspace owner clicks "Install Meta Pixel" **WHEN** they confirm **THEN** `pixel-svc` adds the pixel to every funnel in the workspace via the publish-hook, the pixel ID is stored on the workspace, and a verification ping is sent to confirm the pixel fires on the live funnel within 60 s.
 7. **GIVEN** an EU visitor (GeoIP) loads a funnel **WHEN** the pixel slot would fire **THEN** the consent gate intervenes; the pixel does not fire until the visitor accepts the cookie banner (Doc 05b privacy + GDPR); on accept, the pixel + server-side fallback fire together.
 8. **GIVEN** a conversion fires on a funnel **WHEN** client-side pixels are blocked (Safari ITP, ad-blockers, iOS 17) **THEN** the server-side fallback (Meta CAPI, etc.) sends the event with the hashed contact identifiers from the lead capture; deduplication keys ensure single attribution.
 9. **GIVEN** a campaign has been live â‰¥ 7 days with no rejections + clean spend **WHEN** the nightly guardrail review job runs **THEN** the daily-budget cap auto-lifts to the workspace's plan tier limit; `ads_guardrail_lifted` (**NEW**, A.4) is emitted.
-10. **GIVEN** a user is on Free tier **WHEN** they try to publish ads **THEN** the action is refused with the upgrade prompt; OAuth completes but no campaign is created (`feature_locked` event â€” Doc 08 internal).
+10. **GIVEN** a user is on Free tier **WHEN** they try to publish ads **THEN** the action is refused with the upgrade prompt; OAuth completes but no campaign is created (`feature_locked` event — Doc 08 internal).
 11. **GIVEN** an X (Twitter) campaign in a launch market where political ads are banned **WHEN** the AI classifies the copy as political-adjacent **THEN** pre-flight blocks with the X policy reference; the user is shown the policy text + a "rewrite as non-political" CTA.
 12. **GIVEN** a campaign's lifetime spend approaches the platform's billing-account spend cap **WHEN** the threshold crosses 80% **THEN** v2 PRD 9 notifies the workspace owner + billing role; at 100%, the platform auto-pauses; we mirror the state to `ad_campaigns.status='paused'`.
 13. **GIVEN** the user wants to scale a winning creative **WHEN** they click "2Ã— the budget" **THEN** the request is bounded by plan-tier daily cap and platform-side limits; if the request exceeds the cap, it's clamped to the cap with a banner.
@@ -344,7 +344,7 @@ When a platform rejects an ad, `ad-rejection-resolver-svc` parses the rejection 
 
 ## 3. Edge cases (â‰¥ 15)
 
-1. Platform API rate-limit during bulk pause â†’ exponential backoff with jitter; user-facing UI shows "we're pausing your adsâ€¦ this may take a minute" with a progress bar.
+1. Platform API rate-limit during bulk pause â†’ exponential backoff with jitter; user-facing UI shows "we're pausing your ads… this may take a minute" with a progress bar.
 2. Image agent (v1 PRD 2) produces a creative containing > 20% text overlay (Meta's classic guideline; relaxed but still scored) â†’ pre-flight downgrades the predicted reach in the variant ranker; user is warned but not blocked.
 3. Two creatives have nearly identical CTR after 1,000 impressions â†’ tie-break by CPM, then by impression recency; do not auto-pause a tie.
 4. A creative paused by auto-rotation is manually un-paused by the user â†’ annotate the manual override; the auto-rotation policy will not re-pause that creative for 24h.
@@ -380,7 +380,7 @@ When a platform rejects an ad, `ad-rejection-resolver-svc` parses the rejection 
 - `oauth-svc`: connection tokens for all 8 platforms.
 - `feature-flags`: `release.ads.<platform>.v1`, `killswitch.ads.<platform>`, `killswitch.ads.global`.
 
-**External (via PAL â€” Doc 04)**
+**External (via PAL — Doc 04)**
 - Meta Marketing API (campaign + ads + insights) + Meta Conversions API.
 - Google Ads API + Google Analytics 4 Measurement Protocol + Enhanced Conversions.
 - TikTok Marketing API + TikTok Events API.
@@ -393,18 +393,18 @@ When a platform rejects an ad, `ad-rejection-resolver-svc` parses the rejection 
 
 ## 5. Database tables / objects touched
 
-- `ad_campaigns` (Doc 03 Â§B.13) â€” read + write.
-- `assets`, `asset_versions` (Doc 03 Â§B.10) â€” creatives.
-- `funnels`, `funnel_versions` (Doc 03 Â§B.4) â€” publish hook.
-- `integration_connections` (Doc 03 Â§B.11) â€” OAuth.
-- `workspace_ledger` â€” ad-spend metering.
+- `ad_campaigns` (Doc 03 Â§B.13) — read + write.
+- `assets`, `asset_versions` (Doc 03 Â§B.10) — creatives.
+- `funnels`, `funnel_versions` (Doc 03 Â§B.4) — publish hook.
+- `integration_connections` (Doc 03 Â§B.11) — OAuth.
+- `workspace_ledger` — ad-spend metering.
 - `audit_log`.
 
 **New helper schemas (must land in Doc 03 Â§B):**
 
 ```sql
 CREATE TABLE ad_creatives (
-  id              TEXT PRIMARY KEY,           -- adcr_â€¦
+  id              TEXT PRIMARY KEY,           -- adcr_…
   workspace_id    TEXT NOT NULL REFERENCES workspaces(id) ON DELETE CASCADE,
   campaign_id     TEXT REFERENCES ad_campaigns(id) ON DELETE CASCADE,
   platform        TEXT NOT NULL,
@@ -510,7 +510,7 @@ CREATE POLICY cev_tenant ON conversion_events
 | View ad spend + invoices | âœ… | âœ… | âŒ | âœ… | âŒ | âœ… |
 | Approve auto-fix retry | âœ… | âœ… | âœ… | âŒ | âŒ | âŒ |
 
-Admin-console: `support` can view; `engineering` can replay pre-flight + retry rejection-resolver; `super_admin` can force-launch (bypassing guardrails â€” audited, requires `justification_ticket_id`).
+Admin-console: `support` can view; `engineering` can replay pre-flight + retry rejection-resolver; `super_admin` can force-launch (bypassing guardrails — audited, requires `justification_ticket_id`).
 
 ## 8. Error states + recovery paths
 
@@ -565,7 +565,7 @@ Admin-console: `support` can view; `engineering` can replay pre-flight + retry r
 - Creative variant tournament UI (let users see the bracket).
 - Influencer + UGC ad ingestion (TikTok Spark Ads, Meta Branded Content).
 - Audience overlap reporter (Meta audience overlap analysis for waste reduction).
-- "Spend-of-record" mode where FunelAI becomes the billing-of-record (regulatory considerations; not Day 90).
+- "Spend-of-record" mode where GoFunnelAI becomes the billing-of-record (regulatory considerations; not Day 90).
 - Reddit, X, Pinterest, Snap full feature parity with Meta/Google.
 
 ## 12. Test plan
@@ -596,7 +596,7 @@ Admin-console: `support` can view; `engineering` can replay pre-flight + retry r
 
 ---
 
-# PRD 8 â€” Email + SMS Engine
+# PRD 8 — Email + SMS Engine
 
 **Workstream owner:** Lifecycle squad (Tech lead + 2 BE + 1 FE + 1 deliverability eng + 1 SRE partner)
 **Source-of-truth services:** `lifecycle-svc` (sequence orchestrator), `email-send-svc` (SendGrid primary, Resend failover), `sms-send-svc` (Twilio), `suppression-svc`, `deliverability-monitor-svc`, `a2p-registration-svc`, `domain-auth-svc` (SPF/DKIM/DMARC), `unsubscribe-svc`, `send-time-optimizer-svc`, `twilio-lookup-svc` (pre-send verification).
@@ -604,11 +604,11 @@ Admin-console: `support` can view; `engineering` can replay pre-flight + retry r
 
 ## 1. Module overview
 
-The Email + SMS Engine ships the post-capture lifecycle: a 7-touch email nurture + 3-touch SMS sequence per industry, time-zone-aware, A2P 10DLC-registered for SMS in the US (and equivalent registration paths per Doc 15 for CA â€” registered keyword/STOP support, UK â€” short-code/long-code policy, AU â€” sender ID), with per-recipient opt-in tracking, one-click unsubscribe (CAN-SPAM list-unsubscribe + Gmail/Yahoo One-Click), and a global suppression list synced from bounces, complaints, opt-outs, and DSARs. Templates are pulled from KB packs (v1 PRD 1) and rendered per-recipient with `business_profile_versions.payload` interpolation; the `lifecycle-svc` orchestrator advances each recipient through the sequence steps based on triggers (`lead_captured`, `lead_qualified`, `lead_booking_canceled`, etc.) and conditions (clicked link, replied, opened, no-action).
+The Email + SMS Engine ships the post-capture lifecycle: a 7-touch email nurture + 3-touch SMS sequence per industry, time-zone-aware, A2P 10DLC-registered for SMS in the US (and equivalent registration paths per Doc 15 for CA — registered keyword/STOP support, UK — short-code/long-code policy, AU — sender ID), with per-recipient opt-in tracking, one-click unsubscribe (CAN-SPAM list-unsubscribe + Gmail/Yahoo One-Click), and a global suppression list synced from bounces, complaints, opt-outs, and DSARs. Templates are pulled from KB packs (v1 PRD 1) and rendered per-recipient with `business_profile_versions.payload` interpolation; the `lifecycle-svc` orchestrator advances each recipient through the sequence steps based on triggers (`lead_captured`, `lead_qualified`, `lead_booking_canceled`, etc.) and conditions (clicked link, replied, opened, no-action).
 
-Sending is multi-provider via PAL: email primary is SendGrid (high deliverability + Inbox Placement Reports), failover is Resend; SMS is Twilio (with carrier diversity through Twilio's own routing). Send-time optimization uses a per-recipient model (`send-time-optimizer-svc` â€” initially a heuristic based on the recipient's local-business-hours timezone + day-of-week; replaced by a learned model from v2 PRD 10 in Month 3+). Domain authentication is required for custom domains before *any* email is sent from that domain: `domain-auth-svc` verifies SPF, DKIM, DMARC, and BIMI (optional). The default `mail.funelai.com` sender works without setup but enforces a deliverability-protective rate limit per workspace.
+Sending is multi-provider via PAL: email primary is SendGrid (high deliverability + Inbox Placement Reports), failover is Resend; SMS is Twilio (with carrier diversity through Twilio's own routing). Send-time optimization uses a per-recipient model (`send-time-optimizer-svc` — initially a heuristic based on the recipient's local-business-hours timezone + day-of-week; replaced by a learned model from v2 PRD 10 in Month 3+). Domain authentication is required for custom domains before *any* email is sent from that domain: `domain-auth-svc` verifies SPF, DKIM, DMARC, and BIMI (optional). The default `mail.gofunnelai.com` sender works without setup but enforces a deliverability-protective rate limit per workspace.
 
-SMS-spam prevention is a hard requirement before the first SMS for a given recipient: `twilio-lookup-svc` performs a Lookup v2 query (line-type, carrier, fraud risk) before sending â€” if the number is mobile + carrier-known + fraud-risk-low, send proceeds; if it's a known landline OR VOIP-disposable OR carrier-unknown OR fraud-risk-high, the SMS is skipped and replaced with an email touch. A2P 10DLC registration is required per workspace per use-case (Marketing, OTP, Account Notification); registration status is tracked in `a2p_brand_registrations` (new table) and SMS is blocked until the relevant use-case is registered + approved (typically 3â€“5 days lead time). All SMS payloads include TCPA opt-out language ("Reply STOP to opt out") on the first message of every sequence; STOP/UNSUBSCRIBE/CANCEL/END/QUIT keywords (plus the multilingual variants per Doc 15) trigger a global suppression-list entry.
+SMS-spam prevention is a hard requirement before the first SMS for a given recipient: `twilio-lookup-svc` performs a Lookup v2 query (line-type, carrier, fraud risk) before sending — if the number is mobile + carrier-known + fraud-risk-low, send proceeds; if it's a known landline OR VOIP-disposable OR carrier-unknown OR fraud-risk-high, the SMS is skipped and replaced with an email touch. A2P 10DLC registration is required per workspace per use-case (Marketing, OTP, Account Notification); registration status is tracked in `a2p_brand_registrations` (new table) and SMS is blocked until the relevant use-case is registered + approved (typically 3–5 days lead time). All SMS payloads include TCPA opt-out language ("Reply STOP to opt out") on the first message of every sequence; STOP/UNSUBSCRIBE/CANCEL/END/QUIT keywords (plus the multilingual variants per Doc 15) trigger a global suppression-list entry.
 
 Delivery logs are visible in the admin console (v1 PRD 5) and surface per-message: queued, sent, delivered, bounced (hard/soft), complained, opened, clicked, replied, unsubscribed. Admins can resend an individual message (`super_admin` + `pii:read` scope; audited via `pii_access_recorded` + a new `admin_message_resent` event). Suppression-list sync: every bounce (hard or 5-soft-in-30d), every complaint, every opt-out keyword, and every DSAR-driven deletion writes to `suppression_list` (Doc 03 Â§B.16) and propagates within 60 s to all in-flight sequences (the lifecycle worker re-checks suppression on every step transition, not just at enroll-time).
 
@@ -617,11 +617,11 @@ Delivery logs are visible in the admin console (v1 PRD 5) and surface per-messag
 1. **GIVEN** a `lead_captured` event for a workspace with sequences configured **WHEN** the lifecycle worker enrolls the lead **THEN** the 7-touch email + 3-touch SMS sequence start clocks are scheduled per the recipient's local timezone, suppression is checked, and the first touch is queued.
 2. **GIVEN** a lead with `email_sha256` already on the global suppression list (`channel='email'`) **WHEN** enrollment runs **THEN** the lead skips all email touches but proceeds with SMS (if not suppressed) and call (if not suppressed); `sequence_enrollment_skipped` (**NEW**, A.5) is emitted with the channel + reason.
 3. **GIVEN** the workspace has not yet authenticated its custom domain **WHEN** the user tries to enable sending from that domain **THEN** the UI shows the DNS records to add (SPF + DKIM + DMARC), a "verify now" button, and blocks sends from that domain until `domain_auth_verified` (**NEW**, A.4) is emitted.
-4. **GIVEN** the recipient's local time is outside the workspace's configured send window (default: 8 AM â€“ 9 PM recipient local, weekdays only for marketing) **WHEN** the next touch is due **THEN** the send is deferred to the next allowed slot; if the deferment exceeds the sequence's max-stretch (default: +72h), the touch is skipped and the next one re-schedules from the original baseline.
+4. **GIVEN** the recipient's local time is outside the workspace's configured send window (default: 8 AM – 9 PM recipient local, weekdays only for marketing) **WHEN** the next touch is due **THEN** the send is deferred to the next allowed slot; if the deferment exceeds the sequence's max-stretch (default: +72h), the touch is skipped and the next one re-schedules from the original baseline.
 5. **GIVEN** an SMS touch is the first message to a recipient **WHEN** the worker prepares the send **THEN** `twilio-lookup-svc` is called; if the number is mobile + low-risk, send proceeds; if not, the touch is replaced with an extra email touch and `sms_skipped_for_email` (**NEW**, A.5) is emitted with the lookup verdict.
 6. **GIVEN** an SMS reply contains the STOP keyword (case-insensitive, full-word) **WHEN** Twilio's webhook arrives **THEN** `lead_sms_opted_out` (Doc 03 Â§A.5 #5) is emitted, the lead is added to `suppression_list` with `channel='sms'`, an auto-acknowledgment is sent ("You're unsubscribed. Reply START to rejoin."), and all in-flight SMS sequences for this lead pause within 60 s.
 7. **GIVEN** an email bounces hard (SMTP 5xx, permanent) **WHEN** the SendGrid webhook arrives **THEN** the `email_sha256` is added to suppression with `reason='bounce'`, the in-flight sequence pauses, and the workspace owner is notified if the workspace's bounce rate exceeds 2% over a rolling 24h window (deliverability protection).
-8. **GIVEN** a recipient clicks the one-click list-unsubscribe (RFC 8058) **WHEN** the request arrives **THEN** the suppression entry is written, an `email_unsubscribed` event is emitted (**NEW**, A.5 â€” to be added to Doc 03), no acknowledgment email is sent (the recipient asked to be removed), and the activity timeline records the action.
+8. **GIVEN** a recipient clicks the one-click list-unsubscribe (RFC 8058) **WHEN** the request arrives **THEN** the suppression entry is written, an `email_unsubscribed` event is emitted (**NEW**, A.5 — to be added to Doc 03), no acknowledgment email is sent (the recipient asked to be removed), and the activity timeline records the action.
 9. **GIVEN** SendGrid is degraded (`deliverability-monitor-svc` health check fails) **WHEN** the next send is due **THEN** the message routes to Resend with the same template + headers; `email_provider_failover` (**NEW**, A.4) is emitted; PAL holds the new state until SendGrid health recovers + the debounce window passes.
 10. **GIVEN** the workspace has registered A2P 10DLC Marketing use-case (approved) **WHEN** an SMS marketing touch is due **THEN** the send proceeds with the registered brand/campaign IDs in the carrier metadata; **GIVEN** the workspace has *not* registered **WHEN** an SMS touch is due **THEN** the send is held with a clear "complete A2P registration" CTA via v2 PRD 9; the lead continues with email touches.
 11. **GIVEN** a recipient opens an email + clicks a link **WHEN** the events arrive **THEN** the sequence advances per condition rules (e.g. "if clicked â†’ skip next nurture touch and go directly to qualifier"); the activity timeline records both opens and clicks.
@@ -636,12 +636,12 @@ Delivery logs are visible in the admin console (v1 PRD 5) and surface per-messag
 2. SPF record exceeds 10 DNS lookups â†’ `domain-auth-svc` detects + offers SPF flattening guidance; never silently let an over-lookup SPF go live.
 3. DKIM key rotation mid-flight (annual rotation) â†’ both keys (old + new) published in DNS for 7 days; signing uses the new one, verification accepts either; emit `dkim_key_rotated` operational event (Doc 08 Â§362).
 4. DMARC reaches `p=quarantine` before SPF + DKIM align â†’ blocking config check before policy escalation; UI shows alignment status.
-5. Twilio Lookup returns "carrier_unknown" â€” common in some emerging markets â†’ for Doc 15 launch markets, fall back to a country-specific allow-list of known mobile carriers; otherwise skip SMS.
+5. Twilio Lookup returns "carrier_unknown" — common in some emerging markets â†’ for Doc 15 launch markets, fall back to a country-specific allow-list of known mobile carriers; otherwise skip SMS.
 6. SMS reply with "STOP" sent from a different number than the original recipient (someone else has their phone) â†’ still suppress that number (we have no way to know it's a different human); user can re-opt-in with START.
 7. Recipient's timezone is unknown (no IP, no profile data) â†’ default to workspace's timezone; never assume UTC for marketing send.
-8. Sequence has a "wait until weekday 9 AM" step but the recipient is in Riyadh (Sunâ€“Thu workweek) â†’ use the locale-aware weekday rules from the `Intl` library; UI explains this to the user.
+8. Sequence has a "wait until weekday 9 AM" step but the recipient is in Riyadh (Sun–Thu workweek) â†’ use the locale-aware weekday rules from the `Intl` library; UI explains this to the user.
 9. A template references a variable that's not present in the lead's profile (`{{ first_name }}` missing) â†’ fall back to a configured default ("there" for first name); never send `Hi {{ first_name }}`.
-10. An SMS template exceeds the 160-char single-segment limit â†’ either split per the workspace's preference (single segment hard-trim with ellipsis, or multi-segment with explicit user opt-in) â€” never silently send 4 segments.
+10. An SMS template exceeds the 160-char single-segment limit â†’ either split per the workspace's preference (single segment hard-trim with ellipsis, or multi-segment with explicit user opt-in) — never silently send 4 segments.
 11. The send-time optimizer suggests a time that conflicts with the recipient's stated "do not contact" window â†’ the explicit user-set window wins.
 12. Domain DNS provider's nameserver query is slow â†’ DNS check uses 3 different resolvers (Cloudflare 1.1.1.1, Google 8.8.8.8, Quad9 9.9.9.9) and takes the majority outcome.
 13. SendGrid + Resend both degraded simultaneously â†’ queue with TTL = 24 h; v2 PRD 9 SEV-2 banner; do not silently drop touches.
@@ -669,27 +669,27 @@ Delivery logs are visible in the admin console (v1 PRD 5) and surface per-messag
 - `notification-svc` (v2 PRD 9): workspace alerts on deliverability events.
 - `feature-flags`: `release.lifecycle.v1`, `killswitch.email.send`, `killswitch.sms.send`, `killswitch.lifecycle.global`.
 
-**External (via PAL â€” Doc 04)**
+**External (via PAL — Doc 04)**
 - SendGrid (email primary) + Resend (failover).
-- Twilio (SMS â€” programmable messaging + Lookup v2 + STOP keyword handling).
+- Twilio (SMS — programmable messaging + Lookup v2 + STOP keyword handling).
 - The Campaign Registry (A2P 10DLC US).
 - Equivalent SMS regulators per Doc 15 launch markets (CTIA US, UK Mobile Industry Code, etc.).
 - DNS resolvers (Cloudflare, Google, Quad9) for SPF/DKIM/DMARC checks.
-- IPInfo / MaxMind for recipient geo + timezone (P1 only â€” no raw IP storage).
+- IPInfo / MaxMind for recipient geo + timezone (P1 only — no raw IP storage).
 
 ## 5. Database tables / objects touched
 
-- `email_sequences`, `sms_sequences` (Doc 03 Â§B.14) â€” read.
-- `suppression_list` (Doc 03 Â§B.16) â€” write.
-- `consent_records` â€” read for marketing-consent gating.
-- `leads`, `crm_contacts` (Doc 03 Â§B.5) â€” read.
+- `email_sequences`, `sms_sequences` (Doc 03 Â§B.14) — read.
+- `suppression_list` (Doc 03 Â§B.16) — write.
+- `consent_records` — read for marketing-consent gating.
+- `leads`, `crm_contacts` (Doc 03 Â§B.5) — read.
 - `audit_log`.
 
 **New helper schemas (must land in Doc 03 Â§B):**
 
 ```sql
 CREATE TABLE sequence_enrollments (
-  id              TEXT PRIMARY KEY,           -- senr_â€¦
+  id              TEXT PRIMARY KEY,           -- senr_…
   workspace_id    TEXT NOT NULL REFERENCES workspaces(id) ON DELETE CASCADE,
   sequence_id     TEXT NOT NULL,              -- references email_sequences.id or sms_sequences.id
   sequence_type   TEXT NOT NULL CHECK (sequence_type IN ('email','sms')),
@@ -799,7 +799,7 @@ CREATE UNIQUE INDEX a2p_unique ON a2p_brand_registrations (workspace_id, use_cas
 | Resend a single message | âœ… | âœ… | âŒ | âŒ | âŒ | âŒ |
 | Export delivery logs | âœ… | âœ… | âŒ | âœ… | âŒ | âŒ |
 
-Admin-console: `support` view-only on delivery logs (no body); `engineering` retry sends from DLQ; `super_admin` resend a single message (with `pii:read` + `justification_ticket_id` â€” emits `admin_message_resent` + `pii_access_recorded`).
+Admin-console: `support` view-only on delivery logs (no body); `engineering` retry sends from DLQ; `super_admin` resend a single message (with `pii:read` + `justification_ticket_id` — emits `admin_message_resent` + `pii_access_recorded`).
 
 ## 8. Error states + recovery paths
 
@@ -885,17 +885,17 @@ Admin-console: `support` view-only on delivery logs (no body); `engineering` ret
 
 ---
 
-# PRD 9 â€” Notification Engine
+# PRD 9 — Notification Engine
 
 **Workstream owner:** Notifications squad (Tech lead + 2 BE + 2 FE + 1 mobile eng for push tokens)
 **Source-of-truth services:** `notification-svc` (router + scheduler), `inapp-svc`, `push-svc` (APNs + FCM), `email-svc` (re-uses v2 PRD 8 `email-send-svc`), `sms-svc` (re-uses v2 PRD 8 `sms-send-svc`), `webhook-out-svc` (re-uses v1 PRD 3 webhook infra), `digest-svc`, `notification-prefs-svc`, `notification-dedup-svc`.
-**Cross-PRD interactions:** subscribes to events from every other PRD (Doc 03 Â§A.1â€“A.9); reuses email + SMS sending infra from v2 PRD 8; reuses webhook delivery infra from v1 PRD 3/4 (shared `webhook-svc`); admin replay lives in v1 PRD 5; push tokens come from mobile clients (mobile app is post-launch but token schema lands now).
+**Cross-PRD interactions:** subscribes to events from every other PRD (Doc 03 Â§A.1–A.9); reuses email + SMS sending infra from v2 PRD 8; reuses webhook delivery infra from v1 PRD 3/4 (shared `webhook-svc`); admin replay lives in v1 PRD 5; push tokens come from mobile clients (mobile app is post-launch but token schema lands now).
 
 ## 1. Module overview
 
-The Notification Engine is the canonical routing + delivery layer for every user-facing notification across FunelAI. It subscribes to the canonical Kafka event bus (Doc 03 Â§A) and applies per-event-type delivery rules (e.g. `lead_captured` â†’ in-app + email; `payment_failed` â†’ email + SMS for `owner`+`billing`; `human_review_required` â†’ in-app only for `owner`/`admin`/`editor`; `dunning_step_executed` at D14 â†’ email + SMS for `owner`+`billing`). Channels are: **in-app** (real-time WebSocket + persisted to `notifications` table for the bell-icon feed), **email** (transactional sender via v2 PRD 8 SendGrid path, *not* the marketing path â€” separate IP pool, no list-unsubscribe), **mobile push** (APNs for iOS + FCM for Android; tokens stored per device), **SMS** (only for events tagged `priority='high'` and only for users who've opted in to SMS notifications), **Slack** + **Discord webhooks** (Agency+ only; configured per workspace, signed deliveries).
+The Notification Engine is the canonical routing + delivery layer for every user-facing notification across GoFunnelAI. It subscribes to the canonical Kafka event bus (Doc 03 Â§A) and applies per-event-type delivery rules (e.g. `lead_captured` â†’ in-app + email; `payment_failed` â†’ email + SMS for `owner`+`billing`; `human_review_required` â†’ in-app only for `owner`/`admin`/`editor`; `dunning_step_executed` at D14 â†’ email + SMS for `owner`+`billing`). Channels are: **in-app** (real-time WebSocket + persisted to `notifications` table for the bell-icon feed), **email** (transactional sender via v2 PRD 8 SendGrid path, *not* the marketing path — separate IP pool, no list-unsubscribe), **mobile push** (APNs for iOS + FCM for Android; tokens stored per device), **SMS** (only for events tagged `priority='high'` and only for users who've opted in to SMS notifications), **Slack** + **Discord webhooks** (Agency+ only; configured per workspace, signed deliveries).
 
-User preferences are a channel Ã— event-type matrix per workspace member, with account-level overrides (an admin can force a notification on for compliance reasons â€” e.g. `data_deletion_completed` is always emailed regardless of user pref). Workspace-level defaults are templated per role (e.g. an `owner` defaults to email + in-app on revenue events; a `viewer` defaults to in-app only). Precedence: per-user pref > workspace-level default > engine default. A "Quiet hours" toggle suppresses SMS + push (not email â€” emails are async by nature); critical events (`account_suspended`, `data_deletion_requested`) always bypass quiet hours per Doc 07a Â§R5 (cannot suppress legally-required notifications).
+User preferences are a channel Ã— event-type matrix per workspace member, with account-level overrides (an admin can force a notification on for compliance reasons — e.g. `data_deletion_completed` is always emailed regardless of user pref). Workspace-level defaults are templated per role (e.g. an `owner` defaults to email + in-app on revenue events; a `viewer` defaults to in-app only). Precedence: per-user pref > workspace-level default > engine default. A "Quiet hours" toggle suppresses SMS + push (not email — emails are async by nature); critical events (`account_suspended`, `data_deletion_requested`) always bypass quiet hours per Doc 07a Â§R5 (cannot suppress legally-required notifications).
 
 Digest mode batches low-priority events into a single email/in-app summary at the user's chosen cadence (daily 8 AM local, or hourly). Digest content is rendered per recipient at send-time so it reflects the latest state (e.g. a digest emitted at 8 AM doesn't mention a lead that opted out at 7:55 AM). PII safety is strict: notification subject + preview *never* include raw P2 data (no full email, no full phone). For lead-related notifications, the preview shows the masked variant ("New lead: j***@example.com from Solar Funnel") and the full PII is only visible after the user clicks through and re-authenticates (or session is recent enough). Duplicate detection: identical notifications to the same recipient within a configurable window (default 30 s) are de-duped via `notification-dedup-svc`.
 
@@ -907,7 +907,7 @@ Slack/Discord webhook deliveries (Agency+) are HMAC-signed with a per-workspace 
 2. **GIVEN** a workspace `owner` has set "Lead notifications: in-app only" in their prefs **WHEN** a `lead_captured` fires **THEN** they receive only the in-app notification; the email is skipped; their workspace default does not override their personal pref.
 3. **GIVEN** a `payment_failed` event (Doc 03 Â§A.7 #9) **WHEN** the router runs **THEN** the `owner` and any `billing`-role members receive the notification via in-app + email + (if priority=high which it is) SMS; this is one of the few events where SMS fires by default for any opted-in user.
 4. **GIVEN** an Agency-tier workspace has a Slack webhook configured for the channel `#funnel-leads` **WHEN** a `lead_captured` fires **THEN** a signed Slack-formatted message is delivered to the Slack endpoint within 5 s P95; payload is HMAC-signed per the shared `webhook-svc` policy.
-5. **GIVEN** a user is in "Quiet hours" (10 PM â€“ 7 AM local) **WHEN** a non-critical notification fires **THEN** SMS + push are suppressed; in-app + email are still delivered (queued visibly in their bell-icon feed); a "this notification was delivered during your quiet hours" suffix is shown when they next open the app.
+5. **GIVEN** a user is in "Quiet hours" (10 PM – 7 AM local) **WHEN** a non-critical notification fires **THEN** SMS + push are suppressed; in-app + email are still delivered (queued visibly in their bell-icon feed); a "this notification was delivered during your quiet hours" suffix is shown when they next open the app.
 6. **GIVEN** a `data_deletion_completed` event (always-on, always-email per Doc 07a) **WHEN** it fires **THEN** the subject user receives an email regardless of any pref or quiet-hours setting; the email contains the tombstone reference but no PII.
 7. **GIVEN** a user has enabled digest mode (daily 8 AM local) **WHEN** the digest cadence triggers **THEN** all queued low-priority notifications from the past 24 h are rendered into one email + one in-app summary; events fired between the digest's render-start and send finalization are pushed to the *next* digest.
 8. **GIVEN** an admin (v1 PRD 5 `engineering`) sees a notification in the DLQ **WHEN** they click "Retry" **THEN** the notification is re-delivered with a new attempt id; outcome appears in the delivery log; an audit row is written.
@@ -917,7 +917,7 @@ Slack/Discord webhook deliveries (Agency+) are HMAC-signed with a per-workspace 
 12. **GIVEN** a user changes their notification prefs in settings **WHEN** they save **THEN** the next event fires under the new prefs within 30 s (cache invalidation); historical notifications are unaffected.
 13. **GIVEN** an in-app notification arrives **WHEN** the user is online with an open WebSocket **THEN** it appears in the bell-icon feed in real time (no refresh required); the unread counter updates atomically.
 14. **GIVEN** a workspace has 50 members and a `funnel_published` event fires **WHEN** the router runs **THEN** notifications are batched per channel (one bulk send per channel rather than 50 individual sends to the same provider) but per-recipient rendering still applies (PII masking is per-recipient).
-15. **GIVEN** the in-app notification feed reaches 500 unread items **WHEN** the user opens the app **THEN** the bell-icon shows "500+", a "mark all as read" affordance appears, and pagination is enforced (50 per page) â€” never load the full window into memory.
+15. **GIVEN** the in-app notification feed reaches 500 unread items **WHEN** the user opens the app **THEN** the bell-icon shows "500+", a "mark all as read" affordance appears, and pagination is enforced (50 per page) — never load the full window into memory.
 
 ## 3. Edge cases (â‰¥ 15)
 
@@ -936,7 +936,7 @@ Slack/Discord webhook deliveries (Agency+) are HMAC-signed with a per-workspace 
 13. A user's email pref changes during a digest's send-window â†’ digest still goes out (already rendered), next one respects the new pref.
 14. WebSocket connection drops â†’ in-app notifications buffer to the user's persisted feed; on reconnect, the unread counter syncs.
 15. Mobile app token expires (FCM rotation) â†’ on next app open the client re-registers; we maintain both tokens during a 24-h grace.
-16. A non-critical notification's template is missing/invalid â†’ render a generic fallback template ("Something happened in your workspace â€” open the app for details"); never silently drop.
+16. A non-critical notification's template is missing/invalid â†’ render a generic fallback template ("Something happened in your workspace — open the app for details"); never silently drop.
 17. PII-masking lint fails (a developer added a new event with raw email in the subject) â†’ the notification linter in CI blocks the merge; emergency override requires an exception ticket.
 18. Slack/Discord delivery succeeds at the API but the customer's Slack workspace later deletes the channel â†’ next delivery fails with channel-not-found; auto-disable after 24 h.
 19. Two admins try to retry the same DLQ item simultaneously â†’ idempotency on `(delivery_id, attempt_n)`; second click joins the first.
@@ -957,19 +957,19 @@ Slack/Discord webhook deliveries (Agency+) are HMAC-signed with a per-workspace 
 - `event-bus` (Doc 03 Â§A): subscriber.
 - `feature-flags`: `release.notifications.v1`, `killswitch.notifications.<channel>`, `killswitch.notifications.global`.
 
-**External (via PAL â€” Doc 04)**
+**External (via PAL — Doc 04)**
 - APNs (Apple Push Notification service).
 - FCM (Firebase Cloud Messaging).
 - Slack Webhooks (Incoming Webhooks).
 - Discord Webhooks.
-- SendGrid (transactional; separate IP pool from marketing â€” Doc 04 PAL note).
+- SendGrid (transactional; separate IP pool from marketing — Doc 04 PAL note).
 - Twilio (high-priority SMS only).
 
 ## 5. Database tables / objects touched
 
 - `users` (read).
 - `workspace_members` (read).
-- `webhooks`, `webhook_deliveries` (Doc 03 Â§B.8 + v1 PRD 4 schema) â€” write for Slack/Discord.
+- `webhooks`, `webhook_deliveries` (Doc 03 Â§B.8 + v1 PRD 4 schema) — write for Slack/Discord.
 - `suppression_list` (read on email/sms).
 - `audit_log`.
 
@@ -977,7 +977,7 @@ Slack/Discord webhook deliveries (Agency+) are HMAC-signed with a per-workspace 
 
 ```sql
 CREATE TABLE notifications (
-  id              TEXT PRIMARY KEY,           -- ntf_â€¦
+  id              TEXT PRIMARY KEY,           -- ntf_…
   workspace_id    TEXT NOT NULL,              -- nullable for cross-workspace user notifications (data_deletion_completed)
   user_id         TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   event_type      TEXT NOT NULL,              -- e.g. 'lead_captured'
@@ -1097,8 +1097,8 @@ Admin-console: `support` view-only on delivery log; `engineering` retry from DLQ
 
 ## 10. Launch blockers
 
-1. Event-to-notification routing live for all Doc 03 Â§A.1â€“A.9 events that have a default rule.
-2. Channels live: in-app + email + push (mobile token schema landed; mobile app is post-launch, but tokens can be registered from a web push prototype on Day 90 â€” Slack + Discord live for Agency+).
+1. Event-to-notification routing live for all Doc 03 Â§A.1–A.9 events that have a default rule.
+2. Channels live: in-app + email + push (mobile token schema landed; mobile app is post-launch, but tokens can be registered from a web push prototype on Day 90 — Slack + Discord live for Agency+).
 3. Pref UI + precedence + quiet hours.
 4. Digest mode (daily + hourly).
 5. PII-safety linter in CI.
@@ -1113,7 +1113,7 @@ Admin-console: `support` view-only on delivery log; `engineering` retry from DLQ
 - Native mobile app with full push experience.
 - WhatsApp + Telegram channels.
 - Smart digest grouping by topic + recommended actions.
-- Per-event AI-summarized notifications ("3 leads came in while you were out; 2 look high-intent â€” open the app").
+- Per-event AI-summarized notifications ("3 leads came in while you were out; 2 look high-intent — open the app").
 - User-defined "notification rules" (Zapier-like: when X event with Y filter â†’ notify in Z channel).
 - Multi-language notification templates.
 - ML-driven notification fatigue prediction (auto-route low-priority to digest if a user is being flooded).
@@ -1146,23 +1146,23 @@ Admin-console: `support` view-only on delivery log; `engineering` retry from DLQ
 
 ---
 
-# PRD 10 â€” Recursive Learning Pipeline
+# PRD 10 — Recursive Learning Pipeline
 
 **Workstream owner:** MLOps + Data squad (Tech lead + 2 data eng + 2 ML eng + 1 privacy eng + 1 T&S partner for bias review)
 **Source-of-truth services:** `flywheel-etl` (Iceberg writer + lake compactor), `anonymizer-svc`, `aggregator-svc`, `kb-update-svc`, `model-registry-svc` (canonical home in Doc 08 mlops; PRD-10 consumes), `ranking-retraining-svc`, `bias-audit-svc`, `flywheel-optout-svc`, `compliance-feedback-svc`.
-**Cross-PRD interactions:** consumes events from *every* PRD (Doc 03 Â§A.1â€“A.9 + agent_io traces from v1 PRD 2); writes KB-pack updates that v1 PRD 1 + v1 PRD 2 read at runtime; promotes ranking models that v2 PRDs 6/7/8 read (RevTry persona ranker, ad rotation policy, send-time optimizer); rejection signals from v2 PRD 7 feed compliance-feedback; admin gates promotion via v1 PRD 5.
+**Cross-PRD interactions:** consumes events from *every* PRD (Doc 03 Â§A.1–A.9 + agent_io traces from v1 PRD 2); writes KB-pack updates that v1 PRD 1 + v1 PRD 2 read at runtime; promotes ranking models that v2 PRDs 6/7/8 read (RevTry persona ranker, ad rotation policy, send-time optimizer); rejection signals from v2 PRD 7 feed compliance-feedback; admin gates promotion via v1 PRD 5.
 
 ## 1. Module overview
 
-The Recursive Learning Pipeline is the closed loop that makes FunelAI self-improving. Every funnel publish, every lead capture, every voice call, every ad rejection, every email delivery feeds anonymized signal into the lake. Nightly, `flywheel-etl` writes Kafka tail + agent_io trace blobs into Iceberg per Doc 03 Â§C.4 bucket layout. `aggregator-svc` runs SQL aggregations per **industry Ã— geo Ã— language Ã— variant** (where "variant" is the generated funnel/page/copy/persona artifact) producing conversion lift metrics with confidence intervals (Wilson score for small samples; bootstrap for large). High-confidence winning patterns are extracted as few-shot examples and pushed into the relevant KB pack as a new version (Doc 03 Â§A.9 #9 `kb_pack_updated`); this is the *weekly* cadence. Monthly, the small ranking models (lead scorer, RevTry persona ranker, ad rotation rule policy, send-time optimizer) are retrained on the curated lake datasets in `training/datasets/` (Doc 03 Â§C.4) and the model registry is updated (`model_version_promoted` â€” Doc 03 Â§A.9 #8) only after bias-audit and human-review approval (see Â§12 below). Quarterly, human reviewers (T&S + senior content) audit the top 100 patterns by lift across verticals and either confirm them, retire them, or flag them for additional safety analysis.
+The Recursive Learning Pipeline is the closed loop that makes GoFunnelAI self-improving. Every funnel publish, every lead capture, every voice call, every ad rejection, every email delivery feeds anonymized signal into the lake. Nightly, `flywheel-etl` writes Kafka tail + agent_io trace blobs into Iceberg per Doc 03 Â§C.4 bucket layout. `aggregator-svc` runs SQL aggregations per **industry Ã— geo Ã— language Ã— variant** (where "variant" is the generated funnel/page/copy/persona artifact) producing conversion lift metrics with confidence intervals (Wilson score for small samples; bootstrap for large). High-confidence winning patterns are extracted as few-shot examples and pushed into the relevant KB pack as a new version (Doc 03 Â§A.9 #9 `kb_pack_updated`); this is the *weekly* cadence. Monthly, the small ranking models (lead scorer, RevTry persona ranker, ad rotation rule policy, send-time optimizer) are retrained on the curated lake datasets in `training/datasets/` (Doc 03 Â§C.4) and the model registry is updated (`model_version_promoted` — Doc 03 Â§A.9 #8) only after bias-audit and human-review approval (see Â§12 below). Quarterly, human reviewers (T&S + senior content) audit the top 100 patterns by lift across verticals and either confirm them, retire them, or flag them for additional safety analysis.
 
 Anonymization is non-negotiable. **No row in the curated lake or training datasets ever contains direct PII.** Anonymization rules: drop `email`, `phone_e164`, `full_name`, `ip` raw; keep `*_sha256` where joins are required (note: hashed identifiers are still considered P1, never P2, per Doc 03 Â§C.2). Quasi-identifiers (rare-vertical Ã— small-geo Ã— small-employer-cluster) are k-anonymized to k=10 per the bucketing scheme in `packages/anonymize/k_anon.py`; if a bucket falls below k=10, the row is dropped from cross-network aggregations (it can still inform the source workspace's own analytics, but never patterns shared cross-network). Workspace-level opt-out via `flywheel-optout-svc`: a workspace owner can disable their data contributing to cross-network learning (default: opt-in; opt-out toggleable in workspace settings). Opting out removes the workspace's signal from *future* aggregations; signal already baked into a deployed KB pack stays (the KB pack is anonymous + cross-customer; we can't un-bake one workspace's signal without retraining).
 
 Self-improving compliance is the most interesting loop. Every `ad_rejected` (v2 PRD 7) + `compliance_block_raised` (v1 PRD 2) + `human_review_completed` outcome feeds `compliance-feedback-svc`. The service clusters rejection reasons against the active rule set in `packages/ad-policy/rules/*.yaml` and surfaces a "rule candidate" to T&S when a cluster grows past a threshold (â‰¥ 20 instances of a previously-unseen rejection pattern). T&S reviews and either adds the rule to pre-flight (preventing future rejections) or flags it as a false-positive cluster (improving the Compliance agent's training data).
 
-A/B test integration: every published funnel can be entered into an A/B experiment (control = baseline variant, treatment = generated variant) via `experiment-svc` (Day-90 thin layer on top of GrowthBook or LaunchDarkly â€” Doc 04). Results from A/B tests are first-class signals into the aggregator; KB updates that come from A/B winners carry an `evidence_type='ab_test'` annotation and outrank observational pattern-mining signals in the few-shot ranker.
+A/B test integration: every published funnel can be entered into an A/B experiment (control = baseline variant, treatment = generated variant) via `experiment-svc` (Day-90 thin layer on top of GrowthBook or LaunchDarkly — Doc 04). Results from A/B tests are first-class signals into the aggregator; KB updates that come from A/B winners carry an `evidence_type='ab_test'` annotation and outrank observational pattern-mining signals in the few-shot ranker.
 
-Promotion gating is strict: any ranking-model promotion requires (a) eval-set passage on the held-out set (â‰¥ baseline performance + â‰¥ 1% relative improvement, or no regression > 0.5% on any segment); (b) bias-audit completion (`bias_audit_completed` â€” Doc 03 Â§A.9 #10) with no `verdict='fail'` dimension; (c) human approval via the admin console (v1 PRD 5 `super_admin` + a second `super_admin` co-sign for any model touching personae or ad-policy); (d) rollback plan recorded in `mlops-svc` (Doc 03 Â§A.9 #8 `rollback_plan_ref`). Promoted models go behind a feature flag with gradual rollout (10% â†’ 50% â†’ 100% over 7 days).
+Promotion gating is strict: any ranking-model promotion requires (a) eval-set passage on the held-out set (â‰¥ baseline performance + â‰¥ 1% relative improvement, or no regression > 0.5% on any segment); (b) bias-audit completion (`bias_audit_completed` — Doc 03 Â§A.9 #10) with no `verdict='fail'` dimension; (c) human approval via the admin console (v1 PRD 5 `super_admin` + a second `super_admin` co-sign for any model touching personae or ad-policy); (d) rollback plan recorded in `mlops-svc` (Doc 03 Â§A.9 #8 `rollback_plan_ref`). Promoted models go behind a feature flag with gradual rollout (10% â†’ 50% â†’ 100% over 7 days).
 
 ## 2. User stories
 
@@ -1172,7 +1172,7 @@ Promotion gating is strict: any ranking-model promotion requires (a) eval-set pa
 4. **GIVEN** a workspace owner toggles "Do not contribute my data to cross-network learning" **WHEN** they save **THEN** `flywheel_optout_set` (**NEW**, A.9) is emitted, the workspace's row appears in `flywheel_optouts`, future aggregator runs exclude this workspace, and a confirmation banner explains what stays in deployed KB packs (cannot be removed retroactively).
 5. **GIVEN** the monthly ranking-model retraining job triggers **WHEN** the lead-scorer model finishes training **THEN** the eval-set comparison runs against the prior production version; if criteria pass, `model_version_promoted` candidate is created (not yet promoted) and the bias-audit pipeline is triggered.
 6. **GIVEN** the bias-audit completes for a candidate model **WHEN** all dimensions report `verdict='pass'` (or `verdict='no_effect'`) **THEN** `bias_audit_completed` (Doc 03 Â§A.9 #10) is emitted with the report URL; the admin console (v1 PRD 5) shows the candidate as "ready for human approval".
-7. **GIVEN** a `super_admin` approves the candidate model **WHEN** a second `super_admin` co-signs (for persona + ad-policy models â€” required) **THEN** `model_version_promoted` (Doc 03 Â§A.9 #8) is emitted with `rollback_plan_ref`, the model goes behind a feature flag with `release.model.<name>.rollout`, and `mlops-svc` orchestrates the 10% â†’ 50% â†’ 100% rollout.
+7. **GIVEN** a `super_admin` approves the candidate model **WHEN** a second `super_admin` co-signs (for persona + ad-policy models — required) **THEN** `model_version_promoted` (Doc 03 Â§A.9 #8) is emitted with `rollback_plan_ref`, the model goes behind a feature flag with `release.model.<name>.rollout`, and `mlops-svc` orchestrates the 10% â†’ 50% â†’ 100% rollout.
 8. **GIVEN** the production model's performance regresses (â‰¥ 2% drop on any production metric) during the rollout **WHEN** the regression detector fires **THEN** the rollout pauses, the rollback plan is enacted automatically, `model_version_rolled_back` (**NEW**, A.9) is emitted, and on-call data eng is paged.
 9. **GIVEN** an A/B test concludes with the treatment winning at â‰¥ 95% confidence **WHEN** the aggregator reads the test result **THEN** the winning pattern is queued as a KB-pack candidate with `evidence_type='ab_test'`; A/B-evidence patterns are prioritized over observational ones (higher ranking weight).
 10. **GIVEN** an ad rejection cluster reaches the 20-instance threshold for a previously-unseen pattern **WHEN** `compliance-feedback-svc` runs **THEN** a rule-candidate is created for T&S review, `compliance_rule_candidate_raised` (**NEW**, A.9) is emitted, and the surfaced cluster contains the redacted creative snapshots + the platform rejection texts.
@@ -1217,12 +1217,12 @@ Promotion gating is strict: any ranking-model promotion requires (a) eval-set pa
 - `flywheel-optout-svc` (this PRD): opt-out toggle + cache.
 - `compliance-feedback-svc` (this PRD): rejection clustering.
 - `model-registry-svc` (Doc 08 mlops): model artifact + version + promotion gate.
-- `experiment-svc` (Doc 04 PAL â€” GrowthBook or LaunchDarkly): A/B test result reader.
+- `experiment-svc` (Doc 04 PAL — GrowthBook or LaunchDarkly): A/B test result reader.
 - `kb-svc` (v1 PRD 1/2): KB pack reader/writer.
 - `event-bus`: subscriber to all families.
 - `feature-flags`: `release.model.<name>.rollout`, `killswitch.flywheel.global`, `killswitch.flywheel.kb_updates`.
 
-**External (via PAL â€” Doc 04)**
+**External (via PAL — Doc 04)**
 - AWS S3 + Glue + Athena (Iceberg compute).
 - GrowthBook / LaunchDarkly (A/B test backend).
 - Anthropic / OpenAI evaluation APIs (for LLM-as-judge eval steps, where applicable).
@@ -1230,10 +1230,10 @@ Promotion gating is strict: any ranking-model promotion requires (a) eval-set pa
 
 ## 5. Database tables / objects touched
 
-- `audit_log` (write â€” every KB update + every promotion).
+- `audit_log` (write — every KB update + every promotion).
 - Iceberg tables in `s3://funnel-lake-<region>/curated/...` (Doc 03 Â§C.4).
 - `agent_invocations` (read for trace data).
-- `event_log` (read tail) â€” produces nothing into Postgres directly; everything flows lake-side.
+- `event_log` (read tail) — produces nothing into Postgres directly; everything flows lake-side.
 
 **New helper schemas (must land in Doc 03 Â§B):**
 
@@ -1391,7 +1391,7 @@ T&S has dedicated permission `flywheel:review` (separate from admin roles) for t
 - Counterfactual evaluation (what would have happened if we hadn't promoted X?).
 - Per-customer customized model fine-tuning (Enterprise tier; explicit consent + price tag).
 - Public transparency report ("here's what changed in our KB packs last quarter, here's why").
-- Open dataset contributions (anonymized industry-pattern dataset published as a research contribution â€” gated by privacy review).
+- Open dataset contributions (anonymized industry-pattern dataset published as a research contribution — gated by privacy review).
 - Cost-aware retraining schedule (only retrain when expected lift > retraining cost).
 
 ## 12. Test plan
@@ -1426,7 +1426,7 @@ T&S has dedicated permission `flywheel:review` (separate from admin roles) for t
 
 ---
 
-## Appendix A â€” Cross-PRD interaction map (v1 + v2)
+## Appendix A — Cross-PRD interaction map (v1 + v2)
 
 ```
                        v1 PRD 1 (Onboarding)
@@ -1459,7 +1459,7 @@ T&S has dedicated permission `flywheel:review` (separate from admin roles) for t
 
 Every arrow is a Kafka topic plus a synchronous read for cache-warming. Synchronous calls (e.g. v2 PRD 6 calling `kb-svc` for a script) follow PAL retry policy (Doc 04).
 
-## Appendix B â€” New events introduced by v2 (to land in Doc 03)
+## Appendix B — New events introduced by v2 (to land in Doc 03)
 
 All listed events must be added to Doc 03 Part A in the same PR that ships their PRD. Each must have: emitter, required props, optional props, consumers, retention, PII tier.
 
@@ -1472,10 +1472,10 @@ All listed events must be added to Doc 03 Part A in the same PR that ships their
 **A.5 Lead**
 - `lead_call_opted_out`, `dnc_match_blocked`, `email_sent`, `email_delivered`, `email_opened`, `email_clicked`, `email_bounced`, `email_complained`, `email_unsubscribed`, `sequence_enrolled`, `sequence_enrollment_skipped`, `sequence_advanced`, `sequence_paused`, `sms_skipped_for_email`.
 
-**A.6 Revenue â€” Customer Funnels**
+**A.6 Revenue — Customer Funnels**
 - `conversion_recorded`, `attribution_mismatch_detected`, `ab_test_concluded`.
 
-**A.7 Revenue â€” SaaS**
+**A.7 Revenue — SaaS**
 - `voice_minutes_metered`.
 
 **A.8 Support**
@@ -1486,7 +1486,7 @@ All listed events must be added to Doc 03 Part A in the same PR that ships their
 
 Each must pass `tooling/eventschema/` lint (Doc 03 Â§A.0 envelope conformance) before its PRD's launch blocker Â§10 can be marked done.
 
-## Appendix C â€” Cross-cutting non-negotiables
+## Appendix C — Cross-cutting non-negotiables
 
 Inherited from v1 Appendix C (Doc 12). Apply to every v2 PRD.
 
@@ -1498,7 +1498,7 @@ Inherited from v1 Appendix C (Doc 12). Apply to every v2 PRD.
 6. **Observability:** every service has a Doc 08 Â§443 dashboard; SLOs + error budgets per service.
 7. **Money discipline:** `Money` bigint (Doc 08 Â§65) for all amounts including voice-minute overage + ad spend.
 8. **Test discipline:** unit + integration + E2E + load + chaos per each PRD; flake policy per Doc 08 Â§120.
-9. **Legal docs wired:** TCPA, A2P 10DLC, CAN-SPAM, GDPR consent gating, two-party-consent jurisdiction handling, ad-platform policies â€” all enforced server-side, all cited to Doc 05 / Doc 07 / Doc 15.
+9. **Legal docs wired:** TCPA, A2P 10DLC, CAN-SPAM, GDPR consent gating, two-party-consent jurisdiction handling, ad-platform policies — all enforced server-side, all cited to Doc 05 / Doc 07 / Doc 15.
 10. **No silent T&S failures:** every Doc 07a/b/c gate emits a typed event + alert. Suppression-list write failure must fail closed.
 
 ---
@@ -1511,5 +1511,5 @@ Open issues / follow-ups to land before Day 90:
 - Confirm the seven (or fewer, per Day-90 scope) ad platforms in PRD 7 Â§10 launch blockers. Meta + Google + TikTok is the minimum.
 - Confirm the bias-audit dimensions for PRD 10 Â§9 with T&S + legal (Doc 07a Â§13).
 - Confirm the mobile-app launch timing: PRD 9 push-token schema lands now; mobile native client is post-Day-90 unless brought forward.
-- Confirm flywheel opt-out copy with Comms (Doc 09 founder content + Doc 11 help center) â€” needs a clear plain-language explanation of "what stays in the deployed KB pack vs what your opt-out removes from future learning".
+- Confirm flywheel opt-out copy with Comms (Doc 09 founder content + Doc 11 help center) — needs a clear plain-language explanation of "what stays in the deployed KB pack vs what your opt-out removes from future learning".
 - Confirm RevTry vendor SLA + escalation path (PRD 6 Â§10 #11).

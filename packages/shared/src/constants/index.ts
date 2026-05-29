@@ -4,7 +4,7 @@
  * The first block of exports is the GoFunnelAI platform-wide catalog
  * (industries, languages, countries, plans, brand tokens, personas). The
  * second block preserves the legacy `brand.ts` plus the Funnel Grader
- * constants â€” kept here so the grader app continues to import unchanged.
+ * constants — kept here so the grader app continues to import unchanged.
  */
 
 export * from "./industries.js";
@@ -25,9 +25,9 @@ export * from "./brand.js";
 
 /** Models used by the Funnel Grader agent fleet. */
 export const MODELS = {
-  /** Sonnet 4.6 â€” primary scoring agent (hook, form, trust). Vision-capable. */
+  /** Sonnet 4.6 — primary scoring agent (hook, form, trust). Vision-capable. */
   SONNET: "claude-sonnet-4-5",
-  /** Haiku 4.5 â€” fast / cheap deterministic agents (speed, compliance). */
+  /** Haiku 4.5 — fast / cheap deterministic agents (speed, compliance). */
   HAIKU: "claude-haiku-4-5",
   /** Opus reserved for full-product funnel generation (not used in Grader). */
   OPUS: "claude-opus-4-1",

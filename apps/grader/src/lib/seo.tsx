@@ -3,14 +3,14 @@ import { COMPETITORS, type CompetitorSlug } from "@funnel/shared";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://gofunnelai.com";
 
-/** Metadata for /grade â€” primary keyword "free funnel audit". */
+/** Metadata for /grade — primary keyword "free funnel audit". */
 export const graderHomeMetadata: Metadata = {
-  title: "Free Funnel Audit â€” Grade Any Landing Page in 15 Seconds | GoFunnelAI",
+  title: "Free Funnel Audit — Grade Any Landing Page in 15 Seconds | GoFunnelAI",
   description:
-    "Paste a URL. Get a 0â€“100 score, 5 sub-scores, and 3 specific improvements. AI-powered, free, no signup to see your score.",
+    "Paste a URL. Get a 0–100 score, 5 sub-scores, and 3 specific improvements. AI-powered, free, no signup to see your score.",
   alternates: { canonical: `${BASE_URL}/grade` },
   openGraph: {
-    title: "Free Funnel Audit â€” Grade Any Landing Page in 15 Seconds",
+    title: "Free Funnel Audit — Grade Any Landing Page in 15 Seconds",
     description: "AI-powered. 15 seconds. Free.",
     url: `${BASE_URL}/grade`,
     images: [`${BASE_URL}/og/grader-default.png`],
@@ -42,11 +42,11 @@ export function isKnownCompetitor(slug: string): slug is CompetitorSlug {
 export function competitorMetadata(slug: CompetitorSlug): Metadata {
   const label = COMPETITOR_LABELS[slug];
   return {
-    title: `Free ${label} Funnel Checker â€” Grade Your ${label} Page | GoFunnelAI`,
+    title: `Free ${label} Funnel Checker — Grade Your ${label} Page | GoFunnelAI`,
     description: `Paste your ${label} landing page URL. Get an AI score in 15 seconds with 3 specific improvements. Free, no signup.`,
     alternates: { canonical: `${BASE_URL}/grade/vs/${slug}` },
     openGraph: {
-      title: `Free ${label} Funnel Checker â€” 15-second audit`,
+      title: `Free ${label} Funnel Checker — 15-second audit`,
       description: `AI-powered ${label} page audit. Free.`,
       url: `${BASE_URL}/grade/vs/${slug}`,
       images: [`${BASE_URL}/og/grader-vs-${slug}.png`],
@@ -56,7 +56,7 @@ export function competitorMetadata(slug: CompetitorSlug): Metadata {
   };
 }
 
-/** Per-share-page metadata â€” noindex by default. */
+/** Per-share-page metadata — noindex by default. */
 export function shareMetadata(opts: {
   shareCode: string;
   url: string;
@@ -67,7 +67,7 @@ export function shareMetadata(opts: {
   const { shareCode, url, scoreOverall, grade, topLine } = opts;
   const host = safeHost(url);
   return {
-    title: `Audit: ${host} scored ${scoreOverall}/100 â€” GoFunnelAI Grader`,
+    title: `Audit: ${host} scored ${scoreOverall}/100 — GoFunnelAI Grader`,
     description: `Free AI funnel audit. We scored ${host} ${scoreOverall}/100 (${grade}). ${topLine}`,
     alternates: { canonical: `${BASE_URL}/grade/s/${shareCode}` },
     robots: { index: false, follow: true },

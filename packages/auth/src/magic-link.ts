@@ -3,7 +3,7 @@
  *
  * `magicLinkRequest` issues a 15-minute single-use token, sends an email
  * with a sign-in link. `magicLinkVerify` consumes the token and mints
- * a full session â€” same shape as `loginWithEmail`.
+ * a full session — same shape as `loginWithEmail`.
  *
  * Like password reset, we ALWAYS return success to the caller whether or
  * not the address is registered (no enumeration). The email is only sent
@@ -97,7 +97,7 @@ export async function magicLinkVerify(
   const { ip_hash, user_agent_class } = deriveDeviceFingerprint(ctx, input.ip, input.user_agent);
 
   // Magic-link bypasses password MFA: caller must enforce MFA gate again if
-  // the user has MFA. We do NOT auto-skip MFA â€” request the challenge.
+  // the user has MFA. We do NOT auto-skip MFA — request the challenge.
   if (user.mfa_enrolled) {
     // We mint a challenge token; caller completes via TOTP/WebAuthn.
     // Reuse session create deferred; for parity with login, expose mfa_required.

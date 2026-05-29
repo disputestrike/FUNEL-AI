@@ -2,7 +2,7 @@
   "name": "@funnel/kb",
   "version": "0.1.0",
   "private": true,
-  "description": "GoFunnelAI Industry Knowledge Base â€” 30 vertical packs Ã— geo Ã— language, nightly-refreshed, pgvector-retrieved at generation time. The core moat.",
+  "description": "GoFunnelAI Industry Knowledge Base — 30 vertical packs Ã— geo Ã— language, nightly-refreshed, pgvector-retrieved at generation time. The core moat.",
   "license": "UNLICENSED",
   "type": "module",
   "main": "./dist/index.js",

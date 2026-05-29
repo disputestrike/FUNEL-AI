@@ -1,10 +1,10 @@
-﻿# Postgres pooling â€” Hyperdrive vs PgBouncer
+# Postgres pooling — Hyperdrive vs PgBouncer
 
 ## TL;DR
 
 | Workload | Use |
 |---|---|
-| Cloudflare Workers (api, renderer, grader) | **Hyperdrive** â€” already pooled, latency-aware, baked into wrangler bindings. |
+| Cloudflare Workers (api, renderer, grader) | **Hyperdrive** — already pooled, latency-aware, baked into wrangler bindings. |
 | Long-running Node workers (apps/workers on Fly/Railway) | **PgBouncer** (transaction mode) sidecar in front of Neon. |
 | Migrations + admin DDL | **Neon direct connection** (no pooler) so prepared statements and advisory locks behave. |
 | Local dev | Direct connection to the docker-compose Postgres. |
@@ -42,13 +42,13 @@ caching = { disabled = false, max_age = 60, stale_while_revalidate = 30 }
 Why these numbers:
 
 - `max_age = 60`: the renderer reads workspace + funnel rows that change at most every few minutes; a 60s freshness window cuts the read load on Postgres by ~95% during a viral traffic spike.
-- `stale_while_revalidate = 30`: if a write invalidates the cached row, in-flight readers will still get a stale read for up to 30s â€” acceptable because the renderer doesn't show write-after-read consistency to users (we're a CDN, not a bank ledger).
+- `stale_while_revalidate = 30`: if a write invalidates the cached row, in-flight readers will still get a stale read for up to 30s — acceptable because the renderer doesn't show write-after-read consistency to users (we're a CDN, not a bank ledger).
 
 **Hot-path writes never hit Hyperdrive cache**: any `INSERT` / `UPDATE` / `DELETE` automatically bypasses cache; only `SELECT` is cached. We additionally annotate queries that must be uncached with a `/* no-cache */` comment that Hyperdrive respects.
 
 ## Failure modes
 
-- **Hyperdrive cache poisoning by a long-lived transaction**: not possible â€” Hyperdrive only caches `SELECT` outside of explicit transactions.
+- **Hyperdrive cache poisoning by a long-lived transaction**: not possible — Hyperdrive only caches `SELECT` outside of explicit transactions.
 - **Stale read after delete**: a deleted row can be served from cache up to `max_age + stale_while_revalidate` after deletion. For tenant-deletion flows we issue a `DELETE FROM ... RETURNING` and then forcibly purge the renderer's `PAGE_CACHE` KV entry, so customer-visible deletion completes within seconds.
 - **Connection storm during a Neon region failover**: Hyperdrive holds the pool, so a Worker spike does not cascade into a Postgres-connection spike. PgBouncer-fronted Node workers may temporarily fail; their BullMQ retries cover this.
 

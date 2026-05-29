@@ -1,14 +1,14 @@
 /**
  * Detect & extract competitor funnel structure from a page.
  *
- * The heavy ETL â€” turning raw HTML into GoFunnelAI's canonical funnel JSON
- * (blocks, copy, CTAs, theme tokens) â€” runs server-side in apps/api. The
+ * The heavy ETL — turning raw HTML into GoFunnelAI's canonical funnel JSON
+ * (blocks, copy, CTAs, theme tokens) — runs server-side in apps/api. The
  * browser extension's job is to:
  *   1. Recognize that the current page is a CF/GHL/Leadpages/Unbounce funnel.
  *   2. Send the URL + HTML to /imports/from-competitor on the API.
  *   3. Show a one-click "Import this funnel" affordance.
  *
- * Detection is intentionally a lightweight signature scan â€” we treat false
+ * Detection is intentionally a lightweight signature scan — we treat false
  * positives as cheap (user just won't click the prompt) and false negatives
  * as more expensive (we miss a valuable import).
  */

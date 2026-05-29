@@ -2,7 +2,7 @@
  * Read-side fixtures.
  *
  * In production these functions live behind @funnel/db with the admin
- * context wrapper applied (`withAdminContext` bypasses tenant RLS ” only
+ * context wrapper applied (`withAdminContext` bypasses tenant RLS — only
  * permitted through this wrapper). For now they return realistic shapes
  * so the UI is fully exercisable in dev + tests without a database.
  *
@@ -167,7 +167,7 @@ export interface FeatureFlag {
 }
 
 // ---------------------------------------------------------------------------
-// Mock generators ” small, stable, deterministic so tests don't flake.
+// Mock generators — small, stable, deterministic so tests don't flake.
 // ---------------------------------------------------------------------------
 
 const NOW = () => new Date();
@@ -235,7 +235,7 @@ export async function listFunnelsForWorkspace(id: string): Promise<FunnelSummary
     {
       id: "fn_solar_1",
       workspace_id: id,
-      name: "Free Solar Quote ” CA",
+      name: "Free Solar Quote — CA",
       url: "https://acmesolar.com/free-quote",
       status: "live",
       leads_30d: 218,
@@ -325,7 +325,7 @@ export async function listDashboardAlerts(): Promise<DashboardAlert[]> {
       source: "ad",
       severity: "warning",
       title: "Meta ad rejection rate â†‘ 4x",
-      detail: "26 creatives rejected in last 30m ” likely policy update",
+      detail: "26 creatives rejected in last 30m — likely policy update",
       first_seen_at: isoMinusMin(30),
       count_24h: 26,
       ack_url: "/integrations-health",
@@ -449,7 +449,7 @@ export async function listBillingDiscrepancies(): Promise<BillingDiscrepancy[]> 
       workspace_id: "ws_acme",
       provider: "paypal",
       kind: "amount_mismatch",
-      detail: "Invoice in_xyz expected $499.00, PayPal reports $499.50 ” currency conversion drift.",
+      detail: "Invoice in_xyz expected $499.00, PayPal reports $499.50 — currency conversion drift.",
       detected_at: isoMinusHr(6),
     },
   ];

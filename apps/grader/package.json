@@ -2,7 +2,7 @@
   "name": "@funnel/grader",
   "version": "0.1.0",
   "private": true,
-  "description": "Funnel Grader â€” public free landing-page audit tool at gofunnelai.com/grade.",
+  "description": "Funnel Grader — public free landing-page audit tool at gofunnelai.com/grade.",
   "type": "module",
   "scripts": {
     "dev": "next dev -p 3001",

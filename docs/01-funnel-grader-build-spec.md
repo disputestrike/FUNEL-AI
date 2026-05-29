@@ -1,10 +1,10 @@
-﻿# Funnel Grader â€” Engineering Build Spec
+# Funnel Grader â€” Engineering Build Spec
 
 **Document:** `01-funnel-grader-build-spec.md`
-**Owner:** FunelAI Engineering
+**Owner:** GoFunnelAI Engineering
 **Status:** Approved for Build â€” Week 2 Sprint
 **Target Live Date:** Day 14 (sprint end)
-**Strategic Role:** Trojan Horse. Public, free tool at `funelai.com/grade` that audits any landing page in 15 seconds. Captures emails, seeds a 60-day waitlist, ranks for "free funnel audit" + "[competitor] funnel checker," and converts via a "see what we'd generate instead" preview CTA. Ships BEFORE the main product.
+**Strategic Role:** Trojan Horse. Public, free tool at `gofunnelai.com/grade` that audits any landing page in 15 seconds. Captures emails, seeds a 60-day waitlist, ranks for "free funnel audit" + "[competitor] funnel checker," and converts via a "see what we'd generate instead" preview CTA. Ships BEFORE the main product.
 
 ---
 
@@ -24,13 +24,13 @@
 
 | Step | Time | Surface | User Action | System Action |
 |---|---|---|---|---|
-| 1 | 0s | `funelai.com/grade` | Lands on hero, sees "Grade any landing page in 15 seconds. Free." | Page SSR'd, prefetched fonts, Lighthouse 95+ |
+| 1 | 0s | `gofunnelai.com/grade` | Lands on hero, sees "Grade any landing page in 15 seconds. Free." | Page SSR'd, prefetched fonts, Lighthouse 95+ |
 | 2 | 0â€“2s | URL input | Pastes URL, hits "Grade my page" | Client validates URL shape, POSTs to `/api/grade` |
 | 3 | 2â€“4s | Loading screen | Sees stepper: "Rendering page... Reading copy... Checking trust signals... Scoring..." | Worker streams SSE progress events |
 | 4 | 4â€“15s | â€” | (Watches stepper animate) | Browser Rendering screenshots + extracts DOM; 5 agents run in parallel; aggregator merges |
 | 5 | 15s | Result page | Sees 0â€“100 score, 5 sub-scores, critique paragraph, 3 specific improvements | Result rendered client-side from streamed JSON; teaser blurs sub-score detail + PDF download |
 | 6 | 15â€“30s | Email gate (soft) | Clicks "Get the full PDF report" | Modal: email field â†’ POST `/api/capture` â†’ unlocks full report + emails PDF |
-| 7 | 30â€“60s | Share + preview | Sees "Share this score" (copies `funelai.com/grade/s/XYZ123`) and "See what we'd generate instead â†’ " CTA | Share URL written to `share_codes`; CTA â†’ `/api/preview/generate` kicks off mini funnel |
+| 7 | 30â€“60s | Share + preview | Sees "Share this score" (copies `gofunnelai.com/grade/s/XYZ123`) and "See what we'd generate instead â†’ " CTA | Share URL written to `share_codes`; CTA â†’ `/api/preview/generate` kicks off mini funnel |
 | 8 | 60â€“90s | Preview funnel | Sees a rendered hero section tailored to their business (headline, sub, CTA, 1 testimonial slot, 1 trust badge row) | Opus agent + Sonnet copy agent â†’ HTML render in iframe |
 | 9 | 90s+ | Waitlist CTA | "Want the full funnel + email sequence? Join the waitlist." | POST `/api/waitlist` (same email if captured) |
 
@@ -50,7 +50,7 @@
                     â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
                     â”‚           Cloudflare Edge (global)           â”‚
                     â”‚                                              â”‚
-   User â”€â”€HTTPSâ”€â”€â–¶  â”‚  Pages: funelai.com/grade (Next.js SSR)        â”‚
+   User â”€â”€HTTPSâ”€â”€â–¶  â”‚  Pages: gofunnelai.com/grade (Next.js SSR)        â”‚
                     â”‚            â”‚                                  â”‚
                     â”‚            â–¼                                  â”‚
                     â”‚  Worker: grader-api                          â”‚
@@ -338,7 +338,7 @@ Return STRICT JSON.
 
 ### 3.6 Agent E â€” Compliance Flag Agent (Haiku)
 
-**Purpose:** Surface legal/compliance red flags. FunelAI treats compliance as first-class â€” this agent is the public-facing teaser of that capability.
+**Purpose:** Surface legal/compliance red flags. GoFunnelAI treats compliance as first-class â€” this agent is the public-facing teaser of that capability.
 
 **Model:** `claude-haiku-4-5`
 
@@ -504,7 +504,7 @@ type Improvement = {
   "audit_id": "01HW...",
   "url": "https://example.com",
   "fetched_at": "2026-05-25T14:03:22Z",
-  "screenshot_url": "https://r2.funelai.com/screenshots/01HW....png",
+  "screenshot_url": "https://r2.gofunnelai.com/screenshots/01HW....png",
   "score": {
     "overall": 64,
     "grade": "D",
@@ -569,7 +569,7 @@ We initially specced Opus for preview generation. After v0 cost modeling at scal
 
 **System prompt (cached):**
 ```
-You are FunelAI's hero-section copywriter. Given a brief about a business
+You are GoFunnelAI's hero-section copywriter. Given a brief about a business
 and its current landing page's weaknesses, write a replacement hero section.
 
 Output STRICT JSON:
@@ -591,7 +591,7 @@ Rules:
 
 ### 5.6 Rendered Output
 
-Single HTML file, mobile-responsive, served from R2 via signed URL, loaded in a sandboxed iframe with a "Built in 28s by FunelAI" watermark and a "Join waitlist for the full funnel" CTA at the bottom.
+Single HTML file, mobile-responsive, served from R2 via signed URL, loaded in a sandboxed iframe with a "Built in 28s by GoFunnelAI" watermark and a "Join waitlist for the full funnel" CTA at the bottom.
 
 ### 5.7 Cost Cap
 
@@ -622,7 +622,7 @@ The gate is a non-blocking modal that slides up after 4 seconds. The user can di
 
 ### 6.2 Shareable URL
 
-`funelai.com/grade/s/{share_code}` â€” 6-char base32 code from `share_codes` table.
+`gofunnelai.com/grade/s/{share_code}` â€” 6-char base32 code from `share_codes` table.
 
 - Public read, no email required to view.
 - Renders the same result page in read-only mode (no re-grade button).
@@ -632,7 +632,7 @@ The gate is a non-blocking modal that slides up after 4 seconds. The user can di
 
 Generated server-side at audit-completion time using `@vercel/og` (Satori) inside the Worker. Saved to R2.
 
-**Image:** 1200x630, brand background, big score badge ("64 / D"), URL audited, top-line critique line, FunelAI logo.
+**Image:** 1200x630, brand background, big score badge ("64 / D"), URL audited, top-line critique line, GoFunnelAI logo.
 
 ```ts
 // /api/og/audit/[audit_id].png
@@ -642,15 +642,15 @@ Generated server-side at audit-completion time using `@vercel/og` (Satori) insid
 ### 6.4 Meta Tags on Share Page
 
 ```html
-<title>Audit: example.com scored 64/100 â€” FunelAI Grader</title>
+<title>Audit: example.com scored 64/100 â€” GoFunnelAI Grader</title>
 <meta name="description" content="Free AI funnel audit. We scored example.com 64/100. See the 3 specific improvements." />
 <meta property="og:title" content="example.com scored 64/100" />
-<meta property="og:description" content="Free AI funnel audit by FunelAI. See the breakdown." />
-<meta property="og:image" content="https://r2.funelai.com/og/01HW....png" />
-<meta property="og:url" content="https://funelai.com/grade/s/k8x9p2" />
+<meta property="og:description" content="Free AI funnel audit by GoFunnelAI. See the breakdown." />
+<meta property="og:image" content="https://r2.gofunnelai.com/og/01HW....png" />
+<meta property="og:url" content="https://gofunnelai.com/grade/s/k8x9p2" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@gofunnelai" />
-<link rel="canonical" href="https://funelai.com/grade/s/k8x9p2" />
+<link rel="canonical" href="https://gofunnelai.com/grade/s/k8x9p2" />
 ```
 
 ---
@@ -864,14 +864,14 @@ CREATE TABLE cost_governor (
 ```tsx
 // app/grade/page.tsx
 export const metadata = {
-  title: "Free Funnel Audit â€” Grade Any Landing Page in 15 Seconds | FunelAI",
+  title: "Free Funnel Audit â€” Grade Any Landing Page in 15 Seconds | GoFunnelAI",
   description: "Paste a URL. Get a 0â€“100 score, 5 sub-scores, and 3 specific improvements. AI-powered, free, no signup to see your score.",
-  alternates: { canonical: "https://funelai.com/grade" },
+  alternates: { canonical: "https://gofunnelai.com/grade" },
   openGraph: {
     title: "Free Funnel Audit â€” Grade Any Landing Page in 15 Seconds",
     description: "AI-powered. 15 seconds. Free.",
-    url: "https://funelai.com/grade",
-    images: ["https://funelai.com/og/grader-default.png"],
+    url: "https://gofunnelai.com/grade",
+    images: ["https://gofunnelai.com/og/grader-default.png"],
     type: "website"
   },
   twitter: { card: "summary_large_image" },
@@ -897,7 +897,7 @@ Allow: /grade/vs/
 Allow: /grade/examples/
 Allow: /grade/learn/
 Disallow: /grade/s/
-Sitemap: https://funelai.com/sitemap.xml
+Sitemap: https://gofunnelai.com/sitemap.xml
 ```
 
 (Share pages noindex to avoid duplicate-content cannibalization of `/grade`.)
@@ -970,7 +970,7 @@ Client â†’ `/api/telemetry` â†’ Cloudflare Analytics Engine â†’ n
 - **A:** Set up `grader-api` Worker scaffold; Wrangler config; bind R2 + Queues + Anthropic API secret. Endpoint stubs (`/api/grade`, `/api/capture`, `/api/preview/generate`, `/api/grade/:share_code`).
 - **B:** Bootstrap Next.js 14 app on Cloudflare Pages. Build `/grade` hero page (static). Tailwind tokens.
 - **Joint:** Migrations 001 â€” `audits`, `share_codes`, `email_captures`, `waitlist`, `rate_limits`, `agent_runs`, `cost_governor`. Connection pooling via Neon serverless driver.
-- **Milestone:** "Hello world" Worker deployed at `funelai.com/api/grade` returns `{ok:true}`.
+- **Milestone:** "Hello world" Worker deployed at `gofunnelai.com/api/grade` returns `{ok:true}`.
 
 #### Day 2 (Tue)
 - **A:** Browser Rendering integration. POST a URL, return screenshot + DOM snapshot. Lighthouse run. Write screenshot to R2.
@@ -1081,7 +1081,7 @@ Client â†’ `/api/telemetry` â†’ Cloudflare Analytics Engine â†’ n
 - [ ] **Integration:** email capture + PDF generation + Resend delivery (against Resend sandbox).
 - [ ] **Integration:** rate limiter trips at correct thresholds.
 - [ ] **Load:** k6 script â€” 100 concurrent users, 5 min, P95 < 20s, error rate < 1%.
-- [ ] **Security:** OWASP ZAP scan against `funelai.com/grade`; no medium-or-higher findings.
+- [ ] **Security:** OWASP ZAP scan against `gofunnelai.com/grade`; no medium-or-higher findings.
 - [ ] **Accessibility:** axe-core CI passes on `/grade`, result page, share page.
 
 ### 12.4 Operational Readiness
@@ -1091,8 +1091,8 @@ Client â†’ `/api/telemetry` â†’ Cloudflare Analytics Engine â†’ n
 - [ ] Anthropic API rate-limit headroom verified (we should consume â‰¤ 30% of our org RPM at expected launch traffic).
 - [ ] R2 lifecycle rules set: screenshots auto-delete after 90d, PDFs after 180d.
 - [ ] Postgres backups verified (Neon point-in-time-restore enabled, 7-day window).
-- [ ] Status page at `status.funelai.com` includes Grader as a component.
-- [ ] Customer-support inbox (`support@funelai.com`) routed to founder during launch week.
+- [ ] Status page at `status.gofunnelai.com` includes Grader as a component.
+- [ ] Customer-support inbox (`support@gofunnelai.com`) routed to founder during launch week.
 
 ### 12.5 Marketing / Distribution Readiness
 
@@ -1168,7 +1168,7 @@ RESEND_API_KEY=
 
 # Telemetry
 POSTHOG_API_KEY=
-POSTHOG_HOST=https://posthog.funelai.com
+POSTHOG_HOST=https://posthog.gofunnelai.com
 
 # Security
 TURNSTILE_SECRET=

@@ -2,7 +2,7 @@
   "name": "@funnel/admin",
   "version": "0.1.0",
   "private": true,
-  "description": "GoFunnelAI internal admin console ” staff-only operations, support, billing, queues, incidents, T&S review.",
+  "description": "GoFunnelAI internal admin console — staff-only operations, support, billing, queues, incidents, T&S review.",
   "type": "module",
   "scripts": {
     "dev": "next dev -p 3010",

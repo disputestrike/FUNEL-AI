@@ -7,7 +7,7 @@
  *   3. The API key's pinned default version
  *
  * Echoes `Funnel-Version` on every response so SDKs can warn on drift.
- * v1 is frozen â€” additions only â€” and v2 is wired through the same Hono
+ * v1 is frozen — additions only — and v2 is wired through the same Hono
  * router under a separate mount point.
  */
 

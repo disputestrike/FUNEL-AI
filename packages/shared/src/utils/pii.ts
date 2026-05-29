@@ -1,12 +1,12 @@
 /**
- * PII helpers â€” hashing, redaction, normalization.
+ * PII helpers — hashing, redaction, normalization.
  *
  * GoFunnelAI never logs raw PII. We hash with SHA-256 (with an optional pepper)
  * to allow dedupe-without-disclosure in the data lake, and we redact strings
  * before they hit log sinks.
  *
  * The pepper for hashing is read from the `FUNNEL_PII_PEPPER` env variable.
- * If unset (e.g. unit tests), the empty string is used â€” callers in
+ * If unset (e.g. unit tests), the empty string is used — callers in
  * production MUST set it.
  */
 
@@ -18,7 +18,7 @@ function pepper(): string {
   return process.env[PEPPER_ENV] ?? "";
 }
 
-/** Lowercase + trim â€” used before hashing emails. */
+/** Lowercase + trim — used before hashing emails. */
 export function normalizeEmail(email: string): string {
   return email.trim().toLowerCase();
 }
@@ -66,7 +66,7 @@ export function sha256(value: string): string {
 
 const EMAIL_RE = /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi;
 const PHONE_RE = /\+?\d[\d\s\-().]{7,}\d/g;
-// 13â€“19 digit luhn-ish credit card (very rough).
+// 13–19 digit luhn-ish credit card (very rough).
 const CC_RE = /\b(?:\d[ -]*?){13,19}\b/g;
 // US SSN
 const SSN_RE = /\b\d{3}-\d{2}-\d{4}\b/g;
@@ -76,7 +76,7 @@ const IPV4_RE = /\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/g;
 /**
  * Replace PII tokens in a string with their type marker, e.g. `[email]`.
  *
- * Use before writing arbitrary user content to logs. Not authoritative â€”
+ * Use before writing arbitrary user content to logs. Not authoritative —
  * for absolute correctness, redact at the field level using the typed
  * `Contact` model.
  */

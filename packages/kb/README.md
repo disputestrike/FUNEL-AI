@@ -1,40 +1,40 @@
-﻿# `@funnel/kb` â€” Industry Knowledge Base
+# `@funnel/kb` — Industry Knowledge Base
 
 The Industry Knowledge Base is GoFunnelAI's core moat. 30 vertical packs Ã—
 geography Ã— language, refreshed nightly, retrieved at generation time via
 pgvector cosine similarity. Static KBs rot in 90 days. This one doesn't.
 
 Companion docs:
-- `docs/02a-kb-pack-template.md` â€” the canonical 24-section pack template.
-- `docs/02b-kb-pack-solar-example.md` â€” the gold-standard solar exemplar.
-- `docs/03-event-taxonomy-and-schemas.md` â€” the lake structure the
+- `docs/02a-kb-pack-template.md` — the canonical 24-section pack template.
+- `docs/02b-kb-pack-solar-example.md` — the gold-standard solar exemplar.
+- `docs/03-event-taxonomy-and-schemas.md` — the lake structure the
   ingestion pipeline reads and writes.
 
 ## What's in this package
 
 ```
 src/
-  types.ts                   â€” IndustryPack, KBChunk, RetrievalQuery, sections
-  storage.ts                 â€” savePack, getPack, listPacks (Prisma + pgvector)
-  retrieval.ts               â€” retrieve() with recency-weighted scoring + 1h cache
-  freshness.ts               â€” staleness monitor (>7d alerts ops)
-  template-loader.ts         â€” parses src/packs/<industry>/<geo>-<lang>.md
+  types.ts                   — IndustryPack, KBChunk, RetrievalQuery, sections
+  storage.ts                 — savePack, getPack, listPacks (Prisma + pgvector)
+  retrieval.ts               — retrieve() with recency-weighted scoring + 1h cache
+  freshness.ts               — staleness monitor (>7d alerts ops)
+  template-loader.ts         — parses src/packs/<industry>/<geo>-<lang>.md
   ingestion/
-    index.ts                 â€” nightly orchestrator
-    newsapi.ts               â€” NewsAPI.org
-    rss.ts                   â€” RSS / Atom (cheerio + rss-parser)
-    youtube.ts               â€” YouTube Data API + Whisper fallback
-    reddit.ts                â€” Reddit OAuth + r/<industry>
-    meta-ad-library.ts       â€” Meta Ad Library (active ads per page)
-    google-ad-transparency.ts â€” Google Ad Transparency Center
-    customer-conversion.ts   â€” Iceberg-lake conversion signals (the flywheel)
+    index.ts                 — nightly orchestrator
+    newsapi.ts               — NewsAPI.org
+    rss.ts                   — RSS / Atom (cheerio + rss-parser)
+    youtube.ts               — YouTube Data API + Whisper fallback
+    reddit.ts                — Reddit OAuth + r/<industry>
+    meta-ad-library.ts       — Meta Ad Library (active ads per page)
+    google-ad-transparency.ts — Google Ad Transparency Center
+    customer-conversion.ts   — Iceberg-lake conversion signals (the flywheel)
   pipeline/
-    filter.ts                â€” LLM-as-judge (Claude Haiku 4.5)
-    embed.ts                 â€” OpenAI text-embedding-3-large + insert
-    candidate-queue.ts       â€” candidate listing for admin UI
-    domain-expert-review.ts  â€” approve / reject / request-edits
-    retire.ts                â€” quarterly retirement of stale/unused chunks
-  packs/                     â€” 30 industry pack templates (markdown)
+    filter.ts                — LLM-as-judge (Claude Haiku 4.5)
+    embed.ts                 — OpenAI text-embedding-3-large + insert
+    candidate-queue.ts       — candidate listing for admin UI
+    domain-expert-review.ts  — approve / reject / request-edits
+    retire.ts                — quarterly retirement of stale/unused chunks
+  packs/                     — 30 industry pack templates (markdown)
 ```
 
 ## Retrieval contract
@@ -99,13 +99,13 @@ inserts them as candidates in `kb_candidate_queue` for human approval.
 
 ## Ingestion sources (7)
 
-1. NewsAPI.org â€” industry news per vertical
-2. RSS â€” top 20 authority blogs per industry
-3. YouTube Data API + Whisper fallback â€” transcripts from top channels
-4. Reddit â€” `r/<industry>` hot threads (verbatim buyer phrasings)
-5. Meta Ad Library â€” what ads competitors are running
-6. Google Ad Transparency Center â€” same for Google
-7. Customer Conversion (Iceberg lake) â€” anonymized conversion signals (the flywheel)
+1. NewsAPI.org — industry news per vertical
+2. RSS — top 20 authority blogs per industry
+3. YouTube Data API + Whisper fallback — transcripts from top channels
+4. Reddit — `r/<industry>` hot threads (verbatim buyer phrasings)
+5. Meta Ad Library — what ads competitors are running
+6. Google Ad Transparency Center — same for Google
+7. Customer Conversion (Iceberg lake) — anonymized conversion signals (the flywheel)
 
 ## Supported industries (30)
 

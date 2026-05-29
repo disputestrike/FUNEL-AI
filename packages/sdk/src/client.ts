@@ -1,5 +1,5 @@
 /**
- * FunnelClient â€” the entry point for the TypeScript SDK.
+ * FunnelClient — the entry point for the TypeScript SDK.
  *
  * Wraps ofetch with:
  *   - Automatic Bearer-key auth
@@ -26,7 +26,7 @@ import { VoiceCallsResource } from "./resources/voice-calls.js";
 import { BookingsResource } from "./resources/bookings.js";
 
 export interface FunnelClientOptions {
-  /** Workspace API key â€” `fnl_live_â€¦` or `fnl_test_â€¦`. */
+  /** Workspace API key — `fnl_live_…` or `fnl_test_…`. */
   apiKey: string;
   /** Override the API host. Defaults to https://api.gofunnelai.com */
   baseUrl?: string;
@@ -112,7 +112,7 @@ export class FunnelClient {
     this.bookings = new BookingsResource(this);
   }
 
-  /** Internal â€” used by resource classes. Exposed for advanced users. */
+  /** Internal — used by resource classes. Exposed for advanced users. */
   async request<T>(method: string, path: string, opts: RequestOptions = {}): Promise<T> {
     const upperMethod = method.toUpperCase();
     const headers: Record<string, string> = { ...(opts.headers ?? {}) };

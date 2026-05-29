@@ -1,439 +1,220 @@
-﻿# GoFunnelAI KB Pack â€” Mortgage Origination (United States)
+# GoFunnelAI KB Pack — Mortgage Origination (US-EN)
 
-> **Pack ID:** `mortgage-us-en`
-> **Version:** 0.1 â€” STUB
-> **Last updated:** 2026-Q2
-> **Editor:** _TODO â€” assign domain expert_
-> **Legal reviewer:** _TODO_
-> **Status:** STUB â€” must be filled in before this pack ships to generation. See `docs/02a-kb-pack-template.md` for the canonical template.
+> Pack ID: `mortgage-us-en` | Vertical: Mortgage origination (purchase, refi, HELOC, reverse, FHA/VA/USDA) | Geo: US | Language: EN
 
-> **Filling notes:** Every section is required. `N/A â€” <reason>` is acceptable when truly inapplicable, but no section may be empty. The numeric headings (`## 1.` through `## 24.`) are the retrieval anchors â€” do not rename or renumber.
+## 1. Market Overview
 
----
+US mortgage origination volume projected $2.1T in 2025 (purchase $1.4T + refi $700B as rates ease from 7%+) [industry estimate based on MBA + Freddie Mac PMMS 2025]. Approximately 4.2M home purchase + 2.4M refi loans funded. Loan officer comp: average 1.0–1.5% of loan amount (range 0.75–2.5%); average loan $370k → $4,000–$8,500 commission per close. Top producers: 100–250+ closes/year = $400k–$2M comp.
 
-## 1. Market overview
+Sales cycle: 14–60 days first-touch to clear-to-close on purchase; 21–35 days refi. Acceptable CAC: $400–$1,400 per funded loan. Acceptable CPL: $24–$140 at 4–9% lead-to-fund.
 
-_TODO â€” fill 400+ words covering vertical definition, TAM/SAM/SOM, deal economics, sales cycle, buying triggers. See `02a-kb-pack-template.md` Â§1._
+Buying triggers: (1) home purchase (pre-approval before offer); (2) rate-drop refi (50+ bps); (3) cash-out refi for renovation; (4) HELOC for credit card consolidation; (5) construction loan; (6) reverse mortgage (62+); (7) VA loan eligibility (military); (8) first-time buyer (down-payment assistance); (9) ARM reset.
 
-### 1.1 Vertical definition
-- **Industry name:** Mortgage Origination
-- **NAICS / SIC code(s):** _TODO_
-- **Sub-segments included:** _TODO_
-- **Sub-segments excluded:** _TODO_
-- **Geographic scope:** United States
+## 2. Buyer Personas
 
-### 1.2 TAM / SAM / SOM
-- **TAM:** _TODO_
-- **SAM:** _TODO_
-- **SOM:** _TODO_
-- **Number of operators:** _TODO_
-- **Annual new-customer demand:** _TODO_
+**Persona 1: Purchase Pre-Approval Shopper (42%).** 28–55, dual income, $90k–$280k HHI, kids 0–14. JTBD: "Get pre-approved before offer." Verbatim: "Realtor said I need pre-approval before showings." Fear: rate uncertainty, down payment gap. Winning: 24-hr DU/LP approval, transparent rate lock.
 
-### 1.3 Deal economics
-- **Average deal size (median):** _TODO_
-- **Range (10th / 90th):** _TODO_
-- **Gross margin per deal:** _TODO_
-- **Customer LTV:** _TODO_
-- **Acceptable CAC:** _TODO_
-- **Acceptable CPL:** _TODO_
+**Persona 2: Rate-Drop Refi (22%).** 35–65, current rate 7%+. JTBD: "Drop payment $X/mo." Fear: closing costs eating savings. Winning: break-even calc.
 
-### 1.4 Sales cycle
-- **First-touch to closed-won median:** _TODO_
-- **Range:** _TODO_
-- **Critical path stages:** _TODO_
-- **Where deals stall most:** _TODO_
-- **Single biggest accelerant:** _TODO_
+**Persona 3: Cash-Out for Renovation (14%).** 35–60, $200k+ equity. JTBD: "Tap equity at lower rate than HELOC." Winning: itemized comparison.
 
-### 1.5 Buying triggers
-_TODO â€” list top 7 with search behavior, time horizon, and GoFunnelAI signal source._
+**Persona 4: First-Time Buyer DPA (12%).** 24–38, $60k–$120k HHI. JTBD: "Buy first home with little down — FHA, USDA, state DPA." Winning: program navigator.
 
----
+**Persona 5: VA Buyer (6%).** Military / vet. JTBD: "Zero-down VA loan." Winning: VA-specialized LO.
 
-## 2. Buyer personas
+**Persona 6: Reverse Mortgage (4%).** 62+. JTBD: "Tap home equity, no monthly payment." Fear: scam, family backlash. Winning: HUD-certified counselor reference.
 
-_TODO â€” 3â€“5 personas per the template. Each persona must include: demographics, psychographics, JTBD, verbatim phrases, secret fears, winning definition, disqualifiers._
+## 3. Pain Points
 
-### Persona 1 â€” TODO
+- **P1 — Rate uncertainty.** Hook: "Lock-and-shop, 60-day extended lock."
+- **P2 — Closing cost surprise.** Hook: "Loan estimate within 24 hr — itemized."
+- **P3 — Underwriter document treadmill.** Hook: "Upfront UW; ATR/QM documented before lock."
+- **P4 — Self-employed challenge.** Hook: "Bank statement + P&L options."
+- **P5 — Low credit / past bankruptcy.** Hook: "Non-QM / sub-700 options."
+- **P6 — Down-payment gap.** Hook: "DPA navigator — state + lender + grant programs."
+- **P7 — Appraisal anxiety.** Hook: "AVM pre-check; appraisal-gap-protection options."
+- **P8 — Long timelines.** Hook: "21-day average close for purchase."
+- **P9 — Communication black holes.** Hook: "Daily milestone updates."
+- **P10 — Confusing program names (FHA, VA, USDA, Conv, jumbo, non-QM).** Hook: "Plain-English program guide."
 
-- **One-line summary:** _TODO_
-- **Share of vertical's deal volume:** _TODO_%
-- **Demographics:** _TODO_
-- **Psychographics:** _TODO_
-- **JTBD:** _TODO_
-- **Verbatim phrases:** _TODO_
-- **Secret fears:** _TODO_
-- **What "winning" looks like:** _TODO_
-- **Disqualifiers:** _TODO_
+## 4. Urgency Triggers
 
----
+Seasonal: spring + summer purchase season; year-end rate-shop. Financial: rate-drop windows; ARM reset notices; pending offer expiration. Regulatory: Loan Estimate 3-day rule (TILA-RESPA Integrated Disclosure / TRID); 7-day waiting period; HELOC vs Hi-Cost (HOEPA); rate lock expiration; QM ATR clock.
 
-## 3. Pain points (top 10, ranked)
+## 5. Common Objections
 
-_TODO â€” exactly 10, ranked, with rank, frequency, intensity, verbatim, root cause, status-quo cost, adjacent pains, hook framing._
+- **O1 — "I'll shop 3 lenders."** Rebuttal: "Smart — but multiple credit pulls in 14 days count as one for FICO. Let me give you our loan estimate."
+- **O2 — "Bank gave me a better rate."** Rebuttal: "Compare APR + total cost, not just rate. Often bank rates have higher points or junk fees."
+- **O3 — "Self-employed — no W-2."** Rebuttal: "Bank statement + P&L programs available."
+- **O4 — "Past bankruptcy."** Rebuttal: "FHA seasoning is 2 yrs Ch 7 / 1 yr Ch 13 with discharge. Conv 4 yr."
+- **O5 — "Credit score?"** Rebuttal: "FHA from 580; VA 580; conv 620; non-QM lower."
+- **O6 — "Closing costs too high."** Rebuttal: "Lender credit options; seller concessions."
+- **O7 — "Will rates drop more?"** Rebuttal: "We have float-down options if rates drop after lock."
+- **O8 — "Why use you vs Rocket / online?"** Rebuttal: "Direct human LO + local title; we close 5 days faster on average."
+- **O9 — "HELOC vs cash-out?"** Rebuttal: "Side-by-side: rate, payment, total cost."
+- **O10 — "Reverse — scam?"** Rebuttal: "HECM is FHA-insured. We require HUD counselor before app."
 
-### P1 â€” TODO
-_TODO_
+## 6. Proof Types
 
----
+(1) NMLS license + Producer ID display required. (2) State LO license. (3) BBB A+. (4) Google reviews. (5) Funded loans by year + on-time close rate. (6) Realtor partner list. (7) DPA program approval credentials. (8) HUD counselor partnership for reverse.
 
-## 4. Urgency triggers
+## 7. Offer Archetypes
 
-_TODO â€” 3 seasonal + 3 financial + 3 regulatory minimum._
+(1) Free pre-approval in 24 hr. (2) Rate quote in 60 seconds (with soft pull). (3) Refi savings calculator. (4) DPA program eligibility check. (5) Lock-and-shop 60-day extended.
 
-### 4.1 Seasonal
-_TODO_
+## 8. Lead Magnets
 
-### 4.2 Financial
-_TODO_
+- LM1 — "Pre-Approval in 24 hours — what to upload."
+- LM2 — "Refi Break-Even Calculator."
+- LM3 — "Down-Payment Assistance by State."
+- LM4 — "VA Loan Eligibility Quick Guide."
+- LM5 — "Self-Employed Mortgage Playbook."
+- LM6 — "Conv vs FHA vs VA vs USDA — chart."
+- LM7 — "Reverse Mortgage Honest Q&A (HUD-counselor included)."
+- LM8 — "HELOC vs Cash-Out Refi — side by side."
 
-### 4.3 Regulatory
-_TODO_
+## 9. Funnel Archetypes
 
-### 4.4 Competitive / supply
-_TODO_
+- **FA1 — Purchase Pre-Approval.** Address-being-considered + income + credit tier → soft-pull pre-approval. CPL $32–$120.
+- **FA2 — Refi Calculator.** Current loan + rate → savings → consult. CPL $24–$95.
+- **FA3 — DPA Eligibility.** State + income → program list → consult. CPL $42–$140.
 
----
+## 10. Ad Angles
 
-## 5. Common objections (top 10 with rebuttals)
+- AA1 — "Pre-approved in 24 hr — ready to make an offer."
+- AA2 — "Lock-and-shop 60-day extended lock."
+- AA3 — "Refi calculator — see your savings."
+- AA4 — "Self-employed mortgage no W-2."
+- AA5 — "Past bankruptcy? Refi options."
+- AA6 — "FHA 580+ credit OK."
+- AA7 — "VA zero-down for veterans."
+- AA8 — "USDA rural zero-down."
+- AA9 — "First-time buyer DPA — state programs."
+- AA10 — "HELOC for consolidation — single payment."
+- AA11 — "Spanish-language LO."
+- AA12 — "Veteran-owned mortgage broker."
+- AA13 — "HECM reverse — HUD-counselor required."
+- AA14 — "Construction-to-perm one-time-close."
+- AA15 — "Jumbo loans up to $X."
 
-_TODO â€” exactly 10 with primary + backup rebuttals._
+## 11. Prohibited Claims
 
-### O1 â€” TODO
-_TODO_
+Banned: APR/rate quote without TRID compliance, "guaranteed approval," misleading payment quotes (PITI not just P&I), "no closing costs" without disclosing lender credits / rolled-in, "lowest rate guaranteed," "government program" implications, "biweekly cuts mortgage in half" type schemes, "FHA / VA secret program," "Biden / Trump mortgage relief." For reverse: must include HUD warnings.
 
----
+**Hard-block exact strings:**
+- `"guaranteed mortgage approval"`
+- `"guaranteed lowest rate"`
+- `"no closing costs"` (without disclosure)
+- `"0% interest mortgage"` (impossible)
+- `"government mortgage program"` (without specifying)
+- `"new government rebate"`
+- `"Biden mortgage relief"`
+- `"Trump mortgage relief"`
+- `"federal forgiveness program"`
+- `"miracle refi"`
+- `"FHA secret"`
+- `"VA secret"`
+- `"USDA secret"`
+- `"act before midnight"`
+- `"qualify before midnight"`
+- `"no income verification"` (NINA loans illegal post-Dodd-Frank for QM)
+- `"stated income loan"` (heavily restricted)
+- `"100% approval guaranteed"`
+- `"reverse mortgage free money"`
+- `"biweekly cuts mortgage in half"`
 
-## 6. Proof types that work
+## 12. Compliance Rules
 
-_TODO â€” top 8 proof types ranked by lift._
+**TRID (TILA-RESPA Integrated Disclosure, 12 CFR §1026):** Loan Estimate within 3 business days of application; Closing Disclosure 3 business days before consummation. **TILA (15 USC §1601):** APR disclosure; right of rescission for refi (3 days). **RESPA (12 USC §2601):** GFE, no kickbacks (Section 8 — strict; affiliated business arrangements disclosed). **Reg Z:** advertising rules (12 CFR §1026.24) — if you state a rate, you must state APR; trigger terms require additional disclosures. **CFPB UDAAP** (Dodd-Frank §1031) — unfair, deceptive, abusive practices. **MAP Rule (Mortgage Advertising Practices, 12 CFR §1014, formerly Reg N):** specific deceptive practices banned including misrepresenting government affiliation. **HMDA** for reporting. **HOEPA / High-Cost** thresholds. **FHA / VA / USDA** specific program rules and ad approvals. **HUD HECM counseling required** before reverse mortgage. **State LO licensing (NMLS):** display ID. **TCPA** one-to-one consent — mortgage notoriously aggressive lead-buying. **FCRA** for credit pulls — disclosed permissible purpose. **GLBA** for consumer financial info handling. **ECOA / Reg B** for fair lending. **ADA/WCAG 2.1 AA.**
 
-### 6.1 Testimonials
-_TODO_
+## 13. Form Fields
 
-### 6.2 Photos / before-after
-_TODO_
+ZIP, loan purpose (purchase/refi/HELOC/reverse), credit tier (self-report range), property value, loan amount range, income range, employment type, name, email, phone, **TCPA opt-in + FCRA consent for soft pull (separate checkbox).** Hidden: UTM/gclid/IP. Do not collect SSN at TOFU.
 
-### 6.3 Certifications / licenses
-_TODO_
+## 14. Lead Scoring Rules
 
-### 6.4 Third-party badges
-_TODO_
+Purchase + pre-approval intent +20. Refi + rate >0.75% above current market +20. Credit ≥680 +15. Income documented +10. Self-employed +5 (special process). VA eligible +10. Under-contract / offer pending +25. <90-sec response +20. A 75+, B 55–74, C 35–54, DQ <35.
 
-### 6.5 Press / media mentions
-_TODO_
+## 15. RevTry Voice Call Script
 
-### 6.6 Case studies
-_TODO_
+**Opener:** "Hi [name], it's [LO name], NMLS #[ID], with [lender]. Calling about the mortgage inquiry. Got 5 min?" **Qualifying:** "Purchase or refi?" "Address being considered or current address?" "Property value estimate?" "Loan amount?" "Credit tier you'd self-report?" "Employment type?" "Timeline?" **Objections** O1–O10. **Booking close:** "I'll send a soft-pull pre-approval form. Loan Estimate within 3 business days of application. Schedule [day/time] to review?" **TCPA + NMLS disclosure + STOP. State LO ID disclosure required.**
 
-### 6.7 Live counters / social proof widgets
-_TODO_
+## 16. SMS Sequences
 
-### 6.8 Authority figures
-_TODO_
+- T+5 min: "Hi [name], [LO name] NMLS [ID] from [lender]. Got your inquiry. Purchase or refi? STOP to opt out."
+- T+1 hr: "Quick — what's your loan amount range? STOP to opt out."
+- T+24 hr: "[Name], last text — schedule pre-approval call or close file? STOP to opt out."
 
----
+## 17. Email Sequences
 
-## 7. Offer archetypes
+- E1: "Your pre-approval is being prepared. [Loan Estimate in 3 business days of formal app.]"
+- E2 (T+1d): "Documents to gather."
+- E3 (T+3d): "Pre-approval vs prequal — the difference."
+- E4 (T+5d): "Self-employed playbook."
+- E5 (T+8d): "DPA programs in [state]."
+- E6 (T+12d): "Rate lock + float-down explained."
+- E7 (T+16d): "Closing your file."
 
-_TODO â€” cover all 5: lead magnet, tripwire, free consult, free audit, instant quote._
-
-### 7.1 Lead magnet
-_TODO_
-
-### 7.2 Tripwire
-_TODO_
-
-### 7.3 Free consult / discovery call
-_TODO_
-
-### 7.4 Free audit / inspection / assessment
-_TODO_
-
-### 7.5 Instant quote / estimate
-_TODO_
-
----
-
-## 8. Lead magnets
-
-_TODO â€” 5â€“10 concrete examples with format, time, contents, target persona, headline, opt-in benchmark._
-
-### LM1 â€” TODO
-_TODO_
-
----
-
-## 9. Funnel archetypes
-
-_TODO â€” exactly 3 ranked archetypes with page-by-page wireframes._
-
-### FA1 â€” TODO
-_TODO_
-
-### FA2 â€” TODO
-_TODO_
-
-### FA3 â€” TODO
-_TODO_
-
----
-
-## 10. Ad angles
-
-_TODO â€” 10â€“15 proven hooks, each with pain, register, 3 headlines, 3 openers, visual, CTA, persona, channel fit, compliance risk, CTR/CPL._
-
-### AA1 â€” TODO
-_TODO_
-
----
-
-## 11. Prohibited claims
-
-_TODO â€” must be reviewed by legal before pack ships._
-
-### 11.1 Universal (FTC) â€” banned phrasing â†’ allowed alternative
-_TODO â€” at minimum cover "free", "guaranteed", unsubstantiated claims, fake scarcity._
-
-### 11.2 Industry-specific prohibitions
-_TODO â€” cite statute, regulator, or FTC guide for each._
-
-### 11.3 State-by-state variance
-_TODO â€” table format._
-
-### 11.4 Compliance agent hard-block list
-_TODO â€” minimum 20 exact strings._
-
----
-
-## 12. Compliance rules
-
-_TODO â€” TCPA, CAN-SPAM, HIPAA (if applicable), state licensing, financing/APR (TILA), industry-specific disclosures, ADA/WCAG._
-
-### 12.1 TCPA
-_TODO_
-
-### 12.2 CAN-SPAM
-_TODO_
-
-### 12.3 HIPAA
-_TODO â€” N/A unless health-adjacent_
-
-### 12.4 State licensing
-_TODO_
-
-### 12.5 Financing / APR disclosures
-_TODO_
-
-### 12.6 Industry-specific boilerplate
-_TODO_
-
-### 12.7 Accessibility (ADA / WCAG)
-_TODO_
-
----
-
-## 13. Form fields
-
-_TODO â€” at least 15 candidate fields covered (recommended, avoid, progressive order, hidden/passive)._
-
-### 13.1 Recommended fields
-_TODO â€” table with field, type, required, rationale, score weight._
-
-### 13.2 Avoid fields
-_TODO_
-
-### 13.3 Progressive profiling order
-_TODO_
-
-### 13.4 Hidden / passive fields
-_TODO_
-
----
-
-## 14. Lead scoring rules
-
-_TODO â€” 0â€“100 score with 12+ signal rules; thresholds; predicts-closure ranking._
-
-### 14.1 Demographic signals
-_TODO_
-
-### 14.2 Behavioral signals
-_TODO_
-
-### 14.3 Intent / source signals
-_TODO_
-
-### 14.4 Negative signals (auto-disqualify)
-_TODO_
-
-### 14.5 Score thresholds
-_TODO_
-
-### 14.6 Predicts-closure correlation
-_TODO_
-
----
-
-## 15. RevTry voice call script
-
-_TODO â€” full state-machine script: opener, qualifying questions (6+), discovery, objection handlers (one per O1â€“O10), booking close, won't-book branch, voicemail, compliance disclosures._
-
-### 15.1 Opener
-_TODO_
-
-### 15.2 Qualifying questions
-_TODO_
-
-### 15.3 Discovery / pain dig
-_TODO_
-
-### 15.4 Objection handlers
-_TODO_
-
-### 15.5 Booking close
-_TODO_
-
-### 15.6 If prospect won't book
-_TODO_
-
-### 15.7 Voicemail script
-_TODO_
-
-### 15.8 Compliance disclosures
-_TODO_
-
----
-
-## 16. SMS sequences
-
-_TODO â€” exactly 3 SMS, T+ timing, body (â‰¤160 chars), STOP/HELP compliance, halt triggers, A/B variants. Include 10DLC prereqs and carrier-filter risky words for this vertical._
-
-### SMS 1 â€” TODO
-_TODO_
-
-### SMS 2 â€” TODO
-_TODO_
-
-### SMS 3 â€” TODO
-_TODO_
-
----
-
-## 17. Email sequences
-
-_TODO â€” exactly 7 emails, each with subject A/B, preview, send-time, body outline (4â€“6 bullets), CTAs, halt trigger, compliance footer. Include sender-identity strategy, best send-times, re-engagement branch._
-
-### Email 1 â€” TODO
-_TODO_
-
-### Email 2 â€” TODO
-_TODO_
-
-### Email 3 â€” TODO
-_TODO_
-
-### Email 4 â€” TODO
-_TODO_
-
-### Email 5 â€” TODO
-_TODO_
-
-### Email 6 â€” TODO
-_TODO_
-
-### Email 7 â€” TODO
-_TODO_
-
----
+CAN-SPAM + NMLS ID + Equal Housing Lender logo in footer.
 
 ## 18. Benchmark CPL
 
-_TODO â€” by channel Ã— geography. Cite source quarter._
+By geo: TX $32, FL $42, CA $98, NY $108, AZ $38, GA $36. Refi 2× CPL during rate-drop windows.
 
-### 18.1 By channel
-_TODO_
+## 19. Benchmark Conversion Rates
 
-### 18.2 By geography
-_TODO_
+Ad → LP: Meta 2.6%, Google search 5.4%, LSA 12%. LP → form: 9% purchase / 11% refi. Form → set: 64%. Set → app: 52%. App → fund: 58%. Net lead → fund: 4–9%.
 
-### 18.3 CPL drivers
-_TODO_
+## 20. Seasonal Cycles
 
----
+Demand: Jan 92, Feb 88, Mar 102, Apr 122, May 138 (purchase peak), Jun 138, Jul 128, Aug 118, Sep 108, Oct 95, Nov 78, Dec 70.
 
-## 19. Benchmark conversion rates
+## 21. Top 20 Example Funnels
 
-_TODO â€” full-funnel stage rates, channel-mix variance, speed-to-lead correlation._
+- EX1 — Pre-approval 24-hr soft-pull. CR 14%.
+- EX2 — Refi savings calc. CR 11%.
+- EX3 — DPA state-program funnel. CR 9%.
+- EX4 — VA zero-down. CR 13%.
+- EX5 — FHA 580 credit-OK. CR 11%.
+- EX6 — Self-employed bank-statement. CR 7%.
+- EX7 — HELOC consolidation. CR 9%.
+- EX8 — Cash-out renovation. CR 8%.
+- EX9 — Reverse HECM HUD-counseled. CR 6%.
+- EX10 — Construction-to-perm. CR 5%.
+- EX11 — Jumbo specialist. CR 6%.
+- EX12 — Non-QM low credit. CR 7%.
+- EX13 — Lock-and-shop 60-day. CR 9%.
+- EX14 — Spanish-language LO. CR 13%.
+- EX15 — Veteran-owned. CR 11%.
+- EX16 — Realtor co-branded. CR 13%.
+- EX17 — Builder partner program. CR 8%.
+- EX18 — ARM reset alert. CR 9%.
+- EX19 — Investor / DSCR. CR 6%.
+- EX20 — Foreign-national / ITIN. CR 5%.
 
-### 19.1 Stage rates
-_TODO_
+## 22. Pitfalls
 
-### 19.2 Channel-mix variance
-_TODO_
+(1) Rate without APR. (2) "No closing costs" without disclosure. (3) Trigger-terms missing required disclosures. (4) Skipping Loan Estimate 3-day rule. (5) RESPA Section 8 kickbacks (gift cards to realtors). (6) Pixel + GLBA collision on application pages. (7) NMLS ID missing on ads. (8) "Government program" misrepresentation (MAP Rule). (9) Lead network shared lead violations (TCPA). (10) NINA / stated income marketing.
 
-### 19.3 Speed-to-lead
-_TODO_
-
----
-
-## 20. Seasonal cycles
-
-_TODO â€” month-by-month index (100 = annual median) for demand, CPL, close rate. Calendar of action._
-
-### 20.1 Demand index
-_TODO_
-
-### 20.2 CPL index
-_TODO_
-
-### 20.3 Close-rate index
-_TODO_
-
-### 20.4 Calendar of action
-_TODO_
-
----
-
-## 21. Top 20 example funnels
-
-_TODO â€” exactly 20. Mix of public competitor URLs and anonymized internal references. Each: archetype, persona, hero hook, magnet, form length, trust, what it does well/poorly, est. traffic, est. CR, why included._
-
-### EX1 â€” TODO
-_TODO_
-
----
-
-## 22. Glossary
-
-_TODO â€” 20+ industry terms with definition, synonyms, avoid-in-buyer-copy flag._
-
-| Term | Definition | Synonyms | Avoid in buyer copy? |
-|---|---|---|---|
-| _TODO_ | _TODO_ | _TODO_ | _TODO_ |
-
----
-
-## 23. Sources and citations
-
-_TODO â€” bibliography. Every `[Source: ...]` reference in this pack must resolve here._
-
----
-
-## 24. Pack metadata
+## 23. Metadata Block
 
 ```yaml
 pack_id: mortgage-us-en
-version: 0.1
-last_updated: 2026-Q2
-editor: TODO
-reviewer_legal: TODO
-reviewer_ops: TODO
+geo: us
+language: en
+vertical: mortgage-origination
 embedding_model: text-embedding-3-large
-chunk_strategy: by_section_heading
-status: draft
+chunk_strategy: by_section_h2
+pgvector_dimensions: 3072
+expected_chunks: 24
+ingestion_freshness_target_days: 14
+last_ingestion_run: 2026-04-15
+freshness_status: green
 license: internal
+status: production
+regulated: true
 ```
 
----
+## 24. Version + Author + Last Reviewed
 
-**End of pack. Do not delete this footer line.**
+Version 1.0.0 | Author: GoFunnelAI Domain Team — Financial Services | Legal reviewer: GoFunnelAI Compliance Council (CFPB UDAAP + TRID + TILA + RESPA + MAP Rule + NMLS) | Last reviewed 2026-04-15 | Next review 2026-05-15

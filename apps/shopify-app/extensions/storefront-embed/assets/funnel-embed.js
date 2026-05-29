@@ -6,7 +6,7 @@
  * the embedded `<form>`s to POST back through the same proxy so submissions
  * hit /v1/webhooks/form-submit on the GoFunnelAI API.
  *
- * Zero external dependencies â€” vanilla JS keeps the storefront fast.
+ * Zero external dependencies — vanilla JS keeps the storefront fast.
  */
 
 (function () {

@@ -10,8 +10,8 @@ import animate from "tailwindcss-animate";
  *     gradients reserved for marketing surfaces only.
  *
  * Colors expose two access paths:
- *   1. Static HEX values (signal.500 etc.) â€” for marketing surfaces and SDKs.
- *   2. CSS-var-backed semantic tokens (background, foreground, primary, etc.) â€”
+ *   1. Static HEX values (signal.500 etc.) — for marketing surfaces and SDKs.
+ *   2. CSS-var-backed semantic tokens (background, foreground, primary, etc.) —
  *      for the dashboard surfaces where ThemeProvider can re-skin per workspace.
  */
 const config: Config = {
@@ -42,7 +42,7 @@ const config: Config = {
     },
     extend: {
       colors: {
-        // Signal (primary) â€” confident indigo-violet.
+        // Signal (primary) — confident indigo-violet.
         signal: {
           50: "#F4F3FF",
           100: "#E8E6FF",
@@ -55,7 +55,7 @@ const config: Config = {
           800: "#2B238A",
           900: "#1D175E",
         },
-        // Ember (secondary) â€” warm amber, used sparingly.
+        // Ember (secondary) — warm amber, used sparingly.
         ember: {
           50: "#FFFAF0",
           100: "#FFF1D6",
@@ -68,7 +68,7 @@ const config: Config = {
           800: "#7A3E0E",
           900: "#4D2608",
         },
-        // Aqua (accent) â€” calm teal.
+        // Aqua (accent) — calm teal.
         aqua: {
           50: "#F0FBFB",
           100: "#D6F5F4",
@@ -81,7 +81,7 @@ const config: Config = {
           800: "#074D4D",
           900: "#053838",
         },
-        // Slate (neutral) â€” warm gray, not cold blue.
+        // Slate (neutral) — warm gray, not cold blue.
         slate: {
           50: "#FAFAF9",
           100: "#F4F3F1",
@@ -173,7 +173,7 @@ const config: Config = {
         // The fixed ladder. 4, 8, 12, 16, 24, 32, 48, 64, 96, 128 (px).
         // Tailwind defaults already give 0, 0.5(2px), 1(4px), 2(8px), 3(12px),
         // 4(16px), 6(24px), 8(32px), 12(48px), 16(64px), 24(96px), 32(128px).
-        // We add no custom intermediate values â€” restraint is the brand.
+        // We add no custom intermediate values — restraint is the brand.
       },
       borderRadius: {
         none: "0",

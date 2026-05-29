@@ -1,5 +1,5 @@
 /**
- * Hook Agent â€” writes 3-5 headline variants tied to industry pain points.
+ * Hook Agent — writes 3-5 headline variants tied to industry pain points.
  *
  * Spec: docs/19-orchestrator-code-spec.md Â§B.2.2
  * Model: Claude Sonnet 4.6 / Fallback: Haiku 4.5 â†’ GPT-4o
@@ -43,14 +43,14 @@ You will produce ONE primary hook and 4-6 variant hooks across distinct ANGLES.
 Each hook = { headline, subhead, cta, angleId }.
 
 ANGLES TO COVER (pick 4-6 of these, never repeat an angle):
-  pain_focused      â€” names the specific frustration
-  outcome_focused   â€” names the specific result
-  identity_focused  â€” speaks to who they are ("for engineers who...")
-  status_quo_break  â€” challenges conventional thinking
-  time_pressure     â€” names a real time-sensitive context
-  social_proof      â€” references the size of the customer base or a testimonial
-  curiosity_gap     â€” sets up a question the page answers
-  contrast          â€” old way vs new way
+  pain_focused      — names the specific frustration
+  outcome_focused   — names the specific result
+  identity_focused  — speaks to who they are ("for engineers who...")
+  status_quo_break  — challenges conventional thinking
+  time_pressure     — names a real time-sensitive context
+  social_proof      — references the size of the customer base or a testimonial
+  curiosity_gap     — sets up a question the page answers
+  contrast          — old way vs new way
 
 HARD CONSTRAINTS:
 - headline: â‰¤ 70 chars, sentence-case, active voice.
@@ -99,10 +99,10 @@ export function createHookAgent(deps: HookAgentDeps): Agent<HookInput, HookOutpu
       const userTail = `Brief from Planner:
 ${input.brief}
 
-Business Profile (for proof points only â€” do not invent claims not in here):
+Business Profile (for proof points only — do not invent claims not in here):
 ${renderBusinessProfile(ctx.businessProfile)}
 
-Geography: ${ctx.geography}${restrained ? " (RESTRAINED â€” no exclamation marks)" : ""}
+Geography: ${ctx.geography}${restrained ? " (RESTRAINED — no exclamation marks)" : ""}
 Language: ${ctx.language}
 Voice Persona: ${ctx.voicePersona}
 

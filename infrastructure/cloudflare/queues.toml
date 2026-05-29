@@ -1,9 +1,9 @@
 ################################################################################
-# GoFunnelAI â€” Cloudflare Queues configuration manifest.
+# GoFunnelAI — Cloudflare Queues configuration manifest.
 #
 # Format: this file is consumed by infrastructure/cloudflare/provision.sh which
 # parses it and runs `wrangler queues create` / `wrangler queues consumer add`
-# against the live account. It's a manifest, not native wrangler.toml â€” keep
+# against the live account. It's a manifest, not native wrangler.toml — keep
 # the queue topology versioned in one place even though Cloudflare requires a
 # separate API call per queue.
 ################################################################################
@@ -69,7 +69,7 @@ name = "email-sender-dlq"
 purpose = "Dead-letter for email-sender."
 
 # ---------------------------------------------------------------------------
-# SMS (SignalWire) â€” speed-to-lead RevTry warm-up + drip
+# SMS (SignalWire) — speed-to-lead RevTry warm-up + drip
 # ---------------------------------------------------------------------------
 [[queues]]
 name = "sms-sender"

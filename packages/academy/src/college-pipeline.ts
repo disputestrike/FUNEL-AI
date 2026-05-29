@@ -3,11 +3,11 @@
  *
  * What this module owns:
  *   1. Institution onboarding (HBCU + community college focus).
- *   2. GoFunnelAI for Education tier â€” unlimited free student accounts under
+ *   2. GoFunnelAI for Education tier — unlimited free student accounts under
  *      one institution; educators get free Scale-tier accounts forever.
  *   3. LMS integration via LTI 1.3 (Canvas, Blackboard, Moodle).
  *   4. Curriculum-in-a-box: a 12-week syllabus, video lectures, graded
- *      assignments, project rubrics â€” bundled as a single import.
+ *      assignments, project rubrics — bundled as a single import.
  *   5. Career services pipeline: certified students opt in to a public hiring
  *      directory.
  *
@@ -139,7 +139,7 @@ export async function connectLti(
   });
 }
 
-/** LTI 1.3 launch claim payload â€” minimum subset we read. */
+/** LTI 1.3 launch claim payload — minimum subset we read. */
 export const LtiLaunchClaimsSchema = z.object({
   iss: z.string().url(),
   aud: z.union([z.string(), z.array(z.string())]),
@@ -180,7 +180,7 @@ export interface LtiResolution {
 /**
  * Resolve an LTI launch into an institution + membership + jump target.
  * Caller is responsible for verifying the JWT signature against the issuer's
- * JWKS â€” this function only handles the application-layer mapping.
+ * JWKS — this function only handles the application-layer mapping.
  */
 export async function resolveLtiLaunch(
   claims: LtiLaunchClaims,
@@ -193,7 +193,7 @@ export async function resolveLtiLaunch(
   const institution = await store.getInstitutionByLtiIssuer(parsed.iss, aud);
   if (!institution) {
     throw new Error(
-      `Unknown LTI issuer/aud combo: ${parsed.iss} / ${aud} â€” institution not connected`,
+      `Unknown LTI issuer/aud combo: ${parsed.iss} / ${aud} — institution not connected`,
     );
   }
 

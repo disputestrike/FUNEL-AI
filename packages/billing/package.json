@@ -2,7 +2,7 @@
   "name": "@funnel/billing",
   "version": "0.1.0",
   "private": true,
-  "description": "GoFunnelAI billing package â€” PayPal (primary), Stripe (secondary), subscription lifecycle, dunning, refunds, invoices.",
+  "description": "GoFunnelAI billing package — PayPal (primary), Stripe (secondary), subscription lifecycle, dunning, refunds, invoices.",
   "license": "UNLICENSED",
   "type": "module",
   "main": "./dist/index.js",

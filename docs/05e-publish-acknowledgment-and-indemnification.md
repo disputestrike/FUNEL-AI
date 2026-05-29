@@ -1,10 +1,10 @@
-﻿# FunelAI â€” Publish Acknowledgment & Indemnification (Regulated Verticals)
+# GoFunnelAI — Publish Acknowledgment & Indemnification (Regulated Verticals)
 
 **Document ID:** 05e-publish-acknowledgment-and-indemnification
-**Status:** v1 â€” pending counsel review
+**Status:** v1 — pending counsel review
 **Effective Date:** [TO BE SET ON LAUNCH]
 **Last Updated:** [TO BE SET ON LAUNCH]
-**Entity:** FunelAI, Inc., a Delaware C-corporation
+**Entity:** GoFunnelAI, Inc., a Delaware C-corporation
 
 > **Plain-language note:** This document specifies the **publish-time acknowledgment** required when you publish content in a **Regulated Vertical**, together with the binding **indemnification clause** that applies to all Published Content. It is part of and incorporated by reference into the **Terms of Service** (`05a-terms-of-service.md`, Section 5).
 >
@@ -28,7 +28,7 @@ AI-generated marketing in Regulated Verticals (healthcare, legal, finance, insur
 
 ---
 
-## 2. Regulated Verticals â€” Scope
+## 2. Regulated Verticals — Scope
 
 The publish-time acknowledgment is triggered when your Account, your funnel, or your Published Content relates to any of the following ("**Regulated Verticals**"):
 
@@ -62,7 +62,7 @@ The Service may add Regulated Verticals at any time; updates are reflected in th
 (a) the user selects a Regulated Vertical during onboarding, in workspace settings, or when picking a template;
 (b) the Generated Content or User Content matches a Regulated-Vertical classifier (keyword, embedding, or model-based) above a threshold;
 (c) the user connects a Third-Party Integration commonly associated with a Regulated Vertical (e.g., pharmacy, health-record, lending, broker-dealer integrations);
-(d) a human reviewer at FunelAI flags the workspace.
+(d) a human reviewer at GoFunnelAI flags the workspace.
 
 3.2 The acknowledgment is required:
 
@@ -82,7 +82,7 @@ The Service may add Regulated Verticals at any time; updates are reflected in th
    â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
    â”‚  Regulated Vertical detected: [VERTICAL NAME]   â”‚
    â”‚                                                 â”‚
-   â”‚  FunelAI uses generative AI. AI output is a   â”‚
+   â”‚  GoFunnelAI uses generative AI. AI output is a   â”‚
    â”‚  DRAFT. You are solely responsible for          â”‚
    â”‚  reviewing it for accuracy, legality, and       â”‚
    â”‚  compliance before publishing.                  â”‚
@@ -97,10 +97,10 @@ The Service may add Regulated Verticals at any time; updates are reflected in th
    â”‚    Publish Acknowledgment (v[X.Y]).             â”‚
    â”‚                                                 â”‚
    â”‚  Recommended next steps:                        â”‚
-   â”‚   â€¢ Have a qualified professional review        â”‚
-   â”‚   â€¢ Verify all claims with primary sources      â”‚
-   â”‚   â€¢ Confirm licensing in every jurisdiction     â”‚
-   â”‚   â€¢ Confirm consent for all recipients          â”‚
+   â”‚   • Have a qualified professional review        â”‚
+   â”‚   • Verify all claims with primary sources      â”‚
+   â”‚   • Confirm licensing in every jurisdiction     â”‚
+   â”‚   • Confirm consent for all recipients          â”‚
    â”‚                                                 â”‚
    â”‚  [ Cancel ]                  [ Confirm & Publish ]
    â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
@@ -118,17 +118,17 @@ The Service may add Regulated Verticals at any time; updates are reflected in th
 
 ---
 
-## 5. Required Acknowledgment Text â€” v1.0
+## 5. Required Acknowledgment Text — v1.0
 
 The exact text the user must agree to is reproduced below. The Service stores the **version identifier** alongside each acknowledgment so we can prove what the user agreed to at the time.
 
-> **FunelAI Publish Acknowledgment â€” Regulated Vertical â€” v1.0**
+> **GoFunnelAI Publish Acknowledgment — Regulated Vertical — v1.0**
 >
 > By checking this box and clicking "Confirm & Publish," I acknowledge and agree as follows:
 >
-> 1. **AI output is a draft.** The content I am about to publish, send, or activate was generated or assisted by FunelAI's AI features. AI output can be inaccurate, biased, outdated, infringing, or non-compliant. It is a draft, not a final, vetted, or legally cleared product.
+> 1. **AI output is a draft.** The content I am about to publish, send, or activate was generated or assisted by GoFunnelAI's AI features. AI output can be inaccurate, biased, outdated, infringing, or non-compliant. It is a draft, not a final, vetted, or legally cleared product.
 >
-> 2. **I have reviewed the content.** I have personally reviewed every page, message, script, claim, image, audio file, and call flow that will be published, sent, or used. I am not relying on FunelAI to ensure its accuracy, legality, or suitability.
+> 2. **I have reviewed the content.** I have personally reviewed every page, message, script, claim, image, audio file, and call flow that will be published, sent, or used. I am not relying on GoFunnelAI to ensure its accuracy, legality, or suitability.
 >
 > 3. **I am responsible for compliance.** I am solely responsible for ensuring the content complies with all laws, regulations, professional codes, advertising rules, platform policies, and licensing requirements applicable to me, my business, my audience, and every jurisdiction in which the content will be accessible. This includes (without limitation): FTC Act and FTC endorsement / health-claim guidance; FDA, EMA, MHRA, and equivalent drug/device rules; HIPAA and state medical-privacy laws; state attorney-advertising rules; SEC, FINRA, CFPB, state UDAP, Reg Z, TILA, ECOA, FDCPA, FCRA; state insurance licensing; ADA/WCAG accessibility; CAN-SPAM, TCPA, CASL, GDPR/ePrivacy, LGPD, POPIA, DPDP, and equivalent consent and anti-spam laws; PIPEDA; child-protection laws; tax and securities laws; advertising codes administered by Meta, Google, TikTok, LinkedIn, X, YouTube, Reddit, Apple, and other platforms; and any sector-specific rules applicable to my Regulated Vertical.
 >
@@ -140,19 +140,19 @@ The exact text the user must agree to is reproduced below. The Service stores th
 >
 > 7. **Consent.** I confirm I have all consents legally required to (a) contact each recipient of the content, (b) record calls where applicable, (c) use any individual's name, voice, image, likeness, or biometric identifier, and (d) process any personal data involved.
 >
-> 8. **No professional advice from FunelAI.** FunelAI does not provide medical, legal, financial, tax, regulatory, or other professional advice, and I am not relying on FunelAI for any such advice.
+> 8. **No professional advice from GoFunnelAI.** GoFunnelAI does not provide medical, legal, financial, tax, regulatory, or other professional advice, and I am not relying on GoFunnelAI for any such advice.
 >
-> 9. **Indemnification.** I agree to **defend, indemnify, and hold harmless** FunelAI, Inc., its affiliates, officers, directors, employees, agents, contractors, and licensors from and against any and all claims, demands, actions, investigations, losses, damages, liabilities, fines, penalties, settlements, judgments, costs, and expenses (including reasonable attorneys' fees and expert fees) arising out of or relating to: (a) my Published Content; (b) my use of the Service in violation of the Terms of Service, the Acceptable Use Policy, or any law; (c) any breach of the representations I make in this acknowledgment; and (d) any third-party claim by a recipient of, or person referenced in, my Published Content. This obligation survives termination of my Account.
+> 9. **Indemnification.** I agree to **defend, indemnify, and hold harmless** GoFunnelAI, Inc., its affiliates, officers, directors, employees, agents, contractors, and licensors from and against any and all claims, demands, actions, investigations, losses, damages, liabilities, fines, penalties, settlements, judgments, costs, and expenses (including reasonable attorneys' fees and expert fees) arising out of or relating to: (a) my Published Content; (b) my use of the Service in violation of the Terms of Service, the Acceptable Use Policy, or any law; (c) any breach of the representations I make in this acknowledgment; and (d) any third-party claim by a recipient of, or person referenced in, my Published Content. This obligation survives termination of my Account.
 >
-> 10. **FunelAI's disclaimer.** FunelAI disclaims liability for my Published Content to the maximum extent permitted by law. The Service is provided "as is" and "as available."
+> 10. **GoFunnelAI's disclaimer.** GoFunnelAI disclaims liability for my Published Content to the maximum extent permitted by law. The Service is provided "as is" and "as available."
 >
-> 11. **Audit trail.** I understand and agree that this acknowledgment is logged with a timestamp, my IP address, my Account identifier, the version of this text I agreed to, and the publish event it relates to. I agree this electronic record is admissible as evidence of my agreement and that FunelAI may rely on it.
+> 11. **Audit trail.** I understand and agree that this acknowledgment is logged with a timestamp, my IP address, my Account identifier, the version of this text I agreed to, and the publish event it relates to. I agree this electronic record is admissible as evidence of my agreement and that GoFunnelAI may rely on it.
 >
 > 12. **Binding nature.** I have authority to bind myself, my company, and any client on whose behalf I am publishing. I have read the underlying Terms of Service (`05a-terms-of-service.md`), Acceptable Use Policy (`05c-acceptable-use-policy.md`), and Privacy Policy (`05b-privacy-policy.md`), and I agree to be bound by them.
 >
 > â˜ I have read and agree to the Publish Acknowledgment (v1.0).
 
-The string `FunelAI Publish Acknowledgment â€” Regulated Vertical â€” v1.0` and the **SHA-256 hash** of the canonical text are stored in our policy registry. Any change to the text increments the version and triggers re-acknowledgment.
+The string `GoFunnelAI Publish Acknowledgment — Regulated Vertical — v1.0` and the **SHA-256 hash** of the canonical text are stored in our policy registry. Any change to the text increments the version and triggers re-acknowledgment.
 
 ---
 
@@ -163,7 +163,7 @@ Each acknowledgment event MUST be persisted to an append-only audit log with at 
 | Field | Description |
 |---|---|
 | `event_id` | Unique, monotonic ID |
-| `account_id` | FunelAI workspace ID |
+| `account_id` | GoFunnelAI workspace ID |
 | `user_id` | Acting user ID |
 | `user_email` | Email at time of event |
 | `ip_address` | Source IP (IPv4/IPv6) |
@@ -186,7 +186,7 @@ Each acknowledgment event MUST be persisted to an append-only audit log with at 
 
 6.2 **Tamper-evidence.** Records are written to an append-only store with periodic hash-chaining or equivalent integrity controls; backups are encrypted.
 
-6.3 **Access.** Users may export their own acknowledgment history from `Settings â†’ Compliance â†’ Acknowledgments`. FunelAI may produce records in legal proceedings or in response to lawful requests.
+6.3 **Access.** Users may export their own acknowledgment history from `Settings â†’ Compliance â†’ Acknowledgments`. GoFunnelAI may produce records in legal proceedings or in response to lawful requests.
 
 6.4 **Localization.** The acknowledgment text is presented in the user's selected interface language (EN/ES/PT/FR/DE at launch; additional locales over time). The English version of v1.0 is the canonical legal text; localized versions are translations for usability, and the English version controls in case of conflict.
 
@@ -194,15 +194,15 @@ Each acknowledgment event MUST be persisted to an append-only audit log with at 
 
 ## 7. Indemnification (Restated and Binding)
 
-> **The user shall defend, indemnify, and hold harmless FunelAI, Inc., its affiliates, and their respective officers, directors, employees, agents, contractors, and licensors (the "Indemnitees") from and against any and all third-party claims, demands, actions, suits, proceedings, investigations, losses, damages, liabilities, fines, penalties, settlements, judgments, costs, and expenses (including reasonable attorneys' fees, expert fees, and disbursements) (collectively, "Losses") arising out of or relating to: (a) the user's Published Content, including any allegation that such content is false, misleading, deceptive, infringing, defamatory, in violation of any privacy, publicity, intellectual property, consumer-protection, advertising, telemarketing, anti-spam, healthcare, financial, securities, gambling, employment, fair-housing, accessibility, data-protection, or other law; (b) the user's breach of the Terms of Service (05a), Acceptable Use Policy (05c), Privacy Policy (05b), or any representation made in any Publish Acknowledgment; (c) the user's failure to obtain any required consent, license, registration, or authorization; (d) any claim by a recipient of, or any individual identified or depicted in, the user's Published Content; (e) the user's use of any Third-Party Integration; and (f) any tax, withholding, or contribution obligation of the user.**
+> **The user shall defend, indemnify, and hold harmless GoFunnelAI, Inc., its affiliates, and their respective officers, directors, employees, agents, contractors, and licensors (the "Indemnitees") from and against any and all third-party claims, demands, actions, suits, proceedings, investigations, losses, damages, liabilities, fines, penalties, settlements, judgments, costs, and expenses (including reasonable attorneys' fees, expert fees, and disbursements) (collectively, "Losses") arising out of or relating to: (a) the user's Published Content, including any allegation that such content is false, misleading, deceptive, infringing, defamatory, in violation of any privacy, publicity, intellectual property, consumer-protection, advertising, telemarketing, anti-spam, healthcare, financial, securities, gambling, employment, fair-housing, accessibility, data-protection, or other law; (b) the user's breach of the Terms of Service (05a), Acceptable Use Policy (05c), Privacy Policy (05b), or any representation made in any Publish Acknowledgment; (c) the user's failure to obtain any required consent, license, registration, or authorization; (d) any claim by a recipient of, or any individual identified or depicted in, the user's Published Content; (e) the user's use of any Third-Party Integration; and (f) any tax, withholding, or contribution obligation of the user.**
 >
-> **FunelAI will (i) promptly notify the user of any claim subject to indemnification (a delay does not relieve the user except to the extent prejudiced), (ii) tender control of the defense and settlement to the user (provided the user uses counsel reasonably acceptable to FunelAI and does not settle in a way that admits FunelAI's liability, imposes obligations on FunelAI, or fails to fully release FunelAI, without FunelAI's prior written consent), and (iii) cooperate at the user's expense. FunelAI may participate in the defense with its own counsel at its own expense.**
+> **GoFunnelAI will (i) promptly notify the user of any claim subject to indemnification (a delay does not relieve the user except to the extent prejudiced), (ii) tender control of the defense and settlement to the user (provided the user uses counsel reasonably acceptable to GoFunnelAI and does not settle in a way that admits GoFunnelAI's liability, imposes obligations on GoFunnelAI, or fails to fully release GoFunnelAI, without GoFunnelAI's prior written consent), and (iii) cooperate at the user's expense. GoFunnelAI may participate in the defense with its own counsel at its own expense.**
 >
-> **This indemnification is in addition to, and does not limit, any other remedies available to FunelAI. It survives termination of the user's Account.**
+> **This indemnification is in addition to, and does not limit, any other remedies available to GoFunnelAI. It survives termination of the user's Account.**
 
 7.1 **No limitation on user obligations.** The limitation of liability in **ToS Section 10.2** does **not** apply to the user's indemnification obligations under this Section 7 or to amounts the user owes for usage, taxes, or restitution.
 
-7.2 **FunelAI disclaimer.** FunelAI disclaims liability for the user's Published Content to the maximum extent permitted by law and makes no representation that Generated Content is accurate, lawful, non-infringing, or fit for any purpose.
+7.2 **GoFunnelAI disclaimer.** GoFunnelAI disclaims liability for the user's Published Content to the maximum extent permitted by law and makes no representation that Generated Content is accurate, lawful, non-infringing, or fit for any purpose.
 
 7.3 **Consumer carve-out.** Where mandatory consumer law in the user's jurisdiction limits or modifies indemnification by a consumer, those limits apply and the remainder of this Section 7 continues in force to the maximum extent permitted.
 
@@ -213,7 +213,7 @@ Each acknowledgment event MUST be persisted to an append-only audit log with at 
 | Document | Connection |
 |---|---|
 | `05a-terms-of-service.md` | Section 5 establishes the general AI-output and indemnification framework. This document is the operational implementation. |
-| `05b-privacy-policy.md` | Defines retention and handling of the audit-trail records produced here (Section 7, audit logs â€” 7 years). |
+| `05b-privacy-policy.md` | Defines retention and handling of the audit-trail records produced here (Section 7, audit logs — 7 years). |
 | `05c-acceptable-use-policy.md` | Defines independent baseline of prohibited content; this acknowledgment supplements but does not replace it. |
 | `05d-refund-policy.md` | Suspension/termination for breach of this acknowledgment does not entitle a refund (Section 1, table; Section 5.2 of `05d`). |
 
@@ -225,16 +225,16 @@ Each acknowledgment event MUST be persisted to an append-only audit log with at 
 
 9.2 The canonical text for each version is preserved indefinitely so that historical audit records remain interpretable.
 
-9.3 A public version history of this document is maintained at `https://funelai.com/legal/history`.
+9.3 A public version history of this document is maintained at `https://gofunnelai.com/legal/history`.
 
 ---
 
 ## 10. Contact
 
-- **Legal / acknowledgment questions:** `legal@funelai.com`
-- **Compliance and audit-record requests:** `compliance@funelai.com`
-- **Privacy:** `privacy@funelai.com`
+- **Legal / acknowledgment questions:** `legal@gofunnelai.com`
+- **Compliance and audit-record requests:** `compliance@gofunnelai.com`
+- **Privacy:** `privacy@gofunnelai.com`
 
 ---
 
-*â€” End of Publish Acknowledgment & Indemnification, v1, pending counsel review â€”*
+*— End of Publish Acknowledgment & Indemnification, v1, pending counsel review —*

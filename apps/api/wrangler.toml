@@ -15,7 +15,7 @@ mode = "smart"
 [limits]
 cpu_ms = 30000  # Generation orchestration spans many subrequests; raise the CPU budget.
 
-# Tail consumers ” pipe logs into the centralized logging worker which forwards
+# Tail consumers — pipe logs into the centralized logging worker which forwards
 # to Datadog Logs and Sentry breadcrumbs.
 [[tail_consumers]]
 service = "funnel-log-shipper"

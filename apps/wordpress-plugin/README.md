@@ -1,4 +1,4 @@
-# GoFunnelAI â€” WordPress Plugin
+# GoFunnelAI — WordPress Plugin
 
 Embed GoFunnelAI funnels into any WordPress page, sync form submissions
 (Gravity Forms, WPForms, Contact Form 7, WooCommerce) to the GoFunnelAI CRM,
@@ -29,9 +29,9 @@ and fire the speed-to-lead pipeline (Resend + SignalWire) within seconds.
 
 Two ways:
 
-- **Gutenberg block** â€” Insert *GoFunnelAI Block* in any page; pick a funnel
+- **Gutenberg block** — Insert *GoFunnelAI Block* in any page; pick a funnel
   on the right sidebar, click **Bake static HTML for SEO**, publish.
-- **Shortcode** â€” `[funnelai id="fn_abc123"]` (optional `section="hero"`).
+- **Shortcode** — `[funnelai id="fn_abc123"]` (optional `section="hero"`).
 
 The fetched HTML is cached in WP transients for 1 hour and re-baked into
 the block attribute on every save so the front-end has zero API dependency.

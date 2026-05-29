@@ -15,7 +15,7 @@ account_id = "${CLOUDFLARE_ACCOUNT_ID}"
 send_metrics = true
 logpush = true
 
-# Workers Logs / observability â€” always-on for production renderer.
+# Workers Logs / observability — always-on for production renderer.
 [observability]
 enabled = true
 head_sampling_rate = 0.05   # 5% head sampling on the hottest path; tail keeps errors.
@@ -34,9 +34,9 @@ service = "funnel-log-shipper"
 # -----------------------------------------------------------------------------
 #
 # The renderer answers on three classes of hostname:
-#   1. the apex (gofunnelai.com) â€” only for marketing-redirect fallback,
-#   2. workspace subdomains (*.gofunnelai.com) â€” `slug.gofunnelai.com`,
-#   3. any CNAMEd custom domain â€” onboarded via Cloudflare for SaaS so the
+#   1. the apex (gofunnelai.com) — only for marketing-redirect fallback,
+#   2. workspace subdomains (*.gofunnelai.com) — `slug.gofunnelai.com`,
+#   3. any CNAMEd custom domain — onboarded via Cloudflare for SaaS so the
 #      worker fires on a "fallback origin" route for the custom-hostnames zone.
 #
 # Editor/admin/marketing live on dedicated hosts (app.gofunnelai.com, admin.gofunnelai.com,
@@ -46,14 +46,14 @@ service = "funnel-log-shipper"
 # Bindings
 # -----------------------------------------------------------------------------
 
-# Hyperdrive â€” pooled Postgres read-replica for funnel/workspace lookup.
+# Hyperdrive — pooled Postgres read-replica for funnel/workspace lookup.
 [[hyperdrive]]
 binding = "DB"
 id = "${HYPERDRIVE_REPLICA_ID}"
 
-# R2 â€” asset bucket (images, videos, lead-magnet downloads) and audit cache.
+# R2 — asset bucket (images, videos, lead-magnet downloads) and audit cache.
 [[r2_buckets]]
-binding = "FUNNEL_ASSETS"
+binding = "ASSETS"
 bucket_name = "funnel-assets"
 preview_bucket_name = "funnel-assets-preview"
 
@@ -61,7 +61,7 @@ preview_bucket_name = "funnel-assets-preview"
 binding = "FUNNEL_LEADMAGNETS"
 bucket_name = "funnel-leadmagnets"
 
-# KV â€” page HTML cache + A/B variant assignment sticky map + suspended flags.
+# KV — page HTML cache + A/B variant assignment sticky map + suspended flags.
 [[kv_namespaces]]
 binding = "PAGE_CACHE"
 id = "${KV_PAGE_CACHE_ID}"
@@ -82,16 +82,16 @@ id = "${KV_DOMAIN_CACHE_ID}"
 binding = "RATE_LIMITS"
 id = "${KV_RATE_LIMITS_ID}"
 
-# Browser Rendering â€” used for dynamic OG image generation.
+# Browser Rendering — used for dynamic OG image generation.
 browser = { binding = "BROWSER" }
 
-# Queues â€” async lead-capture pipeline. Producer here; consumer is in apps/api.
+# Queues — async lead-capture pipeline. Producer here; consumer is in apps/api.
 [[queues.producers]]
-binding = "Q_LEAD"
+binding = "LEAD_QUEUE"
 queue = "lead-capture"
 
 [[queues.producers]]
-binding = "Q_ANALYTICS"
+binding = "ANALYTICS_QUEUE"
 queue = "analytics-conversions"
 
 # Service binding back to apps/api for synchronous internal RPC (e.g. quick
@@ -100,7 +100,7 @@ queue = "analytics-conversions"
 binding = "API"
 service = "funnel-api"
 
-# Rate-limit binding â€” per-IP form submission throttling.
+# Rate-limit binding — per-IP form submission throttling.
 [[unsafe.bindings]]
 name = "FORM_RATELIMIT"
 type = "ratelimit"
@@ -128,7 +128,7 @@ CACHE_TTL_STALE_SECONDS = "3600"
 DEFAULT_LOCALE = "en"
 
 # Secrets configured via `wrangler secret put`:
-#   DATABASE_URL           (Neon serverless â€” Hyperdrive bridges it)
+#   DATABASE_URL           (Neon serverless — Hyperdrive bridges it)
 #   FORM_HMAC_SECRET       (signing forms server-side to prevent replay)
 #   TURNSTILE_SECRET_KEY
 #   GA4_API_SECRET

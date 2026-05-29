@@ -1,8 +1,8 @@
-# GoFunnelAI â€” Go-live checklist
+# GoFunnelAI — Go-live checklist
 
 Walks through every external provider you need an account with and every
 Railway-side step required to flip the public domain. Tick items off in
-order â€” later steps depend on earlier ones.
+order — later steps depend on earlier ones.
 
 > Cross-references:
 > - Infra runbook: `../infrastructure/railway/setup.md`
@@ -57,7 +57,7 @@ values into the repo or chat.
 
 ## 2. Railway project
 
-- [ ] Railway account created (Pro plan â€” required for daily backups + private networking).
+- [ ] Railway account created (Pro plan — required for daily backups + private networking).
 - [ ] GitHub repo `funnel-ai` connected to Railway.
 - [ ] Project created (recommended name: `funnel-ai-production`).
 - [ ] Environments `production` and `staging` created.
@@ -67,12 +67,12 @@ values into the repo or chat.
 
 ## 3. Six services created
 
-- [ ] `funnel-api` â€” root `/`, Dockerfile `apps/api/Dockerfile`, branch `main`.
-- [ ] `funnel-web` â€” root `/`, Dockerfile `apps/web/Dockerfile`, branch `main`.
-- [ ] `funnel-admin` â€” root `/`, Dockerfile `apps/admin/Dockerfile`, branch `main`.
-- [ ] `funnel-grader` â€” root `/`, Dockerfile `apps/grader/Dockerfile`, branch `main`.
-- [ ] `funnel-renderer` â€” root `/`, Dockerfile `apps/renderer/Dockerfile`, branch `main`.
-- [ ] `funnel-workers` â€” root `/`, Dockerfile `apps/workers/Dockerfile`, branch `main`.
+- [ ] `funnel-api` — root `/`, Dockerfile `apps/api/Dockerfile`, branch `main`.
+- [ ] `funnel-web` — root `/`, Dockerfile `apps/web/Dockerfile`, branch `main`.
+- [ ] `funnel-admin` — root `/`, Dockerfile `apps/admin/Dockerfile`, branch `main`.
+- [ ] `funnel-grader` — root `/`, Dockerfile `apps/grader/Dockerfile`, branch `main`.
+- [ ] `funnel-renderer` — root `/`, Dockerfile `apps/renderer/Dockerfile`, branch `main`.
+- [ ] `funnel-workers` — root `/`, Dockerfile `apps/workers/Dockerfile`, branch `main`.
 
 ---
 
@@ -156,5 +156,5 @@ values into the repo or chat.
 
 ---
 
-If anything in sections 1â€“7 fails, run `bash scripts/rollback.sh production`
+If anything in sections 1–7 fails, run `bash scripts/rollback.sh production`
 which redeploys the previous successful Railway deployment for every service.

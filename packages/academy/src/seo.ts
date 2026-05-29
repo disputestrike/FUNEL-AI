@@ -35,7 +35,7 @@ export interface SeoStore {
 
 /**
  * Generate the SEO page descriptor for an Academy course. We don't render the
- * HTML here â€” that's the SSR layer's job â€” but we pre-compute every piece of
+ * HTML here — that's the SSR layer's job — but we pre-compute every piece of
  * metadata the page needs.
  */
 export function buildCoursePage(args: {
@@ -54,7 +54,7 @@ export function buildCoursePage(args: {
     c.seo_description ??
     `${c.subtitle ?? c.description.slice(0, 160)}`.trim();
 
-  // schema.org/Course â€” Google's "Course" rich result requires `provider`.
+  // schema.org/Course — Google's "Course" rich result requires `provider`.
   const courseJsonLd: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Course",
@@ -129,7 +129,7 @@ export function buildIndustryLandingPage(args: {
   }
   const friendly = humanizeIndustry(args.industry);
   const slug = `marketing-for-${args.industry.replace(/_/g, "-")}`;
-  const title = `Marketing for ${friendly} â€” GoFunnelAI Academy`;
+  const title = `Marketing for ${friendly} — GoFunnelAI Academy`;
   const description = `Complete guide + courses to grow your ${friendly} business with AI funnels, voice agents, and ad campaigns. ${args.courses_in_industry.length} courses inside.`;
 
   return {
@@ -157,20 +157,20 @@ export function buildIndustryLandingPage(args: {
   };
 }
 
-/** Default vertical-FAQ pack â€” these win long-tail traffic on Google. */
+/** Default vertical-FAQ pack — these win long-tail traffic on Google. */
 function industryFaqs(industry: IndustryVertical, friendly: string): Array<{ q: string; a: string }> {
   return [
     {
       q: `How does GoFunnelAI help ${friendly} businesses get more leads?`,
-      a: `GoFunnelAI generates a complete lead-gen funnel â€” landing page, email sequence, SMS sequence, and AI voice follow-up â€” tuned to the ${friendly} vertical's best-converting offers, in under 60 seconds.`,
+      a: `GoFunnelAI generates a complete lead-gen funnel — landing page, email sequence, SMS sequence, and AI voice follow-up — tuned to the ${friendly} vertical's best-converting offers, in under 60 seconds.`,
     },
     {
       q: `Are the ${friendly} marketing courses free?`,
-      a: `Yes â€” every Operator-level Academy course is free. Industry Mastery programs (paid, $297-$1,997) go deeper with cohort-based delivery, mentorship, and a graded capstone.`,
+      a: `Yes — every Operator-level Academy course is free. Industry Mastery programs (paid, $297-$1,997) go deeper with cohort-based delivery, mentorship, and a graded capstone.`,
     },
     {
       q: `What is the GoFunnelAI certification?`,
-      a: `Three ladders: Certified Operator (basic), Certified Strategist (advanced â€” 50+ courses + capstone + mentor review), and Certified Agency Partner (for agencies serving ${friendly} clients). Each comes with a verifiable credential and LinkedIn share.`,
+      a: `Three ladders: Certified Operator (basic), Certified Strategist (advanced — 50+ courses + capstone + mentor review), and Certified Agency Partner (for agencies serving ${friendly} clients). Each comes with a verifiable credential and LinkedIn share.`,
     },
     {
       q: `Do you partner with colleges?`,

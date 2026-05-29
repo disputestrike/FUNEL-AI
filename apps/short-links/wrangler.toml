@@ -1,0 +1,102 @@
+################################################################################
+# GoFunnelAI Short-Link Worker
+#
+# Serves gofnl.co/[code] -> 302 redirects.
+#
+# Hot path:
+#   1. KV lookup for the code (fresh+stale TTL).
+#   2. On hit: increment click_count in the background, 302 redirect now.
+#   3. On miss: hit Hyperdrive-pooled Postgres, cache result (positive or
+#      negative), 302 redirect.
+#
+# Reserved codes: 'health', 'favicon.ico', 'robots.txt' — handled before lookup.
+################################################################################
+
+name = "funnel-short-links"
+main = "src/index.ts"
+compatibility_date = "2024-11-01"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = false
+account_id = "${CLOUDFLARE_ACCOUNT_ID}"
+send_metrics = true
+logpush = true
+
+[observability]
+enabled = true
+head_sampling_rate = 0.1
+
+[placement]
+mode = "smart"
+
+[limits]
+cpu_ms = 20    # Tighter than the renderer — this is one DB read max.
+
+[[tail_consumers]]
+service = "funnel-log-shipper"
+
+# -----------------------------------------------------------------------------
+# Bindings
+# -----------------------------------------------------------------------------
+
+[[hyperdrive]]
+binding = "DB"
+id = "${HYPERDRIVE_REPLICA_ID}"
+
+[[kv_namespaces]]
+binding = "SHORT_LINK_CACHE"
+id = "${KV_SHORT_LINK_CACHE_ID}"
+
+# Click-count buffer queue — we batch increments to avoid per-click writes.
+[[queues.producers]]
+binding = "CLICK_COUNTER_QUEUE"
+queue = "short-link-clicks"
+
+[[unsafe.bindings]]
+name = "REDIRECT_RATELIMIT"
+type = "ratelimit"
+namespace_id = "2001"
+simple = { limit = 600, period = 60 }
+
+[vars]
+ENVIRONMENT = "development"
+APEX_DOMAIN = "gofnl.local"
+FALLBACK_URL = "https://app.funnel.local"
+CACHE_TTL_FRESH_SECONDS = "300"
+CACHE_TTL_STALE_SECONDS = "86400"
+
+# Secrets (wrangler secret put):
+#   DATABASE_URL
+#   INTERNAL_INGEST_SECRET
+#   SENTRY_DSN
+
+# -----------------------------------------------------------------------------
+# Production environment
+# -----------------------------------------------------------------------------
+
+[env.production]
+name = "funnel-short-links"
+routes = [
+  { pattern = "gofnl.co/*", zone_name = "gofnl.co" },
+]
+[env.production.vars]
+ENVIRONMENT = "production"
+APEX_DOMAIN = "gofnl.co"
+FALLBACK_URL = "https://app.gofunnelai.com"
+CACHE_TTL_FRESH_SECONDS = "300"
+CACHE_TTL_STALE_SECONDS = "86400"
+
+# -----------------------------------------------------------------------------
+# Staging environment
+# -----------------------------------------------------------------------------
+
+[env.staging]
+name = "funnel-short-links-staging"
+routes = [
+  { pattern = "gofnl-staging.co/*", zone_name = "gofnl-staging.co" },
+]
+[env.staging.vars]
+ENVIRONMENT = "staging"
+APEX_DOMAIN = "gofnl-staging.co"
+FALLBACK_URL = "https://app.staging.gofunnelai.com"
+CACHE_TTL_FRESH_SECONDS = "60"
+CACHE_TTL_STALE_SECONDS = "3600"

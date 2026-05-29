@@ -1,11 +1,11 @@
-﻿# FunelAI â€” Privacy Policy
+# GoFunnelAI — Privacy Policy
 
 **Document ID:** 05b-privacy-policy
-**Status:** v1 â€” pending counsel review
+**Status:** v1 — pending counsel review
 **Effective Date:** [TO BE SET ON LAUNCH]
 **Last Updated:** [TO BE SET ON LAUNCH]
-**Entity:** FunelAI, Inc., a Delaware C-corporation ("FunelAI," "we," "us," "our")
-**Contact:** `privacy@funelai.com` | EU Representative: [TBD per Art. 27 GDPR] | UK Representative: [TBD per UK GDPR] | Brazil DPO: [TBD per LGPD]
+**Entity:** GoFunnelAI, Inc., a Delaware C-corporation ("GoFunnelAI," "we," "us," "our")
+**Contact:** `privacy@gofunnelai.com` | EU Representative: [TBD per Art. 27 GDPR] | UK Representative: [TBD per UK GDPR] | Brazil DPO: [TBD per LGPD]
 
 > **Plain-language note:** This Privacy Policy explains what personal information we collect, why, how we share and protect it, and what rights you have. It is written to comply with the **EU/UK GDPR, California CCPA/CPRA, Brazil LGPD, Canada PIPEDA, India DPDP Act, South Africa POPIA**, and other applicable privacy laws.
 >
@@ -57,7 +57,7 @@ We process personal data to:
 
 (a) provide the Service (account creation, authentication, AI generation, publishing, voice calling, billing);
 (b) operate, secure, and improve the Service (debugging, abuse prevention, capacity planning);
-(c) communicate with you (transactional, security, and â€” with your consent or where permitted â€” marketing);
+(c) communicate with you (transactional, security, and — with your consent or where permitted — marketing);
 (d) comply with legal obligations (tax, accounting, anti-fraud, KYC where applicable, lawful requests);
 (e) detect, prevent, and respond to fraud, abuse, and security incidents;
 (f) exercise and defend legal claims.
@@ -70,11 +70,11 @@ We process personal data to:
 |---|---|
 | Provide the Service | Performance of contract (Art. 6(1)(b) GDPR; LGPD Art. 7, II; DPDP Â§7; POPIA Â§11(1)(b)) |
 | Billing, tax, records | Legal obligation (Art. 6(1)(c)) |
-| Service security, abuse prevention | Legitimate interests (Art. 6(1)(f)) â€” to keep the Service safe and reliable |
+| Service security, abuse prevention | Legitimate interests (Art. 6(1)(f)) — to keep the Service safe and reliable |
 | Product improvement (aggregated) | Legitimate interests |
 | Marketing to existing customers | Legitimate interests, or consent where required (e.g., ePrivacy) |
 | Marketing to prospects, cookies (non-essential) | Consent (Art. 6(1)(a); ePrivacy; LGPD Art. 7, I; DPDP Â§6; POPIA Â§11(1)(a)) |
-| Sensitive data (if any) | Explicit consent (Art. 9) â€” by exception only |
+| Sensitive data (if any) | Explicit consent (Art. 9) — by exception only |
 | Compliance with lawful requests | Legal obligation |
 
 You may withdraw consent at any time without affecting prior processing. You may object to processing based on legitimate interests as described in Section 5.
@@ -86,7 +86,7 @@ You may withdraw consent at any time without affecting prior processing. You may
 We share personal data only with:
 
 - **Subprocessors** (see Section 5 for the list) who process data on our instructions under written agreements.
-- **Third-Party Integrations** you connect â€” only what you authorize.
+- **Third-Party Integrations** you connect — only what you authorize.
 - **Payment processors** (PayPal) for billing.
 - **Professional advisors** (lawyers, accountants, auditors) under confidentiality.
 - **Law enforcement / regulators** when legally required; we will challenge overbroad requests where lawful and notify you where permitted.
@@ -98,23 +98,23 @@ We do **not** sell personal data and we do **not** "share" personal data for cro
 
 ## 5. Subprocessors
 
-We use subprocessors to deliver the Service. The list below is a **placeholder** and will be finalized and maintained at `https://funelai.com/legal/subprocessors` (to be activated at launch). We will provide at least 30 days' notice before adding new subprocessors for paying customers who subscribe to update notifications.
+We use subprocessors to deliver the Service. The list below is a **placeholder** and will be finalized and maintained at `https://gofunnelai.com/legal/subprocessors` (to be activated at launch). We will provide at least 30 days' notice before adding new subprocessors for paying customers who subscribe to update notifications.
 
 **Placeholder subprocessor list:**
 
 | Subprocessor | Purpose | Location |
 |---|---|---|
-| [Cloud hosting â€” TBD: e.g., AWS / GCP] | Compute, storage, networking | US, EU (region-pinned where possible) |
-| [Database / search â€” TBD] | Data storage and retrieval | US, EU |
-| [AI model providers â€” TBD: e.g., Anthropic, OpenAI, Google, Meta, open-source self-hosted] | LLM and image/voice generation | US, EU |
-| [Voice/telephony â€” TBD: RevTry stack provider] | AI voice agent calls | US, EU |
-| [Email gateway â€” TBD] | Transactional and customer email sends | US, EU |
-| [SMS gateway â€” TBD] | SMS sends | Global, per route |
-| [Analytics â€” TBD] | Product analytics (privacy-respecting) | EU/US |
-| [Customer support â€” TBD] | Helpdesk and ticketing | US, EU |
-| [Error tracking â€” TBD] | Diagnostic telemetry | US, EU |
+| [Cloud hosting — TBD: e.g., AWS / GCP] | Compute, storage, networking | US, EU (region-pinned where possible) |
+| [Database / search — TBD] | Data storage and retrieval | US, EU |
+| [AI model providers — TBD: e.g., Anthropic, OpenAI, Google, Meta, open-source self-hosted] | LLM and image/voice generation | US, EU |
+| [Voice/telephony — TBD: RevTry stack provider] | AI voice agent calls | US, EU |
+| [Email gateway — TBD] | Transactional and customer email sends | US, EU |
+| [SMS gateway — TBD] | SMS sends | Global, per route |
+| [Analytics — TBD] | Product analytics (privacy-respecting) | EU/US |
+| [Customer support — TBD] | Helpdesk and ticketing | US, EU |
+| [Error tracking — TBD] | Diagnostic telemetry | US, EU |
 | [Payment processor] | PayPal | Global |
-| [Fraud prevention â€” TBD] | Abuse and chargeback prevention | US |
+| [Fraud prevention — TBD] | Abuse and chargeback prevention | US |
 
 Each subprocessor is bound by data protection terms equivalent to those required by GDPR Art. 28, LGPD Art. 39, and equivalent laws.
 
@@ -133,14 +133,14 @@ Subject to applicable law, you may exercise the following rights:
 | Restriction of processing | GDPR, LGPD, POPIA |
 | Object to processing (incl. direct marketing) | GDPR, LGPD, POPIA |
 | Withdraw consent | GDPR, LGPD, DPDP, POPIA |
-| Opt out of "sale" or "sharing" / targeted advertising | CCPA/CPRA (not applicable â€” we do not sell/share) |
+| Opt out of "sale" or "sharing" / targeted advertising | CCPA/CPRA (not applicable — we do not sell/share) |
 | Limit use of sensitive personal information | CCPA/CPRA |
 | Non-discrimination for exercising rights | CCPA, LGPD |
 | Not be subject to solely automated decisions with legal/similar effect | GDPR Art. 22, LGPD Art. 20 |
 | Nominate a representative (after death) | DPDP |
 | Lodge a complaint with a supervisory authority | GDPR, LGPD, POPIA, DPDP |
 
-**How to exercise.** Email `privacy@funelai.com` from your Account email, or use the in-product privacy controls. We will verify identity proportionate to the request and respond:
+**How to exercise.** Email `privacy@gofunnelai.com` from your Account email, or use the in-product privacy controls. We will verify identity proportionate to the request and respond:
 
 - within **1 month** (GDPR/UK GDPR; extendable by 2 months for complex requests, with notice),
 - **45 days** (CCPA; extendable by 45 days),
@@ -161,7 +161,7 @@ We retain personal data only as long as needed for the purposes described in thi
 |---|---|
 | **Account data (profile, settings, configurations)** | Lifetime of the Account, then **deleted within 90 days** of cancellation (backup expiry) |
 | **User Content** | Lifetime of the Account; export available for 30 days after cancellation, then deleted within 90 days of cancellation |
-| **Billing records, invoices, tax records** | Retained as required by law (typically **7â€“10 years**) |
+| **Billing records, invoices, tax records** | Retained as required by law (typically **7–10 years**) |
 | **Audit logs (auth, admin actions, publish events, regulated-vertical acknowledgments)** | **7 years** |
 | **Security and abuse logs** | Up to **24 months** |
 | **Support tickets** | **3 years** after closure |
@@ -199,7 +199,7 @@ When personal data is transferred outside your jurisdiction, we use one or more 
 - **Switzerland:** Swiss SCCs / FDPIC-recognized clauses.
 - **Other jurisdictions:** equivalent contractual safeguards.
 
-You may request a copy of the relevant transfer mechanism at `privacy@funelai.com`.
+You may request a copy of the relevant transfer mechanism at `privacy@gofunnelai.com`.
 
 ---
 
@@ -234,7 +234,7 @@ In the event of a personal data breach, we will:
 
 ## 12. AI and Automated Processing Disclosure
 
-12.1 **AI-generated outputs.** The Service uses generative AI models (large language models, image, audio, and voice models) to produce drafts. Outputs are statistical predictions; they can be inaccurate, biased, or non-compliant. You are responsible for review and compliance â€” see `05a` Section 5.
+12.1 **AI-generated outputs.** The Service uses generative AI models (large language models, image, audio, and voice models) to produce drafts. Outputs are statistical predictions; they can be inaccurate, biased, or non-compliant. You are responsible for review and compliance — see `05a` Section 5.
 
 12.2 **Automated decisions.** The Service performs automated processing such as:
 
@@ -245,7 +245,7 @@ In the event of a personal data breach, we will:
 
 12.3 **No solely automated significant decisions about individuals.** We do not make decisions that produce legal or similarly significant effects on an individual based solely on automated processing without human involvement. Where you configure the Service to make automated decisions about your own end-users (e.g., lead scoring, eligibility), **you are responsible for transparency, human-review rights, and bias controls** under GDPR Art. 22, LGPD Art. 20, and equivalent laws.
 
-12.4 **Right to explanation / human review.** If you are subject to an automated decision by us, contact `privacy@funelai.com` to request human review.
+12.4 **Right to explanation / human review.** If you are subject to an automated decision by us, contact `privacy@gofunnelai.com` to request human review.
 
 12.5 **Voice recordings (RevTry).** Calls placed or received by the voice agent may be recorded and transcribed. You are responsible for obtaining any consent required by **two-party consent** laws (e.g., California, Florida, Illinois, Washington, EU member states, Brazil) and for providing call-recording disclosures.
 
@@ -253,19 +253,19 @@ In the event of a personal data breach, we will:
 
 ## 13. Cookies and Similar Technologies
 
-13.1 We use **strictly necessary** cookies (authentication, security, load balancing), **functional** cookies (preferences, language), **analytics** cookies (product usage, privacy-respecting), and â€” only with consent where required â€” **marketing** cookies.
+13.1 We use **strictly necessary** cookies (authentication, security, load balancing), **functional** cookies (preferences, language), **analytics** cookies (product usage, privacy-respecting), and — only with consent where required — **marketing** cookies.
 
 13.2 You can manage preferences via our cookie banner and in your browser. Withdrawing consent does not affect strictly necessary cookies needed to operate the Service.
 
-13.3 Detailed cookie inventory is maintained at `https://funelai.com/legal/cookies` (to be activated at launch).
+13.3 Detailed cookie inventory is maintained at `https://gofunnelai.com/legal/cookies` (to be activated at launch).
 
 ---
 
 ## 14. Children
 
-The Service is **not intended for individuals under 16**. We do not knowingly collect personal data from anyone under 16. If we learn we have collected such data, we will delete it promptly. Parents or guardians who believe their child has provided data may contact `privacy@funelai.com`.
+The Service is **not intended for individuals under 16**. We do not knowingly collect personal data from anyone under 16. If we learn we have collected such data, we will delete it promptly. Parents or guardians who believe their child has provided data may contact `privacy@gofunnelai.com`.
 
-You may not use the Service to market to or collect data from children under the age of digital consent in their jurisdiction (e.g., 13 under COPPA, 16 under GDPR by default, 13â€“16 by EU member state, 18 under DPDP for India unless explicit verifiable consent is obtained).
+You may not use the Service to market to or collect data from children under the age of digital consent in their jurisdiction (e.g., 13 under COPPA, 16 under GDPR by default, 13–16 by EU member state, 18 under DPDP for India unless explicit verifiable consent is obtained).
 
 ---
 
@@ -291,16 +291,16 @@ Residents of **Virginia (VCDPA), Colorado (CPA), Connecticut (CTDPA), Utah (UCPA
 
 ## 17. Marketing Communications
 
-You can opt out of marketing emails by clicking "unsubscribe" or by emailing `privacy@funelai.com`. We will still send transactional and service messages (billing, security, important changes).
+You can opt out of marketing emails by clicking "unsubscribe" or by emailing `privacy@gofunnelai.com`. We will still send transactional and service messages (billing, security, important changes).
 
 ---
 
 ## 18. Contact
 
-- **Privacy questions and requests:** `privacy@funelai.com`
-- **Security/incidents:** `security@funelai.com`
-- **Abuse:** `abuse@funelai.com`
-- **Postal:** FunelAI, Inc., [Delaware registered office â€” TBD], Attn: Privacy.
+- **Privacy questions and requests:** `privacy@gofunnelai.com`
+- **Security/incidents:** `security@gofunnelai.com`
+- **Abuse:** `abuse@gofunnelai.com`
+- **Postal:** GoFunnelAI, Inc., [Delaware registered office — TBD], Attn: Privacy.
 - **EU Representative (Art. 27 GDPR):** [TBD]
 - **UK Representative:** [TBD]
 - **Brazil DPO (LGPD):** [TBD]
@@ -313,8 +313,8 @@ You also have the right to lodge a complaint with your local supervisory authori
 
 ## 19. Updates to this Policy
 
-We may update this Policy. Material changes will be notified at least **30 days** in advance by email and in-product banner. The "Last Updated" date reflects the current version. Version history is published at `https://funelai.com/legal/history`.
+We may update this Policy. Material changes will be notified at least **30 days** in advance by email and in-product banner. The "Last Updated" date reflects the current version. Version history is published at `https://gofunnelai.com/legal/history`.
 
 ---
 
-*â€” End of Privacy Policy, v1, pending counsel review â€”*
+*— End of Privacy Policy, v1, pending counsel review —*

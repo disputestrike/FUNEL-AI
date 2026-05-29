@@ -16,6 +16,31 @@ export type { BaseAdapterConfig } from "./pal/base-adapter.js";
 
 // Adapter exports (named — keeps tree-shake friendly).
 export { SignalwireAdapter, signalwireFactory } from "./adapters/signalwire.js";
+
+// Image generation: Replicate (Flux/Ideogram/SDXL), stock (Unsplash/Pexels), R2 hosting.
+export {
+  ReplicateImageClient,
+  REPLICATE_LIST_RATES,
+  type ReplicateImageModel,
+  type ReplicateRunInput,
+  type ReplicateRunResult,
+  type ReplicateClientConfig,
+} from "./adapters/replicate.js";
+export {
+  StockClient,
+  type StockSource,
+  type StockLicense,
+  type StockImage,
+  type StockSearchInput,
+  type StockClientConfig,
+} from "./adapters/stock.js";
+export {
+  R2AssetsClient,
+  type R2UploadInput,
+  type R2UploadResult,
+  type R2ClientConfig,
+  type R2Bucket,
+} from "./adapters/r2-assets.js";
 export type {
   SignalwireConfig,
   SendSmsInput,
@@ -25,6 +50,18 @@ export type {
   LookupInput,
   LookupResult,
 } from "./adapters/signalwire.js";
+
+// DNC list (federal + state + internal). Used by the RevTry dial gate.
+export {
+  DncAdapter,
+  dncFactory,
+  getDncAdapter,
+  __resetDncAdapterForTests,
+  type DncAdapterConfig,
+  type DncCheckResult,
+  type KVStore,
+  type InternalSuppressionStore,
+} from "./adapters/dnc.js";
 
 // Convenience accessor used by workers that import dynamically.
 import { SignalwireAdapter, signalwireFactory } from "./adapters/signalwire.js";

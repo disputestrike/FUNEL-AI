@@ -16,7 +16,7 @@
  *    provides `assertionResponse` â†’ `verifyWebauthnAuthentication`).
  *
  * Disabling TOTP requires the current password AND a valid current TOTP
- * code (or backup code) â€” this prevents a logged-in but session-stolen
+ * code (or backup code) — this prevents a logged-in but session-stolen
  * attacker from yanking MFA.
  */
 
@@ -43,7 +43,7 @@ export interface TotpEnrollResult {
   otpauth_uri: string;
   /** data: URL PNG of the QR code. */
   qr_data_url: string;
-  /** Plaintext backup codes â€” show ONCE; we only persist hashes. */
+  /** Plaintext backup codes — show ONCE; we only persist hashes. */
   backup_codes: string[];
 }
 

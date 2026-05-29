@@ -6,7 +6,7 @@
  *   - a fixed start and end date
  *   - a capacity (default 50)
  *   - a recurring lecture schedule (ICS-able)
- *   - a community channel (Slack / Discord) â€” stored as an opaque URL string.
+ *   - a community channel (Slack / Discord) — stored as an opaque URL string.
  *
  * The state machine: `open â†’ full â†’ in_session â†’ completed`.
  */
@@ -140,7 +140,7 @@ export function renderCohortICS(cohort: Cohort): string {
       `DTSTART:${dt}`,
       `SUMMARY:${ev.topic}`,
       ev.zoom_url ? `URL:${ev.zoom_url}` : "",
-      `DESCRIPTION:${cohort.name} â€” ${ev.topic}`,
+      `DESCRIPTION:${cohort.name} — ${ev.topic}`,
       "END:VEVENT",
     );
   }

@@ -1,7 +1,7 @@
 /**
  * Top-level admin chrome.
  *
- *  - Red "ADMIN ” restricted" stripe across the top (always visible).
+ *  - Red "ADMIN — restricted" stripe across the top (always visible).
  *  - Impersonation banner immediately below (only when a session is live).
  *  - Left sidebar with the full navigation tree.
  *  - Role badge with the operator's email + role.
@@ -36,14 +36,14 @@ export function AdminShell({
 }) {
   return (
     <div className="flex min-h-screen flex-col">
-      {/* Top admin bar ” never hidden, even on the sign-in page */}
+      {/* Top admin bar — never hidden, even on the sign-in page */}
       <div className="admin-bar flex items-center justify-between px-4 py-1.5">
         <div className="flex items-center gap-3">
           <span className="font-mono uppercase tracking-wider text-caption">
             GoFunnelAI Admin
           </span>
           <span className="text-caption opacity-90">
-            Restricted ” staff only. Every action is logged.
+            Restricted — staff only. Every action is logged.
           </span>
         </div>
         {session ? (

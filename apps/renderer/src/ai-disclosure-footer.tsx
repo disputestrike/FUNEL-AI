@@ -1,13 +1,13 @@
 /**
- * The AI disclosure footer â€” required on every published Funnel page per
+ * The AI disclosure footer — required on every published Funnel page per
  * FTC AI-marketing guidance, EU AI Act Article 50, and our own
  * Acceptable Use Policy (doc 05c).
  *
- * On free-tier plans this CANNOT be hidden â€” see doc 18 Â§A.5 rule #4 and
+ * On free-tier plans this CANNOT be hidden — see doc 18 Â§A.5 rule #4 and
  * src/render.ts where the renderer cross-checks the workspace plan against
  * compliance.ai_disclosure_visible and refuses to hide.
  *
- * The copy itself lives here â€” NOT in the funnel JSON. That's intentional:
+ * The copy itself lives here — NOT in the funnel JSON. That's intentional:
  * we want consistent, regulator-defensible language across all funnels, and
  * we want to be able to update it globally without redeploying every funnel.
  *
@@ -67,7 +67,7 @@ export interface AiDisclosureFooterProps {
   locale: string;
   /** Hide is only honored for paid plans that opt out; free tier always renders. */
   hide: boolean;
-  /** Workspace plan â€” used to render "Powered by GoFunnelAI" on starter only. */
+  /** Workspace plan — used to render "Powered by GoFunnelAI" on starter only. */
   poweredBy: boolean;
 }
 

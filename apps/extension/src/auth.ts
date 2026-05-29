@@ -6,7 +6,7 @@
  * under the hood) so they survive service-worker restarts.
  *
  * Token shape matches what @funnel/sdk expects in its `Authorization: Bearer ...`
- * header â€” that SDK is the single source of truth for API calls; we only
+ * header — that SDK is the single source of truth for API calls; we only
  * persist tokens here and hand them off.
  */
 
@@ -36,7 +36,7 @@ const storage = new Storage({ area: "local" })
 
 /**
  * Generate a PKCE code verifier + challenge pair.
- * RFC 7636 â€” 43â€“128 chars, base64url-encoded SHA-256.
+ * RFC 7636 — 43–128 chars, base64url-encoded SHA-256.
  */
 async function pkcePair(): Promise<{ verifier: string; challenge: string }> {
   const bytes = new Uint8Array(64)
@@ -81,10 +81,10 @@ export async function login(): Promise<FunnelUser> {
   const code = u.searchParams.get("code")
   const returnedState = u.searchParams.get("state")
   if (!code) throw new Error("No authorization code returned")
-  if (returnedState !== state) throw new Error("OAuth state mismatch â€” possible CSRF")
+  if (returnedState !== state) throw new Error("OAuth state mismatch — possible CSRF")
 
   // Exchange code â†’ token at the auth server. The auth server, not the
-  // browser, holds the client secret â€” we authenticate only via PKCE.
+  // browser, holds the client secret — we authenticate only via PKCE.
   const tokenRes = await fetch(`${FUNNEL_AUTH_HOST}/oauth/token`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -150,7 +150,7 @@ async function refresh(refreshToken: string): Promise<string> {
   })
   if (!res.ok) {
     await logout()
-    throw new Error("Refresh failed â€” please log in again")
+    throw new Error("Refresh failed — please log in again")
   }
   const payload = (await res.json()) as {
     access_token: string

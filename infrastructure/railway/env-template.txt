@@ -1,12 +1,12 @@
 ################################################################################
-# GoFunnelAI â€” Railway environment variable template
+# GoFunnelAI — Railway environment variable template
 #
 # Group A (auto-injected): provided by Railway plugins once provisioned.
 #                          DO NOT set manually.
 # Group B (shared):        set ONCE on the Railway project; every service inherits.
 # Group C (per-service):   set on the listed service(s) only.
 #
-# Secrets are referenced ONLY â€” never paste real values into this file or
+# Secrets are referenced ONLY — never paste real values into this file or
 # anywhere in the repo. Use `railway variables set --service <svc> KEY=VALUE`
 # or the Railway dashboard. See infrastructure/railway/setup.md and
 # scripts/go-live-checklist.md for provider sign-up instructions.
@@ -32,21 +32,21 @@
 #   RAILWAY_REPLICA_ID         per-replica unique ID
 
 # ==============================================================================
-# B. Shared (set on the project â€” every service inherits)
+# B. Shared (set on the project — every service inherits)
 # ==============================================================================
 NODE_ENV=production                          # production | staging
 LOG_LEVEL=info                               # trace|debug|info|warn|error|fatal
 RELEASE=                                     # set per deploy (CI populates from git sha)
 REGION=us-east-1                             # informational; for metrics tags
 
-# Public URLs â€” used for redirect URIs, CORS, email links, etc.
+# Public URLs — used for redirect URIs, CORS, email links, etc.
 PUBLIC_WEB_URL=https://gofunnelai.com
 PUBLIC_API_URL=https://api.gofunnelai.com
 PUBLIC_ADMIN_URL=https://admin.gofunnelai.com
 PUBLIC_GRADER_URL=https://grade.gofunnelai.com
 PUBLIC_RENDERER_URL=https://pages.gofunnelai.com
 
-# JWT / session signing â€” REQUIRED. 32+ bytes of high-entropy random.
+# JWT / session signing — REQUIRED. 32+ bytes of high-entropy random.
 JWT_SECRET=                                  # openssl rand -base64 48
 SESSION_SECRET=                              # openssl rand -base64 48
 COOKIE_SIGNING_KEY=                          # openssl rand -base64 32
@@ -54,22 +54,22 @@ COOKIE_SIGNING_KEY=                          # openssl rand -base64 32
 # Observability
 SENTRY_DSN=                                  # https://....ingest.sentry.io/...
 SENTRY_TRACES_SAMPLE_RATE=0.10
-OTEL_EXPORTER_OTLP_ENDPOINT=                 # optional â€” Grafana Cloud or self-hosted
+OTEL_EXPORTER_OTLP_ENDPOINT=                 # optional — Grafana Cloud or self-hosted
 OTEL_EXPORTER_OTLP_HEADERS=                  # "Authorization=Basic ..."
-PROMETHEUS_PUSHGATEWAY_URL=                  # optional â€” workers push job metrics here
+PROMETHEUS_PUSHGATEWAY_URL=                  # optional — workers push job metrics here
 
 # LLM providers
-ANTHROPIC_API_KEY=                           # primary â€” https://console.anthropic.com
-OPENAI_API_KEY=                              # fallback + Realtime API â€” https://platform.openai.com
-TOGETHER_API_KEY=                            # Llama 3 fallback â€” https://api.together.xyz
+ANTHROPIC_API_KEY=                           # primary — https://console.anthropic.com
+OPENAI_API_KEY=                              # fallback + Realtime API — https://platform.openai.com
+TOGETHER_API_KEY=                            # Llama 3 fallback — https://api.together.xyz
 
 # Image / video providers
-REPLICATE_API_TOKEN=                         # Flux + Ideogram + Runway â€” https://replicate.com
+REPLICATE_API_TOKEN=                         # Flux + Ideogram + Runway — https://replicate.com
 RUNWAY_API_KEY=                              # if going direct (else via Replicate)
-ELEVENLABS_API_KEY=                          # TTS â€” https://elevenlabs.io
-REVTRY_API_KEY=                              # AI voice agent â€” https://revtry.ai
+ELEVENLABS_API_KEY=                          # TTS — https://elevenlabs.io
+REVTRY_API_KEY=                              # AI voice agent — https://revtry.ai
 
-# Storage (Cloudflare R2 â€” S3-compatible)
+# Storage (Cloudflare R2 — S3-compatible)
 R2_ACCOUNT_ID=
 R2_ACCESS_KEY_ID=
 R2_SECRET_ACCESS_KEY=
@@ -77,32 +77,32 @@ R2_BUCKET_ASSETS=funnel-assets
 R2_BUCKET_GENERATIONS=funnel-generations
 R2_PUBLIC_BASE=https://cdn.gofunnelai.com
 
-# Email (Resend â€” primary; SendGrid removed per Trust & Safety doc)
+# Email (Resend — primary; SendGrid removed per Trust & Safety doc)
 RESEND_API_KEY=                              # https://resend.com
 RESEND_FROM_EMAIL=hello@gofunnelai.com
 RESEND_FROM_NAME=GoFunnelAI
 RESEND_REPLY_TO=support@gofunnelai.com
 
-# SMS + voice (SignalWire â€” Twilio-compatible)
+# SMS + voice (SignalWire — Twilio-compatible)
 SIGNALWIRE_PROJECT_ID=                       # https://signalwire.com
 SIGNALWIRE_AUTH_TOKEN=
 SIGNALWIRE_SPACE_URL=                        # e.g. funnel.signalwire.com
 SIGNALWIRE_FROM_NUMBER=+1...                 # purchased SignalWire number, E.164
 
-# Payments â€” PayPal primary
+# Payments — PayPal primary
 PAYPAL_CLIENT_ID=                            # https://developer.paypal.com
 PAYPAL_CLIENT_SECRET=
 PAYPAL_WEBHOOK_ID=
 PAYPAL_ENVIRONMENT=live                      # live | sandbox
 
-# Payments â€” Stripe secondary (Billing + Tax)
-STRIPE_SECRET_KEY=                           # sk_live_... â€” https://dashboard.stripe.com
+# Payments — Stripe secondary (Billing + Tax)
+STRIPE_SECRET_KEY=                           # sk_live_... — https://dashboard.stripe.com
 STRIPE_PUBLISHABLE_KEY=                      # pk_live_...
 STRIPE_WEBHOOK_SECRET=                       # whsec_...
 STRIPE_TAX_ENABLED=true
 
-# Auth (Clerk â€” initial; custom MFA wraps it)
-CLERK_SECRET_KEY=                            # sk_live_... â€” https://clerk.com
+# Auth (Clerk — initial; custom MFA wraps it)
+CLERK_SECRET_KEY=                            # sk_live_... — https://clerk.com
 CLERK_PUBLISHABLE_KEY=                       # pk_live_...
 CLERK_WEBHOOK_SECRET=                        # whsec_...
 
@@ -123,8 +123,8 @@ FEATURE_FLAGS_URL=
 FEATURE_FLAGS_TOKEN=
 
 # Trust & Safety / fraud
-HAVEIBEENPWNED_API_KEY=                      # optional â€” leaked-cred check
-PERSPECTIVE_API_KEY=                         # optional â€” toxicity
+HAVEIBEENPWNED_API_KEY=                      # optional — leaked-cred check
+PERSPECTIVE_API_KEY=                         # optional — toxicity
 
 # ==============================================================================
 # C. Per-service overrides
@@ -141,7 +141,7 @@ PERSPECTIVE_API_KEY=                         # optional â€” toxicity
 # NEXT_PUBLIC_API_URL        https://api.gofunnelai.com
 # NEXT_PUBLIC_RELEASE        same as RELEASE (Next inlines NEXT_PUBLIC_* at build)
 # NEXT_PUBLIC_SENTRY_DSN     same as SENTRY_DSN (or a client-side-only one)
-# NEXT_PUBLIC_POSTHOG_KEY    optional â€” analytics
+# NEXT_PUBLIC_POSTHOG_KEY    optional — analytics
 # NEXT_PUBLIC_POSTHOG_HOST   https://app.posthog.com
 
 # ---- funnel-admin -----------------------------------------------------------
@@ -151,7 +151,7 @@ PERSPECTIVE_API_KEY=                         # optional â€” toxicity
 
 # ---- funnel-grader ----------------------------------------------------------
 # NEXT_PUBLIC_GRADER_URL     https://grade.gofunnelai.com
-# GRADER_LEAD_WEBHOOK_URL    optional â€” for piping leads to CRM in real time
+# GRADER_LEAD_WEBHOOK_URL    optional — for piping leads to CRM in real time
 
 # ---- funnel-renderer --------------------------------------------------------
 # RENDERER_CACHE_TTL_S       60
@@ -161,7 +161,7 @@ PERSPECTIVE_API_KEY=                         # optional â€” toxicity
 # WORKERS_CONCURRENCY                  16
 # WORKERS_QUEUE_PREFIX                 funnel:
 # SHUTDOWN_DRAIN_TIMEOUT_MS            30000
-# DLQ_SINK_URL                         optional â€” send DLQ jobs to Slack/Sentry
+# DLQ_SINK_URL                         optional — send DLQ jobs to Slack/Sentry
 # CRON_INGESTION_KB_SCHEDULE           "0 3 * * *"     nightly KB ingest
 # CRON_ACTIVATION_SCHEDULE             "*/15 * * * *"  activation sweep
 

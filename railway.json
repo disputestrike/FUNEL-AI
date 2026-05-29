@@ -1,6 +1,6 @@
 {
   "$schema": "https://railway.app/railway.schema.json",
-  "_comment": "GoFunnelAI monorepo ” one Railway service per app. Each app's own apps/<name>/railway.toml takes precedence over this file at the service level; this root file declares the project layout for Railway's monorepo detector and provides defaults that every service inherits unless overridden.",
+  "_comment": "GoFunnelAI monorepo — one Railway service per app. Each app's own apps/<name>/railway.toml takes precedence over this file at the service level; this root file declares the project layout for Railway's monorepo detector and provides defaults that every service inherits unless overridden.",
   "build": {
     "builder": "DOCKERFILE",
     "dockerfilePath": "Dockerfile",

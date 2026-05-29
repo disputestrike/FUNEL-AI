@@ -1,8 +1,8 @@
 ################################################################################
-# Funnel Web App â€” Cloudflare Pages project (Next.js)
+# Funnel Web App — Cloudflare Pages project (Next.js)
 #
 # Deployed at:  gofunnelai.com          (marketing)
-#               app.gofunnelai.com      (signed-in app â€” same Pages project, host gate)
+#               app.gofunnelai.com      (signed-in app — same Pages project, host gate)
 #               www.gofunnelai.com      (apex redirect via worker route)
 #
 # Build:        pnpm --filter @funnel/web build && pnpm exec next-on-pages

@@ -30,7 +30,7 @@ export interface CapstoneStore {
   insertCapstone(capstone: Capstone): Promise<void>;
   getCapstone(id: string): Promise<Capstone | null>;
   updateCapstone(id: string, patch: Partial<Capstone>): Promise<Capstone>;
-  /** Pool â€” unmatched businesses sorted by opted_in_at ASC. */
+  /** Pool — unmatched businesses sorted by opted_in_at ASC. */
   listAvailableBusinesses(filter: {
     vertical?: IndustryVertical;
     region?: string;
@@ -168,7 +168,7 @@ const OutcomePatchSchema = z.object({
   revenue_attributed_cents: z.number().int().nonnegative().optional(),
 });
 
-/** Idempotent set â€” caller passes the latest measured values, we overwrite. */
+/** Idempotent set — caller passes the latest measured values, we overwrite. */
 export async function updateCapstoneOutcomes(
   id: string,
   patch: z.infer<typeof OutcomePatchSchema>,

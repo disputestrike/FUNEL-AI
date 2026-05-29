@@ -1,7 +1,7 @@
-﻿# 06a â€” Customer Success & Activation Framework
+# 06a — Customer Success & Activation Framework
 
 **Document owner:** VP Customer Success
-**Status:** v1.0 â€” Day 90 launch
+**Status:** v1.0 — Day 90 launch
 **Audience:** CS team, Product, Engineering, Founder
 **Related docs:** 03 Event Taxonomy, 04 Notification Engine Spec, 05 Pricing & Packaging, 06b Crisis Comms Library
 **Last updated:** Day 75 of launch runway
@@ -22,7 +22,7 @@ A user is **Activated** when ALL of the following events have fired for their ac
 | First follow-up completed | RevTry call, SMS, or email outbound event recorded with `status in (completed, delivered, talked)` | `followup.completed` |
 
 Activation flag is computed server-side as `users.activated_at = MIN(timestamp where all four events satisfied)`.
-This is the single source of truth â€” do not recompute in dashboards from event streams.
+This is the single source of truth — do not recompute in dashboards from event streams.
 
 ### Secondary metrics
 
@@ -34,7 +34,7 @@ This is the single source of truth â€” do not recompute in dashboards from 
 
 ---
 
-## 2. The Success Path â€” In-Product Checklist
+## 2. The Success Path — In-Product Checklist
 
 Always-visible in the dashboard right sidebar (collapsible after activation). Each step has its own celebration micro-interaction.
 
@@ -58,18 +58,18 @@ Always-visible in the dashboard right sidebar (collapsible after activation). Ea
 
 | Step | Trigger event | Celebration | CTA copy if incomplete | Help link |
 |---|---|---|---|---|
-| Signed up | `user.signed_up` | Confetti + "Welcome to FunelAI" toast | (done) | â€” |
+| Signed up | `user.signed_up` | Confetti + "Welcome to GoFunnelAI" toast | (done) | — |
 | First funnel generated | `funnel.created` | "Your funnel is ready" + thumbnail | "Generate your first funnel in 90 seconds" | `/learn/first-funnel` |
-| Source connected | `traffic_source.connected` | "Connected!" + green badge on source | "Plug in traffic â€” pick one" | `/learn/connect-source` |
+| Source connected | `traffic_source.connected` | "Connected!" + green badge on source | "Plug in traffic — pick one" | `/learn/connect-source` |
 | Published | `funnel.published` OR `ad.launched` | Fireworks animation + share button | "You're one click from going live" | `/learn/publish` |
-| Lead captured | `lead.captured` | Big confetti + push notification | (pending â€” locked until publish) | `/learn/leads` |
+| Lead captured | `lead.captured` | Big confetti + push notification | (pending — locked until publish) | `/learn/leads` |
 | Follow-up done | `followup.completed` | Trophy + "You're officially Activated" full-screen modal | (pending) | `/learn/revtry` |
 
 **Design rules:**
 - Estimated-time label updates dynamically from cohort medians for the user's industry vertical.
-- After full activation, the checklist collapses to a "FunelAI Awards: Bronze unlocked" banner with the referral CTA.
-- The checklist must persist across sessions â€” never auto-dismiss until activated.
-- Users can opt out via `/settings/coaching` (sets `users.coaching_opt_out=true`) â€” checklist hides, all intervention emails stop, but the activation flag still computes.
+- After full activation, the checklist collapses to a "GoFunnelAI Awards: Bronze unlocked" banner with the referral CTA.
+- The checklist must persist across sessions — never auto-dismiss until activated.
+- Users can opt out via `/settings/coaching` (sets `users.coaching_opt_out=true`) — checklist hides, all intervention emails stop, but the activation flag still computes.
 
 ---
 
@@ -77,43 +77,43 @@ Always-visible in the dashboard right sidebar (collapsible after activation). Ea
 
 All triggers are emitted by the **Lifecycle Orchestrator** service, which subscribes to the canonical event stream and writes to the Notification Engine (see Engineering Spec, Section 7). Time references are user-local where known, else account-creation timezone, else UTC.
 
-### Day 0 â€” Signup day
+### Day 0 — Signup day
 
 | Trigger | Channel | Sender | Send window | Bypass conditions |
 |---|---|---|---|---|
-| Welcome email + 90-sec demo video | Email | `hello@funelai.com` (CS rep persona) | Within 60 sec of `user.signed_up` | Never |
+| Welcome email + 90-sec demo video | Email | `hello@gofunnelai.com` (CS rep persona) | Within 60 sec of `user.signed_up` | Never |
 | In-app "Generate your first funnel" full-screen takeover | In-app | System | On first dashboard load | `funnel.created` already fired |
-| If Scale/Agency tier signup â†’ Slack ping to #cs-vip with founder mention | Internal | â€” | Within 5 min | â€” |
+| If Scale/Agency tier signup â†’ Slack ping to #cs-vip with founder mention | Internal | — | Within 5 min | — |
 
-### Day 1 â€” First nudge
+### Day 1 — First nudge
 
 | Trigger | Channel | Sender | Send window |
 |---|---|---|---|
 | In-app tooltip walk-through: ad account connection (interactive, 4 steps) | In-app | System | On second login of Day 1 |
-| Email reminder "Connect a traffic source â€” 2-minute setup" | Email | CS rep | 24h after signup, 9am-11am user-local |
+| Email reminder "Connect a traffic source — 2-minute setup" | Email | CS rep | 24h after signup, 9am-11am user-local |
 | Skip if | `traffic_source.connected` already fired | | |
 
-### Day 2 â€” Traffic source still missing
+### Day 2 — Traffic source still missing
 
 | Condition | Trigger | Channel | Sender |
 |---|---|---|---|
-| No `traffic_source.connected` by hour 36 | SMS from RevTry: "Hey [name], this is RevTry from FunelAI. Need help launching your first ads? Reply YES and I'll call within 5 minutes." | SMS | RevTry voice agent number |
+| No `traffic_source.connected` by hour 36 | SMS from RevTry: "Hey [name], this is RevTry from GoFunnelAI. Need help launching your first ads? Reply YES and I'll call within 5 minutes." | SMS | RevTry voice agent number |
 | User replies YES | RevTry initiates outbound call within 5 min, walks user through OAuth on a screen-share link | Voice | RevTry |
-| User replies STOP / opts out | All RevTry SMS suppressed for account | â€” | â€” |
+| User replies STOP / opts out | All RevTry SMS suppressed for account | — | — |
 
-### Day 3 â€” No lead captured yet
+### Day 3 — No lead captured yet
 
 | Condition | Trigger | Channel | Sender |
 |---|---|---|---|
 | No `lead.captured` by Day 3, 10am user-local | Personal email from founder: "I noticed you got your funnel live but haven't seen a lead come in yet. Want to jump on a free 15-min funnel tune-up? Pick a time â†’ [Calendly link]" | Email | Founder, plaintext, no marketing chrome |
 
-### Day 4 â€” Community pull-in
+### Day 4 — Community pull-in
 
 | Trigger | Channel | Sender | Content |
 |---|---|---|---|
-| Community invite | Email + in-app banner | CS rep | "Other [industry] businesses are sharing wins in the FunelAI Community. See what's working." Deep link to industry-specific Circle/Slack channel. |
+| Community invite | Email + in-app banner | CS rep | "Other [industry] businesses are sharing wins in the GoFunnelAI Community. See what's working." Deep link to industry-specific Circle/Slack channel. |
 
-### Day 5 â€” Concierge escalation
+### Day 5 — Concierge escalation
 
 | Condition | Trigger | Owner |
 |---|---|---|
@@ -121,14 +121,14 @@ All triggers are emitted by the **Lifecycle Orchestrator** service, which subscr
 
 Concierge call SLA: dial within 4h. If no answer, voicemail + email + retry next business day. Maximum 3 attempts over 5 business days.
 
-### Day 7 â€” Activated path / Not-activated path
+### Day 7 — Activated path / Not-activated path
 
 | Branch | Trigger |
 |---|---|
-| **Activated** | Trigger FunelAI Awards **Bronze** tracker (badge unlocks on profile, shareable card auto-generated). In-app modal asks for referral with 2-click invite. Email follow-up with referral incentive ($25 credit per converted referral). |
+| **Activated** | Trigger GoFunnelAI Awards **Bronze** tracker (badge unlocks on profile, shareable card auto-generated). In-app modal asks for referral with 2-click invite. Email follow-up with referral incentive ($25 credit per converted referral). |
 | **Not activated** | "Save" offer: extend 7-Day Pro Boost by 7 additional days + offer personal funnel audit. Email from founder, subject: "Let's get you a win in week 2." Audit booking link to founder's Calendly. |
 
-### Day 14 â€” Decision point
+### Day 14 — Decision point
 
 | Branch | Trigger |
 |---|---|
@@ -225,19 +225,19 @@ Runs every Monday 6am Pacific:
 - Any account that posts a complaint in community or social with > 100 impressions.
 - Any account that triggers a MAJOR or CRITICAL incident touchpoint (see 06b).
 
-### Outreach call script â€” Day 5 concierge (CS rep version)
+### Outreach call script — Day 5 concierge (CS rep version)
 
-> "Hi [name], this is [CS rep] from FunelAI. I'm not calling to sell you anything â€” I noticed you got your funnel published but no leads have come in yet, and I want to figure out why with you. Do you have 10 minutes right now or should I call back?
+> "Hi [name], this is [CS rep] from GoFunnelAI. I'm not calling to sell you anything — I noticed you got your funnel published but no leads have come in yet, and I want to figure out why with you. Do you have 10 minutes right now or should I call back?
 >
-> [If yes] Great â€” pull up your dashboard with me. Let's look at three things: where your traffic is coming from, what your funnel looks like to a visitor, and whether RevTry has the right phone number to call from. Sound good?
+> [If yes] Great — pull up your dashboard with me. Let's look at three things: where your traffic is coming from, what your funnel looks like to a visitor, and whether RevTry has the right phone number to call from. Sound good?
 >
-> [Diagnostic loop â€” see scoresheet below]
+> [Diagnostic loop — see scoresheet below]
 >
-> Before we hang up â€” what's the one thing that, if FunelAI did it for you in the next 7 days, would make this a no-brainer to keep using?"
+> Before we hang up — what's the one thing that, if GoFunnelAI did it for you in the next 7 days, would make this a no-brainer to keep using?"
 
-### Outreach call script â€” Day 5 concierge (founder version, Scale/Agency)
+### Outreach call script — Day 5 concierge (founder version, Scale/Agency)
 
-> "[name], it's [founder] from FunelAI. I personally watch every Scale and Agency account in their first week, and you're on Day 5 without a lead. I want to spend 20 minutes with you, on me, to fix whatever's in the way. Are you good to share screens right now or would [tomorrow morning] work?"
+> "[name], it's [founder] from GoFunnelAI. I personally watch every Scale and Agency account in their first week, and you're on Day 5 without a lead. I want to spend 20 minutes with you, on me, to fix whatever's in the way. Are you good to share screens right now or would [tomorrow morning] work?"
 
 ### Diagnostic scoresheet (filled in on every concierge call)
 
@@ -256,9 +256,9 @@ Required output of every concierge call: filled scoresheet logged to CRM, NPS-st
 
 Templates are stored as named blocks in the lifecycle service. Each has variables `{first_name}`, `{industry}`, `{funnel_url}`, `{cs_rep}`.
 
-**TEMPLATE: welcome_d0** â€” Day 0 welcome
+**TEMPLATE: welcome_d0** — Day 0 welcome
 
-> Subject: Welcome to FunelAI â€” your first funnel is 90 seconds away
+> Subject: Welcome to GoFunnelAI — your first funnel is 90 seconds away
 >
 > Hey {first_name},
 >
@@ -270,37 +270,37 @@ Templates are stored as named blocks in the lifecycle service. Each has variable
 >
 > Reply directly to this email if you want to talk to a human. I read every reply.
 >
-> â€” {cs_rep}, FunelAI
+> — {cs_rep}, GoFunnelAI
 
-**TEMPLATE: source_reminder_d1** â€” Day 1 source connection nudge
+**TEMPLATE: source_reminder_d1** — Day 1 source connection nudge
 
 > Subject: One thing left before your funnel starts working
 >
-> {first_name} â€” your funnel looks great, but it's not getting any traffic yet because no ad account or domain is connected.
+> {first_name} — your funnel looks great, but it's not getting any traffic yet because no ad account or domain is connected.
 >
 > Two-minute fix: [connect ad account] or [point a custom domain].
 >
 > If you'd rather have us do it for you, hit reply with "do it for me" and a CS rep will set it up live.
 >
-> â€” {cs_rep}
+> — {cs_rep}
 
-**TEMPLATE: founder_d3** â€” Day 3 founder personal
+**TEMPLATE: founder_d3** — Day 3 founder personal
 
 > Subject: noticed you haven't seen a lead yet
 >
 > {first_name},
 >
-> {founder_first_name} here, founder of FunelAI. I look at every account on Day 3 that doesn't have a lead yet â€” that's where you are.
+> {founder_first_name} here, founder of GoFunnelAI. I look at every account on Day 3 that doesn't have a lead yet — that's where you are.
 >
 > 15 minutes on me, you and me, screen share, no pitch: [calendly link]
 >
 > If now's not the time, just hit reply and tell me what's in the way. I read every one.
 >
-> â€” {founder_first_name}
+> — {founder_first_name}
 
-**TEMPLATE: save_offer_d7** â€” Day 7 not-activated save
+**TEMPLATE: save_offer_d7** — Day 7 not-activated save
 
-> Subject: Extending your Pro Boost â€” let's get you a win in week 2
+> Subject: Extending your Pro Boost — let's get you a win in week 2
 >
 > {first_name},
 >
@@ -310,13 +310,13 @@ Templates are stored as named blocks in the lifecycle service. Each has variable
 >
 > Some of our best customers needed two weeks to find their groove. Let's make sure you're one of them.
 >
-> â€” {cs_rep}
+> — {cs_rep}
 
-**TEMPLATE: upgrade_ask_d14** â€” Day 14 activated upgrade
+**TEMPLATE: upgrade_ask_d14** — Day 14 activated upgrade
 
 > Subject: You're activated. Time to scale.
 >
-> {first_name} â€” you got your first lead in {days_to_first_lead} days. That's faster than {percentile}% of {industry} businesses on FunelAI.
+> {first_name} — you got your first lead in {days_to_first_lead} days. That's faster than {percentile}% of {industry} businesses on GoFunnelAI.
 >
 > Here's what changes if you upgrade to {recommended_tier} this week:
 > - {tier_benefit_1}
@@ -325,32 +325,32 @@ Templates are stored as named blocks in the lifecycle service. Each has variable
 >
 > 20% off your first month with code WIN20, valid until {expiry}: [upgrade link]
 >
-> â€” {cs_rep}
+> — {cs_rep}
 
-**TEMPLATE: exit_survey_d14** â€” Day 14 not-activated exit
+**TEMPLATE: exit_survey_d14** — Day 14 not-activated exit
 
-> Subject: Before you go â€” one question
+> Subject: Before you go — one question
 >
 > {first_name},
 >
-> Looks like FunelAI isn't clicking for you yet. Before we stop sending you emails â€” what was the one thing missing that would have made this work?
+> Looks like GoFunnelAI isn't clicking for you yet. Before we stop sending you emails — what was the one thing missing that would have made this work?
 >
 > Just hit reply with one sentence. I'll personally read it.
 >
-> â€” {founder_first_name}
+> — {founder_first_name}
 
 ### Escalation path
 
 ```
-Tier 0 â€” Automated:           Lifecycle emails, in-app, RevTry SMS
+Tier 0 — Automated:           Lifecycle emails, in-app, RevTry SMS
         â†“ (no resolution in 48h)
-Tier 1 â€” CS rep:              Personal email, scheduled call
+Tier 1 — CS rep:              Personal email, scheduled call
         â†“ (Scale/Agency tier OR public complaint OR > $5k LTV)
-Tier 2 â€” CS lead:             Skip-level outreach, audit included
+Tier 2 — CS lead:             Skip-level outreach, audit included
         â†“ (incident OR press exposure OR > $25k ARR at risk)
-Tier 3 â€” Founder:             Direct call, personal commitment, deal-saving authority
+Tier 3 — Founder:             Direct call, personal commitment, deal-saving authority
         â†“ (legal / regulatory dimension)
-Tier 4 â€” Founder + Legal:     See 06b Crisis Comms Library
+Tier 4 — Founder + Legal:     See 06b Crisis Comms Library
 ```
 
 ---
@@ -374,12 +374,12 @@ All lifecycle triggers consume the **canonical event taxonomy** (Doc 03). The re
 | `subscription.upgraded` / `subscription.downgraded` | user_id, from_plan, to_plan, ts | Day 14 branching |
 | `user.opted_out` | user_id, channel, ts | Suppression rules |
 
-Source of truth: 03-event-taxonomy.md. Lifecycle Orchestrator MUST consume from the same Kafka/Kinesis stream as analytics â€” no separate event pipeline.
+Source of truth: 03-event-taxonomy.md. Lifecycle Orchestrator MUST consume from the same Kafka/Kinesis stream as analytics — no separate event pipeline.
 
 ### Lifecycle Orchestrator service
 
 - **Language/runtime:** Node.js (matches main app)
-- **State store:** Postgres `lifecycle_user_state` table â€” one row per user with cached step flags and next-trigger timestamps
+- **State store:** Postgres `lifecycle_user_state` table — one row per user with cached step flags and next-trigger timestamps
 - **Scheduler:** Postgres-backed cron (pg-boss) for time-of-day triggers; event-driven for state changes
 - **Output:** writes to Notification Engine queue (one message per trigger), never sends directly
 
@@ -437,9 +437,9 @@ Three levels, all settable from `/settings/coaching`:
 
 1. **Coaching opt-out**: Hides Success Path checklist, stops all lifecycle emails/SMS. Concierge outreach only on user-initiated tickets.
 2. **Per-channel opt-out**: Email, SMS, in-app, push individually.
-3. **Persona opt-out**: Block specific sender personas (e.g., founder-persona emails) â€” useful for users who find founder-direct-touch performative.
+3. **Persona opt-out**: Block specific sender personas (e.g., founder-persona emails) — useful for users who find founder-direct-touch performative.
 
-All opt-outs are honored within 60 seconds of toggle. Anything already in the notification queue past the dispatch threshold is sent â€” there is a clear UX note about this on the settings page.
+All opt-outs are honored within 60 seconds of toggle. Anything already in the notification queue past the dispatch threshold is sent — there is a clear UX note about this on the settings page.
 
 ### Idempotency, observability, and failure modes
 

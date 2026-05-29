@@ -1,5 +1,5 @@
 /**
- * Content script â€” injected on every page.
+ * Content script — injected on every page.
  *
  * Three jobs:
  *   1. If the page is one of the user's own GoFunnelAI funnels (matched by
@@ -61,7 +61,7 @@ function maybeRenderOwnerBadge(shadow: ShadowRoot) {
 
   const badge = document.createElement("div")
   badge.className = "funnel-badge"
-  badge.textContent = "GoFunnelAI â€” loading score..."
+  badge.textContent = "GoFunnelAI — loading score..."
   badge.addEventListener("click", () => {
     chrome.runtime.sendMessage({ type: "open-funnel", funnelId })
   })
@@ -84,7 +84,7 @@ function maybeRenderCompetitorPill(shadow: ShadowRoot) {
   const pill = document.createElement("div")
   pill.className = "funnel-pill"
   pill.innerHTML =
-    `Looks like a <b>${detection.platform}</b> funnel â€” ` +
+    `Looks like a <b>${detection.platform}</b> funnel — ` +
     `<u>import to GoFunnelAI</u> (${skeleton.formCount} forms, ${skeleton.ctaCount} CTAs) ` +
     `<span class="x">Ã—</span>`
   pill.addEventListener("click", (e) => {

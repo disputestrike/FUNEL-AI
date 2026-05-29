@@ -1,24 +1,24 @@
-﻿# FunelAI â€” Terms of Service
+# GoFunnelAI — Terms of Service
 
 **Document ID:** 05a-terms-of-service
-**Status:** v1 â€” pending counsel review
+**Status:** v1 — pending counsel review
 **Effective Date:** [TO BE SET ON LAUNCH]
 **Last Updated:** [TO BE SET ON LAUNCH]
-**Entity:** FunelAI, Inc., a Delaware C-corporation ("FunelAI," "we," "us," "our")
+**Entity:** GoFunnelAI, Inc., a Delaware C-corporation ("GoFunnelAI," "we," "us," "our")
 
-> **Plain-language note:** This document is the contract between you and FunelAI. We've written it in plain English wherever possible. Each clause is numbered and marked so your lawyer can review specific sections quickly. Where defined terms appear in **bold**, they have the meaning given in Section 1.
+> **Plain-language note:** This document is the contract between you and GoFunnelAI. We've written it in plain English wherever possible. Each clause is numbered and marked so your lawyer can review specific sections quickly. Where defined terms appear in **bold**, they have the meaning given in Section 1.
 >
 > Related documents you should also read:
-> - **Privacy Policy** (`05b-privacy-policy.md`) â€” how we handle your data
-> - **Acceptable Use Policy** (`05c-acceptable-use-policy.md`) â€” what you can and cannot do on the Service
-> - **Refund Policy** (`05d-refund-policy.md`) â€” when and how refunds work
-> - **Publish Acknowledgment & Indemnification** (`05e-publish-acknowledgment-and-indemnification.md`) â€” the checkpoint and indemnity that applies to regulated-vertical content
+> - **Privacy Policy** (`05b-privacy-policy.md`) — how we handle your data
+> - **Acceptable Use Policy** (`05c-acceptable-use-policy.md`) — what you can and cannot do on the Service
+> - **Refund Policy** (`05d-refund-policy.md`) — when and how refunds work
+> - **Publish Acknowledgment & Indemnification** (`05e-publish-acknowledgment-and-indemnification.md`) — the checkpoint and indemnity that applies to regulated-vertical content
 
 ---
 
 ## 1. Definitions
 
-1.1 **"Service"** means the FunelAI platform, including the web application, APIs, AI generation features (funnel pages, ad creatives, email sequences, SMS sequences, voice scripts, lead magnets, and customer payment pages), the bundled RevTry AI voice agent, mobile interfaces, and all associated tools and documentation.
+1.1 **"Service"** means the GoFunnelAI platform, including the web application, APIs, AI generation features (funnel pages, ad creatives, email sequences, SMS sequences, voice scripts, lead magnets, and customer payment pages), the bundled RevTry AI voice agent, mobile interfaces, and all associated tools and documentation.
 
 1.2 **"User," "you," "your"** means the individual or legal entity that registers an account or otherwise accesses the Service.
 
@@ -34,7 +34,7 @@
 
 1.8 **"User Content"** means any content you upload, input, configure, or otherwise provide to the Service (including brand assets, lead lists, prompts, copy, integrations data, and contact data).
 
-1.9 **"Published Content"** means Generated Content or User Content that you cause to be transmitted, displayed, distributed, or otherwise made accessible to any third party â€” including via funnel pages you publish, emails or SMS you send, voice calls you place or receive, ads you run, or payment pages you operate.
+1.9 **"Published Content"** means Generated Content or User Content that you cause to be transmitted, displayed, distributed, or otherwise made accessible to any third party — including via funnel pages you publish, emails or SMS you send, voice calls you place or receive, ads you run, or payment pages you operate.
 
 1.10 **"Regulated Vertical"** has the meaning given in Section 5.4 and is further defined in `05e-publish-acknowledgment-and-indemnification.md`.
 
@@ -48,7 +48,7 @@
 
 2.2 **Registration.** You must provide accurate, current, and complete information when registering and keep it updated.
 
-2.3 **Account security.** You are responsible for safeguarding your credentials and for all activity under your Account. Notify us promptly at `security@funelai.com` of any suspected unauthorized access.
+2.3 **Account security.** You are responsible for safeguarding your credentials and for all activity under your Account. Notify us promptly at `security@gofunnelai.com` of any suspected unauthorized access.
 
 2.4 **One account per person/entity** unless we expressly authorize otherwise in writing.
 
@@ -91,7 +91,7 @@
 
 ---
 
-## 5. Generated Content â€” Critical Responsibilities
+## 5. Generated Content — Critical Responsibilities
 
 > **Read this section carefully. It is the most important part of this agreement.**
 
@@ -106,11 +106,11 @@
 
 5.3 **No professional advice.** The Service does not provide medical, legal, financial, tax, accounting, regulatory, immigration, or other professional advice. Generated Content is not such advice.
 
-5.4 **Regulated Verticals â€” additional checkpoint.** If your business operates in, or your Published Content relates to, a **Regulated Vertical** â€” including but not limited to healthcare and wellness, legal services, financial services, lending and credit, insurance, GLP-1 / weight-loss pharmaceuticals, cosmetic surgery and aesthetic medicine, debt relief and bankruptcy, employment and recruiting, securities, gambling, cannabis, firearms, and adult products â€” you must complete the **publish-time acknowledgment** described in `05e-publish-acknowledgment-and-indemnification.md` before your first publish event in that vertical and as re-prompted by the Service. The acknowledgment is logged and binds you as if signed.
+5.4 **Regulated Verticals — additional checkpoint.** If your business operates in, or your Published Content relates to, a **Regulated Vertical** — including but not limited to healthcare and wellness, legal services, financial services, lending and credit, insurance, GLP-1 / weight-loss pharmaceuticals, cosmetic surgery and aesthetic medicine, debt relief and bankruptcy, employment and recruiting, securities, gambling, cannabis, firearms, and adult products — you must complete the **publish-time acknowledgment** described in `05e-publish-acknowledgment-and-indemnification.md` before your first publish event in that vertical and as re-prompted by the Service. The acknowledgment is logged and binds you as if signed.
 
-5.5 **Indemnification for Published Content.** **You will defend, indemnify, and hold harmless FunelAI, its officers, directors, employees, agents, and affiliates from and against any claim, demand, loss, damage, liability, fine, penalty, settlement, judgment, cost, or expense (including reasonable attorneys' fees) arising out of or relating to (i) your Published Content, (ii) your use of the Service in violation of these Terms, the AUP, or any law, or (iii) your breach of any representation made in the publish-time acknowledgment.** This obligation survives termination. See `05e-publish-acknowledgment-and-indemnification.md` for the full indemnification clause.
+5.5 **Indemnification for Published Content.** **You will defend, indemnify, and hold harmless GoFunnelAI, its officers, directors, employees, agents, and affiliates from and against any claim, demand, loss, damage, liability, fine, penalty, settlement, judgment, cost, or expense (including reasonable attorneys' fees) arising out of or relating to (i) your Published Content, (ii) your use of the Service in violation of these Terms, the AUP, or any law, or (iii) your breach of any representation made in the publish-time acknowledgment.** This obligation survives termination. See `05e-publish-acknowledgment-and-indemnification.md` for the full indemnification clause.
 
-5.6 **Disclaimer of liability for Generated Content.** To the maximum extent permitted by law, FunelAI disclaims all liability for Generated Content, including for accuracy, legality, non-infringement, fitness for any purpose, and outcomes resulting from its use.
+5.6 **Disclaimer of liability for Generated Content.** To the maximum extent permitted by law, GoFunnelAI disclaims all liability for Generated Content, including for accuracy, legality, non-infringement, fitness for any purpose, and outcomes resulting from its use.
 
 ---
 
@@ -130,15 +130,15 @@
 
 ## 7. Intellectual Property
 
-7.1 **FunelAI IP.** The Service, including all software, models, prompts, templates, designs, documentation, and trademarks, is owned by FunelAI or its licensors and is protected by intellectual property laws. We grant you a limited, non-exclusive, non-transferable, revocable license to use the Service during your subscription, subject to these Terms.
+7.1 **GoFunnelAI IP.** The Service, including all software, models, prompts, templates, designs, documentation, and trademarks, is owned by GoFunnelAI or its licensors and is protected by intellectual property laws. We grant you a limited, non-exclusive, non-transferable, revocable license to use the Service during your subscription, subject to these Terms.
 
-7.2 **Your User Content.** You retain all rights to your User Content. You grant FunelAI a worldwide, non-exclusive, royalty-free license to host, process, transmit, display, and modify User Content **solely to provide and improve the Service for you**, and to comply with law. We will not use your User Content to train foundation models without your separate, opt-in consent.
+7.2 **Your User Content.** You retain all rights to your User Content. You grant GoFunnelAI a worldwide, non-exclusive, royalty-free license to host, process, transmit, display, and modify User Content **solely to provide and improve the Service for you**, and to comply with law. We will not use your User Content to train foundation models without your separate, opt-in consent.
 
-7.3 **Generated Content ownership.** Subject to your payment of fees and compliance with these Terms, **you own the Generated Content produced for your Account**, to the maximum extent ownership is available under law. We make no representation that Generated Content is copyrightable, original, or non-infringing â€” see Section 5.
+7.3 **Generated Content ownership.** Subject to your payment of fees and compliance with these Terms, **you own the Generated Content produced for your Account**, to the maximum extent ownership is available under law. We make no representation that Generated Content is copyrightable, original, or non-infringing — see Section 5.
 
 7.4 **Feedback.** If you send us feedback or suggestions, you grant us a perpetual, irrevocable, royalty-free license to use it without obligation to you.
 
-7.5 **Trademark.** "FunelAI" and "RevTry" are trademarks of FunelAI, Inc. You may not use them without our prior written consent except for fair, accurate references to the Service.
+7.5 **Trademark.** "GoFunnelAI" and "RevTry" are trademarks of GoFunnelAI, Inc. You may not use them without our prior written consent except for fair, accurate references to the Service.
 
 ---
 
@@ -150,7 +150,7 @@
 
 8.3 **Privacy.** Our collection and processing of personal data is governed by `05b-privacy-policy.md`, which is incorporated by reference.
 
-8.4 **Third-Party Integrations.** The Service can connect to Third-Party Integrations. Your use of those services is governed by their own terms. FunelAI is not responsible for Third-Party Integrations, their availability, accuracy, security, or for any loss arising from your use of them. You authorize us to exchange data with Third-Party Integrations as needed to deliver the features you configure.
+8.4 **Third-Party Integrations.** The Service can connect to Third-Party Integrations. Your use of those services is governed by their own terms. GoFunnelAI is not responsible for Third-Party Integrations, their availability, accuracy, security, or for any loss arising from your use of them. You authorize us to exchange data with Third-Party Integrations as needed to deliver the features you configure.
 
 ---
 
@@ -172,9 +172,9 @@
 
 10.1 **Disclaimer.** TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE SERVICE AND ALL GENERATED CONTENT ARE PROVIDED "AS IS" AND "AS AVAILABLE," WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, ACCURACY, AND QUIET ENJOYMENT.
 
-10.2 **Cap on liability.** TO THE MAXIMUM EXTENT PERMITTED BY LAW, FunelAI'S TOTAL CUMULATIVE LIABILITY ARISING OUT OF OR RELATING TO THESE TERMS OR THE SERVICE WILL NOT EXCEED THE GREATER OF (a) THE AMOUNTS YOU PAID TO FunelAI FOR THE SERVICE IN THE 12 MONTHS PRECEDING THE EVENT GIVING RISE TO THE CLAIM, OR (b) USD $100.
+10.2 **Cap on liability.** TO THE MAXIMUM EXTENT PERMITTED BY LAW, GoFunnelAI'S TOTAL CUMULATIVE LIABILITY ARISING OUT OF OR RELATING TO THESE TERMS OR THE SERVICE WILL NOT EXCEED THE GREATER OF (a) THE AMOUNTS YOU PAID TO GoFunnelAI FOR THE SERVICE IN THE 12 MONTHS PRECEDING THE EVENT GIVING RISE TO THE CLAIM, OR (b) USD $100.
 
-10.3 **Excluded damages.** TO THE MAXIMUM EXTENT PERMITTED BY LAW, FunelAI WILL NOT BE LIABLE FOR INDIRECT, INCIDENTAL, CONSEQUENTIAL, EXEMPLARY, OR PUNITIVE DAMAGES, OR FOR LOST PROFITS, REVENUES, GOODWILL, OR DATA, EVEN IF ADVISED OF THE POSSIBILITY.
+10.3 **Excluded damages.** TO THE MAXIMUM EXTENT PERMITTED BY LAW, GoFunnelAI WILL NOT BE LIABLE FOR INDIRECT, INCIDENTAL, CONSEQUENTIAL, EXEMPLARY, OR PUNITIVE DAMAGES, OR FOR LOST PROFITS, REVENUES, GOODWILL, OR DATA, EVEN IF ADVISED OF THE POSSIBILITY.
 
 10.4 **Carve-outs.** Nothing in this Section limits liability that cannot be limited under applicable law (e.g., gross negligence, willful misconduct, fraud, death or personal injury caused by negligence, consumer rights that cannot be waived).
 
@@ -186,9 +186,9 @@
 
 11.1 **By you.** You may cancel your Subscription or delete your Account at any time from the Service.
 
-11.2 **By us â€” for cause.** We may suspend or terminate your Account immediately if you (a) materially breach these Terms or the AUP, (b) create legal, security, or reputational risk for FunelAI or other users, (c) fail to pay, (d) initiate an improper chargeback, or (e) we are required to do so by law.
+11.2 **By us — for cause.** We may suspend or terminate your Account immediately if you (a) materially breach these Terms or the AUP, (b) create legal, security, or reputational risk for GoFunnelAI or other users, (c) fail to pay, (d) initiate an improper chargeback, or (e) we are required to do so by law.
 
-11.3 **By us â€” for convenience.** We may terminate or discontinue the Service (or a feature) with at least 30 days' notice, and we will prorate unused prepaid fees as a refund.
+11.3 **By us — for convenience.** We may terminate or discontinue the Service (or a feature) with at least 30 days' notice, and we will prorate unused prepaid fees as a refund.
 
 11.4 **Effect of termination.** On termination, your right to use the Service ends. We will retain or delete data as described in `05b-privacy-policy.md`. Sections that by their nature should survive (including 5, 6.5, 7, 10, 11.4, 12, 13, 15) survive termination.
 
@@ -198,13 +198,13 @@
 
 > **Read this section carefully. It affects how disputes are resolved and limits your rights to sue in court and participate in class actions, subject to the carve-outs below.**
 
-12.1 **Informal resolution first.** Before filing a claim, you agree to contact us at `legal@funelai.com` and attempt to resolve the dispute informally for at least 60 days.
+12.1 **Informal resolution first.** Before filing a claim, you agree to contact us at `legal@gofunnelai.com` and attempt to resolve the dispute informally for at least 60 days.
 
 12.2 **Binding arbitration.** Except for the carve-outs in Section 12.5, any dispute arising out of or relating to these Terms or the Service will be resolved by **binding individual arbitration** administered by **JAMS** under its Streamlined Arbitration Rules (or, at your election if you are a U.S. consumer, the AAA Consumer Arbitration Rules). The seat of arbitration is **Wilmington, Delaware, USA**. Arbitration may proceed by written submission, telephone, or video where the amount in controversy is under USD $25,000.
 
-12.3 **Class action waiver.** YOU AND FunelAI AGREE THAT EACH MAY BRING CLAIMS ONLY IN INDIVIDUAL CAPACITY, AND NOT AS A PLAINTIFF OR CLASS MEMBER IN ANY PURPORTED CLASS, CONSOLIDATED, OR REPRESENTATIVE PROCEEDING. The arbitrator may not consolidate claims or preside over any form of representative proceeding.
+12.3 **Class action waiver.** YOU AND GoFunnelAI AGREE THAT EACH MAY BRING CLAIMS ONLY IN INDIVIDUAL CAPACITY, AND NOT AS A PLAINTIFF OR CLASS MEMBER IN ANY PURPORTED CLASS, CONSOLIDATED, OR REPRESENTATIVE PROCEEDING. The arbitrator may not consolidate claims or preside over any form of representative proceeding.
 
-12.4 **Opt-out.** You may opt out of arbitration and the class waiver by sending written notice to `legal@funelai.com` within 30 days of first accepting these Terms, including your name, account email, and a clear opt-out statement.
+12.4 **Opt-out.** You may opt out of arbitration and the class waiver by sending written notice to `legal@gofunnelai.com` within 30 days of first accepting these Terms, including your name, account email, and a clear opt-out statement.
 
 12.5 **Carve-outs.** Either party may (a) bring an individual action in small-claims court, (b) seek injunctive or equitable relief in court for intellectual property infringement, misuse of confidential information, or violations of the AUP, and (c) exercise non-waivable consumer rights in their country of residence.
 
@@ -228,13 +228,13 @@
 
 14.2 If you do not agree to the updated Terms, you must stop using the Service before the effective date. Continued use after the effective date constitutes acceptance.
 
-14.3 We maintain a public version history at `https://funelai.com/legal/history` (to be activated at launch).
+14.3 We maintain a public version history at `https://gofunnelai.com/legal/history` (to be activated at launch).
 
 ---
 
 ## 15. General
 
-15.1 **Entire agreement.** These Terms, together with the Privacy Policy, Acceptable Use Policy, Refund Policy, and Publish Acknowledgment & Indemnification document, constitute the entire agreement between you and FunelAI regarding the Service.
+15.1 **Entire agreement.** These Terms, together with the Privacy Policy, Acceptable Use Policy, Refund Policy, and Publish Acknowledgment & Indemnification document, constitute the entire agreement between you and GoFunnelAI regarding the Service.
 
 15.2 **Order of precedence.** In the event of conflict: (1) an order form or executed enterprise agreement, (2) these Terms, (3) the AUP, (4) the Refund Policy, (5) the Privacy Policy, (6) the Publish Acknowledgment, (7) other in-product policies.
 
@@ -246,7 +246,7 @@
 
 15.6 **Force majeure.** Neither party is liable for delay or failure due to events beyond reasonable control (natural disaster, war, terrorism, civil unrest, pandemic, government action, internet or utility failure, third-party AI/infrastructure provider outage).
 
-15.7 **Notices.** We may give notice via email to the address on your Account or by posting in the Service. You must send legal notices to `legal@funelai.com` with a hard copy to: FunelAI, Inc., [Delaware registered office â€” TBD], Attn: Legal.
+15.7 **Notices.** We may give notice via email to the address on your Account or by posting in the Service. You must send legal notices to `legal@gofunnelai.com` with a hard copy to: GoFunnelAI, Inc., [Delaware registered office — TBD], Attn: Legal.
 
 15.8 **Independent contractors.** Nothing in these Terms creates a partnership, joint venture, employment, or agency relationship.
 
@@ -256,6 +256,6 @@
 
 ---
 
-**Contact.** Questions about these Terms: `legal@funelai.com`. Privacy: `privacy@funelai.com`. Security: `security@funelai.com`. Abuse: `abuse@funelai.com`.
+**Contact.** Questions about these Terms: `legal@gofunnelai.com`. Privacy: `privacy@gofunnelai.com`. Security: `security@gofunnelai.com`. Abuse: `abuse@gofunnelai.com`.
 
-*â€” End of Terms of Service, v1, pending counsel review â€”*
+*— End of Terms of Service, v1, pending counsel review —*

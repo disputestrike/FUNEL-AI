@@ -1,4 +1,4 @@
-﻿@tailwind base;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -41,7 +41,7 @@
 
     --border: 40 13% 90%;                 /* slate-200 */
     --input: 40 13% 90%;
-    --ring: 244 100% 65%;                 /* signal-500 â€” focus ring */
+    --ring: 244 100% 65%;                 /* signal-500 — focus ring */
 
     --radius: 0.5rem;
   }
@@ -57,7 +57,7 @@
     --popover: 47 13% 13%;
     --popover-foreground: 60 13% 98%;
 
-    --primary: 244 100% 74%;              /* signal-400 â€” muted for dark mode */
+    --primary: 244 100% 74%;              /* signal-400 — muted for dark mode */
     --primary-foreground: 47 7% 7%;
 
     --secondary: 47 13% 13%;
@@ -108,7 +108,7 @@
 }
 
 @layer components {
-  /* Shimmer fill for skeleton screens â€” never spinners. */
+  /* Shimmer fill for skeleton screens — never spinners. */
   .skeleton-shimmer {
     background-image: linear-gradient(
       100deg,

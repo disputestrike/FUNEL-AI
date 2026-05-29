@@ -1,4 +1,4 @@
-﻿# @funnel/workers
+# @funnel/workers
 
 BullMQ workers service for GoFunnelAI. Long-running Node process; owns every
 cron, async job, and webhook delivery that should not run inside the
@@ -59,15 +59,15 @@ Required env vars:
 Three supported targets (any one of which gives us SIGTERM, persistent TCP,
 horizontal scale):
 
-- **Railway** â€” add a new service from this repo, point the build at
+- **Railway** — add a new service from this repo, point the build at
   `apps/workers/Dockerfile`. Set the env vars above. Railway sends SIGTERM on
   deploy and waits for the process to exit (we drain in â‰¤30s).
 
-- **Fly.io** â€” `fly launch --dockerfile apps/workers/Dockerfile`. Provision a
+- **Fly.io** — `fly launch --dockerfile apps/workers/Dockerfile`. Provision a
   `fly redis` (Upstash under the hood) and bind `REDIS_URL`. Scale per region
   with `fly scale count 2 --region iad`.
 
-- **Render** â€” create a *Background Worker* (not a Web Service). Build command:
+- **Render** — create a *Background Worker* (not a Web Service). Build command:
   `pnpm --filter @funnel/workers... build`. Start command: `node apps/workers/dist/index.js`.
 
 ## Scaling
@@ -84,9 +84,9 @@ Scaling triggers we monitor in the Grafana "Workers" dashboard:
 
 ## Observability
 
-- `/healthz` â€” liveness. Returns 200 once the process is up.
-- `/readyz` â€” readiness. Returns 200 iff Redis + DB are both reachable.
-- `/metrics` â€” Prometheus format. Grafana Cloud scrapes this.
+- `/healthz` — liveness. Returns 200 once the process is up.
+- `/readyz` — readiness. Returns 200 iff Redis + DB are both reachable.
+- `/metrics` — Prometheus format. Grafana Cloud scrapes this.
 
 All logs are structured JSON to stdout. Datadog Logs picks them up via the host
 agent. Each line carries `timestamp`, `level`, `service=workers`, `queue`,

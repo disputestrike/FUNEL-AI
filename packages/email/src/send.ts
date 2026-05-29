@@ -114,8 +114,8 @@ export async function send(opts: SendOpts, deps: SendDeps): Promise<SendDecision
   // If not supplied, the header is still set with a mailto: only — RFC 8058 is satisfied.
   const unsubUrl =
     opts.unsubscribe_token && opts.unsubscribe_category
-      ? `${deps.unsubscribe_base_url ?? "https://funelai.com"}/unsubscribe?t=${encodeURIComponent(opts.unsubscribe_token)}&c=${encodeURIComponent(opts.unsubscribe_category)}`
-      : `${deps.unsubscribe_base_url ?? "https://funelai.com"}/unsubscribe`;
+      ? `${deps.unsubscribe_base_url ?? "https://gofunnelai.com"}/unsubscribe?t=${encodeURIComponent(opts.unsubscribe_token)}&c=${encodeURIComponent(opts.unsubscribe_category)}`
+      : `${deps.unsubscribe_base_url ?? "https://gofunnelai.com"}/unsubscribe`;
   const headers = buildListUnsubscribeHeaders(unsubUrl);
 
   const sendInput: SendInput = {

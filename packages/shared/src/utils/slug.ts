@@ -16,7 +16,7 @@ const generateSuffix = customAlphabet("abcdefghijkmnpqrstuvwxyz23456789", SLUG_D
  * Convert arbitrary text into a URL-safe slug.
  *
  * @example
- *   slugify("Texas Solar â€” Summer 2026!"); // "texas-solar-summer-2026"
+ *   slugify("Texas Solar — Summer 2026!"); // "texas-solar-summer-2026"
  *   slugify("  spaces  &  things  ");      // "spaces-and-things"
  */
 export function slugify(input: string, opts: { maxLength?: number } = {}): string {
@@ -62,7 +62,7 @@ export function isValidSlug(s: string): boolean {
 
 /**
  * Given a desired slug and a list of taken ones (or a check function), return
- * a unique slug by appending `-2`, `-3`, â€¦ until a free one is found.
+ * a unique slug by appending `-2`, `-3`, … until a free one is found.
  */
 export function ensureUniqueSlug(
   desired: string,

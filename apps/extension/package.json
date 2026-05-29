@@ -2,7 +2,7 @@
   "name": "@funnel/extension",
   "version": "0.1.0",
   "private": true,
-  "description": "GoFunnelAI browser extension â€” audit any page, save funnels for inspiration, import competitor funnels, lead inbox in the side panel.",
+  "description": "GoFunnelAI browser extension — audit any page, save funnels for inspiration, import competitor funnels, lead inbox in the side panel.",
   "scripts": {
     "dev": "plasmo dev",
     "build": "plasmo build --target=chrome-mv3 && plasmo build --target=firefox-mv3",
@@ -34,7 +34,7 @@
   },
   "manifest": {
     "manifest_version": 3,
-    "name": "GoFunnelAI â€” Audit, Save, Import Funnels",
+    "name": "GoFunnelAI — Audit, Save, Import Funnels",
     "permissions": [
       "activeTab",
       "storage",

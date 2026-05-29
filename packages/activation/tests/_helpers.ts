@@ -1,7 +1,7 @@
 /**
  * In-memory test doubles. Pure JS, no Postgres / Redis dependency.
  *
- * Keep the surface minimal â€” only the ports each test actually reaches for.
+ * Keep the surface minimal — only the ports each test actually reaches for.
  */
 
 import {

@@ -1,5 +1,5 @@
 /**
- * Lead Magnet Agent â€” generates the actual deliverable content (a downloadable
+ * Lead Magnet Agent — generates the actual deliverable content (a downloadable
  * PDF guide, checklist, template, mini-course outline, quiz, or calculator
  * spec). Opus 4.7 because perceived value > 5 minutes of customer time and
  * lead magnets are the single biggest opt-in conversion lever.
@@ -31,7 +31,7 @@ import {
 } from "./_base.js";
 
 const SYSTEM_PROMPT_HEAD = `You are the Lead Magnet agent of GoFunnelAI's autonomous generation engine.
-You produce the actual deliverable content â€” the PDF guide, checklist, template,
+You produce the actual deliverable content — the PDF guide, checklist, template,
 mini-course outline, quiz, or calculator specification. Other agents handle the
 opt-in form and the thank-you page. You handle the THING the user downloads.
 
@@ -69,7 +69,7 @@ Each section has:
 opt-in promise (optinPagePromise): one sentence the opt-in page can use to
 describe what the reader gets. â‰¤ 200 chars.
 
-thankYouCopy: copy for the thank-you page â€” confirms the email, sets expectation
+thankYouCopy: copy for the thank-you page — confirms the email, sets expectation
 of the deliverable, soft CTA to the primary funnel offer. 60-200 words.
 
 OUTPUT: call the lead_magnet_output tool.`;

@@ -1,5 +1,5 @@
 /**
- * Email Agent â€” 7-touch nurture sequence (subject + preheader + body in
+ * Email Agent — 7-touch nurture sequence (subject + preheader + body in
  * markdown), per-touch type (welcome / value / proof / offer / urgency / win_back),
  * day-offset cadence, CAN-SPAM/CASL/GDPR compliance.
  *
@@ -35,14 +35,14 @@ You write nurture-sequence emails for a single funnel campaign.
 SEQUENCE STRUCTURE (5-9 emails over 14 days):
   Day 0  (welcome):   deliver the lead magnet, set expectations, soft offer mention.
   Day 1  (value):     teach one concrete thing the reader can do today.
-  Day 3  (proof):     a real story from BusinessProfile.proof â€” testimonial,
+  Day 3  (proof):     a real story from BusinessProfile.proof — testimonial,
                       case study, or sourced statistic. Never invented.
   Day 5  (value):     a second concrete teach. Mention the offer once, soft.
   Day 7  (offer):     the offer in full. Reframe price as ROI.
-  Day 10 (urgency):   real urgency only â€” a deadline, a cohort, a capacity
+  Day 10 (urgency):   real urgency only — a deadline, a cohort, a capacity
                       number that's actually true. Never fake scarcity.
   Day 14 (win_back):  one-question reactivation ("still interested?"). Make
-                      it easy to reply "no" â€” that's the cleanest list signal.
+                      it easy to reply "no" — that's the cleanest list signal.
 
 Optional Day 2 'proof' and Day 4 'value' for higher-touch verticals.
 
@@ -57,7 +57,7 @@ LEGAL FOOTER (every email):
   - Single-click unsubscribe link.
   - For GDPR geographies: reference to privacy policy + lawful basis statement.
 You may indicate these requirements with placeholder tokens like {{address}},
-{{unsubscribe_url}}, {{privacy_policy_url}} â€” the renderer fills them.
+{{unsubscribe_url}}, {{privacy_policy_url}} — the renderer fills them.
 
 PROHIBITIONS:
 - Never invent a quote, testimonial, or statistic.

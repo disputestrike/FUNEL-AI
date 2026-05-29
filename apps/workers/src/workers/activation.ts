@@ -11,7 +11,7 @@
  *   - in-product nudge (set a feature flag on the workspace that the UI reads)
  *
  * The scheduler is the source of truth for "which intervention is due for
- * which user right now" â€” we just execute the list it returns.
+ * which user right now" — we just execute the list it returns.
  */
 
 import { z } from "zod";

@@ -1,6 +1,6 @@
-﻿#!/usr/bin/env bash
+#!/usr/bin/env bash
 ###############################################################################
-# GoFunnelAI â€” Upstash Redis one-shot provisioning.
+# GoFunnelAI — Upstash Redis one-shot provisioning.
 #
 # Creates two databases (us-east-1 primary, eu-west-1 secondary), enables
 # global replication, wires REST + native endpoints into Cloudflare Worker

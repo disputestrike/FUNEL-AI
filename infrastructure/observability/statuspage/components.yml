@@ -1,4 +1,4 @@
-# GoFunnelAI â€” public status page (status.gofunnelai.com)
+# GoFunnelAI — public status page (status.gofunnelai.com)
 # Managed via the statuspage.io API; this file is the source of truth and is
 # applied by tools/statuspage-sync (a small node script invoked from CI).
 page:

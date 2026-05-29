@@ -37,7 +37,7 @@ export const CreateBookingInput = z.object({
   notes: z.string().optional(),
   /** Which calendar provider to sync this booking to. */
   calendar_provider: z.enum(["google", "outlook", "calcom", "funnel_native"]).optional(),
-  /** Skip provider sync â€” useful for backfilling existing external events. */
+  /** Skip provider sync — useful for backfilling existing external events. */
   skipExternalSync: z.boolean().optional(),
   actor_user_id: z.string().nullable().optional(),
   idempotency_key: z.string().optional(),
@@ -81,7 +81,7 @@ export async function createBooking(input: CreateBookingInput, store: CrmStore =
           starts_at: parsed.scheduled_for.toISOString(),
           duration_minutes: parsed.duration_minutes ?? 30,
           timezone: parsed.timezone ?? "UTC",
-          summary: `GoFunnelAI booking â€” lead ${parsed.lead_id}`,
+          summary: `GoFunnelAI booking — lead ${parsed.lead_id}`,
           description: parsed.notes ?? "",
           attendee_lead_id: parsed.lead_id,
         },
@@ -93,7 +93,7 @@ export async function createBooking(input: CreateBookingInput, store: CrmStore =
       externalEventId = event.id;
       if (!meetingUrl && event.meeting_url) meetingUrl = event.meeting_url;
     } catch (err) {
-      // PRD Â§3 edge case 4: queue when calendar OAuth is broken â€” still create CRM booking.
+      // PRD Â§3 edge case 4: queue when calendar OAuth is broken — still create CRM booking.
       // eslint-disable-next-line no-console
       console.warn("calendar sync deferred", { provider, err: String(err) });
     }

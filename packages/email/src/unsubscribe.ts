@@ -17,7 +17,7 @@ export interface UnsubscribeTokenPayload {
   expires_at: string;
 }
 
-export function buildUnsubscribeUrl(payload: UnsubscribeTokenPayload, signedToken: string, baseUrl = "https://funelai.com"): string {
+export function buildUnsubscribeUrl(payload: UnsubscribeTokenPayload, signedToken: string, baseUrl = "https://gofunnelai.com"): string {
   const sp = new URLSearchParams({
     u: payload.user_id ?? "",
     c: payload.category,
@@ -27,7 +27,7 @@ export function buildUnsubscribeUrl(payload: UnsubscribeTokenPayload, signedToke
   return `${baseUrl}/unsubscribe?${sp.toString()}`;
 }
 
-export function buildListUnsubscribeHeaders(unsubUrl: string, mailto: string = "unsubscribe@funelai.com"): {
+export function buildListUnsubscribeHeaders(unsubUrl: string, mailto: string = "unsubscribe@gofunnelai.com"): {
   "List-Unsubscribe": string;
   "List-Unsubscribe-Post": string;
 } {

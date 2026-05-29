@@ -127,7 +127,7 @@
     },
     {
       "project": "funnel-api",
-      "name": "RLS audit anomaly â€” any cross-tenant query",
+      "name": "RLS audit anomaly — any cross-tenant query",
       "type": "issue",
       "query": "tag:rls_violation:true environment:production",
       "actions": [

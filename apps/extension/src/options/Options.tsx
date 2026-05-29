@@ -1,5 +1,5 @@
 /**
- * Options page â€” opens in a full tab via chrome.runtime.openOptionsPage().
+ * Options page — opens in a full tab via chrome.runtime.openOptionsPage().
  *
  * Controls:
  *   - Toggle the on-page badge for owned funnels.

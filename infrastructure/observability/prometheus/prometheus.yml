@@ -1,5 +1,5 @@
 ###############################################################################
-# GoFunnelAI â€” Prometheus scrape config.
+# GoFunnelAI — Prometheus scrape config.
 #
 # Hosted on Grafana Cloud (Prometheus-compatible push gateway + scrape proxy).
 # This file lives in `infrastructure/observability/prometheus/` and is shipped
@@ -115,7 +115,7 @@ scrape_configs:
     scrape_interval: 60s
 
   # ---- Provider heartbeats (Resend, Stripe, PayPal, SignalWire, Meta,
-  # Google, TikTok, RevTry) â€” each provider integration emits a synthetic
+  # Google, TikTok, RevTry) — each provider integration emits a synthetic
   # ping every minute. Status surfaces on the Integration Health dashboard. ----
   - job_name: provider-heartbeats
     metrics_path: /metrics

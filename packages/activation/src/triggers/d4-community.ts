@@ -1,5 +1,5 @@
 /**
- * Day 4 â€” Community pull-in.
+ * Day 4 — Community pull-in.
  *
  * Sends an email + in-app banner inviting the user into the industry-specific
  * Circle/Slack community channel. Doc 06a Â§3 Day 4.

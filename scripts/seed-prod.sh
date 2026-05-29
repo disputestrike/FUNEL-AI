@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 ###############################################################################
-# GoFunnelAI â€” initial production data seed.
+# GoFunnelAI — initial production data seed.
 #
-# Idempotent â€” re-running will upsert rather than duplicate. Designed to be
+# Idempotent — re-running will upsert rather than duplicate. Designed to be
 # run ONCE at go-live, then never again. Seeds:
 #   - industries (per 02a-kb-pack-template + 02b solar example)
 #   - KB packs (vertical knowledge bases referenced by the agents)
@@ -25,7 +25,7 @@ bold() { printf "\033[1m%s\033[0m\n" "$1"; }
 ok()   { printf "\033[32mâœ“ %s\033[0m\n" "$1"; }
 read_required() { local v; read -r -p "$1: " v; echo "$v"; }
 
-bold "GoFunnelAI â€” production seed."
+bold "GoFunnelAI — production seed."
 bold "This script is destructive only if --reset is passed."
 
 RESET=0

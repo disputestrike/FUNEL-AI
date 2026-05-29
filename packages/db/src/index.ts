@@ -40,6 +40,21 @@ export type {
   DeletionTombstone,
   SuppressionEntry,
   KbPack,
+  // Level 2 Launch Center
+  Campaign,
+  CampaignPlatform,
+  AdVariant,
+  CreativeAsset,
+  VideoAsset,
+  AudienceProfile,
+  UtmLink,
+  TrackingEvent,
+  LaunchChecklist,
+  ComplianceReview,
+  ExportPackage,
+  FollowupSequence,
+  RetargetingRule,
+  LaunchScore,
 } from "@prisma/client";
 
 export {
@@ -55,6 +70,23 @@ export {
   WorkspaceStatus,
   PaymentStatus,
   BookingStatus,
+  // Level 2 Launch Center enums
+  CampaignStatus,
+  CampaignPlatformKind,
+  CampaignPlatformStatus,
+  AdVariantAngle,
+  AdVariantStatus,
+  CreativeAssetType,
+  VideoAssetType,
+  TrackingEventType,
+  LaunchChecklistStatus,
+  ComplianceSeverity,
+  ExportPackageFormat,
+  ExportPackageStatus,
+  FollowupChannel,
+  FollowupStatus,
+  RetargetingTrigger,
+  RetargetingStatus,
 } from "@prisma/client";
 
 export {

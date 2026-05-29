@@ -32,14 +32,14 @@ $DAGGER       = [char]0x2020   # †
 
 # When UTF-8 (3-byte) for U+2014 (— is 0xE2 0x80 0x94) is mis-decoded as CP1252,
 # you get the sequence: â € " (0x00E2 0x20AC 0x0022). So the mojibake string is
-# literally "â€\""  i.e. â + € + ".
+# literally ""\""  i.e. â + € + ".
 #
-# 0x80 in CP1252 = € (U+20AC). 0x93 = “ (U+201C). 0x94 = ” (U+201D). 0x99 = ™.
+# 0x80 in CP1252 = € (U+20AC). 0x93 = “ (U+201C). 0x94 = — (U+201D). 0x99 = ™.
 # 0x9C = œ. 0x9D = (none). 0xA0 = NBSP. 0x94 = ”.  And so on.
 #
 # Build the replacements:
 $pairs = @(
-  # Double-encoded em-dash (decoded twice): "Ã¢â‚¬\"" -> "â€\"" -> "—"
+  # Double-encoded em-dash (decoded twice): "Ã¢â‚¬\"" -> ""\"" -> "—"
   @{ from = "$A_TILDE$A_HAT$A_HAT$EURO`"";        to = $EM_DASH },
   # The classic single-decoded forms
   @{ from = "$A_HAT$EURO`"";                       to = $EM_DASH },   # â € " (right quotation mark surrogate) -> em-dash
@@ -49,7 +49,7 @@ $pairs = @(
   @{ from = "$A_HAT$EURO" + [char]0x02DC;          to = $LSQUO },     # â € ˜
   @{ from = "$A_HAT$EURO" + [char]0x00A6;          to = $HELLIP },    # â € ¦
   @{ from = "$A_HAT$EURO" + [char]0x00A2;          to = $BULL },      # â € ¢
-  # Catch-all closing-quote variants — must run AFTER multi-char â€-prefixed sequences
+  # Catch-all closing-quote variants — must run AFTER multi-char "-prefixed sequences
   @{ from = "$A_HAT$EURO";                         to = $RDQUO },
   # NBSP from 0xA0 mis-decoded
   @{ from = "$CIRC ";                              to = " " },

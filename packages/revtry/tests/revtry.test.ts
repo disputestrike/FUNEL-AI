@@ -159,6 +159,77 @@ describe("dial", () => {
     expect(r.blocked_reason).toBe("tcpa_quiet_hours");
   });
 
+  it("blocks when PEWC voice consent is missing", async () => {
+    const store = new InMemoryCallStore();
+    const consent = { insert: async (e: any) => e, hasOptOut: async () => false, recordOptOut: async () => {} };
+    const sw = { placeCall: async () => ({ provider_call_id: "sw_1" }) };
+    const r = await placeOutboundCall(
+      {
+        workspace_id: "w",
+        lead_id: "lds_1",
+        funnel_id: "fnl_1",
+        from_e164: "+18005551234",
+        to_e164: "+15555550101",
+        language: "en",
+        callee_local_hour: 14,
+      },
+      {
+        store,
+        consentStore: consent as any,
+        newId,
+        dnc: {
+          isOnFederalDnc: async () => false,
+          isOnStateDnc: async () => false,
+          isOnInternalDnc: async () => false,
+        },
+        signalwire: sw,
+        answerUrlFor: () => "https://x.com/a",
+        statusCallbackUrlFor: () => "https://x.com/s",
+        gates: {
+          hasVoiceConsent: async () => false,
+        },
+      },
+    );
+    expect(r.blocked_reason).toBe("no_voice_consent");
+    expect(r.call.state).toBe("blocked_consent");
+  });
+
+  it("blocks when workspace is out of minutes", async () => {
+    const store = new InMemoryCallStore();
+    const consent = { insert: async (e: any) => e, hasOptOut: async () => false, recordOptOut: async () => {} };
+    const sw = { placeCall: async () => ({ provider_call_id: "sw_1" }) };
+    const r = await placeOutboundCall(
+      {
+        workspace_id: "w",
+        lead_id: "lds_1",
+        funnel_id: "fnl_1",
+        from_e164: "+18005551234",
+        to_e164: "+15555550101",
+        language: "en",
+        callee_local_hour: 14,
+      },
+      {
+        store,
+        consentStore: consent as any,
+        newId,
+        dnc: {
+          isOnFederalDnc: async () => false,
+          isOnStateDnc: async () => false,
+          isOnInternalDnc: async () => false,
+        },
+        signalwire: sw,
+        answerUrlFor: () => "https://x.com/a",
+        statusCallbackUrlFor: () => "https://x.com/s",
+        gates: {
+          hasVoiceConsent: async () => true,
+          remainingMinutes: async () => 0,
+        },
+      },
+    );
+    expect(r.blocked_reason).toBe("no_minutes");
+    expect(r.call.state).toBe("failed");
+  });
+
   it("places a call when all gates pass", async () => {
     const store = new InMemoryCallStore();
     const consent = { insert: async (e: any) => e, hasOptOut: async () => false, recordOptOut: async () => {} };

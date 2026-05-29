@@ -17,10 +17,13 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.27.3",
+    "next-auth": "5.0.0-beta.20",
+    "@auth/prisma-adapter": "^2.7.2",
     "@funnel/shared": "workspace:*",
     "@funnel/db": "workspace:*",
     "@funnel/events": "workspace:*",
     "@funnel/orchestrator": "workspace:*",
+    "@funnel/billing": "workspace:*",
     "@funnel/auth": "workspace:*",
     "@funnel/ui": "workspace:*",
     "@hookform/resolvers": "^3.9.0",

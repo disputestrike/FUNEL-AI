@@ -78,7 +78,7 @@ export const ComplianceAgentSchema = z.object({
   summary: z.string(),
 });
 
-/** Public URL validator â€” keep in sync with `validateAuditUrl`. */
+/** Public URL validator — keep in sync with `validateAuditUrl`. */
 export const PublicHttpUrl = z
   .string()
   .url()

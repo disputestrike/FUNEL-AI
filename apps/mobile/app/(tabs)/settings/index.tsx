@@ -1,11 +1,11 @@
 /**
- * Settings â€” profile, notification prefs, biometric, MFA, sign out.
+ * Settings — profile, notification prefs, biometric, MFA, sign out.
  *
  * Notification prefs let the user mute by `PushKind`:
- *   - lead.new       â€” default ON
- *   - milestone.hit  â€” default ON
- *   - ab.winner      â€” default ON, often muted by power users
- *   - payment.failed â€” ALWAYS ON, not togglable (per doc 22 Â§B billing tone)
+ *   - lead.new       — default ON
+ *   - milestone.hit  — default ON
+ *   - ab.winner      — default ON, often muted by power users
+ *   - payment.failed — ALWAYS ON, not togglable (per doc 22 Â§B billing tone)
  */
 import { useState } from "react";
 import { Alert, Pressable, ScrollView, Switch, Text, View } from "react-native";
@@ -82,9 +82,9 @@ export default function SettingsScreen() {
           </View>
           <View className="flex-1 ml-3">
             <Text className="text-body font-semibold text-slate-900 dark:text-slate-50">
-              {user?.name ?? "â€”"}
+              {user?.name ?? "—"}
             </Text>
-            <Text className="text-body-sm text-slate-500">{user?.email ?? "â€”"}</Text>
+            <Text className="text-body-sm text-slate-500">{user?.email ?? "—"}</Text>
             {user?.plan ? (
               <Text className="text-caption text-signal-600 dark:text-signal-300 mt-1">
                 {user.plan} plan

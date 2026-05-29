@@ -62,9 +62,11 @@ export const LLM_RATES: Record<string, LlmRate> = {
 };
 
 export const IMAGE_RATES: Record<string, ImageRate> = {
-  "flux-1.1-pro": { centsPerImage: 4 },
-  "ideogram-v2": { centsPerImage: 8 },
+  "flux-1.1-pro": { centsPerImage: 4 }, // $0.04 / img — Replicate list rate
+  "ideogram-v2": { centsPerImage: 6 }, // $0.06 / img — Replicate list rate
+  sdxl: { centsPerImage: 0.5 }, // ~$0.005 / img — SDXL on Replicate
   "unsplash-stock": { centsPerImage: 0 },
+  "pexels-stock": { centsPerImage: 0 },
 };
 
 export const VIDEO_RATES: Record<string, VideoRate> = {

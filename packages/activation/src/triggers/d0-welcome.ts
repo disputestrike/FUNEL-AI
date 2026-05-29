@@ -1,5 +1,5 @@
 /**
- * Day 0 â€” Welcome.
+ * Day 0 — Welcome.
  *
  * Within 60s of `user_signed_up`: a Resend email containing the 90-sec demo
  * video link, plus an in-app full-screen takeover queued for the user's first
@@ -105,7 +105,7 @@ export async function fireD0Welcome(args: {
                 type: "section",
                 text: {
                   type: "mrkdwn",
-                  text: `:rocket: *New ${s.plan_tier} signup* â€” ${s.user_id} (industry: ${s.industry ?? "n/a"}). Founder review in next 5d.`,
+                  text: `:rocket: *New ${s.plan_tier} signup* — ${s.user_id} (industry: ${s.industry ?? "n/a"}). Founder review in next 5d.`,
                 },
               },
             ],

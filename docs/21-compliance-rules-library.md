@@ -1,33 +1,33 @@
-﻿# 21 â€” Compliance Rules Library
+# 21 — Compliance Rules Library
 
-**Document status:** v1.0 â€” **PENDING COUNSEL REVIEW**
+**Document status:** v1.0 — **PENDING COUNSEL REVIEW**
 **Owner:** VP Engineering + General Counsel (joint)
 **Consumers:** Compliance Agent (Doc 12 Â§4.7, Doc 19 Â§3.4), Fact-Check Agent (Doc 12 Â§4.8), Human Review Queue (Doc 07b)
 **Last updated:** 2026-05-25
-**Next review:** 2026-08-25 (quarterly cadence â€” see Part D)
+**Next review:** 2026-08-25 (quarterly cadence — see Part D)
 
 ---
 
 ## CRITICAL LEGAL NOTICE
 
-This document is a **machine-readable rules library** authored by FunelAI engineering to power the Compliance Agent in the funnel generation pipeline. It is **not legal advice** and does **not** constitute the practice of law. FunelAI is not a law firm.
+This document is a **machine-readable rules library** authored by GoFunnelAI engineering to power the Compliance Agent in the funnel generation pipeline. It is **not legal advice** and does **not** constitute the practice of law. GoFunnelAI is not a law firm.
 
 **Every rule marked `[ATTY-REVIEW]` requires sign-off from licensed counsel in the relevant jurisdiction before being relied upon in production.** The interpretations here represent good-faith engineering reads of public statutes, FTC guidance, and state regulations as of Q2 2026. They will be wrong in some places. The quarterly review process (Part D) is how we correct them.
 
-The Compliance Agent is a **risk-reduction tool, not a guarantee of legal compliance.** Per the Publish Acknowledgment (Doc 05e), the customer remains the publisher of record and is contractually responsible for the legality of content they publish. The Compliance Agent's role is to block obvious violations and surface borderline cases â€” not to substitute for the customer's own legal counsel.
+The Compliance Agent is a **risk-reduction tool, not a guarantee of legal compliance.** Per the Publish Acknowledgment (Doc 05e), the customer remains the publisher of record and is contractually responsible for the legality of content they publish. The Compliance Agent's role is to block obvious violations and surface borderline cases — not to substitute for the customer's own legal counsel.
 
 ---
 
 ## Table of Contents
 
-- Part A â€” Cross-Cutting Compliance Rules (10 rules, all industries)
-- Part B â€” 16 Regulated Vertical Rule Sets
-- Part C â€” Compliance Agent Implementation
-- Part D â€” Quarterly Update Process
-- Appendix A â€” Regex Pattern Library
-- Appendix B â€” Disclosure Text Templates
-- Appendix C â€” Severity Taxonomy
-- Appendix D â€” Open Questions for Counsel
+- Part A — Cross-Cutting Compliance Rules (10 rules, all industries)
+- Part B — 16 Regulated Vertical Rule Sets
+- Part C — Compliance Agent Implementation
+- Part D — Quarterly Update Process
+- Appendix A — Regex Pattern Library
+- Appendix B — Disclosure Text Templates
+- Appendix C — Severity Taxonomy
+- Appendix D — Open Questions for Counsel
 
 ---
 
@@ -42,28 +42,28 @@ The Compliance Agent is a **risk-reduction tool, not a guarantee of legal compli
 
 ---
 
-# PART A â€” Cross-Cutting Compliance Rules
+# PART A — Cross-Cutting Compliance Rules
 
 These rules apply to **every** funnel regardless of vertical. They run before the vertical-specific pack.
 
 ---
 
-## A1 â€” FTC Truth-in-Advertising (16 CFR Part 251, 255)
+## A1 — FTC Truth-in-Advertising (16 CFR Part 251, 255)
 
 **Rule statement:** All claims about products, services, or outcomes must be truthful, non-misleading, and substantiated by competent and reliable evidence at the time the claim is made. Testimonials must reflect typical results or include a clear and conspicuous disclosure of what results consumers generally can expect.
 
 **Statutory basis:**
-- 15 U.S.C. Â§ 45 (FTC Act, Section 5 â€” unfair or deceptive acts)
-- 16 CFR Part 251 â€” Guide Concerning Use of the Word "Free"
-- 16 CFR Part 255 â€” Guides Concerning Use of Endorsements and Testimonials
-- *FTC v. Direct Marketing Concepts, Inc.*, 624 F.3d 1 (1st Cir. 2010) â€” substantiation standard
+- 15 U.S.C. Â§ 45 (FTC Act, Section 5 — unfair or deceptive acts)
+- 16 CFR Part 251 — Guide Concerning Use of the Word "Free"
+- 16 CFR Part 255 — Guides Concerning Use of Endorsements and Testimonials
+- *FTC v. Direct Marketing Concepts, Inc.*, 624 F.3d 1 (1st Cir. 2010) — substantiation standard
 
 **Scan for:**
 - Outcome claims without substantiation field populated in the funnel KB (Doc 02a Â§7)
 - Testimonial blocks (`<testimonial>`, `data-component="testimonial"`) without a `typical_results` disclosure within 200 chars
 - Superlatives without basis: `\b(best|#1|number one|top[- ]rated|leading|world['']?s?\s+(best|leading|top))\b`
 - Comparative claims: `\b(better than|outperforms?|beats?)\s+\w+` (requires substantiation note)
-- "Free" without conditions disclosed: `\bfree\b` (proximity check â€” must have terms within 300 chars unless truly free with no strings)
+- "Free" without conditions disclosed: `\bfree\b` (proximity check — must have terms within 300 chars unless truly free with no strings)
 
 **Action:** SOFT_FLAG if substantiation field populated but disclosure missing (auto-insert). HARD_BLOCK if outcome claim with no substantiation in KB.
 
@@ -71,57 +71,57 @@ These rules apply to **every** funnel regardless of vertical. They run before th
 
 ---
 
-## A2 â€” FTC Endorsement Guides (2023 Updates)
+## A2 — FTC Endorsement Guides (2023 Updates)
 
 **Rule statement:** Material connections between an endorser and the advertiser must be clearly and conspicuously disclosed. As of June 2023, the FTC explicitly considers AI-generated endorsements deceptive if presented as genuine human endorsements. Fake reviews are categorically prohibited (16 CFR Part 465, effective Oct 2024).
 
 **Statutory basis:**
 - 16 CFR Part 255 (revised July 2023)
-- 16 CFR Part 465 â€” Trade Regulation Rule on the Use of Consumer Reviews and Testimonials (effective Oct 21, 2024)
+- 16 CFR Part 465 — Trade Regulation Rule on the Use of Consumer Reviews and Testimonials (effective Oct 21, 2024)
 - FTC, *Guides Concerning the Use of Endorsements and Testimonials in Advertising* (2023)
-- *FTC v. Lord & Taylor, LLC*, 2016 â€” material connection enforcement
+- *FTC v. Lord & Taylor, LLC*, 2016 — material connection enforcement
 
 **Scan for:**
 - Testimonials lacking attribution (`testimonial.attribution` field empty)
 - Testimonials with `is_employee=true` or `is_affiliate=true` and no disclosure within the testimonial block
 - AI-generated avatars/photos in testimonial blocks (check `image.source=="generated"` flag from image gen pipeline)
 - Stock photos labeled as customer photos (`image.source=="stock"` AND parent component is testimonial)
-- Review aggregator widgets (Yotpo, Trustpilot, Google Reviews) â€” verify the widget renders only verified reviews; reject any "manual" review-list components
+- Review aggregator widgets (Yotpo, Trustpilot, Google Reviews) — verify the widget renders only verified reviews; reject any "manual" review-list components
 
 **Action:**
-- HARD_BLOCK: AI-generated avatar in a testimonial block (no exceptions â€” counsel position is this is per-se deceptive after 2023 update)
+- HARD_BLOCK: AI-generated avatar in a testimonial block (no exceptions — counsel position is this is per-se deceptive after 2023 update)
 - HARD_BLOCK: Stock photo presented as customer
-- SOFT_FLAG: Employee/affiliate testimonial without disclosure (auto-insert "[FunelAI customer is an employee of [Brand]]" tag)
+- SOFT_FLAG: Employee/affiliate testimonial without disclosure (auto-insert "[GoFunnelAI customer is an employee of [Brand]]" tag)
 - REVIEW: Anonymous testimonials (no attribution)
 
-**Reference:** FunelAI's own policy (Doc 07a Â§4) prohibits AI-generated testimonials. Compliance Agent enforces this at the technical layer.
+**Reference:** GoFunnelAI's own policy (Doc 07a Â§4) prohibits AI-generated testimonials. Compliance Agent enforces this at the technical layer.
 
 ---
 
-## A3 â€” FTC "No AI Exemption" Doctrine
+## A3 — FTC "No AI Exemption" Doctrine
 
-**Rule statement:** The FTC has stated publicly and repeatedly (Khan 2023, Levine 2024) that AI-generated content receives no exemption from advertising substantiation requirements. Every claim â€” whether drafted by a human copywriter or an LLM â€” must be substantiated at the time of publication.
+**Rule statement:** The FTC has stated publicly and repeatedly (Khan 2023, Levine 2024) that AI-generated content receives no exemption from advertising substantiation requirements. Every claim — whether drafted by a human copywriter or an LLM — must be substantiated at the time of publication.
 
 **Authority:**
 - Khan, L. (Chair, FTC), *Remarks at the Tech Summit on AI* (Jan 2024)
 - FTC Business Blog, "Keep your AI claims in check" (Feb 2023)
 - FTC Business Blog, "Chatbots, deepfakes, and voice clones: AI deception for sale" (Mar 2023)
-- *In re Automators AI*, FTC complaint Aug 2023 â€” AI-business-opportunity enforcement
+- *In re Automators AI*, FTC complaint Aug 2023 — AI-business-opportunity enforcement
 
 **Scan for:**
 - Any factual claim in generated copy that is not backed by an evidence pointer in the funnel's KB (Doc 02a Â§7 evidence array). This is the **primary contract** between the Compliance Agent and the Fact-Check Agent.
-- Claims with numbers: `\b\d+(\.\d+)?\s*(%|percent|x|times|years?|months?|days?|hours?|customers?|clients?|users?|leads?)\b` â€” must have an evidence pointer.
-- Claims with proper nouns of awards/certifications: `\b(certified|accredited|awarded|winner of|recipient of)\b` â€” must have evidence pointer.
+- Claims with numbers: `\b\d+(\.\d+)?\s*(%|percent|x|times|years?|months?|days?|hours?|customers?|clients?|users?|leads?)\b` — must have an evidence pointer.
+- Claims with proper nouns of awards/certifications: `\b(certified|accredited|awarded|winner of|recipient of)\b` — must have evidence pointer.
 
 **Action:** HARD_BLOCK on any flagged claim without evidence pointer. Fact-Check Agent is responsible for resolving the pointer to a verified source; Compliance Agent verifies the pointer exists and is non-empty.
 
 ---
 
-## A4 â€” CAN-SPAM Act
+## A4 — CAN-SPAM Act
 
 **Rule statement:** Commercial email must (1) accurately identify the sender, (2) use non-deceptive subject lines, (3) clearly identify the message as an advertisement (where applicable), (4) include a valid physical postal address, and (5) provide a clear and conspicuous opt-out mechanism honored within 10 business days.
 
-**Statutory basis:** 15 U.S.C. Â§Â§ 7701â€“7713; 16 CFR Part 316
+**Statutory basis:** 15 U.S.C. Â§Â§ 7701–7713; 16 CFR Part 316
 
 **Scan for (in email funnel components):**
 - Missing physical address: every email template must include a `{{brand.postal_address}}` token resolved to a real address (not a PO box if state law requires street address)
@@ -136,11 +136,11 @@ These rules apply to **every** funnel regardless of vertical. They run before th
 
 ---
 
-## A5 â€” TCPA + State Mini-TCPAs + CASL
+## A5 — TCPA + State Mini-TCPAs + CASL
 
-**Rule statement:** Marketing calls and SMS to wireless numbers require **prior express written consent** (TCPA, 47 U.S.C. Â§ 227; 47 CFR Â§ 64.1200). As of the FCC's one-to-one consent rule (originally effective Jan 2025, vacated by 11th Cir. *Insurance Marketing Coalition v. FCC* Jan 24, 2025 â€” **see [ATTY-REVIEW]**), the prior interpretation of multi-seller consent forms is back in effect, but state laws have moved aggressively. CASL (Canada) requires express consent and sender identification. Florida Telephone Solicitation Act (FTSA, Fla. Stat. Â§ 501.059) and Oklahoma Telephone Solicitation Act (OTSA, Okla. Stat. tit. 15 Â§ 775C.1) impose stricter standards than federal TCPA.
+**Rule statement:** Marketing calls and SMS to wireless numbers require **prior express written consent** (TCPA, 47 U.S.C. Â§ 227; 47 CFR Â§ 64.1200). As of the FCC's one-to-one consent rule (originally effective Jan 2025, vacated by 11th Cir. *Insurance Marketing Coalition v. FCC* Jan 24, 2025 — **see [ATTY-REVIEW]**), the prior interpretation of multi-seller consent forms is back in effect, but state laws have moved aggressively. CASL (Canada) requires express consent and sender identification. Florida Telephone Solicitation Act (FTSA, Fla. Stat. Â§ 501.059) and Oklahoma Telephone Solicitation Act (OTSA, Okla. Stat. tit. 15 Â§ 775C.1) impose stricter standards than federal TCPA.
 
-**[ATTY-REVIEW]** â€” One-to-one consent doctrine is in flux post-IMC v. FCC. Counsel must confirm current applicability per state.
+**[ATTY-REVIEW]** — One-to-one consent doctrine is in flux post-IMC v. FCC. Counsel must confirm current applicability per state.
 
 **Statutory basis:**
 - 47 U.S.C. Â§ 227 (TCPA)
@@ -148,9 +148,9 @@ These rules apply to **every** funnel regardless of vertical. They run before th
 - Telephone Consumer Protection Act of 1991, as amended
 - Fla. Stat. Â§ 501.059 (FTSA)
 - Okla. Stat. tit. 15 Â§ 775C.1 (OTSA)
-- CASL (S.C. 2010, c. 23) â€” Canada
-- *Facebook, Inc. v. Duguid*, 592 U.S. 395 (2021) â€” ATDS definition
-- *Insurance Marketing Coalition v. FCC*, 11th Cir. Jan 24, 2025 â€” vacated one-to-one rule
+- CASL (S.C. 2010, c. 23) — Canada
+- *Facebook, Inc. v. Duguid*, 592 U.S. 395 (2021) — ATDS definition
+- *Insurance Marketing Coalition v. FCC*, 11th Cir. Jan 24, 2025 — vacated one-to-one rule
 
 **Scan for (in lead-capture forms and SMS funnel components):**
 - Phone-number capture form (`<input type="tel">`) without an adjacent express-consent checkbox
@@ -170,12 +170,12 @@ These rules apply to **every** funnel regardless of vertical. They run before th
 
 ---
 
-## A6 â€” ADA / WCAG 2.1 AA Accessibility
+## A6 — ADA / WCAG 2.1 AA Accessibility
 
 **Rule statement:** Public-facing commercial websites are "places of public accommodation" under Title III of the ADA (per *Robles v. Domino's Pizza*, 913 F.3d 898 (9th Cir. 2019)) and must be accessible. The DOJ has stated WCAG 2.1 Level AA is the appropriate standard. EU Accessibility Act (Directive (EU) 2019/882) imposes parallel requirements effective June 28, 2025.
 
 **Statutory basis:**
-- 42 U.S.C. Â§Â§ 12181â€“12189 (ADA Title III)
+- 42 U.S.C. Â§Â§ 12181–12189 (ADA Title III)
 - 28 CFR Part 36
 - WCAG 2.1 (W3C Recommendation, June 2018)
 - EU Directive 2019/882
@@ -197,13 +197,13 @@ These rules apply to **every** funnel regardless of vertical. They run before th
 
 ---
 
-## A7 â€” COPPA (Children's Online Privacy Protection Act)
+## A7 — COPPA (Children's Online Privacy Protection Act)
 
 **Rule statement:** Operators of websites or online services directed to children under 13, or with actual knowledge of collecting information from children under 13, must obtain verifiable parental consent before collecting personal information.
 
-**Statutory basis:** 15 U.S.C. Â§Â§ 6501â€“6506; 16 CFR Part 312
+**Statutory basis:** 15 U.S.C. Â§Â§ 6501–6506; 16 CFR Part 312
 
-**[ATTY-REVIEW]** â€” COPPA reform proposed 2024 may add 13â€“17 protections. Track FTC final rule.
+**[ATTY-REVIEW]** — COPPA reform proposed 2024 may add 13–17 protections. Track FTC final rule.
 
 **Scan for:**
 - Funnels targeted at minors (KB.audience field includes "parents", "children", "kids", "k-12", "youth")
@@ -212,18 +212,18 @@ These rules apply to **every** funnel regardless of vertical. They run before th
 
 **Action:**
 - HARD_BLOCK: Any funnel flagged as child-directed that collects PII without verifiable parental consent flow
-- REVIEW: Funnels for parent-of-child services (e.g., tutoring) â€” manual review of data collection
+- REVIEW: Funnels for parent-of-child services (e.g., tutoring) — manual review of data collection
 
 ---
 
-## A8 â€” Consumer Reviews Rule (16 CFR Part 465)
+## A8 — Consumer Reviews Rule (16 CFR Part 465)
 
 **Rule statement:** Effective October 21, 2024, the FTC's final rule prohibits: (1) fake reviews and testimonials, (2) buying positive or negative reviews, (3) insider reviews and consumer testimonials without disclosure, (4) review suppression including unwarranted legal threats, and (5) misrepresentation of independent review platforms.
 
 **Statutory basis:** 16 CFR Part 465 (effective Oct 21, 2024). Civil penalties up to $51,744 per violation.
 
 **Scan for:**
-- Reviews/testimonials with no attribution metadata (already covered in A2 â€” but here we also check for review-platform fraud signals)
+- Reviews/testimonials with no attribution metadata (already covered in A2 — but here we also check for review-platform fraud signals)
 - Reviews quoted from third-party platforms (Yelp, Google, Trustpilot) without source link
 - "Verified" or "verified buyer" badges without verification logic
 - Any component labeled "independent reviews" that pulls from an affiliated source
@@ -235,11 +235,11 @@ These rules apply to **every** funnel regardless of vertical. They run before th
 
 ---
 
-## A9 â€” AI Content Disclosure (EU AI Act Article 50 + emerging US norms)
+## A9 — AI Content Disclosure (EU AI Act Article 50 + emerging US norms)
 
 **Rule statement:** AI-generated or AI-assisted content interacting with consumers must be disclosed where required by law. EU AI Act Article 50 (effective Aug 2, 2026 for most provisions) requires transparency for AI-generated content including text, image, audio, and video that is deceptively similar to authentic content. California AB 2013 and Colorado AI Act impose related state-level disclosure requirements.
 
-**[ATTY-REVIEW]** â€” US state laws are evolving rapidly. Confirm current disclosure requirements per state.
+**[ATTY-REVIEW]** — US state laws are evolving rapidly. Confirm current disclosure requirements per state.
 
 **Statutory basis:**
 - EU AI Act (Regulation 2024/1689), Article 50
@@ -255,13 +255,13 @@ These rules apply to **every** funnel regardless of vertical. They run before th
 **Action:**
 - SOFT_FLAG (EU targets): Auto-insert footer disclosure (Appendix B-9)
 - SOFT_FLAG (CA/CO/UT targets): Auto-insert state-specific disclosure
-- INFO (US otherwise): Suggest disclosure as best practice (FunelAI default per Doc 07a Â§3 is to disclose)
+- INFO (US otherwise): Suggest disclosure as best practice (GoFunnelAI default per Doc 07a Â§3 is to disclose)
 
-**FunelAI policy:** Per Doc 07a Â§3.2, every FunelAI-generated funnel includes a small "Made with FunelAI" footer with link to the AI-content policy. The compliance agent verifies this footer is not stripped from generated funnels.
+**GoFunnelAI policy:** Per Doc 07a Â§3.2, every GoFunnelAI-generated funnel includes a small "Made with GoFunnelAI" footer with link to the AI-content policy. The compliance agent verifies this footer is not stripped from generated funnels.
 
 ---
 
-## A10 â€” HIPAA (Conditional)
+## A10 — HIPAA (Conditional)
 
 **Rule statement:** Funnels for Covered Entities (healthcare providers, health plans, healthcare clearinghouses) or their Business Associates must not collect Protected Health Information (PHI) in unencrypted forms, must not transmit PHI to non-BAA-covered services, and must include appropriate Notice of Privacy Practices linkage.
 
@@ -271,7 +271,7 @@ These rules apply to **every** funnel regardless of vertical. They run before th
 - 45 CFR Â§ 164.508 (authorization for marketing)
 - HHS OCR guidance on tracking technologies (Dec 2022, updated Mar 2024)
 
-**[ATTY-REVIEW]** â€” OCR's tracking-technology guidance was partially vacated in *American Hospital Association v. Becerra* (N.D. Tex. June 2024). Confirm current scope.
+**[ATTY-REVIEW]** — OCR's tracking-technology guidance was partially vacated in *American Hospital Association v. Becerra* (N.D. Tex. June 2024). Confirm current scope.
 
 **Scan for (only when vertical = Healthcare/Dental/MedSpa/etc.):**
 - Form fields that could capture PHI: `\b(diagnosis|condition|symptoms?|medication|prescriptions?|treatments?|insurance.+(member|policy|id)|date.+of.+birth|ssn)\b`
@@ -286,7 +286,7 @@ These rules apply to **every** funnel regardless of vertical. They run before th
 
 ---
 
-# PART B â€” Regulated Vertical Rule Sets
+# PART B — Regulated Vertical Rule Sets
 
 Each rule set below is implemented as a JSON pack at `funnel-ai/compliance/packs/<vertical>.json` (Part C). Schemas:
 
@@ -312,7 +312,7 @@ Each rule set below is implemented as a JSON pack at `funnel-ai/compliance/packs
 
 ---
 
-## B1 â€” Healthcare / Dental / Med Spa
+## B1 — Healthcare / Dental / Med Spa
 
 **Pack ID:** `healthcare-v1.0` Â· **Counsel review status:** PENDING
 
@@ -350,10 +350,10 @@ Each rule set below is implemented as a JSON pack at `funnel-ai/compliance/packs
 
 ### State overlays
 
-- **California:** Add Cal. B&P Code Â§ 651 specifics â€” "specialist" must specify the recognized board; "permanent" results claims prohibited for cosmetic procedures.
-- **Florida:** Fla. Admin. Code R. 64B8-11.001 â€” testimonials and before/after photos require additional adjacent disclosure; surgeon's full name must appear on each ad.
-- **Texas:** 22 TAC Â§ 164.4 â€” physician advertising must include name and primary office address; "no scar" claims prohibited.
-- **New York:** Education Law Â§ 6530 â€” "experienced," "leading," "most" require substantiation file retention for 3 years.
+- **California:** Add Cal. B&P Code Â§ 651 specifics — "specialist" must specify the recognized board; "permanent" results claims prohibited for cosmetic procedures.
+- **Florida:** Fla. Admin. Code R. 64B8-11.001 — testimonials and before/after photos require additional adjacent disclosure; surgeon's full name must appear on each ad.
+- **Texas:** 22 TAC Â§ 164.4 — physician advertising must include name and primary office address; "no scar" claims prohibited.
+- **New York:** Education Law Â§ 6530 — "experienced," "leading," "most" require substantiation file retention for 3 years.
 
 ### Before/after photos (standardized rules)
 
@@ -373,9 +373,9 @@ Auto-block if any of:
 
 ---
 
-## B2 â€” GLP-1 / Weight Loss
+## B2 — GLP-1 / Weight Loss
 
-**Pack ID:** `glp1-weightloss-v1.0` Â· **Counsel review status:** PENDING â€” **HIGH RISK CATEGORY**
+**Pack ID:** `glp1-weightloss-v1.0` Â· **Counsel review status:** PENDING — **HIGH RISK CATEGORY**
 
 This vertical inherits all Healthcare (B1) rules plus the following.
 
@@ -385,12 +385,12 @@ This vertical inherits all Healthcare (B1) rules plus the following.
 |----|---------|----------|-----------|----------|
 | GLP-P1 | `\blose\s+\d+\s*(lbs?|pounds?|kg)\s+in\s+\d+\s+(days?|weeks?|months?)\b` | HARD_BLOCK | FTC weight-loss "gut check" prohibits specific-amount-in-specific-time claims absent rigorous substantiation | FTC, *Gut Check* (2014); FTC v. Sensa (2014) |
 | GLP-P2 | `\b(no\s+(diet|exercise|effort|surgery)|without\s+(diet|exercise|surgery))\b` | HARD_BLOCK | One of seven "gut check" claims | FTC, *Gut Check* |
-| GLP-P3 | `\b(lose\s+weight\s+for\s+everyone|works?\s+for\s+everyone)\b` | HARD_BLOCK | "Works for everyone" â€” gut check claim | FTC, *Gut Check* |
-| GLP-P4 | `\b(permanent|permanently)\s+weight\s+loss\b` | HARD_BLOCK | "Permanent" weight loss â€” gut check claim | FTC, *Gut Check* |
-| GLP-P5 | `\bblock(s|ing)?\s+(fat|calories)\b` | HARD_BLOCK | Mechanism claim â€” gut check | FTC, *Gut Check* |
-| GLP-P6 | `\beat\s+all\s+you\s+want\b` | HARD_BLOCK | "Eat all you want" â€” gut check | FTC, *Gut Check* |
+| GLP-P3 | `\b(lose\s+weight\s+for\s+everyone|works?\s+for\s+everyone)\b` | HARD_BLOCK | "Works for everyone" — gut check claim | FTC, *Gut Check* |
+| GLP-P4 | `\b(permanent|permanently)\s+weight\s+loss\b` | HARD_BLOCK | "Permanent" weight loss — gut check claim | FTC, *Gut Check* |
+| GLP-P5 | `\bblock(s|ing)?\s+(fat|calories)\b` | HARD_BLOCK | Mechanism claim — gut check | FTC, *Gut Check* |
+| GLP-P6 | `\beat\s+all\s+you\s+want\b` | HARD_BLOCK | "Eat all you want" — gut check | FTC, *Gut Check* |
 | GLP-P7 | `\b(semaglutide|tirzepatide|ozempic|wegovy|mounjaro|zepbound)\b` | REVIEW | Brand name use of FDA-approved drug triggers off-label promotion review | FDA, 21 CFR Â§ 202.1; FDCA Â§ 502(n) |
-| GLP-P8 | `\bcompound(ed|ing)?\s+(semaglutide|tirzepatide|GLP-1)\b` | REVIEW | FDA has issued warnings on compounded GLP-1s; state pharmacy laws vary | FDA Drug Safety Communication, multiple 2024â€“2025 |
+| GLP-P8 | `\bcompound(ed|ing)?\s+(semaglutide|tirzepatide|GLP-1)\b` | REVIEW | FDA has issued warnings on compounded GLP-1s; state pharmacy laws vary | FDA Drug Safety Communication, multiple 2024–2025 |
 
 ### Required disclosures
 
@@ -402,7 +402,7 @@ This vertical inherits all Healthcare (B1) rules plus the following.
 
 ### State overlays
 
-- **Louisiana, Mississippi, Texas:** Compounding restrictions tightened 2024â€“2025 (**[ATTY-REVIEW]** â€” confirm current statutes).
+- **Louisiana, Mississippi, Texas:** Compounding restrictions tightened 2024–2025 (**[ATTY-REVIEW]** — confirm current statutes).
 - **California:** Health & Safety Code Â§ 1367 + DMHC oversight on telehealth weight loss.
 
 ### Human review triggers
@@ -414,7 +414,7 @@ This vertical inherits all Healthcare (B1) rules plus the following.
 
 ---
 
-## B3 â€” Cosmetic Surgery / Aesthetics
+## B3 — Cosmetic Surgery / Aesthetics
 
 **Pack ID:** `cosmetic-surgery-v1.0` Â· Inherits B1.
 
@@ -439,8 +439,8 @@ This vertical inherits all Healthcare (B1) rules plus the following.
 
 ### State overlays
 
-- **Florida:** Fla. Admin. Code R. 64B8-9.0092 â€” surgeon name + photo + office address on every advertisement.
-- **California:** B&P Â§ 651 â€” "specialist" requires ABMS-recognized board.
+- **Florida:** Fla. Admin. Code R. 64B8-9.0092 — surgeon name + photo + office address on every advertisement.
+- **California:** B&P Â§ 651 — "specialist" requires ABMS-recognized board.
 
 ### Human review triggers
 
@@ -450,7 +450,7 @@ This vertical inherits all Healthcare (B1) rules plus the following.
 
 ---
 
-## B4 â€” Hair Restoration
+## B4 — Hair Restoration
 
 **Pack ID:** `hair-restoration-v1.0` Â· Inherits B1, B3.
 
@@ -472,9 +472,9 @@ This vertical inherits all Healthcare (B1) rules plus the following.
 
 ---
 
-## B5 â€” Personal Injury Law
+## B5 — Personal Injury Law
 
-**Pack ID:** `personal-injury-v1.0` Â· **Counsel review status:** PENDING â€” **HIGH RISK + 50-STATE VARIATION**
+**Pack ID:** `personal-injury-v1.0` Â· **Counsel review status:** PENDING — **HIGH RISK + 50-STATE VARIATION**
 
 ### Cross-state baseline
 
@@ -532,7 +532,7 @@ This vertical inherits all Healthcare (B1) rules plus the following.
 
 ---
 
-## B6 â€” Family / Divorce Law
+## B6 — Family / Divorce Law
 
 **Pack ID:** `family-law-v1.0` Â· Inherits B5.
 
@@ -558,7 +558,7 @@ This vertical inherits all Healthcare (B1) rules plus the following.
 
 ---
 
-## B7 â€” DUI Defense
+## B7 — DUI Defense
 
 **Pack ID:** `dui-defense-v1.0` Â· Inherits B5.
 
@@ -583,7 +583,7 @@ This vertical inherits all Healthcare (B1) rules plus the following.
 
 ---
 
-## B8 â€” Bankruptcy Law
+## B8 — Bankruptcy Law
 
 **Pack ID:** `bankruptcy-v1.0` Â· Inherits B5.
 
@@ -612,9 +612,9 @@ This vertical inherits all Healthcare (B1) rules plus the following.
 
 ---
 
-## B9 â€” Insurance (Auto / Life / Health)
+## B9 — Insurance (Auto / Life / Health)
 
-**Pack ID:** `insurance-v1.0` Â· **HIGH COMPLEXITY â€” 50+ STATE DOI RULES**
+**Pack ID:** `insurance-v1.0` Â· **HIGH COMPLEXITY — 50+ STATE DOI RULES**
 
 ### Cross-line baseline
 
@@ -658,18 +658,18 @@ Auto-block if funnel content references a line the producer is not licensed for 
 
 ### Human review triggers
 
-- Any "Medicare," "Medicare Advantage," or "Medicare Supplement" reference â€” CMS marketing rules apply (42 CFR Â§ 422.2260 et seq.; MA-PD Communications and Marketing Guidelines)
+- Any "Medicare," "Medicare Advantage," or "Medicare Supplement" reference — CMS marketing rules apply (42 CFR Â§ 422.2260 et seq.; MA-PD Communications and Marketing Guidelines)
 - ACA Open Enrollment timing references
 - Annuity products (state suitability rules)
 - Group insurance or employer-sponsored plans
 
-**[ATTY-REVIEW]** â€” Medicare marketing is a separate regulatory regime under CMS oversight; should likely be a separate vertical pack (B9a) in v2.
+**[ATTY-REVIEW]** — Medicare marketing is a separate regulatory regime under CMS oversight; should likely be a separate vertical pack (B9a) in v2.
 
 ---
 
-## B10 â€” Mortgage Brokers / Lenders
+## B10 — Mortgage Brokers / Lenders
 
-**Pack ID:** `mortgage-v1.0` Â· **Counsel review status:** PENDING â€” **CFPB SCRUTINY**
+**Pack ID:** `mortgage-v1.0` Â· **Counsel review status:** PENDING — **CFPB SCRUTINY**
 
 ### Prohibited claims
 
@@ -683,7 +683,7 @@ Auto-block if funnel content references a line the producer is not licensed for 
 
 ### Required information
 
-- `kb.broker.nmls_id` (HARD_BLOCK if missing â€” required on all advertising per SAFE Act)
+- `kb.broker.nmls_id` (HARD_BLOCK if missing — required on all advertising per SAFE Act)
 - `kb.broker.state_licenses` (array of state-specific license IDs)
 - `kb.brand.entity_name` (legal entity, not DBA only)
 
@@ -692,7 +692,7 @@ Auto-block if funnel content references a line the producer is not licensed for 
 | ID | Trigger | Text | Placement |
 |----|---------|------|-----------|
 | MTG-D1 | Always | "[Brand], NMLS #[ID]. Equal Housing Opportunity / Equal Housing Lender." (plus Equal Housing logo) | Footer |
-| MTG-D2 | Any rate mention | Full APR disclosure with terms (loan amount, term, points, fees) â€” see Reg Z Trigger Term table | Adjacent |
+| MTG-D2 | Any rate mention | Full APR disclosure with terms (loan amount, term, points, fees) — see Reg Z Trigger Term table | Adjacent |
 | MTG-D3 | State-specific license disclosures | Per state DOFI / DRE / DBO format (e.g., California: "Licensed by the Department of Financial Protection and Innovation under the California Residential Mortgage Lending Act, License #") | Footer |
 
 ### Reg Z trigger-term rule (12 CFR Â§ 1026.24(d))
@@ -728,9 +728,9 @@ Compliance Agent: regex detects trigger terms, then validates that all four disc
 
 ---
 
-## B11 â€” Financial Advisors / Investment
+## B11 — Financial Advisors / Investment
 
-**Pack ID:** `financial-advisor-v1.0` Â· **Counsel review status:** PENDING â€” **SEC/FINRA OVERSIGHT**
+**Pack ID:** `financial-advisor-v1.0` Â· **Counsel review status:** PENDING — **SEC/FINRA OVERSIGHT**
 
 ### Cross-pack baseline
 
@@ -756,10 +756,10 @@ Compliance Agent: regex detects trigger terms, then validates that all four disc
 | ID | Trigger | Text | Placement |
 |----|---------|------|-----------|
 | FA-D1 | Always | "[Firm Name] is a registered investment adviser. Registration does not imply a certain level of skill or training." | Footer |
-| FA-D2 | Performance data | Mandatory performance disclosures â€” gross vs net, time period, benchmark, material conditions | Adjacent |
+| FA-D2 | Performance data | Mandatory performance disclosures — gross vs net, time period, benchmark, material conditions | Adjacent |
 | FA-D3 | Testimonial / endorsement | Material connection disclosure; whether cash or non-cash compensation paid; whether the endorser is a client | Adjacent (per 17 CFR Â§ 275.206(4)-1(b)) |
 | FA-D4 | Past performance | "Past performance is not indicative of future results." | Adjacent |
-| FA-D5 | Hypothetical performance | Specific disclosures per the Marketing Rule â€” only to a sophisticated audience | Adjacent + audience gate |
+| FA-D5 | Hypothetical performance | Specific disclosures per the Marketing Rule — only to a sophisticated audience | Adjacent + audience gate |
 
 ### FINRA Rule 2210 (Communications with the Public)
 
@@ -778,9 +778,9 @@ If the firm is BD-registered:
 
 ---
 
-## B12 â€” Tax Relief / Debt Relief
+## B12 — Tax Relief / Debt Relief
 
-**Pack ID:** `tax-debt-relief-v1.0` Â· **Counsel review status:** PENDING â€” **FTC ENFORCEMENT PRIORITY**
+**Pack ID:** `tax-debt-relief-v1.0` Â· **Counsel review status:** PENDING — **FTC ENFORCEMENT PRIORITY**
 
 ### Prohibited claims
 
@@ -824,7 +824,7 @@ For non-tax debt relief (credit card, consumer debt):
 
 ---
 
-## B13 â€” Real Estate
+## B13 — Real Estate
 
 **Pack ID:** `real-estate-v1.0`
 
@@ -871,7 +871,7 @@ Protected classes: race, color, national origin, religion, sex (including sexual
 
 ---
 
-## B14 â€” Recruiting / Staffing
+## B14 — Recruiting / Staffing
 
 **Pack ID:** `recruiting-staffing-v1.0`
 
@@ -908,19 +908,19 @@ Compliance Agent auto-blocks job postings targeting these states if `kb.role.sal
 ### Required information
 
 - `kb.role.salary_range` (when targeting transparency-required states)
-- `kb.agency.state_license` (per state, some require employment-agency licensing â€” e.g., New York, Illinois)
+- `kb.agency.state_license` (per state, some require employment-agency licensing — e.g., New York, Illinois)
 
 ### Human review triggers
 
 - Independent contractor classification claims (DOL/state misclassification rules)
 - H-1B / visa sponsorship references
-- "Background check required" â€” FCRA compliance check
+- "Background check required" — FCRA compliance check
 
 ---
 
-## B15 â€” Education / Course Creators
+## B15 — Education / Course Creators
 
-**Pack ID:** `education-courses-v1.0` Â· **Counsel review status:** PENDING â€” **FTC ENFORCEMENT PRIORITY**
+**Pack ID:** `education-courses-v1.0` Â· **Counsel review status:** PENDING — **FTC ENFORCEMENT PRIORITY**
 
 ### Prohibited claims
 
@@ -937,7 +937,7 @@ Compliance Agent auto-blocks job postings targeting these states if `kb.role.sal
 
 If the course is structured as a business opportunity (sells the right to start a business + makes earnings claims + requires a payment), specific disclosures are required including a Disclosure Document.
 
-**[ATTY-REVIEW]** â€” Determining whether a course is a "business opportunity" under the Rule requires legal analysis. Compliance Agent flags candidates for review.
+**[ATTY-REVIEW]** — Determining whether a course is a "business opportunity" under the Rule requires legal analysis. Compliance Agent flags candidates for review.
 
 ### Income claims (FTC interpretation)
 
@@ -956,8 +956,8 @@ Per FTC, any earnings claim requires:
 
 ### State overlays
 
-- **California (BPPE â€” Bureau for Private Postsecondary Education):** Unaccredited schools must register; specific disclosures
-- **Florida (CIE â€” Commission for Independent Education):** Disclosures and registration
+- **California (BPPE — Bureau for Private Postsecondary Education):** Unaccredited schools must register; specific disclosures
+- **Florida (CIE — Commission for Independent Education):** Disclosures and registration
 - **New York (BPSS):** Licensing for vocational schools
 
 ### Human review triggers
@@ -969,7 +969,7 @@ Per FTC, any earnings claim requires:
 
 ---
 
-## B16 â€” Supplements / Health Products
+## B16 — Supplements / Health Products
 
 **Pack ID:** `supplements-v1.0` Â· **HIGH FDA + FTC SCRUTINY**
 
@@ -1005,7 +1005,7 @@ Substantiation standard for health claims is "competent and reliable scientific 
 
 ### Human review triggers
 
-- Cannabinoid (CBD, CBG, etc.) products â€” FDA + DEA + state laws are extremely complex
+- Cannabinoid (CBD, CBG, etc.) products — FDA + DEA + state laws are extremely complex
 - Weight loss supplements (overlaps B2)
 - Sexual enhancement supplements (FDA tainted-products list scrutiny)
 - Children's supplements
@@ -1014,7 +1014,7 @@ Substantiation standard for health claims is "competent and reliable scientific 
 
 ---
 
-# PART C â€” Compliance Agent Implementation
+# PART C — Compliance Agent Implementation
 
 ## C.1 Architecture
 
@@ -1054,7 +1054,7 @@ Per generation, the orchestrator (Doc 19 Â§3.4) selects the appropriate vertic
 
 Effective rule set = merge with state overlays winning over vertical winning over cross-cutting where rules conflict (most-specific wins). Disclosures accumulate (union) rather than override.
 
-## C.3 Pass 1 â€” Regex matchers
+## C.3 Pass 1 — Regex matchers
 
 Fast, deterministic. Run against the rendered HTML of every page and against every block's source content. For each `prohibited_patterns[*].pattern` match:
 - Record location (page + selector + character offset)
@@ -1063,7 +1063,7 @@ Fast, deterministic. Run against the rendered HTML of every page and against eve
 
 Latency budget: < 200 ms per page.
 
-## C.4 Pass 2 â€” Structural validators
+## C.4 Pass 2 — Structural validators
 
 For rules that require structural checks (form fields, image metadata, link presence):
 - Form field detector â†’ cross-reference with PHI patterns (A10)
@@ -1071,7 +1071,7 @@ For rules that require structural checks (form fields, image metadata, link pres
 - Footer/header validators â†’ required disclosure presence (D-series rules)
 - Trigger-term proximity validator â†’ Reg Z (B10)
 
-## C.5 Pass 3 â€” LLM contextual review
+## C.5 Pass 3 — LLM contextual review
 
 For each `human_review_triggers[*]` and for rules with `severity: REVIEW`, invoke an LLM call with:
 - The exact content snippet
@@ -1079,7 +1079,7 @@ For each `human_review_triggers[*]` and for rules with `severity: REVIEW`, invok
 - The funnel's KB context
 - A structured prompt asking: does this violate the rule? Confidence? Suggested fix?
 
-Model: `claude-opus-4-7` (per Doc 19 model assignments â€” accuracy-critical task).
+Model: `claude-opus-4-7` (per Doc 19 model assignments — accuracy-critical task).
 
 Output schema:
 ```json
@@ -1093,7 +1093,7 @@ Output schema:
 }
 ```
 
-## C.6 Pass 4 â€” Decision engine
+## C.6 Pass 4 — Decision engine
 
 ```python
 def decide(findings):
@@ -1112,7 +1112,7 @@ For HARD_BLOCK on a removable claim, attempt **rewrite without prohibited claim*
 - Inputs: original content, rule ID, rule rationale, prohibited pattern, the matched text
 - Constraints: preserve meaning where possible, preserve conversion intent, do not introduce new claims
 - Output: rewritten content
-- Verification: re-run Pass 1â€“3 on the rewrite
+- Verification: re-run Pass 1–3 on the rewrite
 - Max attempts: 2; on third failure, route to human review queue
 
 For SOFT_FLAG (e.g., missing disclosure), the auto-fix is deterministic insertion of the disclosure template at the required placement.
@@ -1152,11 +1152,11 @@ Every compliance check writes an immutable audit log to `s3://funnel-ai-complian
 
 Contents: full findings, rule pack versions, model versions, content snapshots before/after auto-fix, decision rationale, human reviewer identity (if applicable).
 
-This log is the evidence trail FunelAI relies on if challenged by a regulator or in litigation.
+This log is the evidence trail GoFunnelAI relies on if challenged by a regulator or in litigation.
 
 ---
 
-# PART D â€” Quarterly Update Process
+# PART D — Quarterly Update Process
 
 ## D.1 Monitoring (continuous)
 
@@ -1183,7 +1183,7 @@ Output: a `compliance-update-candidates.md` document maintained by the watcher; 
 - Triage into:
   - **Urgent** (regulatory change effective in <30 days): escalate to counsel within 5 business days
   - **Routine**: batch for quarterly review
-- Re-validate **existing published funnels** against current rule packs (regression check); any new violations surface in customer's FunelAI dashboard as a soft warning with one-click "regenerate to fix"
+- Re-validate **existing published funnels** against current rule packs (regression check); any new violations surface in customer's GoFunnelAI dashboard as a soft warning with one-click "regenerate to fix"
 
 ## D.3 Quarterly cycle
 
@@ -1201,7 +1201,7 @@ Cadence: end of each calendar quarter.
 ## D.4 Versioning
 
 Every rule pack uses semver:
-- **MAJOR**: Structural change (new severity codes, schema change) â€” requires re-test of consuming agents
+- **MAJOR**: Structural change (new severity codes, schema change) — requires re-test of consuming agents
 - **MINOR**: New rules, new disclosures
 - **PATCH**: Rule text updates, regex refinements, citation corrections
 
@@ -1212,11 +1212,11 @@ Every pack carries a `changelog` field listing all changes since the prior major
 When a published funnel violates a newly-updated rule:
 - Yellow banner on customer dashboard: "Compliance update: One element of your funnel may need updating per recent [FTC/state] guidance."
 - One-click "Regenerate" applies the new rule's auto-fix
-- Critical (HARD_BLOCK-tier) violations on already-published funnels: email notification + 7-day grace period before forced takedown of the offending element (per Doc 05a Â§X â€” needs cross-reference confirmed with Legal/Eng)
+- Critical (HARD_BLOCK-tier) violations on already-published funnels: email notification + 7-day grace period before forced takedown of the offending element (per Doc 05a Â§X — needs cross-reference confirmed with Legal/Eng)
 
 ---
 
-# Appendix A â€” Regex Pattern Library
+# Appendix A — Regex Pattern Library
 
 (Selected reusable patterns; see `compliance/patterns/` in repo for canonical source. All patterns are case-insensitive, Unicode-aware.)
 
@@ -1236,52 +1236,52 @@ ATTORNEY_RESULT = \b\$?[\d,]+(?:\.\d{2})?\s*(million|m|thousand|k)\s+(settlement
 
 ---
 
-# Appendix B â€” Disclosure Text Templates
+# Appendix B — Disclosure Text Templates
 
 Stored as Jinja2 templates in `compliance/disclosures/`.
 
-**B-1 â€” Generic typical-results (FTC Â§255):**
+**B-1 — Generic typical-results (FTC Â§255):**
 > Individual results vary. Testimonials reflect the experiences of {{individual|"the customer"}} and are not a guarantee of results. Your results may differ based on {{factors}}.
 
-**B-2 â€” TCPA consent (default):**
+**B-2 — TCPA consent (default):**
 > By providing my phone number, I expressly consent to receive marketing calls and text messages from {{brand}} and its affiliates at the number provided, including via auto-dialer or pre-recorded message. Consent is not a condition of purchase. Msg & data rates may apply. Reply STOP to opt out, HELP for help.
 
-**B-2-FL â€” TCPA consent (Florida FTSA stricter):**
+**B-2-FL — TCPA consent (Florida FTSA stricter):**
 > By providing my phone number and clicking [submit], I expressly authorize {{brand}} (and not its affiliates) to contact me at the number provided using automated systems for telephone solicitations and text messages, even if the number is on a Do-Not-Call list. Consent is not a condition of purchase. Msg & data rates may apply. Reply STOP to opt out.
 
-**B-3 â€” Attorney advertising:**
+**B-3 — Attorney advertising:**
 > Attorney advertising. {{firm_name}}, {{firm_address}}. Responsible attorney: {{responsible_attorney}}, {{bar_number}}, licensed in {{states}}. Past results do not guarantee future outcomes. Every case depends on its own facts.
 
-**B-4 â€” Health-claim DSHEA:**
+**B-4 — Health-claim DSHEA:**
 > These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.
 
-**B-5 â€” Mortgage NMLS:**
+**B-5 — Mortgage NMLS:**
 > {{lender_name}}, NMLS #{{nmls_id}}. Equal Housing Lender. All loans subject to credit approval. Rates and terms subject to change without notice.
 
-**B-6 â€” SEC Marketing Rule:**
+**B-6 — SEC Marketing Rule:**
 > {{firm_name}} is a registered investment adviser. Registration does not imply a certain level of skill or training. Past performance does not guarantee future results.
 
-**B-7 â€” Bankruptcy BAPCPA:**
+**B-7 — Bankruptcy BAPCPA:**
 > We are a debt relief agency. We help people file for bankruptcy relief under the Bankruptcy Code.
 
-**B-8 â€” Real Estate EHO:**
+**B-8 — Real Estate EHO:**
 > {{agent_name}}, {{license_number}}, {{brokerage_name}}, {{brokerage_license}}. Equal Housing Opportunity.
 
-**B-9 â€” AI content disclosure (EU + best-practice US):**
-> This page includes content generated with the assistance of artificial intelligence. {{brand}} reviewed and approved all content before publication. Made with FunelAI.
+**B-9 — AI content disclosure (EU + best-practice US):**
+> This page includes content generated with the assistance of artificial intelligence. {{brand}} reviewed and approved all content before publication. Made with GoFunnelAI.
 
-**B-10 â€” Weight-loss FTC:**
+**B-10 — Weight-loss FTC:**
 > Results are not typical. In a study of {{n}} participants, the average result was {{outcome}}. Individual results depend on factors including adherence, diet, exercise, and individual physiology.
 
-**B-11 â€” Course earnings:**
+**B-11 — Course earnings:**
 > Earnings results are not typical. The students featured invested significant time and effort. Most students who purchase courses do not implement them. Your results will depend on factors including effort, prior experience, market conditions, and other variables outside our control.
 
-**B-12 â€” Cosmetic surgery risk:**
+**B-12 — Cosmetic surgery risk:**
 > Cosmetic surgery involves risks, including infection, scarring, anesthesia complications, and unsatisfactory results. Discuss risks and benefits with a qualified surgeon. Results vary by individual.
 
 ---
 
-# Appendix C â€” Severity Codes (Canonical)
+# Appendix C — Severity Codes (Canonical)
 
 ```python
 class Severity(str, Enum):
@@ -1293,39 +1293,39 @@ class Severity(str, Enum):
 
 ---
 
-# Appendix D â€” Open Questions for Counsel
+# Appendix D — Open Questions for Counsel
 
 These items are flagged `[ATTY-REVIEW]` throughout and consolidated here:
 
-1. **TCPA one-to-one consent** â€” Post-IMC v. FCC (11th Cir. Jan 2025), what is the current safe-harbor consent template per state? Should we adopt the stricter FTSA-style consent as default for all US? (Rule A5)
+1. **TCPA one-to-one consent** — Post-IMC v. FCC (11th Cir. Jan 2025), what is the current safe-harbor consent template per state? Should we adopt the stricter FTSA-style consent as default for all US? (Rule A5)
 
-2. **HHS OCR tracking-technology guidance** â€” Post-AHA v. Becerra (June 2024), what is the current scope of "third-party tracking" prohibition for healthcare advertising? (Rule A10)
+2. **HHS OCR tracking-technology guidance** — Post-AHA v. Becerra (June 2024), what is the current scope of "third-party tracking" prohibition for healthcare advertising? (Rule A10)
 
-3. **EU AI Act Article 50** â€” What is the precise scope of "deceptively similar" requiring disclosure, and what specific disclosure language is recommended for EU-targeted funnels? (Rule A9)
+3. **EU AI Act Article 50** — What is the precise scope of "deceptively similar" requiring disclosure, and what specific disclosure language is recommended for EU-targeted funnels? (Rule A9)
 
-4. **COPPA reform (2024 NPRM)** â€” Will the rule change apply to 13â€“17? Timing? (Rule A7)
+4. **COPPA reform (2024 NPRM)** — Will the rule change apply to 13–17? Timing? (Rule A7)
 
-5. **Course "business opportunity" classification (16 CFR 437)** â€” When does a course cross into business opportunity territory requiring the Disclosure Document? (B15)
+5. **Course "business opportunity" classification (16 CFR 437)** — When does a course cross into business opportunity territory requiring the Disclosure Document? (B15)
 
-6. **Compounded GLP-1 state laws** â€” Current state of LA, MS, TX restrictions and ongoing legislation. (B2)
+6. **Compounded GLP-1 state laws** — Current state of LA, MS, TX restrictions and ongoing legislation. (B2)
 
-7. **CMS Medicare marketing rules** â€” Should B9 split into B9a (Medicare) given the separate regulatory regime under 42 CFR Part 422?
+7. **CMS Medicare marketing rules** — Should B9 split into B9a (Medicare) given the separate regulatory regime under 42 CFR Part 422?
 
-8. **Medical device "FDA cleared" vs "FDA approved"** â€” Best safe-harbor language for 510(k)-cleared devices in advertising. (B1)
+8. **Medical device "FDA cleared" vs "FDA approved"** — Best safe-harbor language for 510(k)-cleared devices in advertising. (B1)
 
-9. **State attorney advertising filing requirements** â€” Which states require pre-publication filing (NJ, FL for certain ads, others) and should the Compliance Agent prevent publication pending filing? (B5)
+9. **State attorney advertising filing requirements** — Which states require pre-publication filing (NJ, FL for certain ads, others) and should the Compliance Agent prevent publication pending filing? (B5)
 
-10. **"Made with FunelAI" footer** â€” Is this footer alone sufficient to satisfy emerging state AI disclosure laws (CA AB 2013, CO SB 24-205, Utah AI Policy Act), or do we need to enumerate per-state disclosure variants? (A9)
+10. **"Made with GoFunnelAI" footer** — Is this footer alone sufficient to satisfy emerging state AI disclosure laws (CA AB 2013, CO SB 24-205, Utah AI Policy Act), or do we need to enumerate per-state disclosure variants? (A9)
 
-11. **Fair Housing "steering" via imagery selection** â€” Can we be liable for image-selection patterns the AI generates? What's the engineering control? (B13)
+11. **Fair Housing "steering" via imagery selection** — Can we be liable for image-selection patterns the AI generates? What's the engineering control? (B13)
 
-12. **Prop 65 ingredient mapping** â€” Maintaining the Prop 65 chemical list and ingredient-to-warning mapping is a substantial undertaking. Build vs license? (B16)
+12. **Prop 65 ingredient mapping** — Maintaining the Prop 65 chemical list and ingredient-to-warning mapping is a substantial undertaking. Build vs license? (B16)
 
-13. **State unaccredited-school disclosure language** â€” Confirm canonical language for CA BPPE, FL CIE, NY BPSS. (B15)
+13. **State unaccredited-school disclosure language** — Confirm canonical language for CA BPPE, FL CIE, NY BPSS. (B15)
 
-14. **Loop-back to Doc 05e (Publish Acknowledgment)** â€” Is the customer's contractual acknowledgment that they are the publisher of record sufficient to shift FTC liability? (Cross-cutting)
+14. **Loop-back to Doc 05e (Publish Acknowledgment)** — Is the customer's contractual acknowledgment that they are the publisher of record sufficient to shift FTC liability? (Cross-cutting)
 
-15. **Retention period for compliance audit logs** â€” 7 years assumed; confirm against FTC and state retention norms per industry. (C.10)
+15. **Retention period for compliance audit logs** — 7 years assumed; confirm against FTC and state retention norms per industry. (C.10)
 
 ---
 
@@ -1335,13 +1335,13 @@ These items are flagged `[ATTY-REVIEW]` throughout and consolidated here:
 - v1.0 (2026-05-25): Initial draft. Engineering authorship. **PENDING COUNSEL REVIEW.**
 
 **Approval matrix (required before production deployment):**
-- [ ] VP Engineering â€” Eng review (regex correctness, agent integration)
-- [ ] General Counsel â€” Legal sufficiency
-- [ ] Outside Counsel (per vertical, where required) â€” Substantive accuracy
-- [ ] CEO â€” Risk acceptance
+- [ ] VP Engineering — Eng review (regex correctness, agent integration)
+- [ ] General Counsel — Legal sufficiency
+- [ ] Outside Counsel (per vertical, where required) — Substantive accuracy
+- [ ] CEO — Risk acceptance
 
 **Next milestone:** Outside counsel review of Part B verticals 1, 2, 5, 9, 10, 11, 12, 15, 16 (HIGH RISK categories) within 30 days of v1 distribution.
 
 ---
 
-*END OF DOCUMENT â€” Doc 21, v1.0 (pending counsel review)*
+*END OF DOCUMENT — Doc 21, v1.0 (pending counsel review)*

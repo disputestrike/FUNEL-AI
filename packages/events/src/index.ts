@@ -375,7 +375,7 @@ export const EventSchemas = {
 export type EventName = keyof typeof EventSchemas;
 export type EventPayload<N extends EventName> = z.infer<(typeof EventSchemas)[N]>;
 
-/** Pluggable sink â€” defaults to console; production wires PostHog + Analytics Engine. */
+/** Pluggable sink — defaults to console; production wires PostHog + Analytics Engine. */
 export type EventSink = (eventName: EventName, payload: unknown, ts: number) => void | Promise<void>;
 
 const defaultSink: EventSink = (eventName, payload, ts) => {
@@ -390,7 +390,7 @@ export function setEventSink(sink: EventSink): void {
 }
 
 /**
- * Emit a validated, typed event. Throws if payload fails schema validation â€”
+ * Emit a validated, typed event. Throws if payload fails schema validation —
  * we want loud failures in dev, not silently dropped telemetry.
  */
 export async function emit<N extends EventName>(name: N, payload: EventPayload<N>): Promise<void> {

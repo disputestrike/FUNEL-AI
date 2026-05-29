@@ -148,9 +148,9 @@ export class BreachNotificationService {
     return record;
   }
 
-  /** Slack / pagerduty / leadership chain â€” fire on open. */
+  /** Slack / pagerduty / leadership chain — fire on open. */
   async escalateInternal(record: BreachRecord, _additionalEmails: string[] = []): Promise<void> {
-    const subject = `[BREACH] ${record.severity.toUpperCase()} â€” ${record.kind} â€” ${record.id}`;
+    const subject = `[BREACH] ${record.severity.toUpperCase()} — ${record.kind} — ${record.id}`;
     const body = [
       `Severity: ${record.severity}`,
       `Kind: ${record.kind}`,
@@ -170,12 +170,12 @@ export class BreachNotificationService {
   /** Render the standard 72-hour notice template. */
   draftRegulatorNotice(record: BreachRecord, authority: string): string {
     return [
-      `Subject: GDPR Article 33 / equivalent â€” Personal Data Breach Notification`,
+      `Subject: GDPR Article 33 / equivalent — Personal Data Breach Notification`,
       ``,
       `1. Controller: GoFunnelAI, Inc. (DPO: dpo@gofunnelai.com)`,
       `2. Date of awareness: ${record.awareSinceAt}`,
       `3. Date of this notification: ${new Date().toISOString()}`,
-      `4. Nature of the breach: ${record.kind} â€” ${record.summary}`,
+      `4. Nature of the breach: ${record.kind} — ${record.summary}`,
       `5. Categories of data subjects affected: end users / customers / leads (P1/P2 PII).`,
       `6. Approximate number of data subjects affected: ${record.affectedSubjectCount}`,
       `7. Categories of personal data affected: ${record.affectedDataCategories.join(", ")}`,
@@ -198,7 +198,7 @@ export class BreachNotificationService {
       const body = this.draftRegulatorNotice(record, reg.authority);
       await this.transport.sendEmail({
         to: reg.contactEmail,
-        subject: `GDPR Art. 33 Notification â€” Breach ${record.id}`,
+        subject: `GDPR Art. 33 Notification — Breach ${record.id}`,
         body,
         cc: ["dpo@gofunnelai.com", "legal@gofunnelai.com"],
       });

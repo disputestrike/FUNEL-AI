@@ -1,7 +1,7 @@
 /**
  * Server-side GoFunnelAI SDK factory.
  *
- * The Shopify session token doesn't grant GoFunnelAI access â€” we exchange the
+ * The Shopify session token doesn't grant GoFunnelAI access — we exchange the
  * shop domain for a GoFunnelAI workspace token at app install. The token is
  * stored on the FunnelLink row keyed by shop. This helper looks up the link
  * for a given shop and returns an SDK instance bound to it.

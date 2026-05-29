@@ -1,24 +1,24 @@
 # @funnel/mobile
 
-GoFunnelAI iOS + Android â€” monitor leads, respond fast, run RevTry follow-ups,
+GoFunnelAI iOS + Android — monitor leads, respond fast, run RevTry follow-ups,
 and voice-edit funnels on the go.
 
-This app is **not** for building funnels from scratch â€” that workflow stays
+This app is **not** for building funnels from scratch — that workflow stays
 on desktop and voice. Mobile is for the moments when a lead just came in and
 you have three minutes between meetings.
 
 ## Stack
 
 - **Expo SDK 51** + **React Native 0.74** + **TypeScript**
-- **Expo Router** â€” file-based routing in `app/`
-- **NativeWind** â€” Tailwind for React Native, tokens mirror doc 22
-- **React Query** â€” server state, caching, optimistic updates
-- **Zustand** â€” auth + lightweight client state
-- **react-native-mmkv** â€” fast (synchronous) offline cache
-- **expo-notifications** â€” push (Expo push tokens, custom sounds, channels)
-- **expo-haptics** â€” tactile feedback on real moments only
-- **expo-local-authentication** â€” Face ID / Touch ID unlock
-- **expo-av** â€” voice command recording
+- **Expo Router** — file-based routing in `app/`
+- **NativeWind** — Tailwind for React Native, tokens mirror doc 22
+- **React Query** — server state, caching, optimistic updates
+- **Zustand** — auth + lightweight client state
+- **react-native-mmkv** — fast (synchronous) offline cache
+- **expo-notifications** — push (Expo push tokens, custom sounds, channels)
+- **expo-haptics** — tactile feedback on real moments only
+- **expo-local-authentication** — Face ID / Touch ID unlock
+- **expo-av** — voice command recording
 
 ## Running locally
 
@@ -116,7 +116,7 @@ applied change.
 
 ## Widgets
 
-See `widgets/README.md`. Three widgets total â€” Today's leads, Active
+See `widgets/README.md`. Three widgets total — Today's leads, Active
 campaigns, Conversion ticker. iOS uses WidgetKit (Swift), Android uses
 Glance (Kotlin). Both read from a shared snapshot the main app hydrates
 on foreground.

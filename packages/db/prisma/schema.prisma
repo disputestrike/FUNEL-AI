@@ -144,31 +144,60 @@ enum BookingStatus {
   @@map("booking_status")
 }
 
+enum PublishedFunnelStatus {
+  active
+  paused
+  archived
+
+  @@map("published_funnel_status")
+}
+
+enum CustomDomainStatus {
+  pending
+  verifying
+  verified
+  active
+  failed
+  removed
+
+  @@map("custom_domain_status")
+}
+
+enum SslStatus {
+  pending_validation
+  active
+  failed
+  unknown
+
+  @@map("ssl_status")
+}
+
 // =====================================================================
 // IDENTITY
 // =====================================================================
 
 model User {
-  id                String     @id
-  email             String     @db.Citext
-  emailNormalized   String?    @map("email_normalized") @db.Citext
-  emailVerifiedAt   DateTime?  @map("email_verified_at") @db.Timestamptz(6)
-  fullName          String?    @map("full_name")
-  avatarUrl         String?    @map("avatar_url")
-  locale            String     @default("en-US")
-  timezone          String     @default("UTC")
-  passwordHash      String?    @map("password_hash")
-  passwordChangedAt DateTime?  @map("password_changed_at") @db.Timestamptz(6)
-  mfaEnrolled       Boolean    @default(false) @map("mfa_enrolled")
-  mfaFactors        Json       @default("[]") @map("mfa_factors") @db.JsonB
-  lastLoginAt       DateTime?  @map("last_login_at") @db.Timestamptz(6)
-  lastLoginIpHash   String?    @map("last_login_ip_hash")
-  status            UserStatus @default(active)
-  isInternal        Boolean    @default(false) @map("is_internal")
-  deactivatedAt     DateTime?  @map("deactivated_at") @db.Timestamptz(6)
-  createdAt         DateTime   @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt         DateTime   @default(now()) @map("updated_at") @db.Timestamptz(6)
-  deletedAt         DateTime?  @map("deleted_at") @db.Timestamptz(6)
+  id              String     @id @default(dbgenerated("'usr_' || encode(gen_random_bytes(13), 'hex')"))
+  // NextAuth / @auth/prisma-adapter canonical columns ----------------------
+  name            String?
+  email           String     @unique @db.Citext
+  emailVerified   DateTime?  @map("email_verified") @db.Timestamptz(6)
+  image           String?
+  // Legacy / GoFunnel-specific extras ------------------------------------
+  emailNormalized String?    @map("email_normalized") @db.Citext
+  locale          String     @default("en-US")
+  timezone        String     @default("UTC")
+  lastLoginAt     DateTime?  @map("last_login_at") @db.Timestamptz(6)
+  lastLoginIpHash String?    @map("last_login_ip_hash")
+  status          UserStatus @default(active)
+  isInternal      Boolean    @default(false) @map("is_internal")
+  deactivatedAt   DateTime?  @map("deactivated_at") @db.Timestamptz(6)
+  createdAt       DateTime   @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt       DateTime   @default(now()) @map("updated_at") @db.Timestamptz(6)
+  deletedAt       DateTime?  @map("deleted_at") @db.Timestamptz(6)
+
+  accounts Account[]
+  sessions AuthSession[]
 
   ownedWorkspaces          Workspace[]             @relation("WorkspaceOwner")
   memberships              WorkspaceMember[]       @relation("WorkspaceMemberUser")
@@ -191,10 +220,60 @@ model User {
   initiatedRefunds         Refund[]                @relation("RefundInitiator")
   auditActions             AuditLog[]              @relation("AuditActor")
   auditImpersonations      AuditLog[]              @relation("AuditImpersonator")
+  publishedFunnels         PublishedFunnel[]       @relation("PublishedFunnelPublisher")
+  createdShortLinks        ShortLink[]             @relation("ShortLinkCreator")
 
-  @@unique([emailNormalized], map: "users_email_unique")
+  @@unique([emailNormalized], map: "users_email_norm_unique")
   @@index([lastLoginAt(sort: Desc)], map: "users_last_login_idx")
   @@map("users")
+}
+
+// =====================================================================
+// AUTH.JS / NEXT-AUTH adapter tables
+// Standard schema from @auth/prisma-adapter — DO NOT rename columns.
+// =====================================================================
+
+model Account {
+  id                String  @id @default(dbgenerated("'act_' || encode(gen_random_bytes(13), 'hex')"))
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId], map: "accounts_user_idx")
+  @@map("accounts")
+}
+
+model AuthSession {
+  id           String   @id @default(dbgenerated("'ass_' || encode(gen_random_bytes(13), 'hex')"))
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime @db.Timestamptz(6)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId], map: "auth_sessions_user_idx")
+  @@map("auth_sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime @db.Timestamptz(6)
+
+  @@id([identifier, token])
+  @@unique([token])
+  @@map("verification_tokens")
 }
 
 // =====================================================================
@@ -220,27 +299,30 @@ model Workspace {
   updatedAt         DateTime        @default(now()) @map("updated_at") @db.Timestamptz(6)
   deletedAt         DateTime?       @map("deleted_at") @db.Timestamptz(6)
 
-  owner          User                    @relation("WorkspaceOwner", fields: [ownerUserId], references: [id], onDelete: Restrict)
-  members        WorkspaceMember[]
-  funnels        Funnel[]
-  funnelVersions FunnelVersion[]
-  crmContacts    CrmContact[]
-  leads          Lead[]
-  bookings       Booking[]
-  subscriptions  Subscription[]
-  invoices       Invoice[]
-  payments       Payment[]
-  refunds        Refund[]
-  apiKeys        ApiKey[]
-  webhooks       Webhook[]
-  assets         Asset[]
-  assetVersions  AssetVersion[]
-  integrations   IntegrationConnection[]
-  revtryCalls    RevTryCall[]
-  adCampaigns    AdCampaign[]
-  emailSequences EmailSequence[]
-  smsSequences   SmsSequence[]
-  leadMagnets    LeadMagnet[]
+  owner            User                    @relation("WorkspaceOwner", fields: [ownerUserId], references: [id], onDelete: Restrict)
+  members          WorkspaceMember[]
+  funnels          Funnel[]
+  funnelVersions   FunnelVersion[]
+  crmContacts      CrmContact[]
+  leads            Lead[]
+  bookings         Booking[]
+  subscriptions    Subscription[]
+  invoices         Invoice[]
+  payments         Payment[]
+  refunds          Refund[]
+  apiKeys          ApiKey[]
+  webhooks         Webhook[]
+  assets           Asset[]
+  assetVersions    AssetVersion[]
+  integrations     IntegrationConnection[]
+  revtryCalls      RevTryCall[]
+  adCampaigns      AdCampaign[]
+  emailSequences   EmailSequence[]
+  smsSequences     SmsSequence[]
+  leadMagnets      LeadMagnet[]
+  publishedFunnels PublishedFunnel[]
+  shortLinks       ShortLink[]
+  customDomains    CustomDomain[]
 
   @@unique([slug], map: "workspaces_slug_unique")
   @@index([ownerUserId], map: "workspaces_owner_idx")
@@ -294,17 +376,20 @@ model Funnel {
   archivedAt       DateTime?    @map("archived_at") @db.Timestamptz(6)
   deletedAt        DateTime?    @map("deleted_at") @db.Timestamptz(6)
 
-  workspace      Workspace       @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-  creator        User            @relation("FunnelCreator", fields: [createdBy], references: [id], onDelete: Restrict)
-  versions       FunnelVersion[] @relation("FunnelVersions")
-  currentVersion FunnelVersion?  @relation("FunnelCurrentVersion", fields: [currentVersionId], references: [id], onDelete: SetNull)
-  leads          Lead[]
-  bookings       Booking[]
-  assets         Asset[]
-  adCampaigns    AdCampaign[]
-  emailSequences EmailSequence[]
-  smsSequences   SmsSequence[]
-  leadMagnets    LeadMagnet[]
+  workspace            Workspace         @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  creator              User              @relation("FunnelCreator", fields: [createdBy], references: [id], onDelete: Restrict)
+  versions             FunnelVersion[]   @relation("FunnelVersions")
+  currentVersion       FunnelVersion?    @relation("FunnelCurrentVersion", fields: [currentVersionId], references: [id], onDelete: SetNull)
+  leads                Lead[]
+  bookings             Booking[]
+  assets               Asset[]
+  adCampaigns          AdCampaign[]
+  emailSequences       EmailSequence[]
+  smsSequences         SmsSequence[]
+  leadMagnets          LeadMagnet[]
+  publishedFunnels     PublishedFunnel[]
+  shortLinks           ShortLink[]
+  customDomainsDefault CustomDomain[]    @relation("CustomDomainDefaultFunnel")
 
   @@unique([workspaceId, slug], map: "funnels_workspace_slug_unique")
   @@index([workspaceId, status], map: "funnels_workspace_status_idx")
@@ -334,13 +419,14 @@ model FunnelVersion {
   embedding       Unsupported("vector(1536)")?
   createdAt       DateTime                     @default(now()) @map("created_at") @db.Timestamptz(6)
 
-  workspace       Workspace       @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-  funnel          Funnel          @relation("FunnelVersions", fields: [funnelId], references: [id], onDelete: Cascade)
-  parent          FunnelVersion?  @relation("FunnelVersionParent", fields: [parentVersionId], references: [id], onDelete: SetNull)
-  children        FunnelVersion[] @relation("FunnelVersionParent")
-  publisher       User?           @relation("FunnelVersionPublisher", fields: [publishedBy], references: [id], onDelete: SetNull)
-  currentOnFunnel Funnel[]        @relation("FunnelCurrentVersion")
-  leads           Lead[]
+  workspace        Workspace         @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  funnel           Funnel            @relation("FunnelVersions", fields: [funnelId], references: [id], onDelete: Cascade)
+  parent           FunnelVersion?    @relation("FunnelVersionParent", fields: [parentVersionId], references: [id], onDelete: SetNull)
+  children         FunnelVersion[]   @relation("FunnelVersionParent")
+  publisher        User?             @relation("FunnelVersionPublisher", fields: [publishedBy], references: [id], onDelete: SetNull)
+  currentOnFunnel  Funnel[]          @relation("FunnelCurrentVersion")
+  leads            Lead[]
+  publishedFunnels PublishedFunnel[]
 
   @@unique([funnelId, versionNumber], map: "fv_funnel_version_unique")
   @@index([workspaceId], map: "fv_workspace_idx")
@@ -1011,41 +1097,41 @@ enum GraderConfidence {
 }
 
 model Audit {
-  id              String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  url             String
-  urlHostname     String             @map("url_hostname")
+  id          String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  url         String
+  urlHostname String  @map("url_hostname")
   /// sha256 of normalized URL â€” used for 24h cache lookup.
-  urlHash         String             @map("url_hash")
-  requesterIp     String?            @map("requester_ip") @db.Inet
-  requesterUa     String?            @map("requester_ua")
+  urlHash     String  @map("url_hash")
+  requesterIp String? @map("requester_ip") @db.Inet
+  requesterUa String? @map("requester_ua")
 
-  status          GraderAuditStatus  @default(queued)
-  failureReason   String?            @map("failure_reason")
+  status        GraderAuditStatus @default(queued)
+  failureReason String?           @map("failure_reason")
 
-  scoreOverall    Int?               @map("score_overall")
-  scoreGrade      String?            @map("score_grade")
+  scoreOverall   Int?              @map("score_overall")
+  scoreGrade     String?           @map("score_grade")
   /// {hook:47, form:72, trust:55, speed:62, compliance:85}
-  subscores       Json?
-  critique        String?
+  subscores      Json?
+  critique       String?
   /// Array of Improvement objects (see @funnel/shared types).
-  improvements    Json?
+  improvements   Json?
   /// Per-agent run meta: {model, tokens, ms, ok, error}
-  agentRunsMeta   Json?              @map("agent_runs_meta")
-  confidence      GraderConfidence?
-  degradedAgents  String[]           @map("degraded_agents")
+  agentRunsMeta  Json?             @map("agent_runs_meta")
+  confidence     GraderConfidence?
+  degradedAgents String[]          @map("degraded_agents")
 
-  screenshotR2Key String?            @map("screenshot_r2_key")
-  pdfR2Key        String?            @map("pdf_r2_key")
-  previewR2Key    String?            @map("preview_r2_key")
-  ogR2Key         String?            @map("og_r2_key")
+  screenshotR2Key String? @map("screenshot_r2_key")
+  pdfR2Key        String? @map("pdf_r2_key")
+  previewR2Key    String? @map("preview_r2_key")
+  ogR2Key         String? @map("og_r2_key")
 
   /// LLM + render cost in cents (integer math).
-  costCents       Int?               @map("cost_cents")
+  costCents Int? @map("cost_cents")
 
-  isPublic        Boolean            @default(false) @map("is_public")
+  isPublic Boolean @default(false) @map("is_public")
 
-  createdAt       DateTime           @default(now()) @map("created_at") @db.Timestamptz(6)
-  completedAt     DateTime?          @map("completed_at") @db.Timestamptz(6)
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  completedAt DateTime? @map("completed_at") @db.Timestamptz(6)
 
   shareCode       ShareCode?
   emailCaptures   EmailCapture[]
@@ -1061,29 +1147,29 @@ model Audit {
 
 model ShareCode {
   /// 6-char base32 code (Crockford alphabet, lowercase).
-  code        String   @id
-  auditId     String   @unique @map("audit_id") @db.Uuid
-  audit       Audit    @relation(fields: [auditId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  viewCount   Int      @default(0) @map("view_count")
-  lastViewed  DateTime? @map("last_viewed") @db.Timestamptz(6)
+  code       String    @id
+  auditId    String    @unique @map("audit_id") @db.Uuid
+  audit      Audit     @relation(fields: [auditId], references: [id], onDelete: Cascade)
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  viewCount  Int       @default(0) @map("view_count")
+  lastViewed DateTime? @map("last_viewed") @db.Timestamptz(6)
 
   @@map("share_codes")
 }
 
 model EmailCapture {
-  id                String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  email             String   @db.Citext
-  auditId           String?  @map("audit_id") @db.Uuid
-  audit             Audit?   @relation(fields: [auditId], references: [id], onDelete: SetNull)
-  source            String
-  marketingConsent  Boolean  @default(false) @map("marketing_consent")
-  ip                String?  @db.Inet
-  ua                String?
-  utm               Json?    @db.JsonB
-  createdAt         DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  verifiedAt        DateTime? @map("verified_at") @db.Timestamptz(6)
-  unsubscribedAt    DateTime? @map("unsubscribed_at") @db.Timestamptz(6)
+  id               String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email            String    @db.Citext
+  auditId          String?   @map("audit_id") @db.Uuid
+  audit            Audit?    @relation(fields: [auditId], references: [id], onDelete: SetNull)
+  source           String
+  marketingConsent Boolean   @default(false) @map("marketing_consent")
+  ip               String?   @db.Inet
+  ua               String?
+  utm              Json?     @db.JsonB
+  createdAt        DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  verifiedAt       DateTime? @map("verified_at") @db.Timestamptz(6)
+  unsubscribedAt   DateTime? @map("unsubscribed_at") @db.Timestamptz(6)
 
   @@unique([email, source], map: "email_captures_email_source_unique")
   @@index([auditId], map: "email_captures_audit_idx")
@@ -1091,15 +1177,15 @@ model EmailCapture {
 }
 
 model Waitlist {
-  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  email           String   @unique @db.Citext
-  auditId         String?  @map("audit_id") @db.Uuid
-  audit           Audit?   @relation(fields: [auditId], references: [id], onDelete: SetNull)
-  position        Int?
-  referralCode    String?  @unique @map("referral_code")
-  referralsCount  Int      @default(0) @map("referrals_count")
-  invitedAt       DateTime? @map("invited_at") @db.Timestamptz(6)
-  createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  id             String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email          String    @unique @db.Citext
+  auditId        String?   @map("audit_id") @db.Uuid
+  audit          Audit?    @relation(fields: [auditId], references: [id], onDelete: SetNull)
+  position       Int?
+  referralCode   String?   @unique @map("referral_code")
+  referralsCount Int       @default(0) @map("referrals_count")
+  invitedAt      DateTime? @map("invited_at") @db.Timestamptz(6)
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
 
   @@map("waitlist")
 }
@@ -1141,12 +1227,567 @@ model AgentRun {
 }
 
 model CostGovernor {
-  day                DateTime @id @db.Date
-  spendCents         Int      @default(0) @map("spend_cents")
-  auditsCompleted    Int      @default(0) @map("audits_completed")
-  previewsGenerated  Int      @default(0) @map("previews_generated")
+  day               DateTime @id @db.Date
+  spendCents        Int      @default(0) @map("spend_cents")
+  auditsCompleted   Int      @default(0) @map("audits_completed")
+  previewsGenerated Int      @default(0) @map("previews_generated")
   /// 'normal' | 'degraded' | 'queue' | 'cutoff'
-  mode               String   @default("normal")
+  mode              String   @default("normal")
 
   @@map("cost_governor")
+}
+
+// =====================================================================
+// DEPLOYMENT — published funnels, short links, custom domains
+// =====================================================================
+
+/// Immutable per-publish snapshot. One row per (funnel_id, version) pair.
+/// The renderer reads from this table — NOT from funnels/funnel_versions —
+/// when serving the hot path, so unpublishing is one UPDATE away from
+/// taking a site offline without losing the snapshot.
+model PublishedFunnel {
+  id              String                @id @default(dbgenerated("'pub_' || encode(gen_random_bytes(12), 'hex')"))
+  workspaceId     String                @map("workspace_id")
+  funnelId        String                @map("funnel_id")
+  funnelVersionId String                @map("funnel_version_id")
+  /// The chosen subdomain label, e.g. 'solar-x9k' → solar-x9k.gofunnelai.com.
+  slug            String                @db.Citext
+  subdomainUrl    String                @map("subdomain_url")
+  /// Optional pretty CNAMEd hostname. NULL until activated by the
+  /// custom-domain workflow. Multiple PublishedFunnel rows can reference the
+  /// same CustomDomain over the lifetime of that domain.
+  customDomain    String?               @map("custom_domain")
+  status          PublishedFunnelStatus @default(active)
+  /// Immutable snapshot of the funnel JSON at publish time.
+  snapshot        Json                  @db.JsonB
+  version         Int                   @default(1)
+  publishedAt     DateTime              @default(now()) @map("published_at") @db.Timestamptz(6)
+  publishedBy     String?               @map("published_by")
+  pausedAt        DateTime?             @map("paused_at") @db.Timestamptz(6)
+  archivedAt      DateTime?             @map("archived_at") @db.Timestamptz(6)
+  createdAt       DateTime              @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt       DateTime              @default(now()) @map("updated_at") @db.Timestamptz(6)
+
+  workspace     Workspace     @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  funnel        Funnel        @relation(fields: [funnelId], references: [id], onDelete: Cascade)
+  funnelVersion FunnelVersion @relation(fields: [funnelVersionId], references: [id], onDelete: Restrict)
+  publisher     User?         @relation("PublishedFunnelPublisher", fields: [publishedBy], references: [id], onDelete: SetNull)
+  shortLinks    ShortLink[]
+
+  @@unique([slug], map: "published_funnels_slug_unique")
+  @@unique([funnelId, version], map: "published_funnels_funnel_version_unique")
+  @@index([workspaceId], map: "published_funnels_workspace_idx")
+  @@index([funnelId, status], map: "published_funnels_funnel_status_idx")
+  @@index([customDomain], map: "published_funnels_custom_domain_idx")
+  @@map("published_funnels")
+}
+
+/// gofnl.co/[6chars] → published funnel URL. Auto-generated on publish,
+/// vanity codes reserved for Growth+ tier.
+model ShortLink {
+  id            String    @id @default(dbgenerated("'sl_' || encode(gen_random_bytes(8), 'hex')"))
+  /// 6-character base32 code OR vanity slug (≤32 chars).
+  code          String    @db.Citext
+  targetUrl     String    @map("target_url")
+  funnelId      String?   @map("funnel_id")
+  publishedId   String?   @map("published_id")
+  workspaceId   String    @map("workspace_id")
+  vanity        Boolean   @default(false)
+  clickCount    BigInt    @default(0) @map("click_count")
+  lastClickedAt DateTime? @map("last_clicked_at") @db.Timestamptz(6)
+  createdBy     String?   @map("created_by")
+  createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  deletedAt     DateTime? @map("deleted_at") @db.Timestamptz(6)
+
+  workspace Workspace        @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  funnel    Funnel?          @relation(fields: [funnelId], references: [id], onDelete: SetNull)
+  published PublishedFunnel? @relation(fields: [publishedId], references: [id], onDelete: SetNull)
+  creator   User?            @relation("ShortLinkCreator", fields: [createdBy], references: [id], onDelete: SetNull)
+
+  @@unique([code], map: "short_links_code_unique")
+  @@index([workspaceId], map: "short_links_workspace_idx")
+  @@index([funnelId], map: "short_links_funnel_idx")
+  @@map("short_links")
+}
+
+/// Customer-CNAMEd hostnames. Cloudflare for SaaS owns the cert; we own
+/// the verification ledger + state machine. Workspace can have many
+/// (root + www, region-specific, etc).
+model CustomDomain {
+  id                   String             @id @default(dbgenerated("'cd_' || encode(gen_random_bytes(12), 'hex')"))
+  workspaceId          String             @map("workspace_id")
+  /// Lowercased, no scheme, no path. e.g. 'getfreequote.com'.
+  hostname             String             @db.Citext
+  status               CustomDomainStatus @default(pending)
+  /// Random TXT record value the customer copies into DNS for ownership proof.
+  verificationToken    String             @map("verification_token")
+  /// Cloudflare for SaaS custom-hostname id, set after the API call lands.
+  cloudflareHostnameId String?            @map("cloudflare_hostname_id")
+  sslStatus            SslStatus          @default(pending_validation) @map("ssl_status")
+  /// Optional pointer to the funnel this domain serves by default. If null,
+  /// the workspace must supply path-based routing.
+  defaultFunnelId      String?            @map("default_funnel_id")
+  lastCheckedAt        DateTime?          @map("last_checked_at") @db.Timestamptz(6)
+  verifiedAt           DateTime?          @map("verified_at") @db.Timestamptz(6)
+  activatedAt          DateTime?          @map("activated_at") @db.Timestamptz(6)
+  failureReason        String?            @map("failure_reason")
+  createdAt            DateTime           @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt            DateTime           @default(now()) @map("updated_at") @db.Timestamptz(6)
+  deletedAt            DateTime?          @map("deleted_at") @db.Timestamptz(6)
+
+  workspace     Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  defaultFunnel Funnel?   @relation("CustomDomainDefaultFunnel", fields: [defaultFunnelId], references: [id], onDelete: SetNull)
+
+  @@unique([hostname], map: "custom_domains_hostname_unique")
+  @@index([workspaceId], map: "custom_domains_workspace_idx")
+  @@index([status], map: "custom_domains_status_idx")
+  @@map("custom_domains")
+}
+
+// =====================================================================
+// LEVEL 2 LAUNCH CENTER (GoFunnelAI)
+//
+// One Campaign per launch. Children fan out into platforms, ads,
+// creative, video, audience, links, tracking, checklists, compliance,
+// exports, follow-ups, retargeting and a launch readiness score.
+// All children are workspace-scoped via the parent Campaign for RLS.
+// =====================================================================
+
+enum CampaignStatus {
+  draft
+  ready
+  launching
+  live
+  paused
+  archived
+
+  @@map("campaign_status")
+}
+
+enum CampaignPlatformKind {
+  meta
+  google
+  tiktok
+  linkedin
+  youtube
+  email
+  sms
+  organic
+  qr
+
+  @@map("campaign_platform_kind")
+}
+
+enum CampaignPlatformStatus {
+  draft
+  ready
+  launching
+  live
+  paused
+  rejected
+  archived
+
+  @@map("campaign_platform_status")
+}
+
+enum AdVariantAngle {
+  pain
+  roi
+  proof
+  speed
+  comparison
+  trust
+  fear
+  convenience
+
+  @@map("ad_variant_angle")
+}
+
+enum AdVariantStatus {
+  draft
+  ready
+  approved
+  rejected
+  archived
+
+  @@map("ad_variant_status")
+}
+
+enum CreativeAssetType {
+  image
+  video
+  carousel
+  display
+
+  @@map("creative_asset_type")
+}
+
+enum VideoAssetType {
+  short_form
+  explainer
+  retargeting
+  ugc
+  founder
+  saas_demo
+
+  @@map("video_asset_type")
+}
+
+enum TrackingEventType {
+  campaign_link_clicked
+  funnel_viewed
+  cta_clicked
+  calculator_started
+  calculator_completed
+  chat_started
+  lead_captured
+  appointment_booked
+  call_started
+  call_completed
+  sms_sent
+  sms_replied
+  email_sent
+  email_clicked
+  crm_updated
+
+  @@map("tracking_event_type")
+}
+
+enum LaunchChecklistStatus {
+  pending
+  in_progress
+  blocked
+  passed
+  failed
+
+  @@map("launch_checklist_status")
+}
+
+enum ComplianceSeverity {
+  info
+  warn
+  block
+
+  @@map("compliance_severity")
+}
+
+enum ExportPackageFormat {
+  pdf
+  csv
+  zip
+
+  @@map("export_package_format")
+}
+
+enum ExportPackageStatus {
+  pending
+  ready
+  failed
+  expired
+
+  @@map("export_package_status")
+}
+
+enum FollowupChannel {
+  email
+  sms
+
+  @@map("followup_channel")
+}
+
+enum FollowupStatus {
+  draft
+  active
+  paused
+  archived
+
+  @@map("followup_status")
+}
+
+enum RetargetingTrigger {
+  page_viewed_no_engage
+  calculator_abandoned
+  chat_no_book
+  video_no_convert
+  lead_no_schedule
+  missed_appointment
+
+  @@map("retargeting_trigger")
+}
+
+enum RetargetingStatus {
+  draft
+  ready
+  live
+  paused
+  archived
+
+  @@map("retargeting_status")
+}
+
+model Campaign {
+  id             String         @id @default(dbgenerated("'cmp_' || encode(gen_random_bytes(13), 'hex')"))
+  workspaceId    String         @map("workspace_id")
+  funnelId       String         @map("funnel_id")
+  name           String
+  goal           String?
+  status         CampaignStatus @default(draft)
+  currentVersion Int            @default(1) @map("current_version")
+  createdAt      DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime       @default(now()) @map("updated_at") @db.Timestamptz(6)
+  archivedAt     DateTime?      @map("archived_at") @db.Timestamptz(6)
+
+  platforms         CampaignPlatform[]
+  adVariants        AdVariant[]
+  creativeAssets    CreativeAsset[]
+  videoAssets       VideoAsset[]
+  audienceProfiles  AudienceProfile[]
+  utmLinks          UtmLink[]
+  trackingEvents    TrackingEvent[]
+  launchChecklists  LaunchChecklist[]
+  complianceReviews ComplianceReview[]
+  exportPackages    ExportPackage[]
+  followupSequences FollowupSequence[]
+  retargetingRules  RetargetingRule[]
+  launchScores      LaunchScore[]
+
+  @@index([workspaceId, status], map: "campaigns_workspace_status_idx")
+  @@index([workspaceId, createdAt(sort: Desc)], map: "campaigns_workspace_created_idx")
+  @@index([funnelId], map: "campaigns_funnel_idx")
+  @@map("campaigns")
+}
+
+model CampaignPlatform {
+  id          String                 @id @default(dbgenerated("'cpf_' || encode(gen_random_bytes(13), 'hex')"))
+  campaignId  String                 @map("campaign_id")
+  platform    CampaignPlatformKind
+  status      CampaignPlatformStatus @default(draft)
+  objective   String?
+  budgetDaily BigInt?                @map("budget_daily")
+  budgetTotal BigInt?                @map("budget_total")
+  createdAt   DateTime               @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime               @default(now()) @map("updated_at") @db.Timestamptz(6)
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@unique([campaignId, platform], map: "campaign_platforms_campaign_platform_unique")
+  @@index([campaignId, status], map: "campaign_platforms_campaign_status_idx")
+  @@map("campaign_platforms")
+}
+
+model AdVariant {
+  id          String               @id @default(dbgenerated("'adv_' || encode(gen_random_bytes(13), 'hex')"))
+  campaignId  String               @map("campaign_id")
+  platform    CampaignPlatformKind
+  angle       AdVariantAngle
+  primaryText String               @map("primary_text")
+  headline    String
+  description String?
+  ctaText     String?              @map("cta_text")
+  status      AdVariantStatus      @default(draft)
+  createdAt   DateTime             @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime             @default(now()) @map("updated_at") @db.Timestamptz(6)
+
+  campaign         Campaign          @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  retargetingRules RetargetingRule[]
+
+  @@index([campaignId, status], map: "ad_variants_campaign_status_idx")
+  @@index([campaignId, platform], map: "ad_variants_campaign_platform_idx")
+  @@map("ad_variants")
+}
+
+model CreativeAsset {
+  id              String            @id @default(dbgenerated("'cas_' || encode(gen_random_bytes(13), 'hex')"))
+  campaignId      String            @map("campaign_id")
+  type            CreativeAssetType
+  format          String?
+  url             String
+  thumbnailUrl    String?           @map("thumbnail_url")
+  prompt          String?
+  brandScore      Decimal?          @map("brand_score") @db.Decimal(5, 2)
+  qualityScore    Decimal?          @map("quality_score") @db.Decimal(5, 2)
+  complianceFlags Json              @default("[]") @map("compliance_flags") @db.JsonB
+  licenseMetadata Json              @default("{}") @map("license_metadata") @db.JsonB
+  createdAt       DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt       DateTime          @default(now()) @map("updated_at") @db.Timestamptz(6)
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@index([campaignId, type], map: "creative_assets_campaign_type_idx")
+  @@map("creative_assets")
+}
+
+model VideoAsset {
+  id           String         @id @default(dbgenerated("'vid_' || encode(gen_random_bytes(13), 'hex')"))
+  campaignId   String         @map("campaign_id")
+  type         VideoAssetType
+  scriptText   String?        @map("script_text")
+  storyboard   Json           @default("{}") @db.JsonB
+  voiceoverUrl String?        @map("voiceover_url")
+  captionsUrl  String?        @map("captions_url")
+  finalUrl     String?        @map("final_url")
+  durationSec  Int?           @map("duration_sec")
+  aspectRatio  String?        @map("aspect_ratio")
+  createdAt    DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt    DateTime       @default(now()) @map("updated_at") @db.Timestamptz(6)
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@index([campaignId, type], map: "video_assets_campaign_type_idx")
+  @@map("video_assets")
+}
+
+model AudienceProfile {
+  id              String               @id @default(dbgenerated("'aud_' || encode(gen_random_bytes(13), 'hex')"))
+  campaignId      String               @map("campaign_id")
+  platform        CampaignPlatformKind
+  targeting       Json                 @default("{}") @db.JsonB
+  lookalikeSource String?              @map("lookalike_source")
+  exclusions      Json                 @default("[]") @db.JsonB
+  estimatedReach  BigInt?              @map("estimated_reach")
+  createdAt       DateTime             @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt       DateTime             @default(now()) @map("updated_at") @db.Timestamptz(6)
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@index([campaignId, platform], map: "audience_profiles_campaign_platform_idx")
+  @@map("audience_profiles")
+}
+
+model UtmLink {
+  id         String               @id @default(dbgenerated("'utm_' || encode(gen_random_bytes(13), 'hex')"))
+  campaignId String               @map("campaign_id")
+  platform   CampaignPlatformKind
+  variant    String?
+  fullUrl    String               @map("full_url")
+  shortCode  String?              @map("short_code")
+  clickCount BigInt               @default(0) @map("click_count")
+  createdAt  DateTime             @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt  DateTime             @default(now()) @map("updated_at") @db.Timestamptz(6)
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@unique([shortCode], map: "utm_links_short_code_unique")
+  @@index([campaignId, platform], map: "utm_links_campaign_platform_idx")
+  @@map("utm_links")
+}
+
+model TrackingEvent {
+  id         String            @id @default(dbgenerated("'tev_' || encode(gen_random_bytes(13), 'hex')"))
+  campaignId String            @map("campaign_id")
+  eventType  TrackingEventType @map("event_type")
+  occurredAt DateTime          @default(now()) @map("occurred_at") @db.Timestamptz(6)
+  leadId     String?           @map("lead_id")
+  properties Json              @default("{}") @db.JsonB
+  createdAt  DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@index([campaignId, occurredAt(sort: Desc)], map: "tracking_events_campaign_time_idx")
+  @@index([campaignId, eventType, occurredAt(sort: Desc)], map: "tracking_events_campaign_type_time_idx")
+  @@index([leadId], map: "tracking_events_lead_idx")
+  @@map("tracking_events")
+}
+
+model LaunchChecklist {
+  id             String                @id @default(dbgenerated("'lck_' || encode(gen_random_bytes(13), 'hex')"))
+  campaignId     String                @map("campaign_id")
+  items          Json                  @default("[]") @db.JsonB
+  completedCount Int                   @default(0) @map("completed_count")
+  totalCount     Int                   @default(0) @map("total_count")
+  status         LaunchChecklistStatus @default(pending)
+  createdAt      DateTime              @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime              @default(now()) @map("updated_at") @db.Timestamptz(6)
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@index([campaignId, status], map: "launch_checklists_campaign_status_idx")
+  @@map("launch_checklists")
+}
+
+model ComplianceReview {
+  id         String             @id @default(dbgenerated("'cmr_' || encode(gen_random_bytes(13), 'hex')"))
+  campaignId String             @map("campaign_id")
+  assetId    String?            @map("asset_id")
+  severity   ComplianceSeverity
+  category   String
+  message    String
+  suggestion String?
+  createdAt  DateTime           @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@index([campaignId, severity], map: "compliance_reviews_campaign_severity_idx")
+  @@index([assetId], map: "compliance_reviews_asset_idx")
+  @@map("compliance_reviews")
+}
+
+model ExportPackage {
+  id            String              @id @default(dbgenerated("'exp_' || encode(gen_random_bytes(13), 'hex')"))
+  campaignId    String              @map("campaign_id")
+  format        ExportPackageFormat
+  url           String?
+  status        ExportPackageStatus @default(pending)
+  generatedAt   DateTime?           @map("generated_at") @db.Timestamptz(6)
+  downloadCount Int                 @default(0) @map("download_count")
+  createdAt     DateTime            @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt     DateTime            @default(now()) @map("updated_at") @db.Timestamptz(6)
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@index([campaignId, status], map: "export_packages_campaign_status_idx")
+  @@map("export_packages")
+}
+
+model FollowupSequence {
+  id         String          @id @default(dbgenerated("'fsq_' || encode(gen_random_bytes(13), 'hex')"))
+  campaignId String          @map("campaign_id")
+  channel    FollowupChannel
+  steps      Json            @default("[]") @db.JsonB
+  status     FollowupStatus  @default(draft)
+  createdAt  DateTime        @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt  DateTime        @default(now()) @map("updated_at") @db.Timestamptz(6)
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@index([campaignId, status], map: "followup_sequences_campaign_status_idx")
+  @@index([campaignId, channel], map: "followup_sequences_campaign_channel_idx")
+  @@map("followup_sequences")
+}
+
+model RetargetingRule {
+  id          String             @id @default(dbgenerated("'rtg_' || encode(gen_random_bytes(13), 'hex')"))
+  campaignId  String             @map("campaign_id")
+  trigger     RetargetingTrigger
+  adVariantId String?            @map("ad_variant_id")
+  status      RetargetingStatus  @default(draft)
+  createdAt   DateTime           @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime           @default(now()) @map("updated_at") @db.Timestamptz(6)
+
+  campaign  Campaign   @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  adVariant AdVariant? @relation(fields: [adVariantId], references: [id], onDelete: SetNull)
+
+  @@index([campaignId, status], map: "retargeting_rules_campaign_status_idx")
+  @@index([campaignId, trigger], map: "retargeting_rules_campaign_trigger_idx")
+  @@map("retargeting_rules")
+}
+
+model LaunchScore {
+  id                String   @id @default(dbgenerated("'lsc_' || encode(gen_random_bytes(13), 'hex')"))
+  campaignId        String   @map("campaign_id")
+  funnelReadiness   Decimal  @default(0) @map("funnel_readiness") @db.Decimal(5, 2)
+  creativeQuality   Decimal  @default(0) @map("creative_quality") @db.Decimal(5, 2)
+  videoReadiness    Decimal  @default(0) @map("video_readiness") @db.Decimal(5, 2)
+  trackingReadiness Decimal  @default(0) @map("tracking_readiness") @db.Decimal(5, 2)
+  offerStrength     Decimal  @default(0) @map("offer_strength") @db.Decimal(5, 2)
+  audienceFit       Decimal  @default(0) @map("audience_fit") @db.Decimal(5, 2)
+  complianceRisk    Decimal  @default(0) @map("compliance_risk") @db.Decimal(5, 2)
+  followupCoverage  Decimal  @default(0) @map("followup_coverage") @db.Decimal(5, 2)
+  launchReadiness   Decimal  @default(0) @map("launch_readiness") @db.Decimal(5, 2)
+  computedAt        DateTime @default(now()) @map("computed_at") @db.Timestamptz(6)
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@index([campaignId, computedAt(sort: Desc)], map: "launch_scores_campaign_time_idx")
+  @@map("launch_scores")
 }

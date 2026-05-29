@@ -1,7 +1,7 @@
-# Railway setup â€” GoFunnelAI
+# Railway setup — GoFunnelAI
 
 End-to-end runbook for spinning up the GoFunnelAI project on Railway.
-Every step is idempotent â€” safe to re-run.
+Every step is idempotent — safe to re-run.
 
 > Assumes you already have a Railway account and the CLI installed:
 > `curl -fsSL https://railway.app/install.sh | sh` then `railway login`.
@@ -79,7 +79,7 @@ Railway runs daily snapshots automatically for Pro projects. Configure:
 
 1. **Postgres plugin â†’ Backups â†’ Enable daily**.
 2. **Retention** â†’ 14 days (matches doc 09 retention policy).
-3. **Test restore** at least once before go-live â€” restore into a
+3. **Test restore** at least once before go-live — restore into a
    separate Railway project, run `pnpm --filter @funnel/db db:migrate`,
    and verify rows count.
 
@@ -105,17 +105,17 @@ service.
 
 The shared Redis is used for:
 
-- **BullMQ queues** (`funnel-workers`) â€” see `apps/workers/src/queues.ts`.
-- **Idempotency keys** (`apps/api`, `apps/workers`) â€” 24-72h TTL.
-- **Rate limits** (`apps/api`) â€” sliding-window counters.
-- **Session store** (`apps/api`, `apps/admin`) â€” short-lived only.
+- **BullMQ queues** (`funnel-workers`) — see `apps/workers/src/queues.ts`.
+- **Idempotency keys** (`apps/api`, `apps/workers`) — 24-72h TTL.
+- **Rate limits** (`apps/api`) — sliding-window counters.
+- **Session store** (`apps/api`, `apps/admin`) — short-lived only.
 
 ### Upgrade to dedicated Redis (post-Series-A)
 
 The plugin is fine for the first ~1k users. For >10 ops/sec sustained
 queue depth or sub-ms read latency, upgrade to **Railway Redis Cloud
 addon** (dedicated nodes) or migrate to **Upstash Redis** (per-request
-pricing, edge-replicated). Either way the env var stays `REDIS_URL` â€”
+pricing, edge-replicated). Either way the env var stays `REDIS_URL` —
 swap the value and redeploy.
 
 ---
@@ -186,7 +186,7 @@ In the dashboard: **<service> â†’ Settings â†’ Domains â†’ Add**.
 | funnel-admin      | admin.gofunnelai.com       | admin.staging.gofunnelai.com       |
 | funnel-grader     | grade.gofunnelai.com       | grade.staging.gofunnelai.com       |
 | funnel-renderer   | pages.gofunnelai.com (+ *.funnel.page CNAME) | pages.staging.gofunnelai.com |
-| funnel-workers    | (internal â€” no domain)                  |                       |
+| funnel-workers    | (internal — no domain)                  |                       |
 
 For each:
 

@@ -20,7 +20,7 @@ await send(
     template: "milestone-hit",
     data: { tier: "bronze", amount_usd: 10_000, time_to_milestone_days: 23, case_study_url: "…" },
   },
-  { email, suppression, unsubscribe_base_url: "https://funelai.com" },
+  { email, suppression, unsubscribe_base_url: "https://gofunnelai.com" },
 );
 ```
 

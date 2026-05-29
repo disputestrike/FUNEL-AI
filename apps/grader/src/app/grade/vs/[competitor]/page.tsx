@@ -31,7 +31,7 @@ export default function CompetitorPage({ params }: CompetitorPageProps) {
       <Hero
         eyebrow={`${label} funnel checker`}
         headline={`Free ${label} funnel audit.`}
-        subhead={`Paste your ${label} landing-page URL. We'll score it in 15 seconds and ship 3 specific improvements you can apply today â€” without leaving ${label}.`}
+        subhead={`Paste your ${label} landing-page URL. We'll score it in 15 seconds and ship 3 specific improvements you can apply today — without leaving ${label}.`}
       />
 
       <section className="container pb-16">
@@ -72,7 +72,7 @@ export default function CompetitorPage({ params }: CompetitorPageProps) {
           {[
             {
               q: `Does this work for ${label} pages?`,
-              a: `Yes. Our audit runs against any public landing-page URL â€” ${label} pages render identically to our headless browser as they would to a visitor.`,
+              a: `Yes. Our audit runs against any public landing-page URL — ${label} pages render identically to our headless browser as they would to a visitor.`,
             },
             {
               q: "Is there a catch?",
@@ -80,7 +80,7 @@ export default function CompetitorPage({ params }: CompetitorPageProps) {
             },
             {
               q: `Will this replace ${label}?`,
-              a: "Not today. We're focused on grading first. Once GoFunnelAI launches in full, we'll let you generate a complete replacement funnel â€” for now, the audit alone is worth your time.",
+              a: "Not today. We're focused on grading first. Once GoFunnelAI launches in full, we'll let you generate a complete replacement funnel — for now, the audit alone is worth your time.",
             },
           ].map(({ q, a }) => (
             <details key={q} className="group py-4">

@@ -1,0 +1,109 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Launch Strategy agent (L2) > produces the canonical dental strategy with Convenience angle 1`] = `
+{
+  "campaignName": "BrightSmile Dental — New Patient Benefits Check (Convenience)",
+  "creativeAngle": "convenience",
+  "creativeAngleRationale": "Lead with absence of friction — paste, click, done — because the lead magnet ("New Patient Benefits Check") rewards low-effort engagement.",
+  "mainOffer": "Free new-patient benefits check and visit-options guide.",
+  "objective": "Drive new patient appointment bookings via New Patient Benefits Check; ladder to Check my visit options after the free asset lands.",
+  "offerSnapshot": {
+    "archetype": "free_consult_booking",
+    "industryKey": "dental",
+    "industryLabel": "Dental",
+    "kbVersion": "dental-us-v1.1",
+  },
+  "painPoint": "Insurance confusion: explain verification without promising coverage.",
+  "primaryAudienceDesc": "Families with insurance shopping for a primary dentist",
+  "primaryCta": "Check my visit options",
+  "rationale": "Dental (dental-us-v1.1) buyers respond best to convenience when awareness is cold. Anchor the funnel on "New Patient Benefits Check" before asking for Check my visit options. Starter platforms: meta + google + tiktok.",
+  "reasoningModel": "claude-sonnet-4-6",
+  "recommendedPlatforms": [
+    {
+      "platform": "meta",
+      "rationale": "Local lookalikes and detailed-targeting for consumer verticals.",
+    },
+    {
+      "platform": "google",
+      "rationale": "Local-intent search and Maps placements.",
+    },
+    {
+      "platform": "tiktok",
+      "rationale": "Short-form UGC drives discovery in consumer service verticals.",
+    },
+  ],
+  "secondaryAudienceDesc": "Parent or spouse coordinating insurance verification and appointment timing.",
+}
+`;
+
+exports[`Launch Strategy agent (L2) > produces the canonical saas strategy with ROI angle and LinkedIn-first seeds 1`] = `
+{
+  "campaignName": "PipelineLift — ROI Benchmark Calculator (Roi)",
+  "creativeAngle": "roi",
+  "creativeAngleRationale": "Quantify the upside up-front — the B2B SaaS buyer expects a number before they will engage.",
+  "mainOffer": "Quantify ROI in 90 seconds before booking the demo.",
+  "objective": "Generate qualified demo requests from RevOps leaders via ROI Benchmark Calculator; ladder to Calculate ROI after the free asset lands.",
+  "offerSnapshot": {
+    "archetype": "webinar_evergreen",
+    "industryKey": "saas",
+    "industryLabel": "B2B SaaS",
+    "kbVersion": "b2b-saas-v1.2",
+  },
+  "painPoint": "No time for a demo: make the calculator useful without a call.",
+  "primaryAudienceDesc": "RevOps and demand-gen leaders at 50-500 person SaaS companies",
+  "primaryCta": "Calculate ROI",
+  "rationale": "B2B SaaS (b2b-saas-v1.2) buyers respond best to roi when awareness is cold. Anchor the funnel on "ROI Benchmark Calculator" before asking for Calculate ROI. Starter platforms: linkedin + google + meta.",
+  "reasoningModel": "claude-sonnet-4-6",
+  "recommendedPlatforms": [
+    {
+      "platform": "linkedin",
+      "rationale": "Job-title + industry + seniority targeting for B2B accounts.",
+    },
+    {
+      "platform": "google",
+      "rationale": "Bottom-funnel intent on competitor + category keywords.",
+    },
+    {
+      "platform": "meta",
+      "rationale": "Retarget the buying committee with proof-led content.",
+    },
+  ],
+  "secondaryAudienceDesc": "Buying-committee member (security, finance, or ops) needing the ROI doc and integration proof.",
+}
+`;
+
+exports[`Launch Strategy agent (L2) > produces the canonical solar strategy 1`] = `
+{
+  "campaignName": "SunPath — Free Solar Savings Plan (Pain)",
+  "creativeAngle": "pain",
+  "creativeAngleRationale": "Lead with the named pain ("I am not sure my roof qualifies") because cold Solar installation buyers respond to acute, specific friction.",
+  "mainOffer": "Cut wasted power spend with a source-backed solar savings plan.",
+  "objective": "Book qualified solar consultations from homeowners with high power bills via Free Solar Savings Plan; ladder to Get my solar savings plan after the free asset lands.",
+  "offerSnapshot": {
+    "archetype": "free_consult_booking",
+    "industryKey": "solar",
+    "industryLabel": "Solar installation",
+    "kbVersion": "solar-us-local-v1.4",
+  },
+  "painPoint": "I am not sure my roof qualifies: answer with roof-fit criteria before asking for the consult.",
+  "primaryAudienceDesc": "Homeowners aged 35-65 with rising power bills in sun-heavy states",
+  "primaryCta": "Get my solar savings plan",
+  "rationale": "Solar installation (solar-us-local-v1.4) buyers respond best to pain when awareness is cold. Anchor the funnel on "Free Solar Savings Plan" before asking for Get my solar savings plan. Starter platforms: meta + google + youtube.",
+  "reasoningModel": "claude-sonnet-4-6",
+  "recommendedPlatforms": [
+    {
+      "platform": "meta",
+      "rationale": "Wide reach to homeowner persona with detailed targeting.",
+    },
+    {
+      "platform": "google",
+      "rationale": "Capture high-intent search around bills, quotes, and incentives.",
+    },
+    {
+      "platform": "youtube",
+      "rationale": "Long-form education for skeptical buyers.",
+    },
+  ],
+  "secondaryAudienceDesc": "Co-decision-making spouse or partner reviewing the savings plan before any consult.",
+}
+`;

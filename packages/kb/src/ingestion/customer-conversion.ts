@@ -1,5 +1,5 @@
 /**
- * Customer conversion ingester â€” THE FLYWHEEL.
+ * Customer conversion ingester — THE FLYWHEEL.
  *
  * Pulls anonymized, opt-in conversion data from the Iceberg lake
  * (see docs/03 Â§C "Data lifecycle"). Specifically, we read from the
@@ -51,7 +51,7 @@ export interface ConversionSignal {
     name: string;
     /** Value in [0, 1]. */
     value: number;
-    /** Sample size â€” never emit a signal with n < 30. */
+    /** Sample size — never emit a signal with n < 30. */
     n: number;
     /** Median across vertical for comparison. */
     median: number;

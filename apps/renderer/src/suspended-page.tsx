@@ -2,7 +2,7 @@
  * The page we serve when a workspace is suspended, past-due, or closed.
  *
  * Status-code policy: 503 Service Unavailable with a long `Retry-After`. We
- * do NOT return 404 â€” leads should not be captured, but search engines
+ * do NOT return 404 — leads should not be captured, but search engines
  * shouldn't drop the page from their index entirely (the workspace may pay
  * their invoice tomorrow).
  *
@@ -12,7 +12,7 @@
 import * as React from "react";
 
 export interface SuspendedPageProps {
-  /** What status drove this â€” surfaced to support but not to visitors. */
+  /** What status drove this — surfaced to support but not to visitors. */
   status: "suspended" | "past_due" | "closed" | "blocked";
   contactEmail: string;
 }

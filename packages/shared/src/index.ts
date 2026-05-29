@@ -12,3 +12,6 @@ export * from "./schemas/index.js";
 export * from "./funnel-schema.js";
 export * from "./utils/index.js";
 export * from "./errors.js";
+// Launch Center surface is intentionally NOT spread at the package root to
+// avoid name collisions with existing compliance types (`ComplianceSeverity`).
+// Import from the named subpath instead: `@funnel/shared/launch`.

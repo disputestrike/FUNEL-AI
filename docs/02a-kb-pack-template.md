@@ -1,37 +1,37 @@
-﻿# FunelAI â€” Industry Knowledge Base (KB) Pack Template
+# GoFunnelAI — Industry Knowledge Base (KB) Pack Template
 
 > **Document type:** Canonical template
-> **Owner:** FunelAI KB Editorial Council
+> **Owner:** GoFunnelAI KB Editorial Council
 > **Version:** 1.0
-> **Status:** Locked â€” fill in every section, do not rename headings, do not skip fields.
+> **Status:** Locked — fill in every section, do not rename headings, do not skip fields.
 
 ---
 
 ## 0. How to use this template
 
-This document is the **single source of truth** that every domain expert fills in for their industry. The completed pack is ingested by FunelAI's multi-agent generation engine (Hook agent, Page agent, Compliance agent, RevTry voice agent, Sequence agent, Score agent) via pgvector retrieval. Inconsistency between packs creates inconsistent funnels â€” therefore:
+This document is the **single source of truth** that every domain expert fills in for their industry. The completed pack is ingested by GoFunnelAI's multi-agent generation engine (Hook agent, Page agent, Compliance agent, RevTry voice agent, Sequence agent, Score agent) via pgvector retrieval. Inconsistency between packs creates inconsistent funnels — therefore:
 
 ### Rules of the road
 
 1. **Do not rename, reorder, or delete sections.** The generation engine uses heading anchors as retrieval keys (e.g. `#7-common-objections`). Renaming breaks retrieval.
-2. **Fill every field.** If a field truly does not apply, write `N/A â€” [one-sentence reason]`. Never leave blank.
-3. **Use the exact subsection schemas.** Each persona, objection, ad angle, etc. must follow the prescribed bullet structure. The Hook agent, for example, fans out over `### Ad angle N` blocks â€” missing fields cause null prompts.
-4. **One claim, one citation.** Every benchmark number (CPL, conversion rate, close rate, TAM) must cite a source in the format `[Source: <name>, <year>]`. If proprietary, write `[Source: FunelAI internal, <quarter>]`. The Compliance agent rejects unsourced numerics.
-5. **Voice and tense.** Write in present tense, second person ("you, the installer") for buyer-facing language; third person for analytical sections. Avoid hedges ("maybe", "could be") â€” be definitive. The pack is a generation prompt, not an essay.
+2. **Fill every field.** If a field truly does not apply, write `N/A — [one-sentence reason]`. Never leave blank.
+3. **Use the exact subsection schemas.** Each persona, objection, ad angle, etc. must follow the prescribed bullet structure. The Hook agent, for example, fans out over `### Ad angle N` blocks — missing fields cause null prompts.
+4. **One claim, one citation.** Every benchmark number (CPL, conversion rate, close rate, TAM) must cite a source in the format `[Source: <name>, <year>]`. If proprietary, write `[Source: GoFunnelAI internal, <quarter>]`. The Compliance agent rejects unsourced numerics.
+5. **Voice and tense.** Write in present tense, second person ("you, the installer") for buyer-facing language; third person for analytical sections. Avoid hedges ("maybe", "could be") — be definitive. The pack is a generation prompt, not an essay.
 6. **No emoji, no marketing fluff, no exclamation points.** This document is a structured database, not a brochure.
 7. **Length floors.** Each major section has a minimum word/item count noted in `[brackets]`. Going under signals incomplete research and the pack is rejected.
-8. **Compliance is non-negotiable.** Sections 11 (Prohibited claims) and 12 (Compliance rules) are reviewed by FunelAI legal before the pack ships. Be specific â€” cite statute, FTC guide, or state administrative code.
+8. **Compliance is non-negotiable.** Sections 11 (Prohibited claims) and 12 (Compliance rules) are reviewed by GoFunnelAI legal before the pack ships. Be specific — cite statute, FTC guide, or state administrative code.
 9. **Update cadence.** Packs are versioned quarterly. Mark every benchmark with `[updated: YYYY-QN]`.
-10. **Anonymization.** Section 21 example funnels must be either (a) public URLs of competitors, or (b) anonymized clones of FunelAI customer funnels with PII and brand names scrubbed.
+10. **Anonymization.** Section 21 example funnels must be either (a) public URLs of competitors, or (b) anonymized clones of GoFunnelAI customer funnels with PII and brand names scrubbed.
 
 ### Filling order (recommended)
 
-1. Sections 1â€“4 (market and personas) â€” frames everything.
-2. Section 12 (compliance) â€” sets the guardrails for everything that follows.
-3. Sections 5â€“6 (pain points, urgency) â€” feed Hook agent.
-4. Sections 7â€“10 (objections, proof, offers, lead magnets) â€” feed Page agent.
-5. Sections 13â€“18 (ad angles, forms, scoring, scripts, sequences) â€” operational.
-6. Sections 19â€“21 (benchmarks, seasonality, examples) â€” calibration data.
+1. Sections 1–4 (market and personas) — frames everything.
+2. Section 12 (compliance) — sets the guardrails for everything that follows.
+3. Sections 5–6 (pain points, urgency) — feed Hook agent.
+4. Sections 7–10 (objections, proof, offers, lead magnets) — feed Page agent.
+5. Sections 13–18 (ad angles, forms, scoring, scripts, sequences) — operational.
+6. Sections 19–21 (benchmarks, seasonality, examples) — calibration data.
 
 ---
 
@@ -43,13 +43,13 @@ This document is the **single source of truth** that every domain expert fills i
 - **Industry name:**
 - **NAICS / SIC code(s):**
 - **Sub-segments included in this pack:** (e.g. "residential rooftop, not commercial, not utility-scale")
-- **Sub-segments explicitly excluded:** (and why â€” usually buyer mismatch)
+- **Sub-segments explicitly excluded:** (and why — usually buyer mismatch)
 - **Geographic scope of this pack:** (country, regions, regulatory zones)
 
 ### 1.2 TAM / SAM / SOM
 - **TAM (Total Addressable Market):** $[X] [year]. [Source]
 - **SAM (Serviceable Addressable Market for a single installer/operator):** $[X]
-- **SOM (realistic share for a FunelAI customer in year 1):** $[X]
+- **SOM (realistic share for a GoFunnelAI customer in year 1):** $[X]
 - **Number of operators in market:** [N]
 - **Annual new-customer demand:** [N units or $X spend]
 
@@ -63,7 +63,7 @@ This document is the **single source of truth** that every domain expert fills i
 
 ### 1.4 Sales cycle
 - **First-touch to closed-won median:** [N days]
-- **Range:** [N] â€“ [N] days
+- **Range:** [N] – [N] days
 - **Critical path stages:** (e.g. lead â†’ call â†’ in-home consult â†’ proposal â†’ contract â†’ install)
 - **Where deals stall most:** [stage], [reason]
 - **Single biggest accelerant:** (e.g. "in-home appointment within 48 hours of lead")
@@ -73,17 +73,17 @@ List the top 7 events that cause a prospect to move from passive to active buyin
 - **Trigger:** [event]
   - **Search behavior change:** [what they Google]
   - **Time horizon to purchase:** [days/weeks]
-  - **FunelAI signal source:** [how we detect it â€” intent data, season, news, etc.]
+  - **GoFunnelAI signal source:** [how we detect it — intent data, season, news, etc.]
 
 ---
 
 ## 2. Buyer personas
 
-> **Floor:** 3â€“5 personas. Each persona must include every sub-field. No "miscellaneous" persona.
+> **Floor:** 3–5 personas. Each persona must include every sub-field. No "miscellaneous" persona.
 
 For each persona, use this exact template:
 
-### Persona N â€” [Short name, e.g. "Refi Rachel"]
+### Persona N — [Short name, e.g. "Refi Rachel"]
 
 - **One-line summary:**
 - **Share of vertical's deal volume:** [X]%
@@ -97,7 +97,7 @@ For each persona, use this exact template:
 - **Psychographics:**
   - Core identity (how they see themselves):
   - Media diet (channels, publications, influencers):
-  - Trust hierarchy (who they believe â€” friends > Google > sales rep, etc.):
+  - Trust hierarchy (who they believe — friends > Google > sales rep, etc.):
   - Decision style (analytical / emotional / consensus / impulsive):
   - Risk tolerance:
 - **Jobs-to-be-done (JTBD):**
@@ -107,20 +107,20 @@ For each persona, use this exact template:
 - **What they say out loud (verbatim phrases to mirror in copy):** [5 examples in quotes]
 - **What they secretly fear (subtext for hooks):** [3 examples]
 - **What "winning" looks like 12 months after purchase:**
-- **Disqualifiers â€” do not target if:**
+- **Disqualifiers — do not target if:**
 
 ---
 
 ## 3. Pain points (top 10, ranked)
 
-> **Floor:** Exactly 10. Ranked by frequency Ã— intensity. Each pain gets a stable ID `P1`â€“`P10` referenced by other sections.
+> **Floor:** Exactly 10. Ranked by frequency Ã— intensity. Each pain gets a stable ID `P1`–`P10` referenced by other sections.
 
 For each pain:
 
-### P[N] â€” [Short name]
-- **Rank:** [1â€“10]
+### P[N] — [Short name]
+- **Rank:** [1–10]
 - **Frequency (% of buyers who feel this):** [X]%
-- **Intensity (1â€“5):** [N]
+- **Intensity (1–5):** [N]
 - **The pain in the buyer's own words:** "[verbatim quote]"
 - **Root cause:**
 - **Status-quo cost of doing nothing:** [$ or qualitative]
@@ -151,14 +151,14 @@ Capacity, price, or competitor moves that create urgency (e.g. "panel tariffs in
 
 > **Floor:** Exactly 10. Each objection must have a primary rebuttal and a backup rebuttal. Format:
 
-### O[N] â€” [Objection name]
+### O[N] — [Objection name]
 - **What the buyer says verbatim:** "[quote]"
 - **Underlying real fear:**
 - **Worst response (do not say):**
-- **Primary rebuttal (1â€“2 sentences):**
+- **Primary rebuttal (1–2 sentences):**
 - **Proof element that closes it:** [reference to Section 6 proof type]
 - **Backup rebuttal if primary fails:**
-- **Disqualify if:** [conditions under which the objection is real and the prospect is not a fit â€” don't waste reps' time]
+- **Disqualify if:** [conditions under which the objection is real and the prospect is not a fit — don't waste reps' time]
 
 ---
 
@@ -194,7 +194,7 @@ Capacity, price, or competitor moves that create urgency (e.g. "panel tariffs in
 - Length, structure, required metrics:
 
 ### 6.7 Live counters / social proof widgets
-- E.g. "X installs this month in [city]" â€” what's allowed under FTC?
+- E.g. "X installs this month in [city]" — what's allowed under FTC?
 
 ### 6.8 Authority figures
 - Trade-group endorsements, government program participation:
@@ -211,7 +211,7 @@ For each archetype:
 - Best-performing format:
 - Example titles:
 - Friction level:
-- Lead quality (1â€“5):
+- Lead quality (1–5):
 - When to use:
 
 ### 7.2 Tripwire (low-cost paid commitment)
@@ -238,11 +238,11 @@ For each archetype:
 
 ---
 
-## 8. Lead magnets (5â€“10 concrete examples)
+## 8. Lead magnets (5–10 concrete examples)
 
-> **Floor:** 5â€“10. For each:
+> **Floor:** 5–10. For each:
 
-### LM[N] â€” [Title]
+### LM[N] — [Title]
 - **Format:** (PDF guide / calculator / quiz / video / checklist / template)
 - **Length / time-to-consume:**
 - **What's inside (table of contents):**
@@ -258,7 +258,7 @@ For each archetype:
 
 > **Floor:** Exactly 3, ranked by historical conversion lift. Each described as a page-by-page wireframe.
 
-### FA1 â€” [Name, e.g. "Quiz â†’ Quote â†’ Call"]
+### FA1 — [Name, e.g. "Quiz â†’ Quote â†’ Call"]
 - **Rank / why it wins:**
 - **Page sequence:** [page 1 â†’ 2 â†’ 3 â†’ ...]
 - **For each page, list:**
@@ -277,20 +277,20 @@ For each archetype:
 
 ---
 
-## 10. Ad angles (10â€“15 proven hooks)
+## 10. Ad angles (10–15 proven hooks)
 
-> **Floor:** 10â€“15. The Hook agent fans out over these. Each gets a stable ID `AA1`â€“`AA15`.
+> **Floor:** 10–15. The Hook agent fans out over these. Each gets a stable ID `AA1`–`AA15`.
 
-### AA[N] â€” [Angle name]
+### AA[N] — [Angle name]
 - **One-line angle:**
 - **Pain it taps:** [P-ID]
 - **Emotional register:** (fear / aspiration / curiosity / anger / belonging / FOMO)
 - **3 headline examples:**
-- **3 primary-text openers (50â€“80 chars):**
+- **3 primary-text openers (50–80 chars):**
 - **Best visual concept:**
 - **Best CTA:**
 - **Best persona:** [Persona]
-- **Channel fit:** (Meta / TikTok / YouTube / Google search / native â€” rank top 2)
+- **Channel fit:** (Meta / TikTok / YouTube / Google search / native — rank top 2)
 - **Compliance risk level:** (Low / Med / High) and why
 - **Historical CTR / CPL range:** [X]% / $[X]
 
@@ -301,8 +301,8 @@ For each archetype:
 > **Floor:** This is the compliance agent's hard-block list. Be specific. Cite statute or guide.
 
 ### 11.1 Universal prohibitions (FTC)
-- "Free" when it isn't truly free â€” FTC Guide Â§251
-- "Guaranteed" savings, returns, results â€” FTC Endorsement Guides 16 CFR Part 255
+- "Free" when it isn't truly free — FTC Guide Â§251
+- "Guaranteed" savings, returns, results — FTC Endorsement Guides 16 CFR Part 255
 - Unsubstantiated quantitative claims (any "X%" requires citation)
 - Hidden material connections in endorsements
 - Fake scarcity / countdowns that reset
@@ -318,7 +318,7 @@ List every claim category that this specific industry's regulators (DOE, FDA, HU
 ### 11.3 State-by-state variances
 Table: **State | Claim | Restriction | Penalty | Source**
 
-### 11.4 Phrases the FunelAI Compliance agent will hard-block
+### 11.4 Phrases the GoFunnelAI Compliance agent will hard-block
 List exact strings (regex-friendly) that will fail generation. Minimum 20.
 
 ---
@@ -384,7 +384,7 @@ For multi-step forms, the optimal order is: [list]. Rationale per step.
 
 ## 14. Lead scoring rules
 
-> **Floor:** Define a 0â€“100 score with at least 12 signal rules. The Score agent applies these in real time.
+> **Floor:** Define a 0–100 score with at least 12 signal rules. The Score agent applies these in real time.
 
 ### 14.1 Demographic signals
 Table: **Signal | Condition | Points | Rationale**
@@ -399,11 +399,11 @@ Table: **Source | Points | Notes**
 List every hard disqualifier (e.g. "renter checkbox = true" in a homeowner vertical).
 
 ### 14.5 Score thresholds
-- 80â€“100 â€” [route to: top closer, call within 5 min]
-- 60â€“79 â€” [route to: standard rep queue]
-- 40â€“59 â€” [nurture sequence, call after 24h]
-- 20â€“39 â€” [email-only nurture]
-- 0â€“19 â€” [drop or low-cost broadcast]
+- 80–100 — [route to: top closer, call within 5 min]
+- 60–79 — [route to: standard rep queue]
+- 40–59 — [nurture sequence, call after 24h]
+- 20–39 — [email-only nurture]
+- 0–19 — [drop or low-cost broadcast]
 
 ### 14.6 Predicts-closure correlation table
 Top signals correlated with closure in this vertical, ranked.
@@ -412,7 +412,7 @@ Top signals correlated with closure in this vertical, ranked.
 
 ## 15. RevTry voice call script
 
-> **Floor:** Full script with branches. FunelAI's RevTry voice agent reads this as a state machine.
+> **Floor:** Full script with branches. GoFunnelAI's RevTry voice agent reads this as a state machine.
 
 ### 15.1 Opener (first 15 seconds)
 - Greeting:
@@ -422,7 +422,7 @@ Top signals correlated with closure in this vertical, ranked.
 
 ### 15.2 Qualifying questions (BANT-equivalent for this vertical)
 List in exact order with branch logic:
-- Q1: [question] â€” if [answer X], go to Q2; if [answer Y], go to disqualify branch.
+- Q1: [question] — if [answer X], go to Q2; if [answer Y], go to disqualify branch.
 - Q2: ...
 - (Minimum 6 questions.)
 
@@ -431,7 +431,7 @@ List in exact order with branch logic:
 - Cost-of-inaction questions:
 - "Tell me more about that" probes:
 
-### 15.4 Objection handlers (one per O1â€“O10 from Section 5)
+### 15.4 Objection handlers (one per O1–O10 from Section 5)
 For each: trigger phrase â†’ response â†’ fallback â†’ escalation cue.
 
 ### 15.5 Booking close
@@ -461,7 +461,7 @@ For each: trigger phrase â†’ response â†’ fallback â†’ escalation
 
 For each touch:
 
-### SMS [N] â€” [Purpose]
+### SMS [N] — [Purpose]
 - **Send at:** [T+N min/hours]
 - **Body (â‰¤160 chars, no shortened links unless brand-registered):**
 - **STOP / HELP compliance footer:**
@@ -471,7 +471,7 @@ For each touch:
 Also include:
 - 10DLC registration prerequisites
 - Carrier-filter risky words to avoid in this vertical
-- Sender-name pattern (e.g. "Solar â€” Reply STOP to opt out")
+- Sender-name pattern (e.g. "Solar — Reply STOP to opt out")
 
 ---
 
@@ -481,12 +481,12 @@ Also include:
 
 For each email:
 
-### Email [N] â€” [Purpose]
+### Email [N] — [Purpose]
 - **Send at:** [T+N hours/days]
 - **Subject line A:**
 - **Subject line B (A/B):**
 - **Preview text (â‰¤90 chars):**
-- **Body outline (4â€“6 bullets):**
+- **Body outline (4–6 bullets):**
 - **Primary CTA:**
 - **Secondary CTA:**
 - **Halt trigger:**
@@ -509,7 +509,7 @@ Table: **Channel | Lower (10th %ile) | Median | Upper (90th %ile) | Source**
 ### 18.2 By geography
 Table: **Geo tier | Median CPL | Notes**
 - Tier 1 (top-10 metros)
-- Tier 2 (11â€“50 metros)
+- Tier 2 (11–50 metros)
 - Tier 3 (rural / low population)
 - International (if applicable)
 
@@ -537,7 +537,7 @@ Table:
 How median rates change by source (paid social, paid search, organic, referral, outbound).
 
 ### 19.3 Speed-to-lead correlation
-"Call within X min lifts close rate by Y%." Cite FunelAI data or industry source.
+"Call within X min lifts close rate by Y%." Cite GoFunnelAI data or industry source.
 
 ---
 
@@ -568,7 +568,7 @@ Table: **Month | Close-rate index | Driver**
 
 For each:
 
-### EX[N] â€” [Brand or "Anonymized â€” [archetype]"]
+### EX[N] — [Brand or "Anonymized — [archetype]"]
 - **URL or internal ID:**
 - **Archetype used:** [FA1/FA2/FA3]
 - **Primary persona:**
@@ -596,7 +596,7 @@ Format: **Term | Definition | Synonyms | Avoid-in-buyer-copy?**
 
 > **Floor:** Bibliography in plain list. Every `[Source: ...]` reference in the pack resolves here.
 
-- [Source N] â€” Author, "Title", Publisher, Year, URL or DOI
+- [Source N] — Author, "Title", Publisher, Year, URL or DOI
 
 ---
 

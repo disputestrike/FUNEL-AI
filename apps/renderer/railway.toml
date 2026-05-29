@@ -1,4 +1,4 @@
-# funnel-renderer â€” Hono edge renderer running as plain Node on Railway.
+# funnel-renderer — Hono edge renderer running as plain Node on Railway.
 # Originally a Cloudflare Worker; the same Hono app boots via
 # @hono/node-server (apps/renderer/dist/server.js).
 [build]

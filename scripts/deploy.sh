@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ###############################################################################
-# GoFunnelAI â€” one-command deploy.
+# GoFunnelAI — one-command deploy.
 #
 # Usage:
 #   ./scripts/deploy.sh staging
@@ -54,7 +54,7 @@ if [[ "$SKIP_TESTS" == 0 && "$HOTFIX" == 0 ]]; then
   pnpm typecheck
   pnpm test:unit:ci
 elif [[ "$HOTFIX" == 1 ]]; then
-  bold "[2/7] hotfix mode â€” running unit + smoke only"
+  bold "[2/7] hotfix mode — running unit + smoke only"
   pnpm test:unit:ci
   pnpm test:integration:mocked
 else
@@ -132,7 +132,7 @@ if command -v flyctl >/dev/null; then
   [[ "$TARGET" == "staging" ]] && app_name="funnel-workers-staging"
   flyctl deploy --app "$app_name" --config "apps/workers/fly.${TARGET}.toml" --remote-only
 else
-  warn "flyctl not installed â€” skipping apps/workers deploy. Install: https://fly.io/docs/hands-on/install-flyctl/"
+  warn "flyctl not installed — skipping apps/workers deploy. Install: https://fly.io/docs/hands-on/install-flyctl/"
 fi
 
 # 6. Smoke + health check

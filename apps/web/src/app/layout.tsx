@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
+import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "sonner";
 import "./globals.css";
@@ -76,35 +77,37 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${inter.variable} ${interDisplay.variable} ${jetbrainsMono.variable}`}
     >
       <body className="min-h-screen bg-slate-50 text-slate-900 antialiased dark:bg-slate-900 dark:text-slate-50">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          forcedTheme="light"
-          enableSystem={false}
-          disableTransitionOnChange
-        >
-          {/* Skip link - required by doc 22 section L (a11y). */}
-          <a
-            href="#main"
-            className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-signal-500 focus:px-4 focus:py-2 focus:text-white"
+        <SessionProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            forcedTheme="light"
+            enableSystem={false}
+            disableTransitionOnChange
           >
-            Skip to main content
-          </a>
-          {children}
-          <Toaster
-            position="top-right"
-            closeButton
-            richColors={false}
-            toastOptions={{
-              classNames: {
-                toast:
-                  "border border-slate-200 bg-white text-slate-900 shadow-lg rounded-md",
-                title: "text-body font-medium",
-                description: "text-body-sm text-slate-500",
-              },
-            }}
-          />
-        </ThemeProvider>
+            {/* Skip link - required by doc 22 section L (a11y). */}
+            <a
+              href="#main"
+              className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-signal-500 focus:px-4 focus:py-2 focus:text-white"
+            >
+              Skip to main content
+            </a>
+            {children}
+            <Toaster
+              position="top-right"
+              closeButton
+              richColors={false}
+              toastOptions={{
+                classNames: {
+                  toast:
+                    "border border-slate-200 bg-white text-slate-900 shadow-lg rounded-md",
+                  title: "text-body font-medium",
+                  description: "text-body-sm text-slate-500",
+                },
+              }}
+            />
+          </ThemeProvider>
+        </SessionProvider>
       </body>
     </html>
   );

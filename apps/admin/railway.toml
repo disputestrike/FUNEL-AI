@@ -1,4 +1,4 @@
-# funnel-admin ” Next.js admin console (standalone output).
+# funnel-admin — Next.js admin console (standalone output).
 [build]
 builder = "DOCKERFILE"
 dockerfilePath = "apps/admin/Dockerfile"

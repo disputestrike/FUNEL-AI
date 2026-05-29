@@ -62,7 +62,7 @@ function authHeaders(): Record<string, string> {
 export const sdk = SDK
   ? new SDK.FunnelClient({
       baseUrl: API_BASE_URL,
-      // Token resolver runs on every request â€” so refreshing the auth store
+      // Token resolver runs on every request — so refreshing the auth store
       // is automatically picked up without re-instantiating the client.
       getAuthToken: () => useAuthStore.getState().token ?? null,
       getWorkspaceId: () => useAuthStore.getState().workspaceId ?? null,
@@ -106,7 +106,7 @@ export function mapApiError(status: number, body: string): ApiError {
   if (status === 404)
     return { status, code: "not_found", message: "We couldn't find that. It may have moved." };
   if (status === 429)
-    return { status, code: "rate_limited", message: "Slow down â€” we'll let you try again in a moment." };
+    return { status, code: "rate_limited", message: "Slow down — we'll let you try again in a moment." };
   if (status >= 500)
     return { status, code: "server_error", message: "Our side hiccuped. Pull to refresh in a few seconds." };
   return { status, code: "unknown", message: "Something didn't go through. Try once more." };
@@ -143,7 +143,7 @@ export type Lead = {
  *
  * Implementation note: we prefer WebSocket; the SDK auto-reconnects with
  * exponential backoff. Mobile clients should also pause the stream when the
- * app is backgrounded to save battery â€” see `app/(tabs)/leads/index.tsx`.
+ * app is backgrounded to save battery — see `app/(tabs)/leads/index.tsx`.
  */
 export function subscribeLeads(
   onEvent: (event: LeadEvent) => void,

@@ -1,0 +1,268 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Platform Recommendation agent (L2) > recommends Google + Meta for dental and excludes LinkedIn 1`] = `
+[
+  {
+    "fitScore": 88,
+    "platform": "google",
+    "rationale": "Local-intent search + Maps + appointment extensions dominate dental funnels. Audience signal 90/100, intent 92/100.",
+    "recommendedBudgetDaily": 36,
+    "signals": {
+      "audienceFit": 90,
+      "complianceFit": 100,
+      "creativeFit": 70,
+      "intentFit": 92,
+    },
+  },
+  {
+    "fitScore": 73,
+    "platform": "meta",
+    "rationale": "Detailed targeting plus benefits-check lead magnet for new patients. Audience signal 78/100, intent 60/100.",
+    "recommendedBudgetDaily": 30,
+    "signals": {
+      "audienceFit": 78,
+      "complianceFit": 100,
+      "creativeFit": 70,
+      "intentFit": 60,
+    },
+  },
+  {
+    "fitScore": 54,
+    "platform": "youtube",
+    "rationale": "Audience signal 50/100, intent 25/100.",
+    "recommendedBudgetDaily": 22,
+    "signals": {
+      "audienceFit": 50,
+      "complianceFit": 100,
+      "creativeFit": 80,
+      "intentFit": 25,
+    },
+  },
+  {
+    "fitScore": 40,
+    "platform": "pinterest",
+    "rationale": "Audience signal 25/100, intent 20/100.",
+    "recommendedBudgetDaily": 16,
+    "signals": {
+      "audienceFit": 25,
+      "complianceFit": 100,
+      "creativeFit": 70,
+      "intentFit": 20,
+    },
+  },
+  {
+    "fitScore": 40,
+    "platform": "snapchat",
+    "rationale": "Audience signal 20/100, intent 20/100. No native lead-gen form on snapchat — route to the funnel landing page.",
+    "recommendedBudgetDaily": 16,
+    "signals": {
+      "audienceFit": 20,
+      "complianceFit": 100,
+      "creativeFit": 80,
+      "intentFit": 20,
+    },
+  },
+  {
+    "fitScore": 37,
+    "platform": "tiktok",
+    "rationale": "Avoid clinical-outcome claims; restrict to comfort-care brand content. Audience signal 40/100, intent 20/100. Compliance penalty -10: tighten creative review before launch.",
+    "recommendedBudgetDaily": 15,
+    "signals": {
+      "audienceFit": 40,
+      "complianceFit": 90,
+      "creativeFit": 80,
+      "intentFit": 20,
+    },
+  },
+  {
+    "fitScore": 36,
+    "platform": "reddit",
+    "rationale": "Audience signal 15/100, intent 20/100. No native lead-gen form on reddit — route to the funnel landing page.",
+    "recommendedBudgetDaily": 15,
+    "signals": {
+      "audienceFit": 15,
+      "complianceFit": 100,
+      "creativeFit": 70,
+      "intentFit": 20,
+    },
+  },
+]
+`;
+
+exports[`Platform Recommendation agent (L2) > recommends LinkedIn + Google for saas, drops TikTok and Snapchat 1`] = `
+[
+  {
+    "fitScore": 91,
+    "platform": "linkedin",
+    "rationale": "B2B buyer lives here — job title, industry, seniority targeting align with the ICP. Audience signal 96/100, intent 84/100.",
+    "recommendedBudgetDaily": 68,
+    "signals": {
+      "audienceFit": 96,
+      "complianceFit": 100,
+      "creativeFit": 85,
+      "intentFit": 84,
+    },
+  },
+  {
+    "fitScore": 87,
+    "platform": "google",
+    "rationale": "Bottom-funnel intent on competitor + category keywords closes the buying committee. Audience signal 90/100, intent 90/100.",
+    "recommendedBudgetDaily": 65,
+    "signals": {
+      "audienceFit": 90,
+      "complianceFit": 100,
+      "creativeFit": 70,
+      "intentFit": 90,
+    },
+  },
+  {
+    "fitScore": 65,
+    "platform": "meta",
+    "rationale": "Audience signal 60/100, intent 45/100.",
+    "recommendedBudgetDaily": 49,
+    "signals": {
+      "audienceFit": 60,
+      "complianceFit": 100,
+      "creativeFit": 85,
+      "intentFit": 45,
+    },
+  },
+  {
+    "fitScore": 57,
+    "platform": "youtube",
+    "rationale": "Audience signal 55/100, intent 45/100.",
+    "recommendedBudgetDaily": 43,
+    "signals": {
+      "audienceFit": 55,
+      "complianceFit": 100,
+      "creativeFit": 55,
+      "intentFit": 45,
+    },
+  },
+  {
+    "fitScore": 54,
+    "platform": "reddit",
+    "rationale": "Audience signal 38/100, intent 40/100. No native lead-gen form on reddit — route to the funnel landing page.",
+    "recommendedBudgetDaily": 40,
+    "signals": {
+      "audienceFit": 38,
+      "complianceFit": 100,
+      "creativeFit": 85,
+      "intentFit": 40,
+    },
+  },
+  {
+    "fitScore": 47,
+    "platform": "x",
+    "rationale": "Audience signal 30/100, intent 25/100. No native lead-gen form on x — route to the funnel landing page.",
+    "recommendedBudgetDaily": 35,
+    "signals": {
+      "audienceFit": 30,
+      "complianceFit": 100,
+      "creativeFit": 85,
+      "intentFit": 25,
+    },
+  },
+]
+`;
+
+exports[`Platform Recommendation agent (L2) > recommends Meta + Google + YouTube for solar 1`] = `
+[
+  {
+    "fitScore": 87,
+    "platform": "meta",
+    "rationale": "Homeowner persona + detailed targeting + lookalikes from converted installs. Audience signal 95/100, intent 82/100.",
+    "recommendedBudgetDaily": 38,
+    "signals": {
+      "audienceFit": 95,
+      "complianceFit": 100,
+      "creativeFit": 70,
+      "intentFit": 82,
+    },
+  },
+  {
+    "fitScore": 84,
+    "platform": "google",
+    "rationale": "High intent on bill-shock and incentive searches; capture click-to-quote. Audience signal 86/100, intent 86/100.",
+    "recommendedBudgetDaily": 37,
+    "signals": {
+      "audienceFit": 86,
+      "complianceFit": 100,
+      "creativeFit": 70,
+      "intentFit": 86,
+    },
+  },
+  {
+    "fitScore": 78,
+    "platform": "youtube",
+    "rationale": "Skeptical buyers need long-form proof and demo content. Audience signal 80/100, intent 65/100.",
+    "recommendedBudgetDaily": 35,
+    "signals": {
+      "audienceFit": 80,
+      "complianceFit": 100,
+      "creativeFit": 80,
+      "intentFit": 65,
+    },
+  },
+  {
+    "fitScore": 46,
+    "platform": "tiktok",
+    "rationale": "Risk of savings-claim flags; restrict to UGC proof-led content with disclaimers. Audience signal 55/100, intent 30/100. Compliance penalty -10: tighten creative review before launch.",
+    "recommendedBudgetDaily": 20,
+    "signals": {
+      "audienceFit": 55,
+      "complianceFit": 90,
+      "creativeFit": 80,
+      "intentFit": 30,
+    },
+  },
+  {
+    "fitScore": 43,
+    "platform": "reddit",
+    "rationale": "Audience signal 28/100, intent 25/100. No native lead-gen form on reddit — route to the funnel landing page.",
+    "recommendedBudgetDaily": 19,
+    "signals": {
+      "audienceFit": 28,
+      "complianceFit": 100,
+      "creativeFit": 70,
+      "intentFit": 25,
+    },
+  },
+  {
+    "fitScore": 40,
+    "platform": "pinterest",
+    "rationale": "Audience signal 25/100, intent 20/100.",
+    "recommendedBudgetDaily": 18,
+    "signals": {
+      "audienceFit": 25,
+      "complianceFit": 100,
+      "creativeFit": 70,
+      "intentFit": 20,
+    },
+  },
+  {
+    "fitScore": 39,
+    "platform": "snapchat",
+    "rationale": "Audience signal 20/100, intent 15/100. No native lead-gen form on snapchat — route to the funnel landing page.",
+    "recommendedBudgetDaily": 17,
+    "signals": {
+      "audienceFit": 20,
+      "complianceFit": 100,
+      "creativeFit": 80,
+      "intentFit": 15,
+    },
+  },
+  {
+    "fitScore": 35,
+    "platform": "x",
+    "rationale": "Audience signal 15/100, intent 15/100. No native lead-gen form on x — route to the funnel landing page.",
+    "recommendedBudgetDaily": 16,
+    "signals": {
+      "audienceFit": 15,
+      "complianceFit": 100,
+      "creativeFit": 70,
+      "intentFit": 15,
+    },
+  },
+]
+`;

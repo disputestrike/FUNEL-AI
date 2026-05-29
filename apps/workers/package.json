@@ -2,7 +2,7 @@
   "name": "@funnel/workers",
   "version": "0.1.0",
   "private": true,
-  "description": "GoFunnelAI BullMQ workers service â€” long-running Node process that owns every cron job, every async job, every queued unit of work that should not run inside the request-handling API. Deployed separately on Railway / Fly / Render (NOT on Cloudflare Workers â€” this is the long-running Node runtime).",
+  "description": "GoFunnelAI BullMQ workers service — long-running Node process that owns every cron job, every async job, every queued unit of work that should not run inside the request-handling API. Deployed separately on Railway / Fly / Render (NOT on Cloudflare Workers — this is the long-running Node runtime).",
   "license": "UNLICENSED",
   "type": "module",
   "main": "./dist/index.js",

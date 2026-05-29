@@ -1,5 +1,5 @@
 /**
- * Concierge Playbook â€” call scripts + email templates + escalation logic.
+ * Concierge Playbook — call scripts + email templates + escalation logic.
  *
  * Codifies Doc 06a Â§6:
  *   - Six-dimension diagnostic scoresheet
@@ -35,13 +35,13 @@ export const CONCIERGE_EMAIL_TEMPLATES = {
   },
   tune_up_offer: {
     id: "founder_concierge_d5",
-    subject: "20 minutes, on me â€” let's find what's in the way",
+    subject: "20 minutes, on me — let's find what's in the way",
     persona: "founder",
     variables: ["first_name", "founder_first_name", "plan_tier", "calendly_link"],
   },
   save_offer: {
     id: "save_offer_d7",
-    subject: "Extending your Pro Boost â€” let's get you a win in week 2",
+    subject: "Extending your Pro Boost — let's get you a win in week 2",
     persona: "founder",
     variables: ["first_name", "cs_rep", "boost_end_date", "calendly_link"],
   },
@@ -215,7 +215,7 @@ export interface CallScriptInput {
 /**
  * Returns the appropriate Day-5 outreach script (Doc 06a Â§6).
  *
- * The text body is intentionally not chunked into blocks â€” CS reps copy/paste
+ * The text body is intentionally not chunked into blocks — CS reps copy/paste
  * into their dialer. Persona switches between CS rep and founder based on
  * plan tier.
  */
@@ -239,13 +239,13 @@ export function renderD5CallScript(input: CallScriptInput): {
     variant: "cs_rep",
     body:
       `Hi ${input.first_name}, this is ${input.cs_rep_name} from GoFunnelAI. ` +
-      `I'm not calling to sell you anything â€” I noticed you got your funnel ` +
+      `I'm not calling to sell you anything — I noticed you got your funnel ` +
       `published but no leads have come in yet, and I want to figure out why ` +
       `with you. Do you have 10 minutes right now or should I call back?\n\n` +
       `Pull up your dashboard with me. Let's look at three things: where your ` +
       `traffic is coming from, what your funnel looks like to a visitor, and ` +
       `whether RevTry has the right phone number to call from.\n\n` +
-      `Before we hang up â€” what's the one thing that, if GoFunnelAI did it for ` +
+      `Before we hang up — what's the one thing that, if GoFunnelAI did it for ` +
       `you in the next 7 days, would make this a no-brainer to keep using?`,
   };
 }

@@ -1,19 +1,19 @@
-﻿# GoFunnelAI KB Pack â€” Online Courses / Info Products (United States)
+# GoFunnelAI KB Pack — Online Courses / Info Products (United States)
 
 > **Pack ID:** `education-online-course-us-en`
-> **Version:** 0.1 â€” STUB
+> **Version:** 0.1 — STUB
 > **Last updated:** 2026-Q2
-> **Editor:** _TODO â€” assign domain expert_
+> **Editor:** _TODO — assign domain expert_
 > **Legal reviewer:** _TODO_
-> **Status:** STUB â€” must be filled in before this pack ships to generation. See `docs/02a-kb-pack-template.md` for the canonical template.
+> **Status:** STUB — must be filled in before this pack ships to generation. See `docs/02a-kb-pack-template.md` for the canonical template.
 
-> **Filling notes:** Every section is required. `N/A â€” <reason>` is acceptable when truly inapplicable, but no section may be empty. The numeric headings (`## 1.` through `## 24.`) are the retrieval anchors â€” do not rename or renumber.
+> **Filling notes:** Every section is required. `N/A — <reason>` is acceptable when truly inapplicable, but no section may be empty. The numeric headings (`## 1.` through `## 24.`) are the retrieval anchors — do not rename or renumber.
 
 ---
 
 ## 1. Market overview
 
-_TODO â€” fill 400+ words covering vertical definition, TAM/SAM/SOM, deal economics, sales cycle, buying triggers. See `02a-kb-pack-template.md` Â§1._
+_TODO — fill 400+ words covering vertical definition, TAM/SAM/SOM, deal economics, sales cycle, buying triggers. See `02a-kb-pack-template.md` Â§1._
 
 ### 1.1 Vertical definition
 - **Industry name:** Online Courses / Info Products
@@ -45,15 +45,15 @@ _TODO â€” fill 400+ words covering vertical definition, TAM/SAM/SOM, deal e
 - **Single biggest accelerant:** _TODO_
 
 ### 1.5 Buying triggers
-_TODO â€” list top 7 with search behavior, time horizon, and GoFunnelAI signal source._
+_TODO — list top 7 with search behavior, time horizon, and GoFunnelAI signal source._
 
 ---
 
 ## 2. Buyer personas
 
-_TODO â€” 3â€“5 personas per the template. Each persona must include: demographics, psychographics, JTBD, verbatim phrases, secret fears, winning definition, disqualifiers._
+_TODO — 3–5 personas per the template. Each persona must include: demographics, psychographics, JTBD, verbatim phrases, secret fears, winning definition, disqualifiers._
 
-### Persona 1 â€” TODO
+### Persona 1 — TODO
 
 - **One-line summary:** _TODO_
 - **Share of vertical's deal volume:** _TODO_%
@@ -69,16 +69,16 @@ _TODO â€” 3â€“5 personas per the template. Each persona must include: 
 
 ## 3. Pain points (top 10, ranked)
 
-_TODO â€” exactly 10, ranked, with rank, frequency, intensity, verbatim, root cause, status-quo cost, adjacent pains, hook framing._
+_TODO — exactly 10, ranked, with rank, frequency, intensity, verbatim, root cause, status-quo cost, adjacent pains, hook framing._
 
-### P1 â€” TODO
+### P1 — TODO
 _TODO_
 
 ---
 
 ## 4. Urgency triggers
 
-_TODO â€” 3 seasonal + 3 financial + 3 regulatory minimum._
+_TODO — 3 seasonal + 3 financial + 3 regulatory minimum._
 
 ### 4.1 Seasonal
 _TODO_
@@ -96,16 +96,16 @@ _TODO_
 
 ## 5. Common objections (top 10 with rebuttals)
 
-_TODO â€” exactly 10 with primary + backup rebuttals._
+_TODO — exactly 10 with primary + backup rebuttals._
 
-### O1 â€” TODO
+### O1 — TODO
 _TODO_
 
 ---
 
 ## 6. Proof types that work
 
-_TODO â€” top 8 proof types ranked by lift._
+_TODO — top 8 proof types ranked by lift._
 
 ### 6.1 Testimonials
 _TODO_
@@ -135,7 +135,7 @@ _TODO_
 
 ## 7. Offer archetypes
 
-_TODO â€” cover all 5: lead magnet, tripwire, free consult, free audit, instant quote._
+_TODO — cover all 5: lead magnet, tripwire, free consult, free audit, instant quote._
 
 ### 7.1 Lead magnet
 _TODO_
@@ -156,58 +156,58 @@ _TODO_
 
 ## 8. Lead magnets
 
-_TODO â€” 5â€“10 concrete examples with format, time, contents, target persona, headline, opt-in benchmark._
+_TODO — 5–10 concrete examples with format, time, contents, target persona, headline, opt-in benchmark._
 
-### LM1 â€” TODO
+### LM1 — TODO
 _TODO_
 
 ---
 
 ## 9. Funnel archetypes
 
-_TODO â€” exactly 3 ranked archetypes with page-by-page wireframes._
+_TODO — exactly 3 ranked archetypes with page-by-page wireframes._
 
-### FA1 â€” TODO
+### FA1 — TODO
 _TODO_
 
-### FA2 â€” TODO
+### FA2 — TODO
 _TODO_
 
-### FA3 â€” TODO
+### FA3 — TODO
 _TODO_
 
 ---
 
 ## 10. Ad angles
 
-_TODO â€” 10â€“15 proven hooks, each with pain, register, 3 headlines, 3 openers, visual, CTA, persona, channel fit, compliance risk, CTR/CPL._
+_TODO — 10–15 proven hooks, each with pain, register, 3 headlines, 3 openers, visual, CTA, persona, channel fit, compliance risk, CTR/CPL._
 
-### AA1 â€” TODO
+### AA1 — TODO
 _TODO_
 
 ---
 
 ## 11. Prohibited claims
 
-_TODO â€” must be reviewed by legal before pack ships._
+_TODO — must be reviewed by legal before pack ships._
 
-### 11.1 Universal (FTC) â€” banned phrasing â†’ allowed alternative
-_TODO â€” at minimum cover "free", "guaranteed", unsubstantiated claims, fake scarcity._
+### 11.1 Universal (FTC) — banned phrasing â†’ allowed alternative
+_TODO — at minimum cover "free", "guaranteed", unsubstantiated claims, fake scarcity._
 
 ### 11.2 Industry-specific prohibitions
-_TODO â€” cite statute, regulator, or FTC guide for each._
+_TODO — cite statute, regulator, or FTC guide for each._
 
 ### 11.3 State-by-state variance
-_TODO â€” table format._
+_TODO — table format._
 
 ### 11.4 Compliance agent hard-block list
-_TODO â€” minimum 20 exact strings._
+_TODO — minimum 20 exact strings._
 
 ---
 
 ## 12. Compliance rules
 
-_TODO â€” TCPA, CAN-SPAM, HIPAA (if applicable), state licensing, financing/APR (TILA), industry-specific disclosures, ADA/WCAG._
+_TODO — TCPA, CAN-SPAM, HIPAA (if applicable), state licensing, financing/APR (TILA), industry-specific disclosures, ADA/WCAG._
 
 ### 12.1 TCPA
 _TODO_
@@ -216,7 +216,7 @@ _TODO_
 _TODO_
 
 ### 12.3 HIPAA
-_TODO â€” N/A unless health-adjacent_
+_TODO — N/A unless health-adjacent_
 
 ### 12.4 State licensing
 _TODO_
@@ -234,10 +234,10 @@ _TODO_
 
 ## 13. Form fields
 
-_TODO â€” at least 15 candidate fields covered (recommended, avoid, progressive order, hidden/passive)._
+_TODO — at least 15 candidate fields covered (recommended, avoid, progressive order, hidden/passive)._
 
 ### 13.1 Recommended fields
-_TODO â€” table with field, type, required, rationale, score weight._
+_TODO — table with field, type, required, rationale, score weight._
 
 ### 13.2 Avoid fields
 _TODO_
@@ -252,7 +252,7 @@ _TODO_
 
 ## 14. Lead scoring rules
 
-_TODO â€” 0â€“100 score with 12+ signal rules; thresholds; predicts-closure ranking._
+_TODO — 0–100 score with 12+ signal rules; thresholds; predicts-closure ranking._
 
 ### 14.1 Demographic signals
 _TODO_
@@ -276,7 +276,7 @@ _TODO_
 
 ## 15. RevTry voice call script
 
-_TODO â€” full state-machine script: opener, qualifying questions (6+), discovery, objection handlers (one per O1â€“O10), booking close, won't-book branch, voicemail, compliance disclosures._
+_TODO — full state-machine script: opener, qualifying questions (6+), discovery, objection handlers (one per O1–O10), booking close, won't-book branch, voicemail, compliance disclosures._
 
 ### 15.1 Opener
 _TODO_
@@ -306,49 +306,49 @@ _TODO_
 
 ## 16. SMS sequences
 
-_TODO â€” exactly 3 SMS, T+ timing, body (â‰¤160 chars), STOP/HELP compliance, halt triggers, A/B variants. Include 10DLC prereqs and carrier-filter risky words for this vertical._
+_TODO — exactly 3 SMS, T+ timing, body (â‰¤160 chars), STOP/HELP compliance, halt triggers, A/B variants. Include 10DLC prereqs and carrier-filter risky words for this vertical._
 
-### SMS 1 â€” TODO
+### SMS 1 — TODO
 _TODO_
 
-### SMS 2 â€” TODO
+### SMS 2 — TODO
 _TODO_
 
-### SMS 3 â€” TODO
+### SMS 3 — TODO
 _TODO_
 
 ---
 
 ## 17. Email sequences
 
-_TODO â€” exactly 7 emails, each with subject A/B, preview, send-time, body outline (4â€“6 bullets), CTAs, halt trigger, compliance footer. Include sender-identity strategy, best send-times, re-engagement branch._
+_TODO — exactly 7 emails, each with subject A/B, preview, send-time, body outline (4–6 bullets), CTAs, halt trigger, compliance footer. Include sender-identity strategy, best send-times, re-engagement branch._
 
-### Email 1 â€” TODO
+### Email 1 — TODO
 _TODO_
 
-### Email 2 â€” TODO
+### Email 2 — TODO
 _TODO_
 
-### Email 3 â€” TODO
+### Email 3 — TODO
 _TODO_
 
-### Email 4 â€” TODO
+### Email 4 — TODO
 _TODO_
 
-### Email 5 â€” TODO
+### Email 5 — TODO
 _TODO_
 
-### Email 6 â€” TODO
+### Email 6 — TODO
 _TODO_
 
-### Email 7 â€” TODO
+### Email 7 — TODO
 _TODO_
 
 ---
 
 ## 18. Benchmark CPL
 
-_TODO â€” by channel Ã— geography. Cite source quarter._
+_TODO — by channel Ã— geography. Cite source quarter._
 
 ### 18.1 By channel
 _TODO_
@@ -363,7 +363,7 @@ _TODO_
 
 ## 19. Benchmark conversion rates
 
-_TODO â€” full-funnel stage rates, channel-mix variance, speed-to-lead correlation._
+_TODO — full-funnel stage rates, channel-mix variance, speed-to-lead correlation._
 
 ### 19.1 Stage rates
 _TODO_
@@ -378,7 +378,7 @@ _TODO_
 
 ## 20. Seasonal cycles
 
-_TODO â€” month-by-month index (100 = annual median) for demand, CPL, close rate. Calendar of action._
+_TODO — month-by-month index (100 = annual median) for demand, CPL, close rate. Calendar of action._
 
 ### 20.1 Demand index
 _TODO_
@@ -396,16 +396,16 @@ _TODO_
 
 ## 21. Top 20 example funnels
 
-_TODO â€” exactly 20. Mix of public competitor URLs and anonymized internal references. Each: archetype, persona, hero hook, magnet, form length, trust, what it does well/poorly, est. traffic, est. CR, why included._
+_TODO — exactly 20. Mix of public competitor URLs and anonymized internal references. Each: archetype, persona, hero hook, magnet, form length, trust, what it does well/poorly, est. traffic, est. CR, why included._
 
-### EX1 â€” TODO
+### EX1 — TODO
 _TODO_
 
 ---
 
 ## 22. Glossary
 
-_TODO â€” 20+ industry terms with definition, synonyms, avoid-in-buyer-copy flag._
+_TODO — 20+ industry terms with definition, synonyms, avoid-in-buyer-copy flag._
 
 | Term | Definition | Synonyms | Avoid in buyer copy? |
 |---|---|---|---|
@@ -415,7 +415,7 @@ _TODO â€” 20+ industry terms with definition, synonyms, avoid-in-buyer-copy
 
 ## 23. Sources and citations
 
-_TODO â€” bibliography. Every `[Source: ...]` reference in this pack must resolve here._
+_TODO — bibliography. Every `[Source: ...]` reference in this pack must resolve here._
 
 ---
 

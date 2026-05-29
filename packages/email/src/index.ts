@@ -1,5 +1,5 @@
 /**
- * Transactional email â€” public surface.
+ * Transactional email — public surface.
  *
  * The concrete sender (Resend, Postmark, etc.) implements the `Email`
  * interface. We expose a no-op `InMemoryEmail` for tests and dev.
@@ -21,7 +21,7 @@ export interface SendInput {
   data: Record<string, unknown>;
   /** Optional override of the From: address; defaults to no-reply@gofunnelai.com */
   from?: string;
-  /** Idempotency key â€” sender de-dups within a 24h window. */
+  /** Idempotency key — sender de-dups within a 24h window. */
   idempotency_key?: string;
 }
 

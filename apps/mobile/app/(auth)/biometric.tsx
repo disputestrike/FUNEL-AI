@@ -1,5 +1,5 @@
 /**
- * Biometric unlock â€” Face ID / Touch ID / Android biometric prompt.
+ * Biometric unlock — Face ID / Touch ID / Android biometric prompt.
  *
  * Only shown when the user is signed in AND has enabled biometrics in
  * settings. If biometrics fail or aren't enrolled, fall back to magic-link
@@ -32,7 +32,7 @@ export default function BiometricScreen() {
     const hasHardware = await LocalAuthentication.hasHardwareAsync();
     const enrolled = await LocalAuthentication.isEnrolledAsync();
     if (!hasHardware || !enrolled) {
-      // Skip biometric entirely on this device â€” they can re-enable later.
+      // Skip biometric entirely on this device — they can re-enable later.
       router.replace("/(tabs)");
       return;
     }

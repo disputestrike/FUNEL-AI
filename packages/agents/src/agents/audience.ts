@@ -1,5 +1,5 @@
 /**
- * Audience Agent â€” targeting parameters per ad platform.
+ * Audience Agent — targeting parameters per ad platform.
  *
  * Spec: docs/19-orchestrator-code-spec.md Â§B.2.8
  * Model: Claude Sonnet 4.6
@@ -61,14 +61,14 @@ LinkedIn:
 
 LOOKALIKE SEED:
 Recommend the best source for a lookalike audience:
-  customer_list  â€” best if BusinessProfile has 500+ closed customers
-  pixel_event    â€” best if there's existing pixel traffic with conversions
-  crm            â€” if a CRM is connected and qualified-lead events exist
+  customer_list  — best if BusinessProfile has 500+ closed customers
+  pixel_event    — best if there's existing pixel traffic with conversions
+  crm            — if a CRM is connected and qualified-lead events exist
 
 HARD BANS:
-- Health conditions on Meta (e.g., "diabetes interest") â€” banned globally.
-- Financial distress targeting on Meta â€” banned.
-- Negative-attribute targeting ("recently divorced") â€” banned.
+- Health conditions on Meta (e.g., "diabetes interest") — banned globally.
+- Financial distress targeting on Meta — banned.
+- Negative-attribute targeting ("recently divorced") — banned.
 
 OUTPUT: call the audience_output tool.`;
 

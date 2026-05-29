@@ -1,4 +1,4 @@
-﻿# 07b â€” Human Review Queue
+# 07b — Human Review Queue
 
 Owner: Head of Trust & Safety + Head of Operations
 Status: Day-90 launch baseline
@@ -9,7 +9,7 @@ Review cadence: Weekly metrics, monthly calibration, quarterly staffing model
 
 ## 1. Purpose
 
-Some generations are not auto-approvable and not auto-blockable. They need a trained human in the loop â€” for legal exposure, brand risk, or borderline policy calls. This document specifies which generations route to that human, how the queue operates, what reviewers can do, what customers see, and how we measure reviewer quality.
+Some generations are not auto-approvable and not auto-blockable. They need a trained human in the loop — for legal exposure, brand risk, or borderline policy calls. This document specifies which generations route to that human, how the queue operates, what reviewers can do, what customers see, and how we measure reviewer quality.
 
 This is the operational counterpart to 07a's classifier system. Where 07a says "route to human review", this document says exactly how.
 
@@ -57,7 +57,7 @@ regulated_industries:
     - firearms_licensed_dealer
 ```
 
-If the workspace's industry is in this list, **every** customer-facing published artifact for that workspace routes to review before first publish. After the workspace passes 10 consecutive clean reviews in the same industry, the workspace moves to "fast lane" â€” only the content-based triggers (2.2) and edge triggers (2.3) apply going forward. Fast-lane status is revoked on any rejection.
+If the workspace's industry is in this list, **every** customer-facing published artifact for that workspace routes to review before first publish. After the workspace passes 10 consecutive clean reviews in the same industry, the workspace moves to "fast lane" — only the content-based triggers (2.2) and edge triggers (2.3) apply going forward. Fast-lane status is revoked on any rejection.
 
 ### 2.2 Content triggers (language/imagery-based, run on every generation regardless of industry)
 
@@ -66,23 +66,23 @@ If the workspace's industry is in this list, **every** customer-facing published
 | Income claims | Regex on $ amounts paired with earn/make/generate/passive verbs; also "replace your salary", "fire your boss", "financial freedom" + numeric. |
 | Weight-loss claims | "lose X lbs/kg", "drop X sizes", "in X days/weeks" + body-related noun. |
 | Medical outcome claims | "cure", "treat", "reverse", "eliminate" + medical condition; "FDA-approved" without licensure proof. |
-| Guarantee language | "guaranteed", "100% guarantee", "money-back guarantee" â€” context-classified (some are OK e.g. refund policy; outcome guarantees are not). |
+| Guarantee language | "guaranteed", "100% guarantee", "money-back guarantee" — context-classified (some are OK e.g. refund policy; outcome guarantees are not). |
 | Before/after imagery | Image classifier detects paired body-shot / face-shot composition + same-subject heuristic via face-embedding similarity. |
 | Superlative claims | "best", "#1", "top-rated", "leading", "proven", "world-class" without substantiating disclaimer in same artifact. |
-| Testimonial with specific outcome | LLM-classified: "I lost 40 lbs in 30 days usingâ€¦" â€” testimonial + specific numeric outcome. |
+| Testimonial with specific outcome | LLM-classified: "I lost 40 lbs in 30 days using…" — testimonial + specific numeric outcome. |
 | Sensitive demographic targeting | Copy implies awareness of viewer's age, weight, health, debt, sexual orientation, race, religion. |
 
 ### 2.3 Edge / risk triggers
 
 | Trigger | Threshold |
 |---|---|
-| Funnel daily ad spend | > $1,000/day at the funnel level (high stakes â€” a bad ad burns money fast) |
-| Quality score borderline | 80â€“85 inclusive (above 85 auto-pass; below 80 auto-reject for re-gen) |
+| Funnel daily ad spend | > $1,000/day at the funnel level (high stakes — a bad ad burns money fast) |
+| Quality score borderline | 80–85 inclusive (above 85 auto-pass; below 80 auto-reject for re-gen) |
 | Compliance agent flag raised, not auto-blocked | Any `severity=medium` flag from compliance pipeline |
 | New domain | Published domain < 30 days old (WHOIS) |
 | New customer first publish in regulated vertical | Customer's first-ever publish + industry âˆˆ Â§2.1 |
 | Compliance KB version mismatch | The KB pack referenced in the generation is > 30 days stale relative to the current published version |
-| Repeat-suspend customer | Customer previously suspended and reinstated (per 07a Â§13) â€” every publish for 90 days post-reinstate routes to review |
+| Repeat-suspend customer | Customer previously suspended and reinstated (per 07a Â§13) — every publish for 90 days post-reinstate routes to review |
 
 ### 2.4 Customer-tier interaction
 - Free tier: any publish triggers review for the first 3 funnels regardless of triggers (training-data + quality-control window).
@@ -105,7 +105,7 @@ If the workspace's industry is in this list, **every** customer-facing published
 
 Persisted in `generation.state` with full history in `generation_state_history`. Transitions are append-only.
 
-A generation in `review_required` is **paused** â€” agents in the orchestrator stop; downstream publish-, ad-push-, send- jobs are not enqueued. Cost meter (07c) is paused too.
+A generation in `review_required` is **paused** — agents in the orchestrator stop; downstream publish-, ad-push-, send- jobs are not enqueued. Cost meter (07c) is paused too.
 
 ---
 
@@ -124,7 +124,7 @@ A generation in `review_required` is **paused** â€” agents in the orchestra
 | Milestone | Tier-1 | Tier-2 | Notes |
 |---|---|---|---|
 | Day 90 (launch) | 3 | 1 | Cover US business hours, Pacific bias |
-| Month 3 | 5 | 1 | Add overnight coverage (US PT 18:00â€“02:00) |
+| Month 3 | 5 | 1 | Add overnight coverage (US PT 18:00–02:00) |
 | Month 6 | 8 | 2 | 24Ã—5 coverage, weekends on-call rotation |
 | Month 12 | 15 | 3 | True 24Ã—7, specialized vertical reviewers (medical, legal, financial) |
 
@@ -141,7 +141,7 @@ Staffing model in Â§11; recompute monthly using queue volume + SLA adherence +
 
 | Window | Free / Starter | Growth | Scale / Agency |
 |---|---|---|---|
-| Business hours (Monâ€“Fri 8amâ€“6pm PT) | 4 hours | 2 hours | 1 hour |
+| Business hours (Mon–Fri 8am–6pm PT) | 4 hours | 2 hours | 1 hour |
 | After-hours / weekends | 24 hours | 12 hours | 4 hours |
 | Escalated to legal counsel | +1 business day on top | +1 business day | +1 business day |
 | Appeal review | 5 business days | 3 business days | 2 business days |
@@ -152,13 +152,13 @@ Customer-facing UI shows an actual estimated time, refreshed every 5 minutes fro
 
 > "Your funnel is in expert review. Estimated time: ~2 hours. We review everything in regulated industries to keep you and your customers protected."
 
-NEVER show "blocked", "flagged for risk", or "in moderation" as the only message â€” these read as accusatory or opaque. Wording is positive and explanatory.
+NEVER show "blocked", "flagged for risk", or "in moderation" as the only message — these read as accusatory or opaque. Wording is positive and explanatory.
 
 ---
 
 ## 6. Reviewer dashboard
 
-Web app at `review.funelai.com` (internal SSO via Google Workspace + WebAuthn).
+Web app at `review.gofunnelai.com` (internal SSO via Google Workspace + WebAuthn).
 
 ### 6.1 Queue view
 - Filterable by industry, trigger reason, customer tier, SLA risk (red = <30min to breach), reviewer assignment.
@@ -232,7 +232,7 @@ review_audit:
   time_to_decision_seconds: int
   triggers_that_fired: text[]
   kb_rules_referenced: text[]   # rule IDs from KB pack
-  outcome_post_publish: text     # filled later: published, taken_down, appealed_then_â€¦
+  outcome_post_publish: text     # filled later: published, taken_down, appealed_then_…
   created_at: ts (immutable)
 ```
 
@@ -246,9 +246,9 @@ Append-only. Retained 7 years. PII (customer-end content) lives in the linked ge
 
 | State | Banner text |
 |---|---|
-| `review_required` | "Your funnel is in expert review. Estimated time: ~2 hours. We review every funnel in [healthcare/legal/financial/â€¦] before it goes live to protect you from FTC + state penalties. We'll notify you the moment it's ready." |
-| `approved` | "Approved â€” you're live." |
-| `approved_with_edits` | "Approved. Our reviewer made small edits to keep you compliant â€” [link to diff]." |
+| `review_required` | "Your funnel is in expert review. Estimated time: ~2 hours. We review every funnel in [healthcare/legal/financial/…] before it goes live to protect you from FTC + state penalties. We'll notify you the moment it's ready." |
+| `approved` | "Approved — you're live." |
+| `approved_with_edits` | "Approved. Our reviewer made small edits to keep you compliant — [link to diff]." |
 | `request_changes` | "We need a couple of changes before this can go live: [structured list]." |
 | `rejected` | "We can't publish this funnel as written because [reason]. [Suggested next steps]. You can appeal within 7 days." |
 | `escalated_to_legal` | "This funnel raises a question we want our legal counsel to look at. Expected resolution: 1 business day." |
@@ -291,7 +291,7 @@ Reversal rate per original-reviewer tracked. Persistent high reversal rate (> 10
 - **10% random sample** of every reviewer's decisions audited by tier-2 lead each week.
 - **100% sample** of escalated cases.
 - **100% sample** of decisions on workspaces with > $5K/mo ad spend (high-stakes).
-- **Adversarial set**: 5 synthetic test cases per reviewer per month, planted into queue â€” gold-labeled by tier-2. Reviewer doesn't know which are tests.
+- **Adversarial set**: 5 synthetic test cases per reviewer per month, planted into queue — gold-labeled by tier-2. Reviewer doesn't know which are tests.
 
 ### 10.2 Metrics tracked per reviewer
 
@@ -334,7 +334,7 @@ review-svc.enqueue(generation_id, triggers[], priority) -> review_item_id
 review-svc.claim(reviewer_id) -> review_item   # round-robin
 review-svc.act(review_item_id, action, payload) -> {next_state}
 review-svc.reassign(review_item_id, to_reviewer_id, reason) -> ok
-review-svc.metrics(reviewer_id, window) -> {accuracy, ttd, sla, â€¦}
+review-svc.metrics(reviewer_id, window) -> {accuracy, ttd, sla, …}
 appeals-svc.file(generation_id, customer_id, payload) -> appeal_id
 appeals-svc.decide(appeal_id, decision, payload) -> {next_state}
 ```
@@ -349,6 +349,6 @@ Consumed by: orchestrator (to resume paused generations), 07c cost-governor (to 
 
 - Reviewer self-service rubric updates (currently tier-2 lead curates; team-wide proposal flow needed).
 - Auto-routing of escalated legal cases to specific outside counsel firm by state (Day 90: single firm).
-- Bilingual review (Spanish first) â€” estimated needed by Month 6 based on customer geo.
+- Bilingual review (Spanish first) — estimated needed by Month 6 based on customer geo.
 - Reviewer compensation model: salary + accuracy bonus (under design with finance).
-- Inter-rater statistical methodology â€” currently simple pairwise agreement; consider Cohen's kappa once N > 10 reviewers.
+- Inter-rater statistical methodology — currently simple pairwise agreement; consider Cohen's kappa once N > 10 reviewers.

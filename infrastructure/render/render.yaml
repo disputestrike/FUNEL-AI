@@ -1,6 +1,6 @@
 # infrastructure/render/render.yaml
 #
-# Render.com fallback deploy spec. Mirror of the Railway setup â€” same
+# Render.com fallback deploy spec. Mirror of the Railway setup — same
 # Dockerfiles, same env-var contract, same /healthz + /readyz endpoints.
 # Use this if/when Railway is unavailable or pricing tilts.
 #
@@ -23,7 +23,7 @@ services:
   - type: redis
     name: funnel-redis
     plan: standard
-    ipAllowList: []        # internal only â€” only Render services can reach it
+    ipAllowList: []        # internal only — only Render services can reach it
     maxmemoryPolicy: noeviction
 
   # ------- funnel-api ------------------------------------------------------

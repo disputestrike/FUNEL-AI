@@ -3,7 +3,7 @@
 Sweep run: 2026-05-26 18:50:10
 Root: C:\Users\benxp\funnel-ai
 
-## Rebrand: FunelAI -> GoFunnelAI / funelai.com -> gofunnelai.com
+## Rebrand: GoFunnelAI -> GoFunnelAI / gofunnelai.com -> gofunnelai.com
 
 - Total files modified: **322**
 - Brand-name replacements: **563**
@@ -12,13 +12,13 @@ Root: C:\Users\benxp\funnel-ai
 
 ## Rules applied (in order)
 
-- `@funelai.com` -> `@gofunnelai.com` (all email addresses)
-- `https://funelai.com` -> `https://gofunnelai.com`
-- `*.funelai.com` -> `*.gofunnelai.com`
-- `<subdomain>.funelai.com` -> `<subdomain>.gofunnelai.com`
-- `funelai.com` -> `gofunnelai.com` (catch-all)
+- `@gofunnelai.com` -> `@gofunnelai.com` (all email addresses)
+- `https://gofunnelai.com` -> `https://gofunnelai.com`
+- `*.gofunnelai.com` -> `*.gofunnelai.com`
+- `<subdomain>.gofunnelai.com` -> `<subdomain>.gofunnelai.com`
+- `gofunnelai.com` -> `gofunnelai.com` (catch-all)
 - `Funel AI` -> `GoFunnelAI`
-- `FunelAI` / `FunelAi` / `Funelai` -> `GoFunnelAI`
+- `GoFunnelAI` / `FunelAi` / `Funelai` -> `GoFunnelAI`
 - `funelai` (lowercase brand identifier, not followed by `_`) -> `gofunnelai`
 
 ## Excluded from rename

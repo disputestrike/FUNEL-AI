@@ -6,7 +6,7 @@
  * the Compliance agent + the rules pre-filter to flag content before LLM
  * review.
  *
- * Patterns are intentionally redundant with the agent's LLM judgment â€” the
+ * Patterns are intentionally redundant with the agent's LLM judgment — the
  * regex/keyword layer is cheap, fast, deterministic, and gives us deny-list
  * coverage even if the LLM hallucinates. The LLM provides nuance on top.
  *
@@ -24,7 +24,7 @@ export interface ProhibitedClaimRule {
   description: string;
   /** Regex patterns (case-insensitive) that fire this rule. */
   patterns: RegExp[];
-  /** Severity â€” `block` aborts generation, `human_review` queues, `warn` annotates. */
+  /** Severity — `block` aborts generation, `human_review` queues, `warn` annotates. */
   severity: RuleSeverity;
   /** Authority citation. */
   authority: string;
@@ -74,7 +74,7 @@ const NUMERIC_GUARANTEE =
 const RISK_FREE = /\b(risk[\s-]?free|zero\s+risk|no\s+risk)\b/i;
 const URGENCY = /\b(act\s+(?:now|within\s+24\s+hours?)|final\s+notice|account\s+will\s+be\s+suspended|verify\s+now\s+or\s+lose|limited\s+time\s+to\s+claim)\b/i;
 
-// â”€â”€ HEALTHCARE â€” generic â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â”€â”€ HEALTHCARE — generic â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const HEALTHCARE_GENERIC: VerticalRuleset = {
   verticalSlug: "healthcare_general",
   prohibited: [
@@ -201,7 +201,7 @@ const GLP1: VerticalRuleset = {
   examples: [
     {
       ok: "If you qualify after a medical evaluation, GLP-1 therapy may be one option among many.",
-      bad: "Lose 30 lbs in 90 days with our GLP-1 program â€” guaranteed.",
+      bad: "Lose 30 lbs in 90 days with our GLP-1 program — guaranteed.",
       rule: "glp1.efficacy_number",
     },
   ],
@@ -472,7 +472,7 @@ const DEFAULT_RULES: VerticalRuleset = {
     {
       id: "d.ai_disclosure",
       surface: "every_page",
-      text: "Generated with GoFunnelAI â€” reviewed by [operator].",
+      text: "Generated with GoFunnelAI — reviewed by [operator].",
       authority: "FTC AI Disclosure + EU AI Act Art. 50",
     },
     {

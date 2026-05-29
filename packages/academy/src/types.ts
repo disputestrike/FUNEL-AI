@@ -1,5 +1,5 @@
 /**
- * @funnel/academy â€” types.
+ * @funnel/academy — types.
  *
  * Domain model for the GoFunnelAI Academy (the education arm).
  *
@@ -7,7 +7,7 @@
  * - 3 certification ladders: Operator, Strategist, Agency Partner
  *   (Agency Partner = the cert course defined in docs/13-agency-enablement-kit.md Â§3)
  * - Capstone-as-service (student Ã— local-business pairing)
- * - College pipeline (LTI 1.3 â€” Canvas / Blackboard / Moodle)
+ * - College pipeline (LTI 1.3 — Canvas / Blackboard / Moodle)
  *
  * Every persisted entity uses ULID IDs with a typed prefix (Doc 03 conventions).
  *
@@ -93,7 +93,7 @@ export type InstitutionType = (typeof INSTITUTION_TYPES)[number];
 export const LMS_KINDS = ["canvas", "blackboard", "moodle", "google_classroom"] as const;
 export type LmsKind = (typeof LMS_KINDS)[number];
 
-/** Day-1 launch verticals â€” match the KB packs (Doc 02a/02b, 13 Â§slide 8). */
+/** Day-1 launch verticals — match the KB packs (Doc 02a/02b, 13 Â§slide 8). */
 export const INDUSTRY_VERTICALS = [
   "hvac",
   "plumbing",
@@ -144,7 +144,7 @@ export const CourseMetaSchema = z.object({
   total_minutes: z.number().int().nonnegative().default(0),
   /** Hero artwork (Cloudflare Images path). */
   hero_image_url: z.string().url().nullable().optional(),
-  /** SEO meta â€” every course is a landing page. */
+  /** SEO meta — every course is a landing page. */
   seo_title: z.string().max(80).optional(),
   seo_description: z.string().max(180).optional(),
   /** Counts toward Strategist certification (advanced ladder). */
@@ -280,7 +280,7 @@ export const QuizSchema = z.object({
   questions: z.array(QuizQuestionSchema).min(1),
   /** Percentage required to pass. Doc 13 Â§3 = 80% for the Agency cert. */
   passing_pct: z.number().int().min(0).max(100).default(70),
-  /** Retake cooldown â€” Doc 13 says 7 days. */
+  /** Retake cooldown — Doc 13 says 7 days. */
   retake_cooldown_days: z.number().int().min(0).default(0),
   /** If true, this quiz counts as the course's certification gate. */
   is_certification_quiz: z.boolean().default(false),
@@ -320,7 +320,7 @@ export interface Enrollment {
   refunded_at: string | null;
   /** Total % progress, denormalized for catalog/dashboard reads. */
   progress_pct: number;
-  /** ID of the last lesson the user opened â€” used for "resume where left off". */
+  /** ID of the last lesson the user opened — used for "resume where left off". */
   last_lesson_id: string | null;
 }
 
@@ -333,7 +333,7 @@ export interface Progress {
   status: ProgressStatus;
   /** For video lessons: % watched (0-100). */
   watched_pct: number;
-  /** Seconds completed â€” used for resume + drop-off analytics. */
+  /** Seconds completed — used for resume + drop-off analytics. */
   position_seconds: number;
   /** Last quiz score on this lesson if it's a quiz. */
   best_score_pct: number | null;
@@ -421,7 +421,7 @@ export interface CapstoneBusinessProfile {
   city: string;
   region: string;
   country: string;
-  /** Owner self-declared monthly revenue band â€” used to match difficulty. */
+  /** Owner self-declared monthly revenue band — used to match difficulty. */
   revenue_band: "<10k" | "10k-50k" | "50k-200k" | "200k+";
   opted_in_at: string;
   matched_capstone_id: string | null;
@@ -441,7 +441,7 @@ export interface Institution {
   region: string;
   /** Domain auto-grants student accounts (`@howard.edu`). */
   email_domain: string;
-  /** Free GoFunnelAI for Education tier â€” no seat limit. */
+  /** Free GoFunnelAI for Education tier — no seat limit. */
   unlimited_seats: boolean;
   /** Active student-account count (denormalized for dashboards). */
   student_count: number;
@@ -502,7 +502,7 @@ export interface PaidProgram {
   refund_forfeit_after_lessons: number;
   /** Stripe price ID. */
   stripe_price_id: string;
-  /** PayPal plan ID (primary processor per Doc 04 â€” fallback to Stripe). */
+  /** PayPal plan ID (primary processor per Doc 04 — fallback to Stripe). */
   paypal_plan_id: string | null;
   active: boolean;
 }
@@ -532,7 +532,7 @@ export interface AcademySeoPage {
   url_path: string;
   title: string;
   meta_description: string;
-  /** Canonical keyword cluster â€” "marketing for [industry]" pattern. */
+  /** Canonical keyword cluster — "marketing for [industry]" pattern. */
   primary_keyword: string;
   /** Auto-rendered FAQ schema.org/FAQPage. */
   faq: Array<{ q: string; a: string }>;

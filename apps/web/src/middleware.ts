@@ -1,61 +1,82 @@
+/**
+ * Auth + public-route policy for the marketing-and-app monorepo.
+ *
+ * Public routes are everything a logged-out prospect can see (marketing,
+ * the funnel grader, the public funnel render path `/f/[slug]`, legal docs,
+ * webhooks, sign-in/sign-up). Everything else is gated by Auth.js;
+ * unauthenticated requests get bounced to `/login?callbackUrl=…`.
+ *
+ * Security headers from `lib/platform/security` are applied on every response.
+ */
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-import { AUTH_COOKIE } from "@/lib/auth-cookie";
+import { auth } from "@/lib/auth";
 import { applySecurityHeaders } from "@/lib/platform/security";
 
-/**
- * Auth gate (stubbed for launch UX).
- *
- * Reads the `mock-auth-session` cookie set by /signup and /login.
- * If absent, any request to a protected path bounces to /login.
- *
- * Real auth (Auth.js / Clerk / WorkOS) will replace this without
- * changing the protected-paths list.
- */
-const PROTECTED_PREFIXES = [
-  "/dashboard",
-  "/funnels",
-  "/crm",
-  "/campaigns",
-  "/billing",
-  "/settings",
-  "/welcome",
-  "/onboarding",
-  "/generate",
-  "/admin",
+const PUBLIC_PATHS = [
+  "/",
+  "/pricing",
+  "/industries",
+  "/about",
+  "/grade",
+  "/help",
+  "/community",
+  "/academy",
+  "/awards",
+  "/wins",
+  "/marketplace",
+  "/affiliate",
+  "/contact",
+  "/careers",
+  "/press",
+  "/blog",
+  "/legal",
+  "/privacy",
+  "/terms",
+  "/vs",
+  "/f",
+  "/login",
+  "/signup",
+  "/api/auth",
+  "/api/webhooks",
+  "/api/healthz",
+  "/api/readyz",
+  "/api/email-capture",
+  "/api/share",
+  "/api/domains",
 ];
 
-function isProtected(pathname: string) {
-  return PROTECTED_PREFIXES.some(
-    (p) => pathname === p || pathname.startsWith(`${p}/`),
+function isPublic(pathname: string): boolean {
+  return PUBLIC_PATHS.some(
+    (p) => pathname === p || pathname.startsWith(p + "/"),
   );
 }
 
-export function middleware(req: NextRequest) {
-  const { pathname, search } = req.nextUrl;
+export default auth((req) => {
+  const { pathname } = req.nextUrl;
 
-  if (!isProtected(pathname)) {
-    const response = NextResponse.next();
-    applySecurityHeaders(response.headers);
-    return response;
+  if (isPublic(pathname)) {
+    const res = NextResponse.next();
+    applySecurityHeaders(res.headers);
+    return res;
   }
 
-  const session = req.cookies.get(AUTH_COOKIE)?.value;
-  if (session) {
-    const response = NextResponse.next();
-    applySecurityHeaders(response.headers);
-    return response;
+  if (!req.auth) {
+    const loginUrl = new URL("/login", req.url);
+    loginUrl.searchParams.set("callbackUrl", pathname + req.nextUrl.search);
+    const res = NextResponse.redirect(loginUrl);
+    applySecurityHeaders(res.headers);
+    return res;
   }
 
-  const url = req.nextUrl.clone();
-  url.pathname = "/login";
-  url.search = `?next=${encodeURIComponent(pathname + search)}`;
-  const response = NextResponse.redirect(url);
-  applySecurityHeaders(response.headers);
-  return response;
-}
+  const res = NextResponse.next();
+  applySecurityHeaders(res.headers);
+  return res;
+});
 
 export const config = {
-  // Skip Next internals, public files, and the API surface.
-  matcher: ["/((?!_next/|api/|favicon.ico|brand/|images/|robots.txt|sitemap.xml).*)"],
+  matcher: [
+    // Skip Next internals and static assets (including /brand for the logos
+    // we use on the login screen).
+    "/((?!_next/static|_next/image|favicon.ico|brand/|.*\\.(?:png|jpg|jpeg|svg|gif|webp|ico)$).*)",
+  ],
 };

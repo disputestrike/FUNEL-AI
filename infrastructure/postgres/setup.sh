@@ -1,6 +1,6 @@
-﻿#!/usr/bin/env bash
+#!/usr/bin/env bash
 ###############################################################################
-# GoFunnelAI â€” Neon Postgres one-shot setup.
+# GoFunnelAI — Neon Postgres one-shot setup.
 #
 # Idempotent: re-running this script is safe. It will:
 #   1. Create the Neon project + databases for prod/staging/preview if missing.

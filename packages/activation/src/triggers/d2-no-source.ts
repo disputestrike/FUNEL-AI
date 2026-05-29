@@ -1,5 +1,5 @@
 /**
- * Day 2 â€” Traffic source still missing.
+ * Day 2 — Traffic source still missing.
  *
  * 36h after signup, if no `traffic_source_connected` event: send RevTry-branded
  * SMS via SignalWire ("Need help launching ads? Reply YES"). If the user
@@ -91,7 +91,7 @@ export async function fireD2NoSource(args: {
 }
 
 /**
- * Webhook handler â€” fires when SignalWire reports an inbound "YES" from the
+ * Webhook handler — fires when SignalWire reports an inbound "YES" from the
  * user. Spawns the actual RevTry call within 5 minutes.
  */
 export async function onD2YesReply(args: {

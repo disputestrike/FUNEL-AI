@@ -1,5 +1,5 @@
 /**
- * Popup â€” opens when the user clicks the toolbar icon.
+ * Popup — opens when the user clicks the toolbar icon.
  *
  * Three primary actions, in priority order:
  *   1. Audit this page (calls Grader)

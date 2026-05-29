@@ -1,4 +1,4 @@
-﻿# FunelAI â€” 7 Viral Loops Operational Spec
+# GoFunnelAI — 7 Viral Loops Operational Spec
 
 **Document:** 16-viral-loops-spec
 **Version:** 1.0
@@ -10,15 +10,15 @@
 
 ## Overview
 
-FunelAI's growth engine is not a single channel â€” it is **seven stacked viral loops** that compound. Each loop is designed to (a) extract value from a satisfied user and (b) feed net-new users into the top of the funnel. The loops share underlying primitives (event taxonomy, attribution, identity, payouts) so they can be built and operated as a single system.
+GoFunnelAI's growth engine is not a single channel — it is **seven stacked viral loops** that compound. Each loop is designed to (a) extract value from a satisfied user and (b) feed net-new users into the top of the funnel. The loops share underlying primitives (event taxonomy, attribution, identity, payouts) so they can be built and operated as a single system.
 
 The 7 loops:
 
 | # | Loop | Primary mechanic | Owner |
 |---|------|------------------|-------|
-| 1 | "Powered by FunelAI" watermark | Embedded brand link on free funnels | Growth |
+| 1 | "Powered by GoFunnelAI" watermark | Embedded brand link on free funnels | Growth |
 | 2 | Affiliate program | 40% recurring lifetime + Dream Car bonus | Growth |
-| 3 | FunelAI Awards | Bronzeâ†’Diamond milestones + auto case studies | Growth + CS |
+| 3 | GoFunnelAI Awards | Bronzeâ†’Diamond milestones + auto case studies | Growth + CS |
 | 4 | Template Marketplace | Creator economy, 70/30 split | Product |
 | 5 | Community + Gamified Levels | Skool â†’ native, XP + Mentor tier | Product + CS |
 | 6 | FunnelCon | Annual event, awards ceremony anchor | Events |
@@ -28,11 +28,11 @@ All loops must emit events per Doc 03 taxonomy, route attribution through the PA
 
 ---
 
-## LOOP 1 â€” "Powered by FunelAI" Watermark
+## LOOP 1 — "Powered by GoFunnelAI" Watermark
 
 ### 1.1 Purpose
 
-Every funnel published on the free tier carries a small, clickable badge in the footer linking back to FunelAI. This converts every published free funnel into a distribution surface. Pro Boost and paid tiers remove it; this is the primary nudge to upgrade for vanity reasons (the second-most-cited upgrade reason in CF benchmarks, after page-load speed).
+Every funnel published on the free tier carries a small, clickable badge in the footer linking back to GoFunnelAI. This converts every published free funnel into a distribution surface. Pro Boost and paid tiers remove it; this is the primary nudge to upgrade for vanity reasons (the second-most-cited upgrade reason in CF benchmarks, after page-load speed).
 
 ### 1.2 Placement
 
@@ -40,7 +40,7 @@ Every funnel published on the free tier carries a small, clickable badge in the 
 - Footer of every page in a free-tier published funnel (landing, optin, sales, upsell, downsell, thank-you, calendar, etc.).
 - Bottom-center, ~24px from bottom edge of viewport on mobile, ~32px on desktop.
 - Above any customer-set footer content (we render last, in our own slot).
-- Never inside the customer's `<footer>` element â€” we render in a dedicated `<div data-funnel-watermark>` slot to prevent CSS injection from breaking it.
+- Never inside the customer's `<footer>` element — we render in a dedicated `<div data-funnel-watermark>` slot to prevent CSS injection from breaking it.
 
 **Exact HTML:**
 
@@ -48,15 +48,15 @@ Every funnel published on the free tier carries a small, clickable badge in the 
 <div data-funnel-watermark
      class="funnel-watermark"
      role="contentinfo"
-     aria-label="Built with FunelAI">
-  <a href="https://funelai.com/build-yours?utm_source=watermark&utm_medium=funnel_footer&utm_campaign=powered_by&funnel_id={{funnel_id}}&variant={{variant_id}}"
+     aria-label="Built with GoFunnelAI">
+  <a href="https://gofunnelai.com/build-yours?utm_source=watermark&utm_medium=funnel_footer&utm_campaign=powered_by&funnel_id={{funnel_id}}&variant={{variant_id}}"
      target="_blank"
      rel="noopener"
      data-fa-event="watermark_clicked"
      data-fa-funnel-id="{{funnel_id}}"
      data-fa-variant="{{variant_id}}">
     <svg class="funnel-watermark__logo" width="16" height="16" aria-hidden="true">...</svg>
-    <span class="funnel-watermark__text">Built with <strong>FunelAI</strong></span>
+    <span class="funnel-watermark__text">Built with <strong>GoFunnelAI</strong></span>
   </a>
 </div>
 ```
@@ -93,16 +93,16 @@ Server-side, the watermark HTML is injected by the funnel renderer immediately b
 ### 1.3 Link target
 
 ```
-https://funelai.com/build-yours?utm_source=watermark&utm_medium=funnel_footer&utm_campaign=powered_by&funnel_id={funnel_id}&variant={variant_id}
+https://gofunnelai.com/build-yours?utm_source=watermark&utm_medium=funnel_footer&utm_campaign=powered_by&funnel_id={funnel_id}&variant={variant_id}
 ```
 
-- Landing page (`/build-yours`) is a watermark-specific landing optimized for "I just saw this on a funnel â€” what is this?" intent.
-- Headline: "This funnel was built in FunelAI. Build yours in under 60 seconds â€” free."
+- Landing page (`/build-yours`) is a watermark-specific landing optimized for "I just saw this on a funnel — what is this?" intent.
+- Headline: "This funnel was built in GoFunnelAI. Build yours in under 60 seconds — free."
 - Hero CTA: "Generate my funnel" â†’ opens the Funnel Grader (Doc 01) pre-populated with the visited funnel's industry signal (we can infer from the referring funnel's KB pack).
 
 ### 1.4 Removal trigger
 
-- **Free tier:** watermark always rendered. Cannot be hidden via JS, CSS overrides, or proxying (we periodically scan published URLs for tampering â€” see 1.7 Anti-tamper).
+- **Free tier:** watermark always rendered. Cannot be hidden via JS, CSS overrides, or proxying (we periodically scan published URLs for tampering — see 1.7 Anti-tamper).
 - **Pro Boost (one-time $X to remove for a single funnel):** removed from that `funnel_id` only.
 - **Paid tier (Starter and above):** removed across all funnels owned by the workspace.
 - Toggle is a `watermark_enabled` flag on the funnel record; flips automatically on subscription state change via a webhook from billing.
@@ -110,13 +110,13 @@ https://funelai.com/build-yours?utm_source=watermark&utm_medium=funnel_footer&ut
 
 ### 1.5 A/B test variants
 
-Three variants assigned by `funnel_id` hash â†’ bucket. Bucket is sticky per funnel (so all visitors of a given funnel see the same variant â€” apples-to-apples).
+Three variants assigned by `funnel_id` hash â†’ bucket. Bucket is sticky per funnel (so all visitors of a given funnel see the same variant — apples-to-apples).
 
 | Variant | Copy | Visual |
 |---------|------|--------|
-| A (control) | "Built with **FunelAI**" | Logo + text, neutral gray |
+| A (control) | "Built with **GoFunnelAI**" | Logo + text, neutral gray |
 | B (curiosity) | "How was this funnel built? â†’" | Text-only, slight underline animation on hover |
-| C (social proof) | "Join 50,000+ funnels built on FunelAI" | Logo + text + counter (live count, cached 15min) |
+| C (social proof) | "Join 50,000+ funnels built on GoFunnelAI" | Logo + text + counter (live count, cached 15min) |
 
 Success metric: **watermark_signup_completed / watermark_impression** (signup-attributed CR per impression). Secondary: CTR (`watermark_clicked / watermark_impression`).
 
@@ -140,7 +140,7 @@ All events land in the event bus per Doc 03; attribution stitching done in PAL (
 ### 1.7 Measurement & ops
 
 - **Monthly review:** signups attributable to watermark, paid conversions, MRR generated, $ saved vs paid CAC equivalent.
-- **Dashboard:** `growth/watermark` â€” impressions, CTR, signup CR, paid CR, MRR contribution, per variant.
+- **Dashboard:** `growth/watermark` — impressions, CTR, signup CR, paid CR, MRR contribution, per variant.
 - **Anti-tamper job:** daily crawler hits a sample of 1,000 published free-tier funnels, runs headless Chromium, asserts watermark DOM is present and link is unmodified. On failure â†’ flag the workspace, alert T&S, force re-publish.
 - **Tier gate:** anti-tamper job ignores Pro Boost / paid funnels.
 
@@ -149,21 +149,21 @@ All events land in the event bus per Doc 03; attribution stitching done in PAL (
 - Renderer service injects watermark HTML during SSR; cached at edge with `watermark_enabled` as a cache key dimension.
 - Edge cache TTL: 60s on free funnels (to make removal-on-upgrade fast).
 - Billing webhook â†’ funnel rendering service: `workspace.subscription.updated` â†’ invalidate edge cache for all `funnel_id` in workspace.
-- Click tracking: standard `data-fa-event` pixel + redirect tracker on `funelai.com/r/watermark/...` (also enables click counts without JS).
+- Click tracking: standard `data-fa-event` pixel + redirect tracker on `gofunnelai.com/r/watermark/...` (also enables click counts without JS).
 
 ---
 
-## LOOP 2 â€” Affiliate Program (40% Recurring Lifetime)
+## LOOP 2 — Affiliate Program (40% Recurring Lifetime)
 
 ### 2.1 Eligibility & onboarding
 
-- **Open to:** any authenticated FunelAI user (free or paid). No application, no approval â€” automatically eligible on account creation.
-- **Activation:** user visits `app.funelai.com/affiliate` â†’ accepts affiliate ToS â†’ unique referral link issued.
+- **Open to:** any authenticated GoFunnelAI user (free or paid). No application, no approval — automatically eligible on account creation.
+- **Activation:** user visits `app.gofunnelai.com/affiliate` â†’ accepts affiliate ToS â†’ unique referral link issued.
 - **Onboarding kit** (delivered on activation):
-  - 30-minute video: "How to promote FunelAI" (founder-hosted, covers positioning, hooks that work, what NOT to do per AUP)
+  - 30-minute video: "How to promote GoFunnelAI" (founder-hosted, covers positioning, hooks that work, what NOT to do per AUP)
   - 7-day email sequence with promotion playbooks (organic post templates, YouTube script templates, paid ad angles)
-  - Social asset library: 50+ images, 20 short-form video templates, banner sets in 6 sizes, demo GIFs, comparison charts (FunelAI vs CF/HighLevel/GoHighLevel)
-  - Pre-built "swipe file" of high-converting copy (compliant with our AUP â€” no income claims, no medical/financial language)
+  - Social asset library: 50+ images, 20 short-form video templates, banner sets in 6 sizes, demo GIFs, comparison charts (GoFunnelAI vs CF/HighLevel/GoHighLevel)
+  - Pre-built "swipe file" of high-converting copy (compliant with our AUP — no income claims, no medical/financial language)
 
 ### 2.2 Commission structure
 
@@ -194,13 +194,13 @@ Quarterly bonus paid in addition to commissions. Designed as a viral aspirationa
 - "Active paying" = referred customer's subscription is in `active` or `past_due < 14 days` state on the bonus evaluation date.
 - Evaluation: monthly snapshot on the 1st. If snapshot count meets threshold â†’ that month's bonus accrues. Quarterly payout on the 5th business day of Apr/Jul/Oct/Jan.
 - **Auto-pause:** if active referrals drop below threshold on any monthly snapshot, that month's bonus is not earned. Bonus auto-resumes the next month they cross threshold.
-- Bonus is **paid as a cash bonus** via the same payout rail â€” we don't lease a car for them; they choose.
+- Bonus is **paid as a cash bonus** via the same payout rail — we don't lease a car for them; they choose.
 - Eligibility for higher tier is **strict** (501 referrals = $2,500 tier, not stacked).
 - Anti-gaming: bonus only counts referrals that are paying customers themselves and have NOT been auto-flagged by fraud detection.
 
 ### 2.5 Public leaderboard
 
-- Public page: `funelai.com/affiliates/leaderboard`
+- Public page: `gofunnelai.com/affiliates/leaderboard`
 - Shows **top 50 affiliates** by trailing 30-day commission earned.
 - Columns: rank, display name (affiliate-chosen), avatar, country (optional), trailing-30 commission, total lifetime commission, active referrals.
 - **Opt-out:** affiliate dashboard has "Hide me from public leaderboard" toggle. Hidden affiliates still see their rank privately.
@@ -209,11 +209,11 @@ Quarterly bonus paid in addition to commissions. Designed as a viral aspirationa
 
 ### 2.6 Affiliate dashboard
 
-`app.funelai.com/affiliate` â€” single page, components:
+`app.gofunnelai.com/affiliate` — single page, components:
 
 - **My link** (with copy button, QR code, short URL generator for sub-campaigns)
 - **Sub-campaign links** (affiliate can append `?sub=yt-video-1` to track per-channel performance; up to 100 sub-IDs)
-- **Funnel** (the affiliate can build a FunelAI funnel that sells FunelAI â€” meta loop, see 2.8)
+- **Funnel** (the affiliate can build a GoFunnelAI funnel that sells GoFunnelAI — meta loop, see 2.8)
 - **Stats panel:** clicks, signups, trial starts, paid conversions, churned, active referrals, MRR generated, commission earned (this month, lifetime), commission paid (this month, lifetime), next payout date & amount
 - **Referrals table:** rows of referred customers (anonymized as "Customer A4FB"), signup date, current status, MRR, your commission, status (active/churned/refunded)
 - **Payouts table:** date, amount, method, status, transaction ID
@@ -224,17 +224,17 @@ Quarterly bonus paid in addition to commissions. Designed as a viral aspirationa
 
 ### 2.7 Affiliate funnels (meta loop)
 
-Affiliates can use FunelAI itself to build the funnel that sells FunelAI. We provide:
+Affiliates can use GoFunnelAI itself to build the funnel that sells GoFunnelAI. We provide:
 - A pre-built "Affiliate Promo Funnel" template (free, in their workspace on affiliate activation)
 - Pre-written copy variants tied to industries (solar, real estate, agency, coach, ecom)
 - Their referral link auto-injected on every CTA button on the template
 - Conversion events from these funnels are counted against their affiliate stats
 
-This is high leverage: the best affiliates ship a FunelAI funnel that markets FunelAI, with their tracking baked in. Eats own dogfood publicly.
+This is high leverage: the best affiliates ship a GoFunnelAI funnel that markets GoFunnelAI, with their tracking baked in. Eats own dogfood publicly.
 
 ### 2.8 Cookie window & attribution
 
-- **Cookie window: 90 days** (deliberately longer than ClickFunnels' 30 days â€” a competitive differentiator we advertise).
+- **Cookie window: 90 days** (deliberately longer than ClickFunnels' 30 days — a competitive differentiator we advertise).
 - **First-click attribution** by default. Affiliate can opt their links into last-click via dashboard if they prefer (industry-flexible).
 - **Cross-device:** stitched via login-time identity merge. If a visitor clicks an affiliate link, the affiliate cookie is associated with their `prospect_id`. On signup â†’ `user_id` merged. If the same user later signs up on a different device, the merge happens server-side via email match.
 - **Tie-breakers** (multiple affiliates in window): first-click wins by default. Audit log retained for disputes.
@@ -242,7 +242,7 @@ This is high leverage: the best affiliates ship a FunelAI funnel that markets Fu
 
 ### 2.9 Multi-tier
 
-**No multi-tier.** Single-level only. We do not want MLM perception or regulatory exposure. This is a competitive choice â€” clearly documented in affiliate ToS.
+**No multi-tier.** Single-level only. We do not want MLM perception or regulatory exposure. This is a competitive choice — clearly documented in affiliate ToS.
 
 ### 2.10 Fraud rules
 
@@ -286,7 +286,7 @@ Appeal process: affiliate can submit an appeal via dashboard within 30 days. Rev
 ### 2.12 Engineering spec
 
 **Core services:**
-1. **Short link service** (`funelai.com/r/<code>`): 302 redirects + UTM injection + cookie set + click event emission. Hosted on edge for <50ms p95.
+1. **Short link service** (`gofunnelai.com/r/<code>`): 302 redirects + UTM injection + cookie set + click event emission. Hosted on edge for <50ms p95.
 2. **Attribution service:** ingests click â†’ signup â†’ conversion chain; computes attribution per Doc 04 PAL; idempotent on `affiliate_id Ã— referred_user_id`.
 3. **Commission ledger:** double-entry ledger (debit: affiliate_payable, credit: revenue_share). Every commission, clawback, and payout is a journal entry. Source of truth for all dashboards and payouts.
 4. **Payout job:** cron weekly (Mon 09:00 UTC). Aggregates earned commissions for prior week â†’ minimum threshold check â†’ calls PayPal Mass Pay API â†’ emits `affiliate_payout_sent` / `affiliate_payout_failed`. Retries 3x with backoff on transient failures.
@@ -308,11 +308,11 @@ dream_car_snapshot { affiliate_id, month, active_paying_referrals, tier, bonus_a
 
 ---
 
-## LOOP 3 â€” FunelAI Awards (Bronze â†’ Diamond)
+## LOOP 3 — GoFunnelAI Awards (Bronze â†’ Diamond)
 
 ### 3.1 Tier definitions
 
-Awards are based on **revenue attributed to a funnel** â€” the gross revenue collected through Stripe/PayPal integrations on that funnel's checkout/payment pages, lifetime-cumulative per funnel.
+Awards are based on **revenue attributed to a funnel** — the gross revenue collected through Stripe/PayPal integrations on that funnel's checkout/payment pages, lifetime-cumulative per funnel.
 
 | Tier | Revenue threshold | Award |
 |------|------|------|
@@ -338,7 +338,7 @@ Tier is per funnel, not per workspace. A workspace with 3 Bronze funnels gets 3 
 - Trigger: `milestone_hit` event with `tier=bronze`.
 - Auto-actions:
   - Generate digital badge SVG + PNG (1080x1080, 1200x630, square + LinkedIn formats)
-  - Email to workspace owner: "You just hit $10K â€” congrats. Here's your Bronze badge."
+  - Email to workspace owner: "You just hit $10K — congrats. Here's your Bronze badge."
   - In-app modal celebration with confetti + share buttons
   - Pre-filled tweet/LinkedIn/IG post templates with badge image attached
   - Case study landing page auto-generated (see 3.4)
@@ -353,8 +353,8 @@ Tier is per funnel, not per workspace. A workspace with 3 Bronze funnels gets 3 
 **Gold ($1M):**
 - All Silver actions, plus:
   - Trigger fulfillment: physical plaque (engraved, ~$150 all-in)
-  - CS team manually reaches out for "featured customer story" â€” written profile, photo shoot or video interview (remote)
-  - Story published on `funelai.com/customers/[slug]`
+  - CS team manually reaches out for "featured customer story" — written profile, photo shoot or video interview (remote)
+  - Story published on `gofunnelai.com/customers/[slug]`
   - Promo across our channels (newsletter, social, podcast feature if available)
 
 **Platinum ($10M):**
@@ -372,28 +372,28 @@ Tier is per funnel, not per workspace. A workspace with 3 Bronze funnels gets 3 
 
 ### 3.4 Auto-generated case study page
 
-**URL:** `funelai.com/wins/[customer-slug]` where slug = `<first-name>-<industry>-<tier>` (e.g., `sarah-solar-gold`). Collisions resolved with numeric suffix.
+**URL:** `gofunnelai.com/wins/[customer-slug]` where slug = `<first-name>-<industry>-<tier>` (e.g., `sarah-solar-gold`). Collisions resolved with numeric suffix.
 
 **Content (auto-rendered from data + customer-prompted fields):**
 
 - Hero: customer name + photo (or industry-generic image) + tier badge
 - Stat block: revenue milestone, time-to-milestone, leads generated, conversion rate
-- Funnel section: the funnel they used (rendered as anonymized clone â€” copy intact, branding/PII scrubbed)
+- Funnel section: the funnel they used (rendered as anonymized clone — copy intact, branding/PII scrubbed)
 - "What worked" section: top-performing hooks, offers, ad creatives (auto-extracted from their funnel's analytics, customer can edit)
-- Testimonial: customer-submitted quote (we auto-prompt for it on milestone hit; if not provided, page uses a generic "Built with FunelAI" line and prompts the visitor to come back)
+- Testimonial: customer-submitted quote (we auto-prompt for it on milestone hit; if not provided, page uses a generic "Built with GoFunnelAI" line and prompts the visitor to come back)
 - "Try this funnel" CTA: clone the funnel into the visitor's workspace as a template (gated to signed-in users, drives signups)
 - "Build your own" CTA â†’ Grader (Doc 01)
-- FunelAI branding header and footer
+- GoFunnelAI branding header and footer
 
-**Sharing:** auto-generated OG image (1200x630 with milestone amount overlay), pre-filled share posts to LinkedIn / X / FB. Customers are encouraged in the milestone email to share the page with their audience â€” driving FunelAI-branded traffic.
+**Sharing:** auto-generated OG image (1200x630 with milestone amount overlay), pre-filled share posts to LinkedIn / X / FB. Customers are encouraged in the milestone email to share the page with their audience — driving GoFunnelAI-branded traffic.
 
-**SEO:** every case study page is indexed. Sitemap auto-updated. Schema.org `Review` + `Product` markup. Internal links from `funelai.com/wins` hub.
+**SEO:** every case study page is indexed. Sitemap auto-updated. Schema.org `Review` + `Product` markup. Internal links from `gofunnelai.com/wins` hub.
 
 **Privacy:** customer must approve the page going public. Default state is "draft, visible only to you." One-click "Make public" CTA. Customers can also redact / customize before publishing. Customer can take page down at any time (link returns 410 Gone).
 
 ### 3.5 Public Hall of Fame
 
-- `funelai.com/wins` â€” chronological feed of published wins pages, filterable by tier and industry.
+- `gofunnelai.com/wins` — chronological feed of published wins pages, filterable by tier and industry.
 - Tier counters at the top: "23 Diamond, 187 Platinum, 1,200 Gold, ..."
 - Internal SEO juice + social proof for prospect visits + ongoing share fuel.
 
@@ -421,7 +421,7 @@ Tier is per funnel, not per workspace. A workspace with 3 Bronze funnels gets 3 
 
 ---
 
-## LOOP 4 â€” Template Marketplace
+## LOOP 4 — Template Marketplace
 
 ### 4.1 Mechanics
 
@@ -430,13 +430,13 @@ Top-performing funnels can be published as paid templates. A creator economy wit
 ### 4.2 Quality gates
 
 - Funnel must have hit **Bronze ($10K through funnel)** before it can be published as a paid template. Free templates allowed without gating but reviewed for spam.
-- Funnel author must have a verified FunelAI account in good standing (no T&S strikes in last 90 days).
+- Funnel author must have a verified GoFunnelAI account in good standing (no T&S strikes in last 90 days).
 - Template must pass automated checks: no broken links, no test content, no PII, no AUP violations.
 - Manual review by content ops team before paid templates go live (target: 48-hour SLA).
 
 ### 4.3 Revenue share
 
-- **Creator: 70%, FunelAI: 30%** of net revenue (after payment processing fees).
+- **Creator: 70%, GoFunnelAI: 30%** of net revenue (after payment processing fees).
 - Paid out monthly to creator's payout email, same payout rail as affiliate program (Loop 2).
 - Refunds clawed back from creator's next payout.
 - Min payout threshold: $25.
@@ -445,24 +445,24 @@ Top-performing funnels can be published as paid templates. A creator economy wit
 
 - Creator sets price within validated tiers: **$9, $19, $29, $49, $79, $99**.
 - Platform may suggest a price based on funnel complexity + benchmark data (advisory only).
-- Tier dropdown only â€” no arbitrary amounts.
+- Tier dropdown only — no arbitrary amounts.
 - Free templates allowed (Creator earns 0$ but builds reputation & marketplace presence).
 
 ### 4.5 Template package
 
 A published template includes:
 - Full funnel JSON (pages, components, settings, navigation)
-- All assets (images, video URLs, downloadable resources) â€” hosted on our CDN, license terms attached
+- All assets (images, video URLs, downloadable resources) — hosted on our CDN, license terms attached
 - Email sequences (subject, body, send timing)
 - SMS sequences (body, send timing, opt-in/opt-out flow)
-- Voice script (RevTry bot script â€” but with placeholder for receiving workspace's voice/persona settings)
+- Voice script (RevTry bot script — but with placeholder for receiving workspace's voice/persona settings)
 - Ad creative variants (headlines, descriptions, primary text, image specs)
 - Tracking events & pixels (re-keyed to buyer's workspace on clone)
-- KB pack reference (if industry-specific â€” Doc 02a)
+- KB pack reference (if industry-specific — Doc 02a)
 
 ### 4.6 Buyer experience
 
-- Marketplace at `funelai.com/marketplace` and `app.funelai.com/marketplace` (signed-in view has clone CTA).
+- Marketplace at `gofunnelai.com/marketplace` and `app.gofunnelai.com/marketplace` (signed-in view has clone CTA).
 - Browse by category (Industry, Goal, Price), filter, sort by popularity / rating / recent.
 - Template detail page: preview funnel (live, sandboxed render), screenshots, stats (anonymized: e.g., "averaged 4.2% CR across creator's deployments"), reviews, creator profile.
 - **One-click clone:** "Clone to my workspace" â†’ confirms, pays, clones the entire package into buyer's workspace as a draft. Buyer customizes before publishing.
@@ -470,7 +470,7 @@ A published template includes:
 
 ### 4.7 Marketplace SEO
 
-- Every template gets a dedicated, indexable page: `funelai.com/marketplace/<slug>`.
+- Every template gets a dedicated, indexable page: `gofunnelai.com/marketplace/<slug>`.
 - Schema.org `Product` markup, rich snippets.
 - Internal links from category pages and creator pages.
 - Sitemap auto-updates daily.
@@ -478,7 +478,7 @@ A published template includes:
 
 ### 4.8 Creator dashboard
 
-`app.funelai.com/marketplace/creator`:
+`app.gofunnelai.com/marketplace/creator`:
 - Templates owned (draft / in-review / published / paused)
 - Sales: count, revenue, refunds, net, payout next date
 - Per-template stats: views, conversion to purchase, refund rate, avg rating
@@ -492,11 +492,11 @@ A published template includes:
 - Buyer must have cloned the template at least 7 days prior (filter out instant-rage reviews).
 - Reviews moderated: profanity filter + manual review on flag.
 - Creator can reply once per review.
-- FunelAI can hide reviews that violate content guidelines (transparent â€” replaced with "Review removed: violates community standards").
+- GoFunnelAI can hide reviews that violate content guidelines (transparent — replaced with "Review removed: violates community standards").
 
 ### 4.10 Categories
 
-- **By industry** (30 industries â€” mirrors community hubs): solar, real estate, fitness, coaching, e-commerce, agency, info products, SaaS, etc.
+- **By industry** (30 industries — mirrors community hubs): solar, real estate, fitness, coaching, e-commerce, agency, info products, SaaS, etc.
 - **By goal:** lead generation, webinar registration, product launch, evergreen sales, application funnel, high-ticket sales, ecom DTC, course launch.
 - **By price tier:** Free, $9-$29, $29-$79, $79-$99.
 
@@ -531,18 +531,18 @@ A published template includes:
 
 ---
 
-## LOOP 5 â€” Community + Gamified Levels
+## LOOP 5 — Community + Gamified Levels
 
 ### 5.1 Platform plan
 
-- **Months 1â€“6:** Hosted on **Skool** (faster time-to-market, proven engagement primitives). Custom branding + domain `community.funelai.com`. XP and levels managed via Skool's native gamification + supplemented by our own dashboards.
-- **Months 6â€“18:** Migrate to **native** community (architecture per Doc 16 â€” assume forum + chat + events surface, owned by us). Reasoning: data ownership, deep product integration (XP tied to in-product events), AI features (auto-summarization, mentor matching).
-- Migration plan: dual-running for 90 days, with content / member auto-export and onboarding nudges. SSO via FunelAI login from day 1 so transition is seamless.
+- **Months 1–6:** Hosted on **Skool** (faster time-to-market, proven engagement primitives). Custom branding + domain `community.gofunnelai.com`. XP and levels managed via Skool's native gamification + supplemented by our own dashboards.
+- **Months 6–18:** Migrate to **native** community (architecture per Doc 16 — assume forum + chat + events surface, owned by us). Reasoning: data ownership, deep product integration (XP tied to in-product events), AI features (auto-summarization, mentor matching).
+- Migration plan: dual-running for 90 days, with content / member auto-export and onboarding nudges. SSO via GoFunnelAI login from day 1 so transition is seamless.
 
 ### 5.2 Hubs
 
 - **30 industry hubs**: solar, real estate, fitness, coaching, agency, e-commerce, info products, SaaS, dentistry, chiropractic, med spa, law firm, accounting, financial advisor, mortgage, insurance, HVAC, plumbing, roofing, pest control, pool service, landscaping, cleaning, auto detailing, automotive sales, RV/boat, home services general, B2B services general, B2C services general, nonprofit. (Final list reviewed quarterly.)
-- **5 stage hubs**: `<$10K MRR`, `$10Kâ€“$100K MRR`, `$100Kâ€“$1M MRR`, `$1Mâ€“$10M MRR`, `$10M+ MRR`. Membership gated by self-attestation + (eventually) verified revenue via funnel attribution.
+- **5 stage hubs**: `<$10K MRR`, `$10K–$100K MRR`, `$100K–$1M MRR`, `$1M–$10M MRR`, `$10M+ MRR`. Membership gated by self-attestation + (eventually) verified revenue via funnel attribution.
 - Members can join multiple hubs.
 
 ### 5.3 XP rules
@@ -574,19 +574,19 @@ Anti-farming: max +50 XP/day from upvotes alone. Mentor XP requires verified men
 | L9 | 12,000 | Private Slack-style channels with other L9+ |
 | L10 | 20,000 | **Founder's personal Slack + lifetime Scale tier comp** |
 
-L10 is intentionally hard â€” designed as a multi-year goal for the most engaged builders.
+L10 is intentionally hard — designed as a multi-year goal for the most engaged builders.
 
 ### 5.5 Daily themed threads
 
 Auto-posted by a community bot at 09:00 local-to-hub time (US default Eastern):
 
-- **Monday:** Question Mon â€” "Drop your biggest funnel question this week."
-- **Tuesday:** AMA Tue â€” guest expert AMA (rotating, see ops calendar).
-- **Wednesday:** Win Wed â€” "Share a win, big or small."
-- **Thursday:** Tactic Thu â€” "Drop one tactic that's working right now."
-- **Friday:** Fail Fri â€” "Share a fail and what you learned."
-- **Saturday:** Show-Off Sat â€” "Drop a funnel screenshot, get feedback."
-- **Sunday:** Sunday Setup â€” "What are you building this week?"
+- **Monday:** Question Mon — "Drop your biggest funnel question this week."
+- **Tuesday:** AMA Tue — guest expert AMA (rotating, see ops calendar).
+- **Wednesday:** Win Wed — "Share a win, big or small."
+- **Thursday:** Tactic Thu — "Drop one tactic that's working right now."
+- **Friday:** Fail Fri — "Share a fail and what you learned."
+- **Saturday:** Show-Off Sat — "Drop a funnel screenshot, get feedback."
+- **Sunday:** Sunday Setup — "What are you building this week?"
 
 Each thread auto-pinned for 24h, then unpinned and surfaces in feed for 7 days. Engagement on themed threads earns 2Ã— XP for the first 24h.
 
@@ -609,15 +609,15 @@ L7+ users opt into Mentor program â†’ eligible to be auto-matched.
 
 - Format: themed challenge each month (e.g., "Highest CR on a webinar funnel," "Most leads from a single ad spend < $500"). Theme rotates and ties to a community vote.
 - Prizes (escalating with community size):
-  - Bronze month (early community): $5K total â€” 1st $2.5K, 2nd $1.5K, 3rd $1K
-  - Gold month (mature community): $25K total â€” 1st $10K, 2nd $7K, 3rd $5K, 4th-10th $3K split
+  - Bronze month (early community): $5K total — 1st $2.5K, 2nd $1.5K, 3rd $1K
+  - Gold month (mature community): $25K total — 1st $10K, 2nd $7K, 3rd $5K, 4th-10th $3K split
 - Eligibility: community member L4+ at month start.
 - Verification: funnel must be live, results verified via funnel analytics + payment integration data.
 - Winners announced live in monthly office hours + featured in newsletter + case study auto-generated (Loop 3 integration).
 
 ### 5.8 Retention thesis
 
-Community is not a direct viral loop â€” it's a retention multiplier. Internal model assumes **2â€“3Ã— LTV** for community-active members vs non-active. Mechanism: peers help with funnel iteration, accountability for shipping, identity ("I'm a FunelAI builder"), and pre-emptive answers to questions that would otherwise drive churn.
+Community is not a direct viral loop — it's a retention multiplier. Internal model assumes **2–3Ã— LTV** for community-active members vs non-active. Mechanism: peers help with funnel iteration, accountability for shipping, identity ("I'm a GoFunnelAI builder"), and pre-emptive answers to questions that would otherwise drive churn.
 
 ### 5.9 Telemetry
 
@@ -638,7 +638,7 @@ Community is not a direct viral loop â€” it's a retention multiplier. Inter
 
 ---
 
-## LOOP 6 â€” FunnelCon Annual Event
+## LOOP 6 — FunnelCon Annual Event
 
 ### 6.1 Three-year arc
 
@@ -651,7 +651,7 @@ Community is not a direct viral loop â€” it's a retention multiplier. Inter
 ### 6.2 Format
 
 - **3 days, in-person.** Live-stream tier available Year 2+ ($297) as upsell + reach.
-- **Day 1:** Founder mainstage keynote + state-of-Funnel + Awards ceremony (Bronze/Silver â€” high-volume tiers, lots of names on screen).
+- **Day 1:** Founder mainstage keynote + state-of-Funnel + Awards ceremony (Bronze/Silver — high-volume tiers, lots of names on screen).
 - **Day 2:** Mainstage customer-story sessions + industry breakouts + workshops + Awards (Gold tier).
 - **Day 3:** Mainstage guest keynote (Y2+) + Platinum + Diamond ceremony + closing party.
 
@@ -659,7 +659,7 @@ Community is not a direct viral loop â€” it's a retention multiplier. Inter
 
 - **Mainstage:** founder, top customer-story speakers, marquee guest (Y2+).
 - **Breakouts:** by industry, 6 industries x 4 sessions = 24 breakouts. Run by community Mentor-tier members + invited experts.
-- **Workshops:** 12 hands-on (FunelAI feature deep-dives, RevTry voice configuration, KB pack engineering, ad creative).
+- **Workshops:** 12 hands-on (GoFunnelAI feature deep-dives, RevTry voice configuration, KB pack engineering, ad creative).
 - **Agency owners track:** scaling teams, hiring, white-label, enterprise sales.
 - **Solopreneur track:** automation, time leverage, going from $10K â†’ $100K â†’ $1M.
 
@@ -672,7 +672,7 @@ Community is not a direct viral loop â€” it's a retention multiplier. Inter
 ### 6.5 Speakers
 
 - Year 1: founder + 5 customer stories + 3 industry experts (paid honorarium or comp tickets).
-- Year 2+: add keynote from Hormozi / Brunson-alumnus / Stape / category-defining operator. Budget $50Kâ€“$250K for marquee.
+- Year 2+: add keynote from Hormozi / Brunson-alumnus / Stape / category-defining operator. Budget $50K–$250K for marquee.
 - Speaker recruitment starts Month 6.
 
 ### 6.6 Pre-conference challenge
@@ -698,7 +698,7 @@ Community is not a direct viral loop â€” it's a retention multiplier. Inter
   - M-3 to M-1: Customer-story trailers, FOMO content
   - M-1: Final-call urgency
 - Founder content drumbeat: weekly content asset (podcast appearance, Twitter thread, YouTube video).
-- Year 1 attendees become testimonial engine for Year 2 â€” every Y1 ticket includes consent to use clip in Y2 marketing.
+- Year 1 attendees become testimonial engine for Year 2 — every Y1 ticket includes consent to use clip in Y2 marketing.
 
 ### 6.9 Telemetry
 
@@ -715,24 +715,24 @@ Community is not a direct viral loop â€” it's a retention multiplier. Inter
 
 ---
 
-## LOOP 7 â€” 7-Day Funnel Challenge (Monthly)
+## LOOP 7 — 7-Day Funnel Challenge (Monthly)
 
 ### 7.1 Format
 
-- **Free.** Anyone can join (no FunelAI account required to enroll â€” account auto-created on Day 2 when they generate their funnel).
-- **Cohort-based** â€” monthly cohorts of 5,000â€“10,000 at scale (Year 1 cohorts begin smaller, 500â€“2,000).
-- **Gamified** â€” cohort dashboard, leaderboards, public wins, completion certificate.
+- **Free.** Anyone can join (no GoFunnelAI account required to enroll — account auto-created on Day 2 when they generate their funnel).
+- **Cohort-based** — monthly cohorts of 5,000–10,000 at scale (Year 1 cohorts begin smaller, 500–2,000).
+- **Gamified** — cohort dashboard, leaderboards, public wins, completion certificate.
 - **Goal:** ship a profitable funnel in 7 days (or at minimum, ship a funnel and get the first lead).
 
 ### 7.2 Daily curriculum
 
-Each day: a founder-hosted video (10â€“20 min) + a daily task + a community drop.
+Each day: a founder-hosted video (10–20 min) + a daily task + a community drop.
 
 | Day | Theme | Task |
 |-----|-------|------|
 | 1 | Define your offer | Write your offer in 1 sentence, share in community thread |
-| 2 | Generate your funnel | Use FunelAI Grader â†’ generate funnel â†’ publish to staging |
-| 3 | Set up tracking + first ad | Connect Stripe/PayPal + Meta/Google pixel + launch first ad ($10â€“$50/day) |
+| 2 | Generate your funnel | Use GoFunnelAI Grader â†’ generate funnel â†’ publish to staging |
+| 3 | Set up tracking + first ad | Connect Stripe/PayPal + Meta/Google pixel + launch first ad ($10–$50/day) |
 | 4 | Connect RevTry voice | Configure RevTry voice agent for inbound leads |
 | 5 | Launch | Push funnel live + start ad spend + manual prospecting if desired |
 | 6 | Optimize | Review first results, A/B test the weakest step |
@@ -740,32 +740,32 @@ Each day: a founder-hosted video (10â€“20 min) + a daily task + a community
 
 ### 7.3 Public progress
 
-- **Cohort dashboard:** `funelai.com/challenge/[cohort-id]` â€” visible to all enrolled members; shows aggregate progress (X% on Day 3, Y funnels shipped, Z leads generated cohort-wide).
+- **Cohort dashboard:** `gofunnelai.com/challenge/[cohort-id]` — visible to all enrolled members; shows aggregate progress (X% on Day 3, Y funnels shipped, Z leads generated cohort-wide).
 - **Public leaderboards:**
   - Most leads generated this cohort
   - Highest CR funnel
   - Fastest to first $1K
-- **Public wins page** â€” final-day showcase with top performers.
+- **Public wins page** — final-day showcase with top performers.
 
 ### 7.4 Completion certificate
 
 - Shareable image asset (1080x1080 + LinkedIn-format).
-- Includes participant name, cohort number, completion date, FunelAI branding.
+- Includes participant name, cohort number, completion date, GoFunnelAI branding.
 - Auto-emailed Day 8.
 - Pre-filled share posts.
 - Carries `?utm_source=challenge_cert&cohort=...` for attribution on incoming traffic.
 
 ### 7.5 Conversion mechanics
 
-- Day 2 onward, the participant has used FunelAI to generate their funnel â€” they're already inside the product. Default state on Day 7: they have a published funnel.
+- Day 2 onward, the participant has used GoFunnelAI to generate their funnel — they're already inside the product. Default state on Day 7: they have a published funnel.
 - Free-tier limits apply during the challenge (watermark, lead cap). Day 7's "Scale" message explicitly nudges upgrade to remove watermark, raise lead caps, unlock automation.
-- Expected conversion: **25â€“35% of challenge completers** â†’ paid FunelAI (CF benchmark for similar challenges).
-- Expected conversion overall: **25â€“35% of enrolled** â†’ paid (assuming 60â€“70% completion rate).
+- Expected conversion: **25–35% of challenge completers** â†’ paid GoFunnelAI (CF benchmark for similar challenges).
+- Expected conversion overall: **25–35% of enrolled** â†’ paid (assuming 60–70% completion rate).
 
 ### 7.6 Scale assumptions
 
 - Year 1: 12 cohorts Ã— avg 1,500 enrolled = ~18,000 enrolled. ~25% paid conversion = ~4,500 paid customers from this loop alone.
-- Year 2+: cohorts at 5,000â€“10,000 each.
+- Year 2+: cohorts at 5,000–10,000 each.
 
 ### 7.7 Communications cadence
 
@@ -791,37 +791,37 @@ Each day: a founder-hosted video (10â€“20 min) + a daily task + a community
 
 ### 7.9 Engineering spec
 
-- Enrollment portal: `funelai.com/challenge` with form (email, phone optional, industry).
+- Enrollment portal: `gofunnelai.com/challenge` with form (email, phone optional, industry).
 - Cohort assignment: every new enrollee assigned to the next-month cohort; cohort opens 1st of month, runs days 1-7.
 - Curriculum delivery: scheduled messaging via the comms platform (Customer.io / Resend + Twilio).
-- Progress tracking: `challenge_daily_completed` emitted when day's task done (instrumented per task type â€” Day 1 = post in community thread, Day 2 = funnel published, etc.).
+- Progress tracking: `challenge_daily_completed` emitted when day's task done (instrumented per task type — Day 1 = post in community thread, Day 2 = funnel published, etc.).
 - Cohort dashboard: real-time materialized view, refreshed every 60s.
 - Live stream: Day 7 final stream hosted on YouTube Live / Zoom Webinar, embedded in app.
 
 ---
 
-## CROSS-CUTTING SECTION â€” Viral Coefficient Math
+## CROSS-CUTTING SECTION — Viral Coefficient Math
 
 ### How the 7 loops compound
 
 Single-loop K-factors aren't multiplicative in isolation, but they stack across the user journey. A new user who arrived via Watermark may go on to: complete the Challenge, become an Affiliate, hit Bronze, publish a Template, attend FunnelCon. Each subsequent loop reactivates them as a distribution surface.
 
-**Per-loop directional contribution (illustrative â€” refine with actual data post-launch):**
+**Per-loop directional contribution (illustrative — refine with actual data post-launch):**
 
 | Loop | Mechanism | Assumption | K contribution |
 |------|------|------|------|
 | 1. Watermark | Free-funnel viewer â†’ /build-yours signup | ~5% CTR Ã— ~5% signup CR | ~0.0025 per viewer; aggregated, ~0.25 K |
-| 2. Affiliates | 5â€“10% of paid users become affiliates, avg 3 referrals each | 0.075 Ã— 3 = | 0.15â€“0.30 K |
+| 2. Affiliates | 5–10% of paid users become affiliates, avg 3 referrals each | 0.075 Ã— 3 = | 0.15–0.30 K |
 | 3. Awards | Case study pages Ã— impressions Ã— ~1% signup | 100+ impressions Ã— pages | ~0.05 K |
 | 4. Marketplace | Buyer flow + SEO long-tail | Organic + network | ~0.05 K |
-| 5. Community | Indirect â€” retention multiplier | 2â€“3Ã— LTV | Not direct K; lowers churn â†’ higher net |
+| 5. Community | Indirect — retention multiplier | 2–3Ã— LTV | Not direct K; lowers churn â†’ higher net |
 | 6. FunnelCon | Post-event spike + year-round retention | Concentrated annual boost + content reuse | Burst K + retention |
-| 7. Challenge | Monthly net-new acquisition spike | Free cohort â†’ 25â€“35% paid | Direct acquisition + recompounds via L1 |
+| 7. Challenge | Monthly net-new acquisition spike | Free cohort â†’ 25–35% paid | Direct acquisition + recompounds via L1 |
 
 ### Combined K-factor target
 
-- **Month 12: K = 0.3â€“0.5**
-- **Month 24: K = 0.5â€“0.8**
+- **Month 12: K = 0.3–0.5**
+- **Month 24: K = 0.5–0.8**
 
 A K below 1.0 is still highly valuable when combined with paid acquisition: organic referrals supplement paid, drive blended CAC down materially over time.
 
@@ -859,27 +859,27 @@ Dashboard: `growth/viral-engine`
 
 All loops depend on:
 
-1. **Event taxonomy (Doc 03)** â€” every loop emits and consumes these events. Schemas must be locked before instrumentation.
-2. **PAL / attribution (Doc 04)** â€” cross-loop attribution stitching; one source of truth for "where did this user come from."
-3. **Identity service** â€” `prospect_id` â†’ `user_id` â†’ `workspace_id` resolution. Cross-device merge.
-4. **Payment integration (Doc 04)** â€” required for Loops 2, 3, 4, 6 (revenue capture, commissions, payouts).
-5. **Notification platform** â€” required for Loops 2, 3, 5, 6, 7 (transactional + lifecycle).
-6. **Edge rendering / CDN** â€” required for Loops 1, 3 (watermark, case study pages at scale).
-7. **Ledger** â€” single double-entry ledger used by Loops 2 and 4 for commissions, by Loop 6 for ticketing.
-8. **Trust & Safety pipeline (Doc 07a / 07b)** â€” fraud, abuse, content moderation across loops.
+1. **Event taxonomy (Doc 03)** — every loop emits and consumes these events. Schemas must be locked before instrumentation.
+2. **PAL / attribution (Doc 04)** — cross-loop attribution stitching; one source of truth for "where did this user come from."
+3. **Identity service** — `prospect_id` â†’ `user_id` â†’ `workspace_id` resolution. Cross-device merge.
+4. **Payment integration (Doc 04)** — required for Loops 2, 3, 4, 6 (revenue capture, commissions, payouts).
+5. **Notification platform** — required for Loops 2, 3, 5, 6, 7 (transactional + lifecycle).
+6. **Edge rendering / CDN** — required for Loops 1, 3 (watermark, case study pages at scale).
+7. **Ledger** — single double-entry ledger used by Loops 2 and 4 for commissions, by Loop 6 for ticketing.
+8. **Trust & Safety pipeline (Doc 07a / 07b)** — fraud, abuse, content moderation across loops.
 
-A growth-engineering squad of 4â€“6 (1 EM, 2 BE, 1 FE, 1 data, 1 ops integration) owns this surface from Day 90 launch through Year 2.
+A growth-engineering squad of 4–6 (1 EM, 2 BE, 1 FE, 1 data, 1 ops integration) owns this surface from Day 90 launch through Year 2.
 
 ---
 
-## Appendix â€” Launch sequence (Day 90)
+## Appendix — Launch sequence (Day 90)
 
 | Loop | Day 90 launch status |
 |------|------|
-| 1. Watermark | Live â€” required for free tier |
-| 2. Affiliates | Live â€” open to all users at launch |
-| 3. Awards (Bronze/Silver only) | Live â€” Gold+ tooling shipped by Day 180 |
-| 4. Template Marketplace | Beta â€” invite-only creators at launch, public by Day 120 |
-| 5. Community (Skool) | Live â€” Skool standup by Day 60, fully programmed by Day 90 |
+| 1. Watermark | Live — required for free tier |
+| 2. Affiliates | Live — open to all users at launch |
+| 3. Awards (Bronze/Silver only) | Live — Gold+ tooling shipped by Day 180 |
+| 4. Template Marketplace | Beta — invite-only creators at launch, public by Day 120 |
+| 5. Community (Skool) | Live — Skool standup by Day 60, fully programmed by Day 90 |
 | 6. FunnelCon | Announcement only at Day 90; event held Month 12 |
 | 7. 7-Day Challenge | First cohort runs Month 4 (after Day 90 stabilization) |

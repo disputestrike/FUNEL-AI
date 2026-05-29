@@ -5,6 +5,7 @@ export * from "./offer-intelligence.js";
 export * from "./automated-funnel.js";
 export * from "./workflow-engine.js";
 export * from "./enterprise-readiness.js";
+export * as Launch from "./launch/index.js";
 
 import { stableHash } from "./idempotency.js";
 import {

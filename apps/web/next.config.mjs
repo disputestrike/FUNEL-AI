@@ -13,6 +13,7 @@ const nextConfig = {
     "@funnel/events",
     "@funnel/orchestrator",
     "@funnel/auth",
+    "@funnel/billing",
     "@funnel/ui",
   ],
   experimental: {

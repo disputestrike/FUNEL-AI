@@ -1,4 +1,4 @@
-﻿# Brand Rename CHANGE_LOG
+# Brand Rename CHANGE_LOG
 
 Sweep run: 2026-05-26 17:15:11
 Root: C:\Users\benxp\funnel-ai-docs
@@ -6,15 +6,15 @@ Root: C:\Users\benxp\funnel-ai-docs
 ## Summary
 
 - Total files modified: **32**
-- Brand-name replacements (FunelAI -> FunelAI): **473**
-- Domain replacements (funelai.com -> funelai.com): **160**
-- Email replacements (@funelai.com -> @funelai.com): **62**
+- Brand-name replacements (GoFunnelAI -> GoFunnelAI): **473**
+- Domain replacements (gofunnelai.com -> gofunnelai.com): **160**
+- Email replacements (@gofunnelai.com -> @gofunnelai.com): **62**
 
 ## Replacement rules applied
 
-- `FunelAI` / `FunelAI` / `FunelAI` -> `FunelAI`
-- `funelai.com` -> `funelai.com` (all domain/subdomain/URL contexts)
-- `@funelai.com` -> `@funelai.com` (email addresses)
+- `GoFunnelAI` / `GoFunnelAI` / `GoFunnelAI` -> `GoFunnelAI`
+- `gofunnelai.com` -> `gofunnelai.com` (all domain/subdomain/URL contexts)
+- `@gofunnelai.com` -> `@gofunnelai.com` (email addresses)
 
 ## Excluded from rename (intentional)
 

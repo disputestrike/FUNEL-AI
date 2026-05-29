@@ -8,3 +8,7 @@ export * from "./store.js";
 export * from "./dial.js";
 export * from "./inbound.js";
 export * from "./outcome-sync.js";
+export * from "./persona-voice-map.js";
+export * from "./demo.js";
+export * from "./queue.js";
+export * from "./service.js";

@@ -3,7 +3,7 @@
  *
  * Pulls the top `hot` threads from each configured subreddit, plus their
  * top N comments. Reddit is the single best source of verbatim buyer pain
- * phrases â€” exactly what Sections 2 (personas) and 3 (pain points) need.
+ * phrases — exactly what Sections 2 (personas) and 3 (pain points) need.
  *
  * Uses Reddit's OAuth2 script-flow (client id + secret + username + password).
  * For read-only ingestion we can also use the `application_only` flow.

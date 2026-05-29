@@ -1,33 +1,33 @@
-﻿# 04 â€” Integration Matrix & Provider Abstraction Layer (PAL)
+# 04 — Integration Matrix & Provider Abstraction Layer (PAL)
 
-**Status:** Source of truth for every external API FunelAI talks to.
+**Status:** Source of truth for every external API GoFunnelAI talks to.
 **Owners:** Platform Eng (PAL contract), Integrations Pod (adapter authors), SRE (health & limits), Compliance (DNC / VAT / region gating).
 **Audience:** Engineers assigning adapters, on-call SRE, security review, vendor procurement.
 
 This document has four parts:
 
-- **Part A** â€” The PAL contract every adapter implements.
-- **Part B** â€” The integration matrix (one row per external provider).
-- **Part C** â€” Adapter implementation order (who builds what, when).
-- **Part D** â€” Failure handling per high-criticality integration.
+- **Part A** — The PAL contract every adapter implements.
+- **Part B** — The integration matrix (one row per external provider).
+- **Part C** — Adapter implementation order (who builds what, when).
+- **Part D** — Failure handling per high-criticality integration.
 
 Three capability-flag values appear throughout:
 
 | Flag | Meaning |
 |---|---|
-| **DIRECT** | FunelAI writes/executes through the provider's official API. Full agentic control. |
-| **REVIEW-GATED** | FunelAI prepares the action but a human approves before the adapter executes. Used where provider TOS, regulatory rules, or risk demand a human in the loop. |
+| **DIRECT** | GoFunnelAI writes/executes through the provider's official API. Full agentic control. |
+| **REVIEW-GATED** | GoFunnelAI prepares the action but a human approves before the adapter executes. Used where provider TOS, regulatory rules, or risk demand a human in the loop. |
 | **BRIDGED** | No write API exists (or it's restricted). We bridge through a partner, the customer's own credentials, an MCP, or a manual handoff. Capability is exposed but flagged in UI. |
 
 ---
 
-## PART A â€” The Provider Abstraction Layer (PAL)
+## PART A — The Provider Abstraction Layer (PAL)
 
 ### A.1 Design principles
 
-1. **One interface, every channel.** Ads, social, voice, payment, calendar â€” all conform to the same shape so the agent layer, billing layer, and retry/observability layers are channel-agnostic.
+1. **One interface, every channel.** Ads, social, voice, payment, calendar — all conform to the same shape so the agent layer, billing layer, and retry/observability layers are channel-agnostic.
 2. **Resource-typed, not endpoint-typed.** Adapters expose `create("campaign", payload)`, not `createCampaign(payload)`. The orchestrator decides what resource it wants; the adapter maps to the underlying API.
-3. **Idempotent by contract.** Every write accepts an `idempotencyKey` and must dedupe on it. We replay writes on transient failure â€” the adapter must not double-charge or double-post.
+3. **Idempotent by contract.** Every write accepts an `idempotencyKey` and must dedupe on it. We replay writes on transient failure — the adapter must not double-charge or double-post.
 4. **Webhook-first sync.** Pull syncs are fallback. Adapters must declare which webhook events they emit and survive replay.
 5. **No silent degradation.** If a provider is down or scope is missing, the adapter throws a typed error. The orchestrator decides whether to fall back, queue, or surface to the user.
 6. **Cost & quota visibility.** `limits()` is mandatory. Billing and rate-control read it; there is no "I don't know what this costs" adapter.
@@ -229,7 +229,7 @@ Every adapter call emits one OTel span with attributes: `provider.key`, `provide
 
 ---
 
-## PART B â€” The Integration Matrix
+## PART B — The Integration Matrix
 
 Column legend:
 
@@ -253,26 +253,26 @@ Column legend:
 
 | Provider | Purpose | Auth (scopes) | Key endpoints | Webhooks in | Rate budget | Fallback | Cap | Pri | Owner | Cost notes | Region |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| **Meta Marketing API** (FB + IG) | Campaign/adset/ad CRUD, audiences, insights, lead ads | OAuth2 â€” `ads_management`, `ads_read`, `business_management`, `pages_read_engagement`, `pages_manage_ads`, `leads_retrieval`, `instagram_basic`, `instagram_manage_insights` | `/act_{id}/campaigns`, `/act_{id}/adsets`, `/act_{id}/ads`, `/{ad_account}/insights`, `/{form_id}/leads` | Lead Ads webhook (`leadgen`), Page webhooks, Ad Account webhooks (`account_review`, `delivery`) | Per-app + per-user BUC; budget 200 score/hr per ad account, batch where possible | Google Ads (cross-network rebalance) | DIRECT | D90 | Ads Pod | $0 platform fee; ad spend pass-through | EU: GDPR-required CAPI; LATAM/IN no local restriction |
-| **Google Ads API** | Search + PMax + Demand Gen campaigns, conversion uploads, keyword research | OAuth2 â€” `https://www.googleapis.com/auth/adwords`; developer token required (Basic -> Standard access) | `customers:searchStream`, `customers/{id}/campaigns:mutate`, `customers/{id}/googleAds:search`, conversion upload | None (polling reports) | 15k ops/day Basic, 40 QPS Standard | Meta Ads | DIRECT | D90 | Ads Pod | Platform fee $0; need Standard access approval (5-10 business days) | Global; CN excluded |
-| **TikTok Ads API** | Campaign CRUD on TikTok for Business | OAuth2 â€” `Ad Account Management`, `Audience Management`, `Reporting`, `Lead Generation` | `/open_api/v1.3/campaign/create/`, `/adgroup/create/`, `/ad/create/`, `/report/integrated/get/`, `/lead/list/` | Lead webhook, Auth-status webhook | 10 QPS per advertiser; 1200 req/min app-wide | Meta (Reels) | DIRECT | M3 | Ads Pod | $0 platform fee | Excluded in US for federal devices; not used for gov customers |
-| **LinkedIn Marketing API** | Sponsored Content, Lead Gen Forms, Conversation Ads | OAuth2 (3-legged) â€” `r_ads`, `rw_ads`, `r_ads_reporting`, `r_organization_social`, `w_organization_social`, `r_marketing_leadgen_automation` | `/rest/adAccounts/{id}/adCampaigns`, `/rest/adAccounts/{id}/adCampaignGroups`, `/rest/leadFormResponses`, `/rest/adAnalytics` | LinkedIn Lead Sync webhook (when allowlisted) | 100 req/sec/app, 500k/day | Manual CSV export | DIRECT | M3 | Ads Pod | App must pass LinkedIn Marketing Developer Platform review | Global |
-| **X Ads API** | Sponsored posts on X | OAuth 1.0a â€” Ads API access tier required | `/12/accounts/{id}/campaigns`, `/12/accounts/{id}/line_items`, `/12/stats/accounts/{id}` | None | Tier-based; Basic 100/15min, Pro higher | None (skip channel) | REVIEW-GATED | M6 | Ads Pod | Pro tier $5k/mo; defer until customer demand | Global |
-| **Pinterest Ads** | Catalog and search ads, especially e-comm | OAuth2 â€” `ads:read`, `ads:write`, `catalogs:read`, `catalogs:write` | `/v5/ad_accounts/{id}/campaigns`, `/v5/ad_accounts/{id}/ad_groups`, `/v5/ad_accounts/{id}/ads`, `/v5/ad_accounts/{id}/reports` | None | 1000 req/min default | Meta (cross-network) | DIRECT | M6 | Ads Pod | $0 platform | Global |
-| **Snap Ads** | Snap campaign mgmt | OAuth2 â€” `snapchat-marketing-api` | `/v1/adaccounts/{id}/campaigns`, `/v1/adaccounts/{id}/adsquads`, `/v1/adaccounts/{id}/ads`, `/v1/stats` | None | 5000 req/min | None | BRIDGED | M12 | Ads Pod | Low priority; carry as flag | Global except CN |
-| **Reddit Ads** | Reddit campaign mgmt | OAuth2 â€” `adsread`, `adsedit` | `/api/v3/ad_accounts/{id}/campaigns`, `/api/v3/ad_accounts/{id}/ad_groups`, `/api/v3/ad_accounts/{id}/ads` | None | 600 req/min | None | BRIDGED | M12 | Ads Pod | Carry as flag until US/EN customer pull | Global |
+| **Meta Marketing API** (FB + IG) | Campaign/adset/ad CRUD, audiences, insights, lead ads | OAuth2 — `ads_management`, `ads_read`, `business_management`, `pages_read_engagement`, `pages_manage_ads`, `leads_retrieval`, `instagram_basic`, `instagram_manage_insights` | `/act_{id}/campaigns`, `/act_{id}/adsets`, `/act_{id}/ads`, `/{ad_account}/insights`, `/{form_id}/leads` | Lead Ads webhook (`leadgen`), Page webhooks, Ad Account webhooks (`account_review`, `delivery`) | Per-app + per-user BUC; budget 200 score/hr per ad account, batch where possible | Google Ads (cross-network rebalance) | DIRECT | D90 | Ads Pod | $0 platform fee; ad spend pass-through | EU: GDPR-required CAPI; LATAM/IN no local restriction |
+| **Google Ads API** | Search + PMax + Demand Gen campaigns, conversion uploads, keyword research | OAuth2 — `https://www.googleapis.com/auth/adwords`; developer token required (Basic -> Standard access) | `customers:searchStream`, `customers/{id}/campaigns:mutate`, `customers/{id}/googleAds:search`, conversion upload | None (polling reports) | 15k ops/day Basic, 40 QPS Standard | Meta Ads | DIRECT | D90 | Ads Pod | Platform fee $0; need Standard access approval (5-10 business days) | Global; CN excluded |
+| **TikTok Ads API** | Campaign CRUD on TikTok for Business | OAuth2 — `Ad Account Management`, `Audience Management`, `Reporting`, `Lead Generation` | `/open_api/v1.3/campaign/create/`, `/adgroup/create/`, `/ad/create/`, `/report/integrated/get/`, `/lead/list/` | Lead webhook, Auth-status webhook | 10 QPS per advertiser; 1200 req/min app-wide | Meta (Reels) | DIRECT | M3 | Ads Pod | $0 platform fee | Excluded in US for federal devices; not used for gov customers |
+| **LinkedIn Marketing API** | Sponsored Content, Lead Gen Forms, Conversation Ads | OAuth2 (3-legged) — `r_ads`, `rw_ads`, `r_ads_reporting`, `r_organization_social`, `w_organization_social`, `r_marketing_leadgen_automation` | `/rest/adAccounts/{id}/adCampaigns`, `/rest/adAccounts/{id}/adCampaignGroups`, `/rest/leadFormResponses`, `/rest/adAnalytics` | LinkedIn Lead Sync webhook (when allowlisted) | 100 req/sec/app, 500k/day | Manual CSV export | DIRECT | M3 | Ads Pod | App must pass LinkedIn Marketing Developer Platform review | Global |
+| **X Ads API** | Sponsored posts on X | OAuth 1.0a — Ads API access tier required | `/12/accounts/{id}/campaigns`, `/12/accounts/{id}/line_items`, `/12/stats/accounts/{id}` | None | Tier-based; Basic 100/15min, Pro higher | None (skip channel) | REVIEW-GATED | M6 | Ads Pod | Pro tier $5k/mo; defer until customer demand | Global |
+| **Pinterest Ads** | Catalog and search ads, especially e-comm | OAuth2 — `ads:read`, `ads:write`, `catalogs:read`, `catalogs:write` | `/v5/ad_accounts/{id}/campaigns`, `/v5/ad_accounts/{id}/ad_groups`, `/v5/ad_accounts/{id}/ads`, `/v5/ad_accounts/{id}/reports` | None | 1000 req/min default | Meta (cross-network) | DIRECT | M6 | Ads Pod | $0 platform | Global |
+| **Snap Ads** | Snap campaign mgmt | OAuth2 — `snapchat-marketing-api` | `/v1/adaccounts/{id}/campaigns`, `/v1/adaccounts/{id}/adsquads`, `/v1/adaccounts/{id}/ads`, `/v1/stats` | None | 5000 req/min | None | BRIDGED | M12 | Ads Pod | Low priority; carry as flag | Global except CN |
+| **Reddit Ads** | Reddit campaign mgmt | OAuth2 — `adsread`, `adsedit` | `/api/v3/ad_accounts/{id}/campaigns`, `/api/v3/ad_accounts/{id}/ad_groups`, `/api/v3/ad_accounts/{id}/ads` | None | 600 req/min | None | BRIDGED | M12 | Ads Pod | Carry as flag until US/EN customer pull | Global |
 
 ### B.3 Social posting
 
 | Provider | Purpose | Auth (scopes) | Key endpoints | Webhooks in | Rate budget | Fallback | Cap | Pri | Owner | Cost notes | Region |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| **Meta Graph (FB pages + IG)** | Organic posts, IG Reels, comments, DMs | OAuth2 â€” `pages_show_list`, `pages_manage_posts`, `pages_manage_engagement`, `instagram_basic`, `instagram_content_publish`, `instagram_manage_comments`, `instagram_manage_messages` | `/{page_id}/feed`, `/{page_id}/photos`, `/{ig_user_id}/media`, `/{ig_user_id}/media_publish`, `/{post_id}/comments` | Page Mention, Comment, Messenger webhooks | 200 calls/hr/user BUC | Buffer-style queue | DIRECT | D90 | Social Pod | $0 | Global |
-| **LinkedIn API** | Organic company posts, comments | OAuth2 â€” `w_member_social`, `w_organization_social`, `r_organization_social` | `/rest/posts`, `/rest/socialActions/{urn}/comments` | None (poll comments) | 500 posts/day/org | Manual | DIRECT | M3 | Social Pod | $0 | Global |
-| **X API v2** | Organic posts, replies, mention sync | OAuth 2.0 + PKCE â€” `tweet.read`, `tweet.write`, `users.read`, `offline.access` | `POST /2/tweets`, `GET /2/users/{id}/mentions`, `POST /2/tweets/search/stream` (Pro+) | Filtered Stream (Pro+) | Tier-based: Basic 100 tweets/24hr, Pro 100k/mo | None | REVIEW-GATED | M3 | Social Pod | Basic $200/mo; Pro $5k/mo (only if customer requests stream) | Global |
-| **TikTok Content Posting** | Direct post + draft to TikTok | OAuth2 â€” `video.upload`, `video.publish`, `user.info.basic` | `/v2/post/publish/video/init/`, `/v2/post/publish/status/fetch/`, `/v2/post/publish/inbox/video/init/` | None (poll status) | 6 posts/24hr/user (TT cap) | Draft-to-inbox mode | DIRECT | M3 | Social Pod | $0 | Excluded for US gov-device customers |
-| **YouTube Data API** | Upload Shorts, retrieve transcripts (KB), playlist mgmt | OAuth2 â€” `youtube.upload`, `youtube`, `youtube.readonly`, `youtube.force-ssl` | `videos.insert` (resumable), `captions.download`, `channels.list`, `search.list` | PubSubHubbub for new uploads | 10k quota units/day default; 1 upload = 1600 units | Manual export | DIRECT | M3 | Social Pod | Free; request quota raise pre-launch | Global; CN N/A |
-| **Pinterest** | Organic Pin publishing | OAuth2 â€” `boards:read`, `boards:write`, `pins:read`, `pins:write` | `/v5/pins`, `/v5/boards` | None | 1000 req/min | Manual | DIRECT | M6 | Social Pod | $0 | Global |
-| **Threads** | Cross-post from IG composer | Meta Graph OAuth â€” `threads_basic`, `threads_content_publish`, `threads_manage_replies` | `/v1.0/me/threads`, `/v1.0/{id}/threads_publish` | Threads webhook (limited) | Tied to Meta BUC | Skip channel | DIRECT | M6 | Social Pod | $0 | EU rollout incomplete â€” gate by region |
+| **Meta Graph (FB pages + IG)** | Organic posts, IG Reels, comments, DMs | OAuth2 — `pages_show_list`, `pages_manage_posts`, `pages_manage_engagement`, `instagram_basic`, `instagram_content_publish`, `instagram_manage_comments`, `instagram_manage_messages` | `/{page_id}/feed`, `/{page_id}/photos`, `/{ig_user_id}/media`, `/{ig_user_id}/media_publish`, `/{post_id}/comments` | Page Mention, Comment, Messenger webhooks | 200 calls/hr/user BUC | Buffer-style queue | DIRECT | D90 | Social Pod | $0 | Global |
+| **LinkedIn API** | Organic company posts, comments | OAuth2 — `w_member_social`, `w_organization_social`, `r_organization_social` | `/rest/posts`, `/rest/socialActions/{urn}/comments` | None (poll comments) | 500 posts/day/org | Manual | DIRECT | M3 | Social Pod | $0 | Global |
+| **X API v2** | Organic posts, replies, mention sync | OAuth 2.0 + PKCE — `tweet.read`, `tweet.write`, `users.read`, `offline.access` | `POST /2/tweets`, `GET /2/users/{id}/mentions`, `POST /2/tweets/search/stream` (Pro+) | Filtered Stream (Pro+) | Tier-based: Basic 100 tweets/24hr, Pro 100k/mo | None | REVIEW-GATED | M3 | Social Pod | Basic $200/mo; Pro $5k/mo (only if customer requests stream) | Global |
+| **TikTok Content Posting** | Direct post + draft to TikTok | OAuth2 — `video.upload`, `video.publish`, `user.info.basic` | `/v2/post/publish/video/init/`, `/v2/post/publish/status/fetch/`, `/v2/post/publish/inbox/video/init/` | None (poll status) | 6 posts/24hr/user (TT cap) | Draft-to-inbox mode | DIRECT | M3 | Social Pod | $0 | Excluded for US gov-device customers |
+| **YouTube Data API** | Upload Shorts, retrieve transcripts (KB), playlist mgmt | OAuth2 — `youtube.upload`, `youtube`, `youtube.readonly`, `youtube.force-ssl` | `videos.insert` (resumable), `captions.download`, `channels.list`, `search.list` | PubSubHubbub for new uploads | 10k quota units/day default; 1 upload = 1600 units | Manual export | DIRECT | M3 | Social Pod | Free; request quota raise pre-launch | Global; CN N/A |
+| **Pinterest** | Organic Pin publishing | OAuth2 — `boards:read`, `boards:write`, `pins:read`, `pins:write` | `/v5/pins`, `/v5/boards` | None | 1000 req/min | Manual | DIRECT | M6 | Social Pod | $0 | Global |
+| **Threads** | Cross-post from IG composer | Meta Graph OAuth — `threads_basic`, `threads_content_publish`, `threads_manage_replies` | `/v1.0/me/threads`, `/v1.0/{id}/threads_publish` | Threads webhook (limited) | Tied to Meta BUC | Skip channel | DIRECT | M6 | Social Pod | $0 | EU rollout incomplete — gate by region |
 
 ### B.4 Voice / SMS
 
@@ -304,7 +304,7 @@ Column legend:
 | **SendGrid** (primary) | Transactional + nurture sequences, dedicated IPs, suppression mgmt | API key (scoped) | `POST /v3/mail/send`, `/v3/marketing/contacts`, `/v3/suppression/*`, `/v3/user/webhooks/event/settings` | Event Webhook (delivered/open/click/bounce/spamreport/unsubscribe), signed with Ed25519 | 600 emails/sec on Pro; 10k recipients/request | Resend | DIRECT | D90 | Email Pod | Pro $89.95/mo + overage; dedicated IP $80/mo | SPF/DKIM/DMARC per sending domain required at onboarding |
 | **Resend** (failover) | Failover for transactional bursts, dev DX preferred for templates | API key | `POST /emails`, `POST /audiences/{id}/contacts`, `POST /broadcasts` | Webhook events: `email.sent`, `delivered`, `bounced`, `complained` (Svix-signed) | 10 req/sec default; raise per account | SendGrid | DIRECT | D90 | Email Pod | $20/mo 50k emails; pay-as-you-go after | Same SPF/DKIM/DMARC bundle reused |
 
-**Auth-domain setup:** every workspace gets a signing subdomain (`mail.{workspace}.funelai.com`). At connect time we provision SPF (`v=spf1 include:sendgrid.net include:resend.com -all`), DKIM CNAMEs (two per provider), and DMARC (`p=quarantine` ramping to `p=reject`). Adapter `connect()` fails closed if DNS not propagated within 24h.
+**Auth-domain setup:** every workspace gets a signing subdomain (`mail.{workspace}.gofunnelai.com`). At connect time we provision SPF (`v=spf1 include:sendgrid.net include:resend.com -all`), DKIM CNAMEs (two per provider), and DMARC (`p=quarantine` ramping to `p=reject`). Adapter `connect()` fails closed if DNS not propagated within 24h.
 
 ### B.7 Brand autofill / Enrichment
 
@@ -312,28 +312,28 @@ Column legend:
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | **Clearbit Logo API** | Logo by domain | None (public) | `https://logo.clearbit.com/{domain}` | None | 600 req/min (community) | Brandfetch | DIRECT | D90 | Onboarding Pod | Free (community); we cache to R2 | Global |
 | **WhoisXML** | Domain owner / registration date / tech stack signals | API key | `/whoisserver/WhoisService`, `/EmailVerification/*` | None | Plan-tier | DomainTools | DIRECT | M3 | Enrichment Pod | $0.001-0.01/lookup | Global |
-| **LinkedIn Company API** | Company size, industry, headcount trend (limited scopes) | OAuth2 â€” `r_organization_admin`, `r_1st_connections_size` | `/rest/organizations/{id}`, `/rest/organizationAcls` | None | 500 req/day/app | Crunchbase | BRIDGED | M3 | Enrichment Pod | Requires LinkedIn partner approval | Global |
+| **LinkedIn Company API** | Company size, industry, headcount trend (limited scopes) | OAuth2 — `r_organization_admin`, `r_1st_connections_size` | `/rest/organizations/{id}`, `/rest/organizationAcls` | None | 500 req/day/app | Crunchbase | BRIDGED | M3 | Enrichment Pod | Requires LinkedIn partner approval | Global |
 | **Crunchbase** | Funding, founding date, key people | API key | `/api/v4/entities/organizations/{id}`, `/api/v4/searches/organizations` | None | Plan-tier (Pro: 200 req/min) | Manual | DIRECT | M6 | Enrichment Pod | Crunchbase Pro $49/user/mo for low-tier; Enterprise required for full API | Global |
-| **Google Business Profile API** | Local listings, reviews, hours, posts | OAuth2 â€” `https://www.googleapis.com/auth/business.manage` | `/v4/accounts/{id}/locations`, `/v1/accounts/{id}/locations/{lid}/reviews:reply` | None (poll reviews) | 600 req/min/project | Manual | DIRECT | M3 | Enrichment Pod | Free; requires GBP API allowlisting (4-8 wks) | Global |
+| **Google Business Profile API** | Local listings, reviews, hours, posts | OAuth2 — `https://www.googleapis.com/auth/business.manage` | `/v4/accounts/{id}/locations`, `/v1/accounts/{id}/locations/{lid}/reviews:reply` | None (poll reviews) | 600 req/min/project | Manual | DIRECT | M3 | Enrichment Pod | Free; requires GBP API allowlisting (4-8 wks) | Global |
 | **Meta Ad Library API** | Competitor ad creative scraping for brand brief | App access token | `/{version}/ads_archive`, search by `search_terms` and `ad_reached_countries` | None | 200 req/hr/app BUC | Manual | DIRECT | M3 | Enrichment Pod | Free; EU/political ads broader scope | Global; political ads region-restricted |
-| **Google Ad Transparency Center** | Competitor PMax/Search ad inspection | None â€” public scraping w/ robots.txt respect | Public URL patterns | None | Scrape budget 100/hr/workspace | Manual | BRIDGED | M6 | Enrichment Pod | $0; legal review required quarterly | Global |
+| **Google Ad Transparency Center** | Competitor PMax/Search ad inspection | None — public scraping w/ robots.txt respect | Public URL patterns | None | Scrape budget 100/hr/workspace | Manual | BRIDGED | M6 | Enrichment Pod | $0; legal review required quarterly | Global |
 
 ### B.8 Calendar
 
 | Provider | Purpose | Auth (scopes) | Key endpoints | Webhooks in | Rate budget | Fallback | Cap | Pri | Owner | Cost notes | Region |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| **Google Calendar** | Booking, availability, event create | OAuth2 â€” `https://www.googleapis.com/auth/calendar.events`, `calendar.readonly` | `/calendar/v3/calendars/{id}/events`, `/calendar/v3/freebusy` | Push notifications via `events.watch` (channel) | 1M req/day project default | Cal.com | DIRECT | D90 | Booking Pod | Free | Global |
-| **Microsoft Graph Calendar** | Booking for M365 customers | OAuth2 â€” `Calendars.ReadWrite`, `MailboxSettings.Read` | `/v1.0/me/events`, `/v1.0/me/calendar/getSchedule` | Subscriptions (clientState validated) | 10k req/10min per app per tenant | Cal.com | DIRECT | M3 | Booking Pod | Free; some tenants require admin consent | Global |
-| **Cal.com** | Hosted booking pages, round-robin team scheduling | API key + OAuth (Platform plan) | `/v2/bookings`, `/v2/event-types`, `/v2/availability` | Webhook on booking created/cancelled/rescheduled (HMAC) | 100 req/min | Native FunelAI scheduler | DIRECT | M3 | Booking Pod | Free OSS or Platform tier ~$15/user/mo | Global; self-hostable for EU residency |
-| **Calendly** (fallback) | When prospect already uses Calendly, embed read-only | OAuth2 â€” `default` (read), `read_write` (write tier) | `/scheduled_events`, `/event_types`, `/users/me` | Webhook subscriptions (signed) | 1000 req/min | None | DIRECT | M6 | Booking Pod | Standard plan API access; webhook subs paid tier | Global |
+| **Google Calendar** | Booking, availability, event create | OAuth2 — `https://www.googleapis.com/auth/calendar.events`, `calendar.readonly` | `/calendar/v3/calendars/{id}/events`, `/calendar/v3/freebusy` | Push notifications via `events.watch` (channel) | 1M req/day project default | Cal.com | DIRECT | D90 | Booking Pod | Free | Global |
+| **Microsoft Graph Calendar** | Booking for M365 customers | OAuth2 — `Calendars.ReadWrite`, `MailboxSettings.Read` | `/v1.0/me/events`, `/v1.0/me/calendar/getSchedule` | Subscriptions (clientState validated) | 10k req/10min per app per tenant | Cal.com | DIRECT | M3 | Booking Pod | Free; some tenants require admin consent | Global |
+| **Cal.com** | Hosted booking pages, round-robin team scheduling | API key + OAuth (Platform plan) | `/v2/bookings`, `/v2/event-types`, `/v2/availability` | Webhook on booking created/cancelled/rescheduled (HMAC) | 100 req/min | Native GoFunnelAI scheduler | DIRECT | M3 | Booking Pod | Free OSS or Platform tier ~$15/user/mo | Global; self-hostable for EU residency |
+| **Calendly** (fallback) | When prospect already uses Calendly, embed read-only | OAuth2 — `default` (read), `read_write` (write tier) | `/scheduled_events`, `/event_types`, `/users/me` | Webhook subscriptions (signed) | 1000 req/min | None | DIRECT | M6 | Booking Pod | Standard plan API access; webhook subs paid tier | Global |
 
 ### B.9 KB freshness ingestion
 
 | Provider | Purpose | Auth | Key endpoints | Webhooks in | Rate budget | Fallback | Cap | Pri | Owner | Cost notes | Region |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | **NewsAPI.org** | Industry news, competitor mentions | API key | `/v2/everything`, `/v2/top-headlines` | None | Developer 100/day; Business 250k/mo | GDELT, Bing News | DIRECT | M3 | KB Pod | Business $449/mo | Global |
-| **YouTube Data API** | Channel video listings + transcripts | OAuth2 â€” `youtube.readonly`, `youtube.force-ssl` for captions | `search.list`, `videos.list`, `captions.download` | PubSubHubbub | Shared 10k/day quota | yt-dlp self-hosted (legal review) | DIRECT | M3 | KB Pod | Free | Global |
-| **Reddit API** | Subreddit signal for KB and audience research | OAuth2 â€” `read`, `wikiread` (script app for read-only) | `/r/{sub}/new`, `/r/{sub}/about`, `/search` | None | 100 QPM auth, 10 QPM unauth | Pushshift (rate-limited) | DIRECT | M3 | KB Pod | Free tier post-2023; Enterprise paid if commercial use threshold hit | Global |
+| **YouTube Data API** | Channel video listings + transcripts | OAuth2 — `youtube.readonly`, `youtube.force-ssl` for captions | `search.list`, `videos.list`, `captions.download` | PubSubHubbub | Shared 10k/day quota | yt-dlp self-hosted (legal review) | DIRECT | M3 | KB Pod | Free | Global |
+| **Reddit API** | Subreddit signal for KB and audience research | OAuth2 — `read`, `wikiread` (script app for read-only) | `/r/{sub}/new`, `/r/{sub}/about`, `/search` | None | 100 QPM auth, 10 QPM unauth | Pushshift (rate-limited) | DIRECT | M3 | KB Pod | Free tier post-2023; Enterprise paid if commercial use threshold hit | Global |
 | **Custom RSS scraping** | Customer-supplied feeds; competitor blogs | None (public) | Fetch w/ ETag/Last-Modified | None | 1 req per 5 min per feed; respect `robots.txt` and `Crawl-delay` | None | DIRECT | D90 | KB Pod | $0 | Global; obey site TOS |
 
 ### B.10 Compliance / verification
@@ -366,7 +366,7 @@ Column legend:
 
 ---
 
-## PART C â€” Adapter implementation order
+## PART C — Adapter implementation order
 
 Sequence reflects what must exist for the Day-90 launch (autonomous lead-gen MVP: connect brand -> generate creative -> launch ad -> capture lead -> book call -> charge subscription), then what we layer on for Month 3-6 (channel breadth and global payments), then what stays behind a capability flag until customer pull justifies it.
 
@@ -376,26 +376,26 @@ These are the absolute minimum to ship the loop "from prospect signup to first r
 
 | # | Adapter | Why it's day-1 | Owner |
 |---|---|---|---|
-| 1 | **Anthropic Claude** | Core agent reasoning; everything else routes through it. | AI Platform â€” Lead Eng |
-| 2 | **Postgres** (Supabase or Neon) | Source-of-truth tables for workspaces, connections, jobs. | Platform â€” Lead Eng |
-| 3 | **Cloudflare R2 + Queues + KV** | Storage + intra-platform bus + idempotency cache. Shipped as one PAL package. | Platform â€” Lead Eng |
-| 4 | **Stripe Billing + Tax + Checkout** | Subscription rail and tax. PayPal lands same sprint but Stripe boots the billing tests. | Billing Pod â€” Lead Eng |
-| 5 | **PayPal Subscriptions** | Primary subscription rail per spec. | Billing Pod â€” Eng 2 |
-| 6 | **Meta Marketing API** | Largest ad surface; lead-ads form is the primary lead capture on launch. | Ads Pod â€” Lead Eng |
-| 7 | **Google Ads API** | Second ad surface; required for cross-network agent decisions. Long lead time on Standard-access approval â€” start vendor process Day 0. | Ads Pod â€” Eng 2 |
-| 8 | **SendGrid** (with Resend failover stub) | Transactional + nurture; auth-domain provisioning gates onboarding. | Email Pod â€” Lead Eng |
-| 9 | **RevTry** | Primary voice; AI agent dialing is a launch differentiator. | Voice Pod â€” Lead Eng (internal) |
-| 10 | **Google Calendar** | Booking surface for first-call conversion. | Booking Pod â€” Lead Eng |
+| 1 | **Anthropic Claude** | Core agent reasoning; everything else routes through it. | AI Platform — Lead Eng |
+| 2 | **Postgres** (Supabase or Neon) | Source-of-truth tables for workspaces, connections, jobs. | Platform — Lead Eng |
+| 3 | **Cloudflare R2 + Queues + KV** | Storage + intra-platform bus + idempotency cache. Shipped as one PAL package. | Platform — Lead Eng |
+| 4 | **Stripe Billing + Tax + Checkout** | Subscription rail and tax. PayPal lands same sprint but Stripe boots the billing tests. | Billing Pod — Lead Eng |
+| 5 | **PayPal Subscriptions** | Primary subscription rail per spec. | Billing Pod — Eng 2 |
+| 6 | **Meta Marketing API** | Largest ad surface; lead-ads form is the primary lead capture on launch. | Ads Pod — Lead Eng |
+| 7 | **Google Ads API** | Second ad surface; required for cross-network agent decisions. Long lead time on Standard-access approval — start vendor process Day 0. | Ads Pod — Eng 2 |
+| 8 | **SendGrid** (with Resend failover stub) | Transactional + nurture; auth-domain provisioning gates onboarding. | Email Pod — Lead Eng |
+| 9 | **RevTry** | Primary voice; AI agent dialing is a launch differentiator. | Voice Pod — Lead Eng (internal) |
+| 10 | **Google Calendar** | Booking surface for first-call conversion. | Booking Pod — Lead Eng |
 
 **Day-90 supporting adapters** (built in parallel, lighter scope):
-- Anthropic + OpenAI (voice onboarding) â€” same AI Platform pod.
-- Twilio Programmable Voice + Lookup + SMS â€” needed as RevTry failover and for phone validation pre-call. Voice Pod â€” Eng 2.
-- ElevenLabs + Whisper â€” Voice Pod â€” Eng 3.
-- Meta Graph organic â€” Social Pod (reuses Meta OAuth from Ads).
-- Cloudflare Turnstile â€” Security.
-- DNC list â€” Compliance. **Non-negotiable**: outbound calls cannot ship without it.
-- Clearbit Logo â€” Onboarding Pod.
-- Sentry + Prometheus + Grafana + OTel â€” SRE bring-up Week 1.
+- Anthropic + OpenAI (voice onboarding) — same AI Platform pod.
+- Twilio Programmable Voice + Lookup + SMS — needed as RevTry failover and for phone validation pre-call. Voice Pod — Eng 2.
+- ElevenLabs + Whisper — Voice Pod — Eng 3.
+- Meta Graph organic — Social Pod (reuses Meta OAuth from Ads).
+- Cloudflare Turnstile — Security.
+- DNC list — Compliance. **Non-negotiable**: outbound calls cannot ship without it.
+- Clearbit Logo — Onboarding Pod.
+- Sentry + Prometheus + Grafana + OTel — SRE bring-up Week 1.
 
 ### C.2 Next 10 adapters (Month 3-6)
 
@@ -416,7 +416,7 @@ Channel breadth, global payment rails, and the enrichment layer that lets the ag
 | 21 | **Flux/Ideogram via Replicate** | Image-gen ad creative graduates from prototype. | Creative Pod |
 | 22 | **VIES** | EU agency customers needing VAT validation. | Compliance |
 
-(That's 12 â€” items 21 and 22 are slotted into Month 3-6 once their dependents land but don't displace the top 10.)
+(That's 12 — items 21 and 22 are slotted into Month 3-6 once their dependents land but don't displace the top 10.)
 
 ### C.3 Carried as capability flags
 
@@ -440,74 +440,74 @@ These are wired into the registry and surfaced in UI as "available on request" o
 
 ---
 
-## PART D â€” Failure handling (high-criticality only)
+## PART D — Failure handling (high-criticality only)
 
 Each entry below covers an integration whose outage materially breaks the product. For every one: **degradation strategy** (what the platform does), **customer-visible message** (the exact copy users see), and **alert path** (how on-call learns). Lower-criticality adapters follow the default policy: PAL retry -> DLQ -> Sentry alert -> Linear ticket, no customer surface unless the customer requests the action live.
 
 ### D.1 Anthropic Claude
 
 - **Degradation:** Orchestrator switches to OpenAI fallback model (GPT-class) within 30s of sustained 5xx. Plan-output schema is preserved; reasoning depth flagged as "reduced." Background batch jobs pause. Cache-warmed plans continue to execute.
-- **Customer message:** Banner â€” *"Funnel's AI brain is running on a backup model right now. Decisions may be a little slower and less detailed. We'll switch back as soon as Anthropic recovers."*
+- **Customer message:** Banner — *"Funnel's AI brain is running on a backup model right now. Decisions may be a little slower and less detailed. We'll switch back as soon as Anthropic recovers."*
 - **Alert path:** Sentry health-check failure -> PagerDuty `ai-platform` rotation -> Slack `#incidents-ai`. Status page incident auto-opened after 5 min sustained.
 
 ### D.2 RevTry (voice)
 
 - **Degradation:** Voice Pod drains in-flight calls; new calls route to Twilio Programmable Voice with TwiML bridging to our agent runtime. Recording + transcript continue (Whisper on Twilio recordings). AI persona quality flagged "limited" because RevTry's bespoke voice models aren't on Twilio path.
-- **Customer message:** Toast on call dashboard â€” *"We're routing voice through a backup carrier while RevTry recovers. Outbound dialing continues; some advanced features (live sentiment, instant transfer) are paused."*
+- **Customer message:** Toast on call dashboard — *"We're routing voice through a backup carrier while RevTry recovers. Outbound dialing continues; some advanced features (live sentiment, instant transfer) are paused."*
 - **Alert path:** RevTry internal health webhook + our `healthCheck()` -> PagerDuty `voice` rotation -> Slack `#incidents-voice`. Internal RevTry incident channel auto-bridged.
 
 ### D.3 Meta Marketing API
 
-- **Degradation:** Writes pause; reads serve from last sync cache. Lead Ads inflow continues over webhook unless Meta's webhook system is also down â€” if so, switch to leads-retrieval polling at 5-minute cadence. Spend pacing decisions defer to last-known-good state plus a 10% conservative trim.
-- **Customer message:** Per-campaign chip â€” *"Meta is having issues. Your campaigns are still running but we can't make changes right now. Last updated {time}."*
+- **Degradation:** Writes pause; reads serve from last sync cache. Lead Ads inflow continues over webhook unless Meta's webhook system is also down — if so, switch to leads-retrieval polling at 5-minute cadence. Spend pacing decisions defer to last-known-good state plus a 10% conservative trim.
+- **Customer message:** Per-campaign chip — *"Meta is having issues. Your campaigns are still running but we can't make changes right now. Last updated {time}."*
 - **Alert path:** Adapter error-rate threshold (5xx > 3% over 10 min) -> PagerDuty `ads` -> Slack `#incidents-ads`. Cross-check Meta Developer status page in alert.
 
 ### D.4 Google Ads API
 
-- **Degradation:** Same pattern as Meta â€” pause writes, serve cached state, hold pacing decisions. Conversion uploads queue locally (Cloudflare Queues) with 14-day buffer (Google's import window).
+- **Degradation:** Same pattern as Meta — pause writes, serve cached state, hold pacing decisions. Conversion uploads queue locally (Cloudflare Queues) with 14-day buffer (Google's import window).
 - **Customer message:** Same chip pattern as Meta.
 - **Alert path:** Same as Meta. Long outages additionally page Ads Pod lead since developer-token rotation may be the underlying cause.
 
 ### D.5 Stripe + PayPal
 
 - **Degradation:** If **either** payment provider is down, route new subscriptions to the healthy one (customer chooses at checkout already; the down option is grayed with explanation). For existing subscribers on the down provider, dunning pauses and we extend grace period by the outage duration. Webhook backlog drains on recovery with idempotent re-reconciliation.
-- **Customer message (checkout):** Inline â€” *"PayPal is currently unavailable. You can complete checkout with Stripe in the meantime."* (and the reverse).
-- **Customer message (active sub on down provider):** Email + in-app â€” *"We noticed your billing provider is experiencing issues. Your service continues uninterrupted; we'll catch up on the next renewal cycle."*
+- **Customer message (checkout):** Inline — *"PayPal is currently unavailable. You can complete checkout with Stripe in the meantime."* (and the reverse).
+- **Customer message (active sub on down provider):** Email + in-app — *"We noticed your billing provider is experiencing issues. Your service continues uninterrupted; we'll catch up on the next renewal cycle."*
 - **Alert path:** Webhook backlog depth or capture-failure rate -> PagerDuty `billing` -> Slack `#incidents-billing`. Finance Slack channel auto-notified on > 1hr outage.
 
 ### D.6 SendGrid
 
-- **Degradation:** Email Pod's send-router fails over to Resend automatically per workspace (same DKIM keys, parallel DNS provisioning). Suppression list is mirrored to Resend on hourly cadence â€” outage suppression deltas are reconciled on recovery to prevent over-sending bounced addresses.
-- **Customer message:** Silent for most users. Workspaces with dedicated-IP setups see banner â€” *"Your dedicated sending IP is offline; we're sending via the failover pool. Deliverability is monitored."*
+- **Degradation:** Email Pod's send-router fails over to Resend automatically per workspace (same DKIM keys, parallel DNS provisioning). Suppression list is mirrored to Resend on hourly cadence — outage suppression deltas are reconciled on recovery to prevent over-sending bounced addresses.
+- **Customer message:** Silent for most users. Workspaces with dedicated-IP setups see banner — *"Your dedicated sending IP is offline; we're sending via the failover pool. Deliverability is monitored."*
 - **Alert path:** Bounce-rate or 5xx spike -> PagerDuty `email` -> Slack `#incidents-email`. Auto-open Status incident.
 
 ### D.7 Google Calendar
 
-- **Degradation:** Reads serve from cache up to 15 minutes old. Booking writes queue and surface as "Booking confirmed; calendar invite arriving shortly" â€” invites are flushed on recovery. Conflict-detection falls back to FunelAI's internal slot ledger which is always-on.
-- **Customer message:** Booking page â€” *"Your booking is confirmed. Your calendar invite is on its way; this can take a few minutes."*
+- **Degradation:** Reads serve from cache up to 15 minutes old. Booking writes queue and surface as "Booking confirmed; calendar invite arriving shortly" — invites are flushed on recovery. Conflict-detection falls back to GoFunnelAI's internal slot ledger which is always-on.
+- **Customer message:** Booking page — *"Your booking is confirmed. Your calendar invite is on its way; this can take a few minutes."*
 - **Alert path:** Watch-channel renewal failures or `events.list` 5xx -> PagerDuty `booking` -> Slack `#incidents-booking`.
 
 ### D.8 DNC list
 
 - **Degradation:** **Outbound calling halts.** Compliance posture is non-negotiable: we do not call without a fresh scrub. Inbound continues. Outbound nurture queue holds.
-- **Customer message:** Per-campaign banner â€” *"Outbound calls are paused while we refresh the do-not-call registry. We'll resume automatically within {ETA}. SMS and email continue."*
+- **Customer message:** Per-campaign banner — *"Outbound calls are paused while we refresh the do-not-call registry. We'll resume automatically within {ETA}. SMS and email continue."*
 - **Alert path:** Compliance pager (Compliance lead + on-call SRE) -> Slack `#incidents-compliance`. Escalates to legal on outage > 4 hours.
 
 ### D.9 Postgres
 
 - **Degradation:** Read replicas continue serving. Writes that depend on transactional consistency hold; eventual-consistency writes (analytics, webhook ingest) route to R2/Queues buffer for replay. Customer-facing dashboard switches to read-only mode.
-- **Customer message:** Global banner â€” *"FunelAI is in read-only mode while we recover a database issue. Your campaigns continue to run."*
+- **Customer message:** Global banner — *"GoFunnelAI is in read-only mode while we recover a database issue. Your campaigns continue to run."*
 - **Alert path:** Connection-pool saturation or replica lag -> PagerDuty `platform` (P1) -> Slack `#incidents-platform`. Status page incident opened immediately.
 
 ### D.10 Cloudflare Workers / R2 / Queues
 
-- **Degradation:** Multi-region failover within Cloudflare is automatic. A full Cloudflare outage is a platform-down event handled per the disaster-recovery playbook (out of scope for this doc â€” see `09-runbooks/cf-outage.md`).
+- **Degradation:** Multi-region failover within Cloudflare is automatic. A full Cloudflare outage is a platform-down event handled per the disaster-recovery playbook (out of scope for this doc — see `09-runbooks/cf-outage.md`).
 - **Customer message:** Status page only; product is down.
 - **Alert path:** Cloudflare Notifications -> PagerDuty `platform` (P1) -> Slack `#incidents-platform`. Public status post within 10 min.
 
 ---
 
-## Appendix â€” Adapter checklist (per new integration)
+## Appendix — Adapter checklist (per new integration)
 
 Before an adapter is allowed in `main`:
 

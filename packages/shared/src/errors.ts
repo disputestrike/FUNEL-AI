@@ -3,7 +3,7 @@
  *
  * Every domain failure inside GoFunnelAI extends `FunnelError`. Each subclass
  * has a stable `code` string that the API layer maps to an HTTP status. The
- * `details` payload is the structured context â€” fields that violated a
+ * `details` payload is the structured context — fields that violated a
  * schema, the entity that was missing, etc.
  *
  * In log sinks, errors render as JSON via `toJSON()`. The renderer never
@@ -45,7 +45,7 @@ export class FunnelError extends Error {
   }
 }
 
-/** Validation failure â€” bad request shape, regex fail, schema mismatch. */
+/** Validation failure — bad request shape, regex fail, schema mismatch. */
 export class ValidationError extends FunnelError {
   constructor(message: string, details: ErrorDetails = {}, cause?: unknown) {
     super(message, { code: "validation_error", status: 400, details, cause });
@@ -72,7 +72,7 @@ export class AuthError extends FunnelError {
   }
 }
 
-/** Billing-domain failure â€” declined card, ineligible upgrade, suspended account. */
+/** Billing-domain failure — declined card, ineligible upgrade, suspended account. */
 export class BillingError extends FunnelError {
   constructor(message: string, opts: { code?: string; status?: number; details?: ErrorDetails; cause?: unknown } = {}) {
     super(message, {
@@ -84,7 +84,7 @@ export class BillingError extends FunnelError {
   }
 }
 
-/** Compliance/Trust-and-Safety failure â€” blocked publish, claim flag, attestation missing. */
+/** Compliance/Trust-and-Safety failure — blocked publish, claim flag, attestation missing. */
 export class ComplianceError extends FunnelError {
   constructor(message: string, opts: { code?: string; details?: ErrorDetails; cause?: unknown } = {}) {
     super(message, {
@@ -123,7 +123,7 @@ export class UpstreamError extends FunnelError {
   }
 }
 
-/** Conflict â€” version mismatch, duplicate slug, idempotency replay. */
+/** Conflict — version mismatch, duplicate slug, idempotency replay. */
 export class ConflictError extends FunnelError {
   constructor(message: string, details: ErrorDetails = {}, cause?: unknown) {
     super(message, { code: "conflict", status: 409, details, cause });

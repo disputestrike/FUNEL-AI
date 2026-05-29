@@ -18,6 +18,8 @@ import { integrationsRouter } from "./routers/integrations.js";
 import { analyticsRouter } from "./routers/analytics.js";
 import { adminRouter } from "./routers/admin.js";
 import { aiEditRouter } from "./routers/ai-edit.js";
+import { publishRouter } from "./routers/publish.js";
+import { domainsRouter } from "./routers/domains.js";
 
 export const appRouter = router({
   workspace: workspaceRouter,
@@ -30,6 +32,8 @@ export const appRouter = router({
   analytics: analyticsRouter,
   admin: adminRouter,
   aiEdit: aiEditRouter,
+  publish: publishRouter,
+  domains: domainsRouter,
 });
 
 export type AppRouter = typeof appRouter;

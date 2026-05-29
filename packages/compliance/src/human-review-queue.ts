@@ -5,7 +5,7 @@
  * state machine, SLA tracking, claim-and-lock semantics, structured
  * decisions, calibration audit sampling, appeals workflow.
  *
- * Generations in `review_required` are paused â€” cost meter pauses (07c),
+ * Generations in `review_required` are paused — cost meter pauses (07c),
  * downstream publish + send jobs blocked. The orchestrator polls this
  * queue's state via subscribeStateChange (event-driven in prod).
  */
@@ -59,7 +59,7 @@ export interface ReviewItem {
   funnelId: string;
   customerTier: CustomerTier;
   vertical: string;
-  /** Why this was queued â€” copies of compliance/T&S trigger codes. */
+  /** Why this was queued — copies of compliance/T&S trigger codes. */
   triggers: string[];
   /** 1=highest, 5=lowest. */
   priority: 1 | 2 | 3 | 4 | 5;
@@ -71,7 +71,7 @@ export interface ReviewItem {
   claimExpiresAt: string | null;
   /** SLA deadline. */
   slaDueAt: string;
-  /** Internal-use only â€” kb pack version used in original generation. */
+  /** Internal-use only — kb pack version used in original generation. */
   kbPackVersion?: string;
   /** Total reviewer time for analytics. */
   timeToDecisionSec: number | null;
@@ -81,7 +81,7 @@ export interface ReviewItem {
   decisionReasons: RejectionReason[];
   decisionFreeText: string | null;
   editsDiff: Record<string, unknown> | null;
-  /** Cycle counter â€” re-checks after approve_with_edits, max 2. */
+  /** Cycle counter — re-checks after approve_with_edits, max 2. */
   autoCheckCycles: number;
   appealedAt: string | null;
   appealOutcome: "appeal_granted" | "appeal_denied" | null;
@@ -105,7 +105,7 @@ const SLA_BY_TIER: Record<CustomerTier, SlaPolicy> = {
 
 const CLAIM_LOCK_MS = 15 * 60 * 1_000;
 
-/** Is `at` within US business hours (Monâ€“Fri 8aâ€“6p PT)? Coarse â€” production uses tz-aware. */
+/** Is `at` within US business hours (Mon–Fri 8a–6p PT)? Coarse — production uses tz-aware. */
 function inBusinessHours(at: Date): boolean {
   const pt = new Date(at.toLocaleString("en-US", { timeZone: "America/Los_Angeles" }));
   const day = pt.getDay();
@@ -120,7 +120,7 @@ export interface ReviewQueueStore {
   getByGenerationId(generationId: string): Promise<ReviewItem | null>;
   /** List items by state, sorted by priority asc, then sla asc. */
   listByState(state: ReviewState, limit?: number): Promise<ReviewItem[]>;
-  /** Update â€” caller mutates and passes back; we serialize. */
+  /** Update — caller mutates and passes back; we serialize. */
   update(id: string, patch: Partial<ReviewItem>): Promise<ReviewItem>;
 }
 
@@ -239,7 +239,7 @@ export class HumanReviewQueue {
     return items;
   }
 
-  /** Reviewer claims an item â€” establishes 15-minute lock. */
+  /** Reviewer claims an item — establishes 15-minute lock. */
   async claim(generationId: string, reviewerId: string): Promise<ReviewItem> {
     const item = await this.opts.store.getByGenerationId(generationId);
     if (!item) throw new Error(`No review item for generation ${generationId}`);
@@ -273,7 +273,7 @@ export class HumanReviewQueue {
     if (opts.edits) {
       cycles += 1;
       if (cycles > (this.opts.maxAutoCheckCycles ?? 2)) {
-        throw new Error("Max approve_with_edits cycles exceeded â€” must reject or escalate.");
+        throw new Error("Max approve_with_edits cycles exceeded — must reject or escalate.");
       }
     }
     const patched = await this.opts.store.update(item.id, {
@@ -345,7 +345,7 @@ export class HumanReviewQueue {
   }): Promise<AppealRecord> {
     const item = await this.opts.store.getByGenerationId(input.generationId);
     if (!item) throw new Error(`No review item for generation ${input.generationId}`);
-    if (item.state !== "rejected") throw new Error(`Cannot appeal â€” current state ${item.state}`);
+    if (item.state !== "rejected") throw new Error(`Cannot appeal — current state ${item.state}`);
     if (item.decidedAt) {
       const ageDays = (Date.now() - Date.parse(item.decidedAt)) / 86_400_000;
       if (ageDays > (this.opts.appealWindowDays ?? 7)) {
@@ -380,7 +380,7 @@ export class HumanReviewQueue {
   }): Promise<ReviewItem> {
     const item = await this.opts.store.getByGenerationId(input.generationId);
     if (!item) throw new Error("Item not found.");
-    if (item.state !== "appeal_review") throw new Error(`Item not under appeal â€” state=${item.state}`);
+    if (item.state !== "appeal_review") throw new Error(`Item not under appeal — state=${item.state}`);
 
     await this.opts.appealStore.decide(input.generationId, input.outcome, input.reviewerId, input.notes);
 
@@ -414,7 +414,7 @@ export class HumanReviewQueue {
   }
 
   /**
-   * Reviewer QA metrics â€” accuracy vs gold (calibration), median TTD, SLA
+   * Reviewer QA metrics — accuracy vs gold (calibration), median TTD, SLA
    * breach rate, appeal-reversal rate over the window.
    */
   async metrics(
@@ -466,10 +466,10 @@ export class HumanReviewQueue {
   private async requireClaimedBy(generationId: string, reviewerId: string): Promise<ReviewItem> {
     const item = await this.opts.store.getByGenerationId(generationId);
     if (!item) throw new Error("Review item not found.");
-    if (item.state !== "claimed") throw new Error(`Item not claimed â€” state=${item.state}`);
+    if (item.state !== "claimed") throw new Error(`Item not claimed — state=${item.state}`);
     if (item.claimedByReviewerId !== reviewerId) throw new Error("Not your claim.");
     if (item.claimExpiresAt && Date.parse(item.claimExpiresAt) < Date.now()) {
-      throw new Error("Claim expired â€” re-claim first.");
+      throw new Error("Claim expired — re-claim first.");
     }
     return item;
   }

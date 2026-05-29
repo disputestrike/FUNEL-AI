@@ -12,7 +12,7 @@ Embed GoFunnelAI funnels into any WordPress page or post, sync every form submis
 
 == Description ==
 
-GoFunnelAI is the easiest way to design, ship, and optimize high-converting funnels â€” without leaving WordPress.
+GoFunnelAI is the easiest way to design, ship, and optimize high-converting funnels — without leaving WordPress.
 
 This plugin lets you:
 
@@ -21,7 +21,7 @@ This plugin lets you:
 * **Trigger speed-to-lead** outreach (email via Resend, SMS via SignalWire) within seconds of capture, fully managed by GoFunnelAI.
 * **Track embed views and conversions** via a built-in tracking pixel so you can attribute conversions to the WP page they ran on.
 
-No SendGrid or Twilio anywhere â€” GoFunnelAI uses Resend + SignalWire end-to-end.
+No SendGrid or Twilio anywhere — GoFunnelAI uses Resend + SignalWire end-to-end.
 
 == Installation ==
 
@@ -33,7 +33,7 @@ No SendGrid or Twilio anywhere â€” GoFunnelAI uses Resend + SignalWire end-
 == Frequently Asked Questions ==
 
 = Do I need a GoFunnelAI account? =
-Yes â€” sign up at https://gofunnelai.com then connect this site to your workspace from the plugin settings page.
+Yes — sign up at https://gofunnelai.com then connect this site to your workspace from the plugin settings page.
 
 = Will embedding a funnel hurt my SEO? =
 No. The block bakes the funnel HTML into the post at edit time, so the front-end serves a static snapshot with no JavaScript required.
@@ -45,14 +45,14 @@ Gravity Forms, WPForms, Contact Form 7, and WooCommerce checkouts. You can toggl
 GoFunnelAI targets sub-30-second outreach after a form submission, sending the first touch via Resend (email) and SignalWire (SMS).
 
 = Does the plugin store lead data inside WordPress? =
-No â€” the submission is forwarded directly to your GoFunnelAI workspace. The plugin only stores OAuth tokens and your settings inside `wp_options`.
+No — the submission is forwarded directly to your GoFunnelAI workspace. The plugin only stores OAuth tokens and your settings inside `wp_options`.
 
 == Screenshots ==
 
 1. The GoFunnelAI admin landing page with one-click OAuth.
-2. The Gutenberg block picker â€” search and embed any of your funnels.
-3. Form-forwarding settings â€” toggle Gravity / WPForms / CF7 / Woo.
-4. The Funnel browser submenu â€” embed any funnel into a new page in one click.
+2. The Gutenberg block picker — search and embed any of your funnels.
+3. Form-forwarding settings — toggle Gravity / WPForms / CF7 / Woo.
+4. The Funnel browser submenu — embed any funnel into a new page in one click.
 
 == Changelog ==
 

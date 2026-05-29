@@ -1,6 +1,6 @@
 /**
  * Serves Swagger UI as an interactive playground at GET /v1/docs.
- * Pulls the spec from the live /v1/openapi.json â€” never bundles it.
+ * Pulls the spec from the live /v1/openapi.json — never bundles it.
  */
 
 import type { Hono } from "hono";
@@ -10,7 +10,7 @@ const HTML = `<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>GoFunnelAI API â€” Playground</title>
+    <title>GoFunnelAI API — Playground</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="https://gofunnelai.com/favicon.ico" />
     <link

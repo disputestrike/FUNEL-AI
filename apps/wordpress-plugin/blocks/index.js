@@ -1,7 +1,7 @@
 /* global wp */
 
 /**
- * Gutenberg block editor â€” GoFunnelAI Block.
+ * Gutenberg block editor — GoFunnelAI Block.
  *
  * UI:
  *   - SelectControl for funnel (loaded from /funnelai/v1/funnels).
@@ -75,7 +75,7 @@
             el(SelectControl, {
               label: __("Pick a funnel", "funnel-ai"),
               value: props.attributes.funnelId,
-              options: [{ label: "â€”", value: "" }].concat(
+              options: [{ label: "—", value: "" }].concat(
                 funnels.map(function (f) {
                   return { label: f.name, value: f.id }
                 }),
@@ -99,7 +99,7 @@
               el(SelectControl, {
                 label: __("Section", "funnel-ai"),
                 value: props.attributes.sectionId,
-                options: [{ label: "â€”", value: "" }].concat(
+                options: [{ label: "—", value: "" }].concat(
                   sections.map(function (s) {
                     return { label: s.name, value: s.id }
                   }),

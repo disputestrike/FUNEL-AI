@@ -2,7 +2,7 @@
   "name": "@funnel/crm",
   "version": "0.1.0",
   "private": true,
-  "description": "GoFunnelAI native CRM + Lead Engine â€” contacts, leads, pipelines, scoring, bookings, speed-to-lead enforcer.",
+  "description": "GoFunnelAI native CRM + Lead Engine — contacts, leads, pipelines, scoring, bookings, speed-to-lead enforcer.",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

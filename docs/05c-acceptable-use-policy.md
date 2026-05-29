@@ -1,12 +1,12 @@
-﻿# FunelAI â€” Acceptable Use Policy
+# GoFunnelAI — Acceptable Use Policy
 
 **Document ID:** 05c-acceptable-use-policy
-**Status:** v1 â€” pending counsel review
+**Status:** v1 — pending counsel review
 **Effective Date:** [TO BE SET ON LAUNCH]
 **Last Updated:** [TO BE SET ON LAUNCH]
-**Entity:** FunelAI, Inc., a Delaware C-corporation
+**Entity:** GoFunnelAI, Inc., a Delaware C-corporation
 
-> **Plain-language note:** This Acceptable Use Policy ("AUP") describes what you may not do with the FunelAI Service (funnel pages, ad creatives, email and SMS sequences, voice scripts and the RevTry voice agent, lead magnets, and payment pages). It is incorporated by reference into the **Terms of Service** (`05a-terms-of-service.md`) and is binding on every user, including Free Tier and Pro Boost users.
+> **Plain-language note:** This Acceptable Use Policy ("AUP") describes what you may not do with the GoFunnelAI Service (funnel pages, ad creatives, email and SMS sequences, voice scripts and the RevTry voice agent, lead magnets, and payment pages). It is incorporated by reference into the **Terms of Service** (`05a-terms-of-service.md`) and is binding on every user, including Free Tier and Pro Boost users.
 >
 > Related documents:
 > - **Terms of Service** (`05a-terms-of-service.md`)
@@ -18,7 +18,7 @@
 
 ## 1. Core Principles
 
-You must not use the Service to do anything illegal, deceptive, harmful, or abusive. You are responsible for your Published Content and for the lawful use of all data you process through the Service. AI assistance does not transfer that responsibility to FunelAI. See `05a` Section 5 and `05e` for the full indemnification framework.
+You must not use the Service to do anything illegal, deceptive, harmful, or abusive. You are responsible for your Published Content and for the lawful use of all data you process through the Service. AI assistance does not transfer that responsibility to GoFunnelAI. See `05a` Section 5 and `05e` for the full indemnification framework.
 
 ---
 
@@ -50,16 +50,16 @@ You may not use the Service, directly or indirectly, to create, generate, send, 
 
 You may not make claims, sell, or advertise in regulated verticals without holding the licenses, registrations, and disclosures required by every jurisdiction in which your Published Content is accessible. This includes (non-exhaustively):
 
-- **Healthcare, medical devices, pharmaceuticals, supplements** â€” including weight-loss and GLP-1 products (Ozempic, Wegovy, Mounjaro, Zepbound, semaglutide, tirzepatide, and similar). Compounded GLP-1 marketing is highly regulated; you must comply with FDA, FTC, state pharmacy, and telehealth rules.
-- **Cosmetic surgery and aesthetic procedures** â€” before/after imagery, outcome claims, and "results" must comply with state medical board rules and FTC endorsement guides.
-- **Legal services** â€” attorney advertising rules vary by state/jurisdiction.
-- **Financial services, lending, credit repair, debt relief, bankruptcy, mortgage** â€” TILA, ECOA, Reg Z, MAP Rule, FDCPA, state UDAP, CFPB rules apply.
-- **Insurance** â€” agent/broker licensing per state.
-- **Securities and investment advice** â€” SEC, FINRA, state Blue Sky laws.
+- **Healthcare, medical devices, pharmaceuticals, supplements** — including weight-loss and GLP-1 products (Ozempic, Wegovy, Mounjaro, Zepbound, semaglutide, tirzepatide, and similar). Compounded GLP-1 marketing is highly regulated; you must comply with FDA, FTC, state pharmacy, and telehealth rules.
+- **Cosmetic surgery and aesthetic procedures** — before/after imagery, outcome claims, and "results" must comply with state medical board rules and FTC endorsement guides.
+- **Legal services** — attorney advertising rules vary by state/jurisdiction.
+- **Financial services, lending, credit repair, debt relief, bankruptcy, mortgage** — TILA, ECOA, Reg Z, MAP Rule, FDCPA, state UDAP, CFPB rules apply.
+- **Insurance** — agent/broker licensing per state.
+- **Securities and investment advice** — SEC, FINRA, state Blue Sky laws.
 - **Tax preparation and advice.**
-- **Employment and recruiting** â€” fair-hiring laws, EEOC, AI-bias auditing laws (e.g., NYC Local Law 144, Illinois AI Video Interview Act, Colorado AI Act).
-- **Real estate** â€” Fair Housing Act, MLS rules, state licensing.
-- **Education** â€” for-profit education disclosure rules, Title IV, state authorization.
+- **Employment and recruiting** — fair-hiring laws, EEOC, AI-bias auditing laws (e.g., NYC Local Law 144, Illinois AI Video Interview Act, Colorado AI Act).
+- **Real estate** — Fair Housing Act, MLS rules, state licensing.
+- **Education** — for-profit education disclosure rules, Title IV, state authorization.
 - **Immigration services.**
 
 If your business operates in any **Regulated Vertical**, you must complete the publish-time acknowledgment described in `05e-publish-acknowledgment-and-indemnification.md`.
@@ -115,7 +115,7 @@ If your business operates in any **Regulated Vertical**, you must complete the p
 ### 2.11 Security and platform abuse
 
 (a) Attempting to access another user's Account or data without authorization.
-(b) Probing, scanning, or testing the vulnerability of the Service without our written authorization (see our responsible disclosure program at `security@funelai.com`).
+(b) Probing, scanning, or testing the vulnerability of the Service without our written authorization (see our responsible disclosure program at `security@gofunnelai.com`).
 (c) Interfering with, overloading, or disrupting the Service or any infrastructure (DoS/DDoS, excessive API calls).
 (d) Bypassing rate limits, quotas, geo-restrictions, or access controls.
 (e) Reverse engineering, decompiling, or extracting model weights, prompts, or system internals.
@@ -148,7 +148,7 @@ If your business operates in any **Regulated Vertical**, you must complete the p
 
 ---
 
-## 3. Voice Agent (RevTry) â€” Additional Rules
+## 3. Voice Agent (RevTry) — Additional Rules
 
 When using the bundled RevTry voice agent:
 
@@ -168,13 +168,13 @@ If your Published Content runs on or interacts with third-party platforms (Meta,
 
 ## 5. Reporting Violations
 
-If you believe content or activity on the Service violates this AUP, please report it to **`abuse@funelai.com`**. Include:
+If you believe content or activity on the Service violates this AUP, please report it to **`abuse@gofunnelai.com`**. Include:
 
 - a description of the violation;
 - the URL, account, or message in question (if known);
 - supporting evidence (screenshots, headers);
 - your contact information;
-- for IP claims, a DMCA-compliant notice (or local equivalent) sent to `dmca@funelai.com`.
+- for IP claims, a DMCA-compliant notice (or local equivalent) sent to `dmca@gofunnelai.com`.
 
 We will review reports promptly and act per Section 6.
 
@@ -184,15 +184,15 @@ We will review reports promptly and act per Section 6.
 
 We may, in our reasonable discretion, take any of the following actions for actual or suspected violations:
 
-1. **Warning** â€” written notice with a reasonable cure period for non-severe, first-time issues.
-2. **Content removal or suspension** â€” taking down or rate-limiting specific Published Content.
-3. **Feature restriction** â€” disabling features (e.g., voice sending, email sending, publish).
-4. **Account suspension** â€” pausing access pending investigation.
-5. **Termination** â€” closing the Account, with or without refund (see `05d`).
-6. **Reporting to authorities** â€” for CSAM, threats of violence, fraud, and other illegal activity.
-7. **Recovery of costs** â€” including chargeback fees, regulatory fines, third-party claims, and reasonable investigation costs.
+1. **Warning** — written notice with a reasonable cure period for non-severe, first-time issues.
+2. **Content removal or suspension** — taking down or rate-limiting specific Published Content.
+3. **Feature restriction** — disabling features (e.g., voice sending, email sending, publish).
+4. **Account suspension** — pausing access pending investigation.
+5. **Termination** — closing the Account, with or without refund (see `05d`).
+6. **Reporting to authorities** — for CSAM, threats of violence, fraud, and other illegal activity.
+7. **Recovery of costs** — including chargeback fees, regulatory fines, third-party claims, and reasonable investigation costs.
 
-We may **act immediately without prior warning** in cases of severe, ongoing, or potentially illegal harm, including: CSAM, threats of violence, large-scale spam, fraud, security abuse, regulatory action, court order, sanctions violations, or activity that creates material legal or reputational risk for FunelAI.
+We may **act immediately without prior warning** in cases of severe, ongoing, or potentially illegal harm, including: CSAM, threats of violence, large-scale spam, fraud, security abuse, regulatory action, court order, sanctions violations, or activity that creates material legal or reputational risk for GoFunnelAI.
 
 Decisions may be appealed by replying to the enforcement notice. We will conduct a documented review and respond.
 
@@ -212,11 +212,11 @@ We may update this AUP. Material updates will be announced at least **30 days** 
 
 ## 9. Contact
 
-- **Abuse / AUP violations:** `abuse@funelai.com`
-- **DMCA / IP infringement:** `dmca@funelai.com`
-- **Security:** `security@funelai.com`
-- **Legal:** `legal@funelai.com`
+- **Abuse / AUP violations:** `abuse@gofunnelai.com`
+- **DMCA / IP infringement:** `dmca@gofunnelai.com`
+- **Security:** `security@gofunnelai.com`
+- **Legal:** `legal@gofunnelai.com`
 
 ---
 
-*â€” End of Acceptable Use Policy, v1, pending counsel review â€”*
+*— End of Acceptable Use Policy, v1, pending counsel review —*

@@ -18,7 +18,7 @@ export type Sql = NeonQueryFunction<false, false>;
  * `neon()` returns a thin HTTP-fetch wrapper that's safe to construct hot.
  */
 export function sqlFor(env: Env): Sql {
-  // Hyperdrive surfaces a libpq URL â€” neon() handles it identically.
+  // Hyperdrive surfaces a libpq URL — neon() handles it identically.
   const url = env.DB?.connectionString ?? env.DATABASE_URL;
   if (!url) throw new Error("No database connection string available");
   return neon(url);
@@ -84,7 +84,7 @@ export async function findFunnelBySlug(
 
 /**
  * Look up the (single) published funnel for a workspace by its slug. This is
- * what `slug.gofunnelai.com/` (no funnel path) resolves to â€” the workspace's
+ * what `slug.gofunnelai.com/` (no funnel path) resolves to — the workspace's
  * default published funnel.
  */
 export async function findDefaultFunnelForWorkspace(
@@ -163,7 +163,7 @@ export async function findFunnelByCustomDomain(
 
 /**
  * Insert a Lead. Called from the form-handler. Returns the new lead_id.
- * We deliberately use a single round-trip â€” the form-handler runs this in the
+ * We deliberately use a single round-trip — the form-handler runs this in the
  * critical request path and we cannot exceed the 100ms SLO.
  */
 export async function insertLead(
@@ -213,7 +213,7 @@ export async function insertLead(
 /**
  * The renderer hot path includes a workspace-status check. Workspaces that are
  * `suspended`, `past_due`, or `closed` MUST get a placeholder page instead of
- * the live funnel. This is part of our trust-and-safety contract â€” see doc 07a.
+ * the live funnel. This is part of our trust-and-safety contract — see doc 07a.
  */
 export function isWorkspaceBlocked(status: string): boolean {
   return (

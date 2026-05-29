@@ -1,6 +1,6 @@
-﻿#!/usr/bin/env bash
+#!/usr/bin/env bash
 ###############################################################################
-# GoFunnelAI â€” instant rollback.
+# GoFunnelAI — instant rollback.
 #
 # Usage:
 #   ./scripts/rollback.sh                    # rollback prod to previous

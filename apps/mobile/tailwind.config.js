@@ -16,7 +16,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Primary â€” Indigo-Violet "Signal"
+        // Primary — Indigo-Violet "Signal"
         signal: {
           50: "#F4F3FF",
           100: "#E8E6FF",
@@ -29,7 +29,7 @@ module.exports = {
           800: "#2B238A",
           900: "#1D175E",
         },
-        // Secondary â€” Amber "Ember"
+        // Secondary — Amber "Ember"
         ember: {
           50: "#FFFAF0",
           100: "#FFF1D6",
@@ -42,7 +42,7 @@ module.exports = {
           800: "#7A3E0E",
           900: "#4D2608",
         },
-        // Accent â€” Teal "Aqua"
+        // Accent — Teal "Aqua"
         aqua: {
           50: "#F0FBFB",
           100: "#D6F5F4",
@@ -55,7 +55,7 @@ module.exports = {
           800: "#074D4D",
           900: "#053838",
         },
-        // Neutral â€” Warm "Slate"
+        // Neutral — Warm "Slate"
         slate: {
           50: "#FAFAF9",
           100: "#F4F3F1",

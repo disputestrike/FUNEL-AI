@@ -57,7 +57,7 @@ export interface NotificationPrefs {
   push: {
     enabled: boolean;
   };
-  /** Quiet hours window in IANA timezone â€” no non-essential pushes. */
+  /** Quiet hours window in IANA timezone — no non-essential pushes. */
   quiet_hours?: {
     timezone: string;
     start_hhmm: string; // "22:00"

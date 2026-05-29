@@ -34,7 +34,7 @@ function makeUlidFactory() {
   let counter = 0;
   const prng = () => {
     counter += 1;
-    // Simple LCG â€” good enough for ULID randomness placeholder.
+    // Simple LCG — good enough for ULID randomness placeholder.
     const x = Math.sin(counter * 9999) * 10000;
     return x - Math.floor(x);
   };
@@ -218,16 +218,15 @@ async function seedUsers(tx: SeedClient) {
       await tx.user.upsert({
         where: { id },
         update: {
-          fullName: u.fullName,
+          name: u.fullName,
           status: "active",
         },
         create: {
           id,
           email,
-          fullName: u.fullName,
+          name: u.fullName,
           locale: "en-US",
           timezone: "America/New_York",
-          mfaEnrolled: u.suffix === "owner" || u.suffix === "admin",
           status: "active",
           isInternal: false,
         },
@@ -503,7 +502,7 @@ async function seedBillingFor(
       paidAt: new Date(SEED_EPOCH + 60_000),
       lineItems: [
         {
-          description: `${plan} plan â€” monthly`,
+          description: `${plan} plan — monthly`,
           amountMicros: Number(unitAmountMicros),
           currency: "USD",
         },

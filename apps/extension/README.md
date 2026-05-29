@@ -3,7 +3,7 @@
 GoFunnelAI browser extension for Chrome and Firefox (Manifest V3). Audit any
 page with the Funnel Grader, save funnels for inspiration, import competitor
 funnels (ClickFunnels, GoHighLevel, Leadpages, Unbounce), and triage leads
-from the Chrome side panel â€” all without leaving the page you're on.
+from the Chrome side panel — all without leaving the page you're on.
 
 ## Surfaces
 
@@ -16,7 +16,7 @@ from the Chrome side panel â€” all without leaving the page you're on.
 | Options | `src/options` | Toggle features, pick default funnel for captured leads. |
 
 All API calls flow through `@funnel/sdk` (the public GoFunnelAI SDK). The SDK
-handles Resend + SignalWire under the hood for speed-to-lead messaging â€” no
+handles Resend + SignalWire under the hood for speed-to-lead messaging — no
 SendGrid or Twilio anywhere in this codebase.
 
 ## Install (development)

@@ -1,4 +1,4 @@
-﻿# @funnel/shared
+# @funnel/shared
 
 GoFunnelAI shared types, schemas, constants, and utilities.
 
@@ -7,22 +7,22 @@ a type, schema, or constant is used by more than one package, it lives here.
 
 ## What's inside
 
-- **`src/types/`** â€” TypeScript types for every domain object (workspace,
+- **`src/types/`** — TypeScript types for every domain object (workspace,
   user, funnel, CRM, billing, compliance, branding, persona, industry,
   generation). One file per concept.
-- **`src/schemas/`** â€” Zod runtime validators for the same domain objects.
+- **`src/schemas/`** — Zod runtime validators for the same domain objects.
   Mirrors `src/types`. Also contains the legacy Funnel Grader schemas (kept
   for the grader app).
-- **`src/funnel-schema.ts`** â€” the full Funnel JSON Schema as Zod (doc 18).
+- **`src/funnel-schema.ts`** — the full Funnel JSON Schema as Zod (doc 18).
   Contains the 60-block type enum, 8 typed block content schemas, and the
   cross-reference integrity validator.
-- **`src/constants/`** â€” the 30 launch industries, 10 launch languages,
+- **`src/constants/`** — the 30 launch industries, 10 launch languages,
   10 launch countries, 5 subscription plans, the brand tokens, and the
   5 voice personas (doc 22 / doc 20).
-- **`src/utils/`** â€” `id` (ULID generation with prefixes), `pii` (hash,
+- **`src/utils/`** — `id` (ULID generation with prefixes), `pii` (hash,
   redact, normalize), `money` (typed micros-based currency with no float
   bugs), `time` (timezone helpers), `slug` (URL-safe slugs).
-- **`src/errors.ts`** â€” typed error hierarchy: `FunnelError` â†’
+- **`src/errors.ts`** — typed error hierarchy: `FunnelError` â†’
   `ValidationError | NotFoundError | AuthError | BillingError | ComplianceError | RateLimitError | UpstreamError | ConflictError`.
 
 ## Usage
@@ -52,7 +52,7 @@ import { FunnelSchema } from "@funnel/shared/funnel-schema";
 
 ## Money handling
 
-Always use the `Money` type â€” never store amounts as floating point.
+Always use the `Money` type — never store amounts as floating point.
 
 ```ts
 import { money, add, formatMoney } from "@funnel/shared";
@@ -67,7 +67,7 @@ formatMoney(money(200, "USD"), { hideTrailingZeroCents: true }); // "$200"
 
 ## IDs
 
-All entities are identified by prefixed ULIDs â€” sortable, URL-safe,
+All entities are identified by prefixed ULIDs — sortable, URL-safe,
 collision-resistant.
 
 ```ts

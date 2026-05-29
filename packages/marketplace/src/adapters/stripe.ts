@@ -3,7 +3,7 @@
  *
  * Wraps the `stripe` SDK with idempotency keys, USD-cent normalization, and
  * webhook signature verification. The marketplace package only depends on
- * `StripePort` â€” this adapter is the prod implementation.
+ * `StripePort` — this adapter is the prod implementation.
  */
 
 import Stripe from "stripe";

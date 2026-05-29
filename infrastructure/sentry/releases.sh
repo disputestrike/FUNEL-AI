@@ -1,6 +1,6 @@
-﻿#!/usr/bin/env bash
+#!/usr/bin/env bash
 ###############################################################################
-# GoFunnelAI â€” Sentry release tracking integration.
+# GoFunnelAI — Sentry release tracking integration.
 #
 # Used by:
 #   - scripts/deploy.sh       (creates the release + uploads source maps)

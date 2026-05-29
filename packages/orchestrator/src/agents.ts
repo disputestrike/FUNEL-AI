@@ -76,7 +76,7 @@ function makeAgent<T>(args: {
 }
 
 function defaultLlmCall(model: ModelId): ModelCallRecord {
-  // Rough list rates @ time of writing â€” Doc 19 Â§B caveat applies.
+  // Rough list rates @ time of writing — Doc 19 Â§B caveat applies.
   const rate =
     model === "claude-opus-4-7"
       ? 0.0015
@@ -97,7 +97,7 @@ function defaultLlmCall(model: ModelId): ModelCallRecord {
 }
 
 /* ---------------------------------------------------------------------------
- * Planner â€” Doc 19 Â§B.2.1
+ * Planner — Doc 19 Â§B.2.1
  * ------------------------------------------------------------------------ */
 
 export const plannerAgent: Agent<StubArgs, PlannerOutput> = makeAgent<PlannerOutput>({
@@ -155,7 +155,7 @@ function pickArchetype(ctx: AgentContext): ArchetypeId {
 }
 
 /* ---------------------------------------------------------------------------
- * Content agents â€” all return placeholder-but-schema-valid output
+ * Content agents — all return placeholder-but-schema-valid output
  * ------------------------------------------------------------------------ */
 
 export const hookAgent = makeAgent({
@@ -165,7 +165,7 @@ export const hookAgent = makeAgent({
   buildOutput: (ctx) => ({
     primary: {
       headline: `What ${ctx.businessProfile.target_customer} usually miss about ${ctx.businessProfile.industry}.`,
-      subhead: `60 seconds. Two scheduling options. Booked or not â€” you'll know.`,
+      subhead: `60 seconds. Two scheduling options. Booked or not — you'll know.`,
       cta: "Book my slot",
     },
     variants: [
@@ -213,7 +213,7 @@ export const leadMagnetAgent = makeAgent({
         { heading: "2. Who else is involved?", body: "Identify decision-makers." },
       ],
     },
-    optinPagePromise: "Get the checklist â€” sent to your inbox in 60s.",
+    optinPagePromise: "Get the checklist — sent to your inbox in 60s.",
     thankYouCopy: "Check your inbox. If it's not there in 2 minutes, check spam.",
   }),
 });
@@ -341,7 +341,7 @@ export const smsAgent = makeAgent({
   fallbackChain: ["gpt-4o-mini"] as ModelId[],
   buildOutput: (ctx) => ({
     sequence: [
-      { dayOffsetH: 0, body: `Hi â€” thanks for opting in. Reply STOP to opt out.`, type: "reminder" },
+      { dayOffsetH: 0, body: `Hi — thanks for opting in. Reply STOP to opt out.`, type: "reminder" },
       { dayOffsetH: 24, body: `Still curious about ${ctx.businessProfile.industry}? Reply Y for two slots.`, type: "reminder" },
     ],
     optInLanguage: "By providing your number you agree to receive automated SMS. Msg+data rates may apply. Reply STOP to opt out.",
@@ -358,9 +358,9 @@ export const voiceScriptAgent = makeAgent({
       { text: "Hi, this is your AI assistant calling on behalf of {{business_name}}. Got a quick minute?", tone: "friendly" },
     ],
     discoveryQuestions: ["What made you check this out?", "How soon would you want this handled?"],
-    objectionHandlers: [{ objection: "price", response: "Totally fair â€” here's the math." }],
-    bookingClose: { text: "Tuesday at 2 or Thursday at 11?", ifBooked: "Locked in.", ifNot: "All good â€” I'll send the info." },
-    voicemailDrop: "Hey {{first_name}} â€” this is {{agent_name}} from {{business_name}}, just following up. No rush.",
+    objectionHandlers: [{ objection: "price", response: "Totally fair — here's the math." }],
+    bookingClose: { text: "Tuesday at 2 or Thursday at 11?", ifBooked: "Locked in.", ifNot: "All good — I'll send the info." },
+    voicemailDrop: "Hey {{first_name}} — this is {{agent_name}} from {{business_name}}, just following up. No rush.",
     ttsHints: { pace: "normal", emphasisTokens: ["{{first_name}}"] },
   }),
 });

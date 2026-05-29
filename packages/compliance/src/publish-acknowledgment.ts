@@ -23,10 +23,10 @@ import { isRegulatedVertical, type RegulatedVertical, getRegulatedVertical } fro
 export const POLICY_VERSION = "publish-ack-v1.0";
 
 /**
- * Canonical acknowledgment text â€” must match docs/05e Â§5 verbatim. Any change
+ * Canonical acknowledgment text — must match docs/05e Â§5 verbatim. Any change
  * here bumps POLICY_VERSION and re-prompts every affected user.
  */
-export const POLICY_CANONICAL_TEXT = `GoFunnelAI Publish Acknowledgment â€” Regulated Vertical â€” v1.0
+export const POLICY_CANONICAL_TEXT = `GoFunnelAI Publish Acknowledgment — Regulated Vertical — v1.0
 
 By checking this box and clicking "Confirm & Publish," I acknowledge and agree as follows:
 
@@ -64,7 +64,7 @@ export const ShowAckInputSchema = z.object({
   userId: z.string().min(1),
   /** Inferred / declared vertical that triggered the prompt. */
   vertical: z.string().min(1),
-  /** Locale for the policy text â€” only English v1.0 is canonical. */
+  /** Locale for the policy text — only English v1.0 is canonical. */
   locale: z.string().default("en-US"),
 });
 export type ShowAckInput = z.infer<typeof ShowAckInputSchema>;
@@ -78,7 +78,7 @@ export interface ShowAckResult {
   vertical: RegulatedVertical | null;
   /** Already acknowledged? If true, no checkbox needed. */
   alreadyAcknowledgedForCurrentContent: boolean;
-  /** Already acknowledged but content fingerprint differs â€” re-prompt with diff highlight. */
+  /** Already acknowledged but content fingerprint differs — re-prompt with diff highlight. */
   contentChangedSinceLastAck: boolean;
   /** Server-recorded impression time used by the audit trail. */
   displayedAt: string;
@@ -169,7 +169,7 @@ export class PublishAcknowledgmentService {
   }
 
   /**
-   * Returns the policy text + per-impression id. Idempotent â€” calling again
+   * Returns the policy text + per-impression id. Idempotent — calling again
    * returns a fresh impression id but the same policy text/version.
    */
   async showAcknowledgment(input: ShowAckInput, currentContentFingerprint: string | null): Promise<ShowAckResult> {
@@ -222,7 +222,7 @@ export class PublishAcknowledgmentService {
       throw new Error(`Stale policy version ${parsed.policyVersion}; current is ${POLICY_VERSION}.`);
     }
     if (parsed.policyHash !== POLICY_CANONICAL_HASH) {
-      throw new Error("Policy hash mismatch â€” UI may be displaying stale or tampered text.");
+      throw new Error("Policy hash mismatch — UI may be displaying stale or tampered text.");
     }
 
     const displayed = Date.parse(parsed.displayedAt);
@@ -307,7 +307,7 @@ export class PublishAcknowledgmentService {
     return this.opts.store.listByUser(userId, workspaceId);
   }
 
-  /** Helper: SHA-256 of a content blob â€” call before showAcknowledgment / canPublish. */
+  /** Helper: SHA-256 of a content blob — call before showAcknowledgment / canPublish. */
   static fingerprint(content: string | Buffer): string {
     return createHash("sha256").update(content).digest("hex");
   }

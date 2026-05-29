@@ -1,5 +1,5 @@
 /**
- * Page Agent â€” assembles funnel JSON (hero, problem, solution, proof, offer,
+ * Page Agent — assembles funnel JSON (hero, problem, solution, proof, offer,
  * guarantee, FAQ, final CTA) with markdown bodies, JSON-LD metadata, and
  * structured block specs ready for the renderer.
  *
@@ -38,14 +38,14 @@ LAYOUT LAWS:
 3. Every section body is markdown, second-person, scannable. Use bold and short
    paragraphs; avoid walls of text.
 4. Every claim is grounded in BusinessProfile.proof (testimonials, statistics,
-   case studies). If proof for a claim does not exist, omit the claim â€” never
+   case studies). If proof for a claim does not exist, omit the claim — never
    invent numbers, never cite "studies show" without a source in the profile.
 5. The 'proof' section MUST pull from BusinessProfile.proof.testimonials and
    .caseStudies verbatim. Do not invent attributions. If proof.testimonials is
    empty, the proof section uses category-level patterns (e.g., certifications,
    years in business) without a named quote.
 6. Every section's 'body' field is markdown; 'heading' is a single sentence.
-7. 'blocks' is optional â€” populate it with renderer-ready structured data only
+7. 'blocks' is optional — populate it with renderer-ready structured data only
    when the section type benefits from it (e.g., features list, FAQ items).
 
 ARCHETYPE SECTION ORDER (use ONLY these section types):
@@ -104,7 +104,7 @@ export function createPageAgent(deps: PageAgentDeps): Agent<PageInput, PageOutpu
 
       const hookSection = input.hook
         ? `Primary headline (from Hook agent):\n  ${input.hook.primary.headline}\n  ${input.hook.primary.subhead}\n  CTA: ${input.hook.primary.cta}`
-        : `(Hook output not yet available â€” use Planner brief to draft hero, will be merged at assembly.)`;
+        : `(Hook output not yet available — use Planner brief to draft hero, will be merged at assembly.)`;
 
       const userTail = `Brief from Planner:
 ${input.brief}

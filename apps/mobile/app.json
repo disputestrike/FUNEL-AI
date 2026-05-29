@@ -28,7 +28,7 @@
         "NSFaceIDUsageDescription": "Use Face ID to sign in to GoFunnelAI securely.",
         "NSMicrophoneUsageDescription": "GoFunnelAI uses the microphone for voice commands to edit funnels and dictate notes.",
         "NSSpeechRecognitionUsageDescription": "GoFunnelAI transcribes your voice commands locally and sends the text to the generation orchestrator.",
-        "NSContactsUsageDescription": "GoFunnelAI can dial leads from your funnels â€” contacts access is optional.",
+        "NSContactsUsageDescription": "GoFunnelAI can dial leads from your funnels — contacts access is optional.",
         "UIBackgroundModes": [
           "remote-notification"
         ]

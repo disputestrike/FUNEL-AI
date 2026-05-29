@@ -1,5 +1,5 @@
 /**
- * GoFunnelAI brand tokens â€” single source of truth.
+ * GoFunnelAI brand tokens — single source of truth.
  *
  * Pulled directly from `22-brand-and-design-system.md` v1.0.
  * Consumed by the web app's tailwind.config.ts via @funnel/shared,
@@ -10,7 +10,7 @@
  */
 
 export const BRAND_TOKENS = {
-  /** Primary â€” Indigo-Violet "Signal". Reserved for the dot, primary CTAs, links, focus. */
+  /** Primary — Indigo-Violet "Signal". Reserved for the dot, primary CTAs, links, focus. */
   signal: {
     50: "#FFF3EB",
     100: "#FFE1C7",
@@ -23,7 +23,7 @@ export const BRAND_TOKENS = {
     800: "#6817D2",
     900: "#2B0B45",
   },
-  /** Secondary â€” Amber "Ember". Accent moments only; never the primary CTA. */
+  /** Secondary — Amber "Ember". Accent moments only; never the primary CTA. */
   ember: {
     50: "#FFFAF0",
     100: "#FFF1D6",
@@ -36,7 +36,7 @@ export const BRAND_TOKENS = {
     800: "#7A3E0E",
     900: "#4D2608",
   },
-  /** Tertiary â€” Teal "Aqua". Info states, peripheral highlights, higher award tiers. */
+  /** Tertiary — Teal "Aqua". Info states, peripheral highlights, higher award tiers. */
   aqua: {
     50: "#F0FBFB",
     100: "#D6F5F4",
@@ -49,7 +49,7 @@ export const BRAND_TOKENS = {
     800: "#074D4D",
     900: "#053838",
   },
-  /** Neutral â€” Warm Gray "Slate". The workhorse. */
+  /** Neutral — Warm Gray "Slate". The workhorse. */
   slate: {
     50: "#FAFAF9",
     100: "#F4F3F1",
@@ -62,7 +62,7 @@ export const BRAND_TOKENS = {
     800: "#28261F",
     900: "#17150F",
   },
-  /** Semantic â€” always paired with an icon. */
+  /** Semantic — always paired with an icon. */
   success: { 500: "#10A37F", 600: "#0E8268" },
   warning: { 500: "#E0A030", 600: "#B87E1F" },
   error: { 500: "#DC4A4A", 600: "#B83838" },
@@ -99,7 +99,7 @@ export const BRAND_EASING = {
   inOut: "cubic-bezier(0.4, 0.0, 0.2, 1)",
 } as const;
 
-/** Locked product names â€” never rewrite these in copy. */
+/** Locked product names — never rewrite these in copy. */
 export const BRAND_NAMES = {
   product: "GoFunnelAI",
   ai: "Funnel",

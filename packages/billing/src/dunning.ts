@@ -1,5 +1,5 @@
 /**
- * Dunning state machine â€” D0/D3/D7/D14/D21/D28/D60/D90.
+ * Dunning state machine — D0/D3/D7/D14/D21/D28/D60/D90.
  *
  * Step semantics (per the brief):
  *   D0  â†’ charge fails â†’ past_due, dunning email 1
@@ -144,7 +144,7 @@ export function stepConfig(step: DunningStep): DunningStepDefinition {
   return cfg;
 }
 
-/** Enter dunning at D0 â€” called by `webhook.ts` on payment_failed. */
+/** Enter dunning at D0 — called by `webhook.ts` on payment_failed. */
 export async function enterDunning(args: {
   subscription_id: string;
   reason: string;
@@ -155,7 +155,7 @@ export async function enterDunning(args: {
 
   const existing = await store.getDunningState(args.subscription_id);
   if (existing && existing.resolved_at == null) {
-    // Already in dunning â€” don't re-enter, but bump attempts.
+    // Already in dunning — don't re-enter, but bump attempts.
     await store.upsertDunningState({
       ...existing,
       attempts: existing.attempts + 1,
@@ -178,7 +178,7 @@ export async function enterDunning(args: {
   await executeStep(sub, "d0");
 }
 
-/** Cron entry-point â€” call hourly. */
+/** Cron entry-point — call hourly. */
 export async function advanceDueDunningStates(now: Date = new Date()): Promise<{ advanced: number; recovered: number }> {
   const store = getBillingStore();
   const due = await store.listDunningStatesDue(now);

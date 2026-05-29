@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ###############################################################################
-# GoFunnelAI â€” health check used by gradual rollouts + smoke verification.
+# GoFunnelAI — health check used by gradual rollouts + smoke verification.
 #
 # Modes:
 #   --smoke-only --base-url <url>     One-shot HTTP smoke against public urls.

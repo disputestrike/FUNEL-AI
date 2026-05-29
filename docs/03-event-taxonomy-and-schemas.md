@@ -1,4 +1,4 @@
-﻿# 03 â€” Event Taxonomy and Database Schemas
+# 03 — Event Taxonomy and Database Schemas
 
 > **Status:** Canonical. Engineers and data engineers may begin migrations and event-producer work directly from this document.
 > **Owners:** Platform (events bus), Data Eng (warehouse + lake), App Eng (Postgres), Trust & Safety (PII, retention).
@@ -9,19 +9,19 @@
 ## Table of contents
 
 - [0. Conventions](#0-conventions)
-- [PART A â€” Canonical event taxonomy](#part-a--canonical-event-taxonomy)
+- [PART A — Canonical event taxonomy](#part-a--canonical-event-taxonomy)
   - [A.0 Envelope](#a0-envelope)
   - [A.1 Identity](#a1-identity)
   - [A.2 Generation](#a2-generation)
   - [A.3 Publish](#a3-publish)
   - [A.4 Distribution](#a4-distribution)
   - [A.5 Lead](#a5-lead)
-  - [A.6 Revenue â€” Customer Funnels](#a6-revenue--customer-funnels)
-  - [A.7 Revenue â€” Our SaaS](#a7-revenue--our-saas)
+  - [A.6 Revenue — Customer Funnels](#a6-revenue--customer-funnels)
+  - [A.7 Revenue — Our SaaS](#a7-revenue--our-saas)
   - [A.8 Support](#a8-support)
   - [A.9 Governance](#a9-governance)
-- [PART B â€” Database schemas (Postgres + Prisma-friendly)](#part-b--database-schemas-postgres--prisma-friendly)
-- [PART C â€” Data lifecycle, PII, retention, lake](#part-c--data-lifecycle-pii-retention-lake)
+- [PART B — Database schemas (Postgres + Prisma-friendly)](#part-b--database-schemas-postgres--prisma-friendly)
+- [PART C — Data lifecycle, PII, retention, lake](#part-c--data-lifecycle-pii-retention-lake)
 
 ---
 
@@ -32,7 +32,7 @@
 - Event names: `snake_case`, present-or-past tense, namespaced by family (e.g. `lead_sms_sent`, `funnel_published`).
 - Table names: `PascalCase` singular (Prisma convention). Prisma `@@map` to `snake_case` plural in Postgres (e.g. `User` â†’ `users`).
 - Column names: `snake_case`.
-- IDs: ULID strings, 26 chars, prefix per entity (e.g. `usr_01HXâ€¦`, `wsp_01HXâ€¦`, `fnl_01HXâ€¦`, `lds_01HXâ€¦`). Stored as `TEXT` with `CHECK (length = 30)` â€” prefix is 4 chars including the underscore. Sortable, URL-safe, no hot index keys.
+- IDs: ULID strings, 26 chars, prefix per entity (e.g. `usr_01HX…`, `wsp_01HX…`, `fnl_01HX…`, `lds_01HX…`). Stored as `TEXT` with `CHECK (length = 30)` — prefix is 4 chars including the underscore. Sortable, URL-safe, no hot index keys.
 - Timestamps: `TIMESTAMPTZ`, UTC, microsecond precision. Always include `created_at` and `updated_at` on writable tables.
 - Soft delete: `deleted_at TIMESTAMPTZ NULL`. App and Prisma middleware filter on `deleted_at IS NULL` by default. Hard delete only on GDPR/CCPA cascade.
 - Money: `BIGINT` minor units (cents) + `CHAR(3)` ISO-4217 currency. Never floats.
@@ -50,14 +50,14 @@
 
 **PII tiering** (used throughout):
 
-- **P0** â€” non-PII (event types, counts, timestamps, model IDs).
-- **P1** â€” pseudonymous (workspace_id, user_id, lead_id without contact info).
-- **P2** â€” direct PII (name, email, phone, IP, device ID).
-- **P3** â€” sensitive PII (financial PAN, government ID, health, race/sexual orientation). FunelAI stores P3 only via tokenized references to Stripe/Plaid; we do not warehouse P3.
+- **P0** — non-PII (event types, counts, timestamps, model IDs).
+- **P1** — pseudonymous (workspace_id, user_id, lead_id without contact info).
+- **P2** — direct PII (name, email, phone, IP, device ID).
+- **P3** — sensitive PII (financial PAN, government ID, health, race/sexual orientation). GoFunnelAI stores P3 only via tokenized references to Stripe/Plaid; we do not warehouse P3.
 
 ---
 
-## PART A â€” Canonical event taxonomy
+## PART A — Canonical event taxonomy
 
 ### A.0 Envelope
 
@@ -78,26 +78,26 @@ Every event, regardless of family, ships in this envelope. Family-specific prope
     "region": "us-east-1"
   },
   "tenancy": {
-    "workspace_id": "wsp_01HXâ€¦",
+    "workspace_id": "wsp_01HX…",
     "environment": "production"
   },
   "actor": {
     "type": "user | agent | system | admin | anonymous",
-    "user_id": "usr_01HXâ€¦",        
+    "user_id": "usr_01HX…",        
     "agent_id": "agt_outreach_v12",
     "impersonator_user_id": null
   },
   "subject": {
-    "type": "lead | funnel | workspace | subscription | â€¦",
-    "id": "lds_01HXâ€¦"
+    "type": "lead | funnel | workspace | subscription | …",
+    "id": "lds_01HX…"
   },
   "context": {
     "ip": "203.0.113.42",
-    "ip_hash": "sha256:â€¦",
-    "user_agent": "â€¦",
-    "session_id": "ses_01HXâ€¦",
-    "request_id": "req_01HXâ€¦",
-    "trace_id": "00-â€¦-â€¦-01",
+    "ip_hash": "sha256:…",
+    "user_agent": "…",
+    "session_id": "ses_01HX…",
+    "request_id": "req_01HX…",
+    "trace_id": "00-…-…-01",
     "locale": "en-US",
     "country": "US"
   },
@@ -105,7 +105,7 @@ Every event, regardless of family, ships in this envelope. Family-specific prope
     "marketing": true,
     "analytics": true,
     "ai_training": false,
-    "consent_id": "cns_01HXâ€¦"
+    "consent_id": "cns_01HX…"
   },
   "properties": { /* family-specific, see below */ },
   "pii_class": "P0 | P1 | P2 | P3"
@@ -125,19 +125,19 @@ Captures human and tenant lifecycle. Drives auth, billing entitlements, audit tr
 | 1 | `user_signed_up` | `auth-svc` | `user_id`, `email`, `signup_method` | `referrer`, `utm`, `invite_id`, `marketing_consent` | Growth, CRM, lifecycle email, billing | 7y | P2 |
 | 2 | `user_verified_email` | `auth-svc` | `user_id`, `email` | `verification_token_age_sec` | Growth, security | 7y | P2 |
 | 3 | `user_logged_in` | `auth-svc` | `user_id`, `method`, `mfa_used` | `device_id`, `geo_country`, `geo_city` | Security, product analytics | 13mo | P2 |
-| 4 | `user_logged_out` | `auth-svc` | `user_id`, `session_id`, `reason` | â€” | Security | 13mo | P1 |
+| 4 | `user_logged_out` | `auth-svc` | `user_id`, `session_id`, `reason` | — | Security | 13mo | P1 |
 | 5 | `user_password_reset_requested` | `auth-svc` | `user_id_or_email_hash`, `request_ip_hash` | `delivery_channel` | Security, support | 7y | P2 |
-| 6 | `user_password_changed` | `auth-svc` | `user_id`, `change_method` | â€” | Security, audit | 7y | P1 |
+| 6 | `user_password_changed` | `auth-svc` | `user_id`, `change_method` | — | Security, audit | 7y | P1 |
 | 7 | `user_mfa_enrolled` | `auth-svc` | `user_id`, `factor_type` | `device_fingerprint_hash` | Security, audit | 7y | P1 |
 | 8 | `user_mfa_used` | `auth-svc` | `user_id`, `factor_type`, `outcome` | `challenge_id` | Security | 13mo | P1 |
 | 9 | `user_new_device_login` | `auth-svc` | `user_id`, `device_id`, `geo_country` | `risk_score`, `ip_hash`, `ua_family` | Security, lifecycle email | 13mo | P2 |
-| 10 | `user_deactivated` | `auth-svc` / admin | `user_id`, `reason`, `actor_user_id` | â€” | Billing, audit | 7y | P1 |
+| 10 | `user_deactivated` | `auth-svc` / admin | `user_id`, `reason`, `actor_user_id` | — | Billing, audit | 7y | P1 |
 | 11 | `user_deleted` | `auth-svc` | `user_id`, `request_id`, `cascade_summary` | `gdpr_request_id` | Compliance, audit | **kept forever** (tombstone only) | P0 |
 | 12 | `workspace_created` | `workspace-svc` | `workspace_id`, `owner_user_id`, `plan`, `region` | `template_id`, `vertical` | Billing, growth, provisioning | 7y | P1 |
 | 13 | `workspace_member_invited` | `workspace-svc` | `workspace_id`, `inviter_user_id`, `invitee_email`, `role` | `invite_id`, `expires_at` | Lifecycle email, audit | 7y | P2 |
-| 14 | `workspace_member_joined` | `workspace-svc` | `workspace_id`, `user_id`, `role`, `invite_id` | â€” | Growth, audit | 7y | P1 |
-| 15 | `workspace_member_removed` | `workspace-svc` | `workspace_id`, `user_id`, `actor_user_id`, `reason` | â€” | Audit | 7y | P1 |
-| 16 | `workspace_role_changed` | `workspace-svc` | `workspace_id`, `user_id`, `from_role`, `to_role`, `actor_user_id` | â€” | Audit, security | 7y | P1 |
+| 14 | `workspace_member_joined` | `workspace-svc` | `workspace_id`, `user_id`, `role`, `invite_id` | — | Growth, audit | 7y | P1 |
+| 15 | `workspace_member_removed` | `workspace-svc` | `workspace_id`, `user_id`, `actor_user_id`, `reason` | — | Audit | 7y | P1 |
+| 16 | `workspace_role_changed` | `workspace-svc` | `workspace_id`, `user_id`, `from_role`, `to_role`, `actor_user_id` | — | Audit, security | 7y | P1 |
 | 17 | `workspace_ownership_transferred` | `workspace-svc` | `workspace_id`, `from_user_id`, `to_user_id`, `actor_user_id` | `legal_doc_ref` | Audit, billing | 7y | P1 |
 | 18 | `workspace_closed` | `workspace-svc` | `workspace_id`, `actor_user_id`, `reason`, `data_disposition` | `final_invoice_id` | Billing, compliance | 7y | P1 |
 
@@ -148,7 +148,7 @@ Captures human and tenant lifecycle. Drives auth, billing entitlements, audit tr
   "event_name": "user_signed_up",
   "event_family": "identity",
   "properties": {
-    "user_id": "usr_01HXâ€¦",
+    "user_id": "usr_01HX…",
     "email": "kara@acme.example",
     "signup_method": "google_oauth",
     "referrer": "https://www.producthunt.com/posts/funnel-ai",
@@ -186,12 +186,12 @@ Emitted by the agent pipeline (see `04-agent-pipeline.md`). Drives the learning 
   "event_name": "agent_invoked",
   "event_family": "generation",
   "properties": {
-    "generation_id": "gen_01HXâ€¦",
+    "generation_id": "gen_01HX…",
     "agent_id": "copy_agent",
     "agent_version": "2026.05.18-c",
     "model_id": "claude-opus-4-7",
-    "input_hash": "sha256:8aâ€¦",
-    "output_hash": "sha256:1bâ€¦",
+    "input_hash": "sha256:8a…",
+    "output_hash": "sha256:1b…",
     "duration_ms": 4127,
     "token_usage": { "input": 3120, "output": 1840, "cache_read": 12500 },
     "cost_usd_micros": 47830,
@@ -243,7 +243,7 @@ Outbound activation. Drives spend reconciliation, channel attribution, ad-platfo
 
 ### A.5 Lead
 
-The most volumetric family. Each leadâ€™s full journey from capture â†’ revtry call â†’ booking. Powers SLAs, opt-out compliance, conversion analytics, RevTry agent training.
+The most volumetric family. Each lead’s full journey from capture â†’ revtry call â†’ booking. Powers SLAs, opt-out compliance, conversion analytics, RevTry agent training.
 
 | # | Event | Emitter | Required props | Optional props | Consumers | Retention | PII |
 |---|-------|---------|----------------|----------------|-----------|-----------|-----|
@@ -260,16 +260,16 @@ The most volumetric family. Each leadâ€™s full journey from capture â†�
 | 11 | `lead_booking_created` | `booking-svc` | `lead_id`, `booking_id`, `calendar_event_id`, `scheduled_for`, `host_user_id` | `meeting_url`, `notes_hash` | CRM, analytics, lifecycle | 5y | P2 |
 | 12 | `lead_booking_canceled` | `booking-svc` | `booking_id`, `canceled_by`, `cancel_reason` | `reschedule_token` | CRM, analytics | 5y | P1 |
 
-**TCPA/A2P 10DLC compliance properties** â€” every SMS event must carry:
+**TCPA/A2P 10DLC compliance properties** — every SMS event must carry:
 
 ```json
 "compliance": {
-  "consent_id": "cns_â€¦",
+  "consent_id": "cns_…",
   "consent_method": "web_form_double_optin",
   "consent_timestamp": "2026-05-25T12:00:00Z",
-  "consent_ip_hash": "sha256:â€¦",
+  "consent_ip_hash": "sha256:…",
   "campaign_use_case": "lead_alerts",
-  "brand_id": "brand_â€¦"
+  "brand_id": "brand_…"
 }
 ```
 
@@ -280,14 +280,14 @@ The most volumetric family. Each leadâ€™s full journey from capture â†�
   "event_name": "lead_captured",
   "event_family": "lead",
   "properties": {
-    "lead_id": "lds_01HXâ€¦",
-    "funnel_id": "fnl_01HXâ€¦",
-    "funnel_version_id": "fvr_01HXâ€¦",
+    "lead_id": "lds_01HX…",
+    "funnel_id": "fnl_01HX…",
+    "funnel_version_id": "fvr_01HX…",
     "capture_source": "landing_page_form",
-    "consent_id": "cns_01HXâ€¦",
+    "consent_id": "cns_01HX…",
     "contact_fields_hashed": {
-      "email_sha256": "â€¦",
-      "phone_e164_sha256": "â€¦"
+      "email_sha256": "…",
+      "phone_e164_sha256": "…"
     },
     "utm": { "source": "facebook", "medium": "cpc", "campaign": "spring2026" }
   },
@@ -297,9 +297,9 @@ The most volumetric family. Each leadâ€™s full journey from capture â†�
 
 ---
 
-### A.6 Revenue â€” Customer Funnels
+### A.6 Revenue — Customer Funnels
 
-Money flowing **through** a customerâ€™s funnel to the customer. We are facilitator, not merchant of record by default.
+Money flowing **through** a customer’s funnel to the customer. We are facilitator, not merchant of record by default.
 
 | # | Event | Emitter | Required props | Optional props | Consumers | Retention | PII |
 |---|-------|---------|----------------|----------------|-----------|-----------|-----|
@@ -312,9 +312,9 @@ Money flowing **through** a customerâ€™s funnel to the customer. We are fac
 
 ---
 
-### A.7 Revenue â€” Our SaaS
+### A.7 Revenue — Our SaaS
 
-Money flowing **to FunelAI**. Drives MRR, churn analytics, dunning, account suspension.
+Money flowing **to GoFunnelAI**. Drives MRR, churn analytics, dunning, account suspension.
 
 | # | Event | Emitter | Required props | Optional props | Consumers | Retention | PII |
 |---|-------|---------|----------------|----------------|-----------|-----------|-----|
@@ -323,7 +323,7 @@ Money flowing **to FunelAI**. Drives MRR, churn analytics, dunning, account susp
 | 3 | `plan_upgraded` | `billing-svc` | `subscription_id`, `from_plan`, `to_plan`, `actor_user_id`, `effective_at` | `proration_amount_micros` | Billing, growth | 7y | P1 |
 | 4 | `plan_downgraded` | `billing-svc` | `subscription_id`, `from_plan`, `to_plan`, `actor_user_id`, `effective_at` | `reason_code` | Billing, churn | 7y | P1 |
 | 5 | `plan_paused` | `billing-svc` | `subscription_id`, `actor_user_id`, `resume_at?` | `reason_code` | Billing | 7y | P1 |
-| 6 | `plan_resumed` | `billing-svc` | `subscription_id`, `actor_user_id` | â€” | Billing | 7y | P1 |
+| 6 | `plan_resumed` | `billing-svc` | `subscription_id`, `actor_user_id` | — | Billing | 7y | P1 |
 | 7 | `subscription_canceled` | `billing-svc` | `subscription_id`, `actor_user_id`, `effective_at`, `reason_code` | `feedback_hash` | Churn, growth | 7y | P1 |
 | 8 | `payment_succeeded` | `billing-svc` (Stripe webhook) | `invoice_id`, `payment_id`, `amount_micros`, `currency`, `paid_at` | `payment_method_type` | Billing, GL | 7y | P1 |
 | 9 | `payment_failed` | `billing-svc` | `invoice_id`, `payment_id?`, `failure_code`, `attempt_n` | `next_retry_at` | Dunning, support | 7y | P1 |
@@ -372,9 +372,9 @@ Trust, safety, model ops, and regulatory hooks.
 
 ---
 
-## PART B â€” Database schemas (Postgres + Prisma-friendly)
+## PART B — Database schemas (Postgres + Prisma-friendly)
 
-> **Conventions.** Postgres 15+. All workspace-scoped tables include `workspace_id TEXT NOT NULL` plus an RLS policy `USING (workspace_id = current_setting('app.workspace_id'))`. Soft delete via `deleted_at`. Foreign keys use `ON DELETE` policies appropriate for cascade safety (RESTRICT default; SET NULL or CASCADE called out where used). Every table has `created_at` and (where mutable) `updated_at`, both `TIMESTAMPTZ NOT NULL DEFAULT now()`. The Prisma `@@map` and column `@map` directives are implicit â€” column and table names below are the Postgres physical names.
+> **Conventions.** Postgres 15+. All workspace-scoped tables include `workspace_id TEXT NOT NULL` plus an RLS policy `USING (workspace_id = current_setting('app.workspace_id'))`. Soft delete via `deleted_at`. Foreign keys use `ON DELETE` policies appropriate for cascade safety (RESTRICT default; SET NULL or CASCADE called out where used). Every table has `created_at` and (where mutable) `updated_at`, both `TIMESTAMPTZ NOT NULL DEFAULT now()`. The Prisma `@@map` and column `@map` directives are implicit — column and table names below are the Postgres physical names.
 
 ### B.0 Common DDL prelude
 
@@ -384,7 +384,7 @@ CREATE EXTENSION IF NOT EXISTS "citext";
 CREATE EXTENSION IF NOT EXISTS "btree_gin";
 
 -- Set on every connection by the app; RLS policies key on this.
--- SET app.workspace_id = 'wsp_â€¦';
+-- SET app.workspace_id = 'wsp_…';
 
 CREATE TYPE workspace_role     AS ENUM ('owner','admin','editor','analyst','viewer','billing');
 CREATE TYPE subscription_status AS ENUM ('trialing','active','past_due','paused','canceled','suspended');
@@ -402,7 +402,7 @@ CREATE TYPE pii_tier           AS ENUM ('P0','P1','P2','P3');
 
 ```sql
 CREATE TABLE users (
-  id                   TEXT PRIMARY KEY,                              -- usr_â€¦
+  id                   TEXT PRIMARY KEY,                              -- usr_…
   email                CITEXT NOT NULL,
   email_normalized     CITEXT GENERATED ALWAYS AS (lower(email)) STORED,
   email_verified_at    TIMESTAMPTZ,
@@ -416,7 +416,7 @@ CREATE TABLE users (
   mfa_factors          JSONB NOT NULL DEFAULT '[]'::jsonb,
   last_login_at        TIMESTAMPTZ,
   last_login_ip_hash   TEXT,
-  is_internal          BOOLEAN NOT NULL DEFAULT FALSE,                -- FunelAI employees
+  is_internal          BOOLEAN NOT NULL DEFAULT FALSE,                -- GoFunnelAI employees
   deactivated_at       TIMESTAMPTZ,
   created_at           TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at           TIMESTAMPTZ NOT NULL DEFAULT now(),
@@ -430,7 +430,7 @@ CREATE INDEX users_last_login_idx ON users (last_login_at DESC);
 
 ```sql
 CREATE TABLE workspaces (
-  id                  TEXT PRIMARY KEY,                              -- wsp_â€¦
+  id                  TEXT PRIMARY KEY,                              -- wsp_…
   slug                CITEXT NOT NULL,
   name                TEXT NOT NULL,
   owner_user_id       TEXT NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
@@ -459,7 +459,7 @@ CREATE POLICY workspace_self ON workspaces
 
 ```sql
 CREATE TABLE workspace_members (
-  id              TEXT PRIMARY KEY,                                  -- wsm_â€¦
+  id              TEXT PRIMARY KEY,                                  -- wsm_…
   workspace_id    TEXT NOT NULL REFERENCES workspaces(id) ON DELETE CASCADE,
   user_id         TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   role            workspace_role NOT NULL,
@@ -485,7 +485,7 @@ CREATE POLICY wsm_tenant ON workspace_members
 
 ```sql
 CREATE TABLE funnels (
-  id                  TEXT PRIMARY KEY,                              -- fnl_â€¦
+  id                  TEXT PRIMARY KEY,                              -- fnl_…
   workspace_id        TEXT NOT NULL REFERENCES workspaces(id) ON DELETE CASCADE,
   name                TEXT NOT NULL,
   slug                CITEXT NOT NULL,
@@ -509,11 +509,11 @@ CREATE POLICY funnels_tenant ON funnels
   USING (workspace_id = current_setting('app.workspace_id', true));
 
 CREATE TABLE funnel_versions (
-  id                  TEXT PRIMARY KEY,                              -- fvr_â€¦
+  id                  TEXT PRIMARY KEY,                              -- fvr_…
   workspace_id        TEXT NOT NULL REFERENCES workspaces(id) ON DELETE CASCADE,
   funnel_id           TEXT NOT NULL REFERENCES funnels(id) ON DELETE CASCADE,
   version_number      INTEGER NOT NULL,
-  generation_id       TEXT,                                          -- gen_â€¦
+  generation_id       TEXT,                                          -- gen_…
   source              TEXT NOT NULL,                                 -- 'agent','import','clone','manual'
   parent_version_id   TEXT REFERENCES funnel_versions(id),
   artifact_hash       TEXT NOT NULL,                                 -- sha256 of full bundle
@@ -546,7 +546,7 @@ ALTER TABLE funnels
 
 ```sql
 CREATE TABLE crm_contacts (
-  id                   TEXT PRIMARY KEY,                             -- crm_â€¦
+  id                   TEXT PRIMARY KEY,                             -- crm_…
   workspace_id         TEXT NOT NULL REFERENCES workspaces(id) ON DELETE CASCADE,
   email_normalized     CITEXT,
   email_sha256         TEXT,                                         -- for unsuppressed dedupe in lake
@@ -579,7 +579,7 @@ CREATE POLICY crm_tenant ON crm_contacts
   USING (workspace_id = current_setting('app.workspace_id', true));
 
 CREATE TABLE leads (
-  id                    TEXT PRIMARY KEY,                            -- lds_â€¦
+  id                    TEXT PRIMARY KEY,                            -- lds_…
   workspace_id          TEXT NOT NULL REFERENCES workspaces(id) ON DELETE CASCADE,
   funnel_id             TEXT NOT NULL REFERENCES funnels(id) ON DELETE RESTRICT,
   funnel_version_id     TEXT NOT NULL REFERENCES funnel_versions(id) ON DELETE RESTRICT,
@@ -622,7 +622,7 @@ CREATE POLICY leads_tenant ON leads
 
 ```sql
 CREATE TABLE bookings (
-  id                  TEXT PRIMARY KEY,                              -- bkg_â€¦
+  id                  TEXT PRIMARY KEY,                              -- bkg_…
   workspace_id        TEXT NOT NULL REFERENCES workspaces(id) ON DELETE CASCADE,
   lead_id             TEXT NOT NULL REFERENCES leads(id) ON DELETE CASCADE,
   funnel_id           TEXT NOT NULL REFERENCES funnels(id) ON DELETE RESTRICT,
@@ -654,7 +654,7 @@ CREATE POLICY bookings_tenant ON bookings
 
 ```sql
 CREATE TABLE subscriptions (
-  id                    TEXT PRIMARY KEY,                            -- sub_â€¦
+  id                    TEXT PRIMARY KEY,                            -- sub_…
   workspace_id          TEXT NOT NULL REFERENCES workspaces(id) ON DELETE RESTRICT,
   plan                  TEXT NOT NULL,
   status                subscription_status NOT NULL DEFAULT 'trialing',
@@ -684,7 +684,7 @@ CREATE POLICY sub_tenant ON subscriptions
   USING (workspace_id = current_setting('app.workspace_id', true));
 
 CREATE TABLE invoices (
-  id                    TEXT PRIMARY KEY,                            -- inv_â€¦
+  id                    TEXT PRIMARY KEY,                            -- inv_…
   workspace_id          TEXT NOT NULL REFERENCES workspaces(id) ON DELETE RESTRICT,
   subscription_id       TEXT REFERENCES subscriptions(id) ON DELETE SET NULL,
   external_processor    TEXT NOT NULL DEFAULT 'stripe',
@@ -717,7 +717,7 @@ CREATE POLICY inv_tenant ON invoices
   USING (workspace_id = current_setting('app.workspace_id', true));
 
 CREATE TABLE payments (
-  id                    TEXT PRIMARY KEY,                            -- pay_â€¦
+  id                    TEXT PRIMARY KEY,                            -- pay_…
   workspace_id          TEXT NOT NULL REFERENCES workspaces(id) ON DELETE RESTRICT,
   invoice_id            TEXT REFERENCES invoices(id) ON DELETE SET NULL,
   external_processor    TEXT NOT NULL DEFAULT 'stripe',
@@ -742,7 +742,7 @@ CREATE POLICY pay_tenant ON payments
   USING (workspace_id = current_setting('app.workspace_id', true));
 
 CREATE TABLE refunds (
-  id                    TEXT PRIMARY KEY,                            -- rfd_â€¦
+  id                    TEXT PRIMARY KEY,                            -- rfd_…
   workspace_id          TEXT NOT NULL REFERENCES workspaces(id) ON DELETE RESTRICT,
   payment_id            TEXT REFERENCES payments(id) ON DELETE SET NULL,
   external_processor    TEXT NOT NULL DEFAULT 'stripe',
@@ -766,10 +766,10 @@ CREATE POLICY rfd_tenant ON refunds
 
 ```sql
 CREATE TABLE api_keys (
-  id                  TEXT PRIMARY KEY,                              -- apk_â€¦
+  id                  TEXT PRIMARY KEY,                              -- apk_…
   workspace_id        TEXT NOT NULL REFERENCES workspaces(id) ON DELETE CASCADE,
   name                TEXT NOT NULL,
-  key_prefix          TEXT NOT NULL,                                 -- public prefix shown in UI, e.g. 'fnl_live_8aâ€¦'
+  key_prefix          TEXT NOT NULL,                                 -- public prefix shown in UI, e.g. 'fnl_live_8a…'
   key_hash            TEXT NOT NULL,                                 -- sha256 of the full secret
   scopes              TEXT[] NOT NULL DEFAULT '{}',
   created_by          TEXT NOT NULL REFERENCES users(id),
@@ -787,7 +787,7 @@ CREATE POLICY apk_tenant ON api_keys
   USING (workspace_id = current_setting('app.workspace_id', true));
 
 CREATE TABLE webhooks (
-  id                  TEXT PRIMARY KEY,                              -- whk_â€¦
+  id                  TEXT PRIMARY KEY,                              -- whk_…
   workspace_id        TEXT NOT NULL REFERENCES workspaces(id) ON DELETE CASCADE,
   url                 TEXT NOT NULL,
   secret_hash         TEXT NOT NULL,
@@ -815,7 +815,7 @@ CREATE POLICY whk_tenant ON webhooks
 -- audit_log: human-meaningful, who-did-what-to-what, append-only.
 -- Powers compliance, support investigations. NEVER backfilled, NEVER UPDATEd.
 CREATE TABLE audit_log (
-  id                  TEXT PRIMARY KEY,                              -- aud_â€¦
+  id                  TEXT PRIMARY KEY,                              -- aud_…
   workspace_id        TEXT,                                          -- NULL for global admin actions
   actor_user_id       TEXT REFERENCES users(id),
   impersonator_user_id TEXT REFERENCES users(id),
@@ -841,7 +841,7 @@ CREATE INDEX audit_subject_idx ON audit_log (subject_type, subject_id);
 -- event_log: hot tail of the canonical event bus for ~90 days. Operational
 -- queries, support, near-real-time joins. Source of truth lives in Kafka + Iceberg.
 CREATE TABLE event_log (
-  event_id            TEXT PRIMARY KEY,                              -- evt_â€¦
+  event_id            TEXT PRIMARY KEY,                              -- evt_…
   event_name          TEXT NOT NULL,
   event_family        TEXT NOT NULL,
   schema_version      INTEGER NOT NULL,
@@ -874,7 +874,7 @@ CREATE POLICY el_tenant ON event_log
 
 ```sql
 CREATE TABLE assets (
-  id                  TEXT PRIMARY KEY,                              -- ast_â€¦
+  id                  TEXT PRIMARY KEY,                              -- ast_…
   workspace_id        TEXT NOT NULL REFERENCES workspaces(id) ON DELETE CASCADE,
   funnel_id           TEXT REFERENCES funnels(id) ON DELETE SET NULL,
   type                asset_type NOT NULL,
@@ -894,7 +894,7 @@ CREATE POLICY assets_tenant ON assets
   USING (workspace_id = current_setting('app.workspace_id', true));
 
 CREATE TABLE asset_versions (
-  id                  TEXT PRIMARY KEY,                              -- asv_â€¦
+  id                  TEXT PRIMARY KEY,                              -- asv_…
   workspace_id        TEXT NOT NULL REFERENCES workspaces(id) ON DELETE CASCADE,
   asset_id            TEXT NOT NULL REFERENCES assets(id) ON DELETE CASCADE,
   version_number      INTEGER NOT NULL,
@@ -925,7 +925,7 @@ ALTER TABLE assets
 
 ```sql
 CREATE TABLE integration_connections (
-  id                  TEXT PRIMARY KEY,                              -- itg_â€¦
+  id                  TEXT PRIMARY KEY,                              -- itg_…
   workspace_id        TEXT NOT NULL REFERENCES workspaces(id) ON DELETE CASCADE,
   provider            TEXT NOT NULL,                                 -- 'stripe','google_calendar','meta_ads','hubspot','twilio',...
   external_account_id TEXT,
@@ -955,7 +955,7 @@ CREATE POLICY itg_tenant ON integration_connections
 
 ```sql
 CREATE TABLE revtry_calls (
-  id                   TEXT PRIMARY KEY,                             -- cll_â€¦
+  id                   TEXT PRIMARY KEY,                             -- cll_…
   workspace_id         TEXT NOT NULL REFERENCES workspaces(id) ON DELETE CASCADE,
   lead_id              TEXT NOT NULL REFERENCES leads(id) ON DELETE CASCADE,
   attempt_n            INTEGER NOT NULL,
@@ -991,7 +991,7 @@ CREATE POLICY rtc_tenant ON revtry_calls
 
 ```sql
 CREATE TABLE ad_campaigns (
-  id                  TEXT PRIMARY KEY,                              -- adc_â€¦
+  id                  TEXT PRIMARY KEY,                              -- adc_…
   workspace_id        TEXT NOT NULL REFERENCES workspaces(id) ON DELETE CASCADE,
   funnel_id           TEXT NOT NULL REFERENCES funnels(id) ON DELETE RESTRICT,
   platform            TEXT NOT NULL,                                 -- 'meta','google','tiktok','linkedin','reddit'
@@ -1031,7 +1031,7 @@ CREATE POLICY adc_tenant ON ad_campaigns
 
 ```sql
 CREATE TABLE email_sequences (
-  id                  TEXT PRIMARY KEY,                              -- esq_â€¦
+  id                  TEXT PRIMARY KEY,                              -- esq_…
   workspace_id        TEXT NOT NULL REFERENCES workspaces(id) ON DELETE CASCADE,
   funnel_id           TEXT REFERENCES funnels(id) ON DELETE SET NULL,
   name                TEXT NOT NULL,
@@ -1052,7 +1052,7 @@ CREATE POLICY esq_tenant ON email_sequences
   USING (workspace_id = current_setting('app.workspace_id', true));
 
 CREATE TABLE sms_sequences (
-  id                  TEXT PRIMARY KEY,                              -- ssq_â€¦
+  id                  TEXT PRIMARY KEY,                              -- ssq_…
   workspace_id        TEXT NOT NULL REFERENCES workspaces(id) ON DELETE CASCADE,
   funnel_id           TEXT REFERENCES funnels(id) ON DELETE SET NULL,
   name                TEXT NOT NULL,
@@ -1078,7 +1078,7 @@ CREATE POLICY ssq_tenant ON sms_sequences
 
 ```sql
 CREATE TABLE lead_magnets (
-  id                  TEXT PRIMARY KEY,                              -- lmg_â€¦
+  id                  TEXT PRIMARY KEY,                              -- lmg_…
   workspace_id        TEXT NOT NULL REFERENCES workspaces(id) ON DELETE CASCADE,
   funnel_id           TEXT REFERENCES funnels(id) ON DELETE SET NULL,
   type                TEXT NOT NULL,                                 -- 'pdf','quiz','calculator','webinar','checklist','template'
@@ -1107,9 +1107,9 @@ CREATE POLICY lmg_tenant ON lead_magnets
 ```sql
 -- Deletion tombstones survive forever. Prove we honored a DSAR without retaining PII.
 CREATE TABLE deletion_tombstones (
-  request_id          TEXT PRIMARY KEY,                              -- dlq_â€¦
+  request_id          TEXT PRIMARY KEY,                              -- dlq_…
   subject_type        TEXT NOT NULL,
-  subject_id_hash     TEXT NOT NULL,                                 -- sha256(subject_id) â€” original id is gone
+  subject_id_hash     TEXT NOT NULL,                                 -- sha256(subject_id) — original id is gone
   workspace_id        TEXT,
   legal_basis         TEXT NOT NULL,
   scope_summary       JSONB NOT NULL,
@@ -1117,9 +1117,9 @@ CREATE TABLE deletion_tombstones (
   verifier_user_id    TEXT
 );
 
--- Global suppression list (opt-outs) â€” survives lead/contact deletion.
+-- Global suppression list (opt-outs) — survives lead/contact deletion.
 CREATE TABLE suppression_list (
-  id                  TEXT PRIMARY KEY,                              -- sup_â€¦
+  id                  TEXT PRIMARY KEY,                              -- sup_…
   workspace_id        TEXT NOT NULL,                                 -- not a FK on purpose; survives workspace closure
   channel             TEXT NOT NULL,                                 -- 'sms','email','call'
   identifier_sha256   TEXT NOT NULL,
@@ -1132,7 +1132,7 @@ CREATE UNIQUE INDEX sup_unique ON suppression_list (workspace_id, channel, ident
 
 ---
 
-## PART C â€” Data lifecycle, PII, retention, lake
+## PART C — Data lifecycle, PII, retention, lake
 
 ### C.1 Retention by event family (canonical)
 
@@ -1143,8 +1143,8 @@ CREATE UNIQUE INDEX sup_unique ON suppression_list (workspace_id, channel, ident
 | Publish | 90 days | 13 months | 7y; `publish_acknowledged` 10y | After legal retention |
 | Distribution | 90 days | 13 months | 7y (ads); 3y (organic social) | After retention |
 | Lead | 90 days | 13 months | 5y; `lead_sms_opted_out` 10y | After retention or on DSAR |
-| Revenue â€” Customer funnels | 90 days | 13 months | 7y (tax/finance regulations) | After 7y |
-| Revenue â€” Our SaaS | 90 days | 13 months | 7y | After 7y |
+| Revenue — Customer funnels | 90 days | 13 months | 7y (tax/finance regulations) | After 7y |
+| Revenue — Our SaaS | 90 days | 13 months | 7y | After 7y |
 | Support | 90 days | 13 months | 5y; `impersonation_*` 10y | After retention |
 | Governance | 90 days | 13 months | 10y; tombstones forever | Tombstone only |
 
@@ -1183,14 +1183,14 @@ When `data_deletion_requested` is received and approved (DPO sign-off for any DS
    - `s3://funnel-lake/feature-store/<table>/...`
    Compaction runs nightly; deletes are physically applied within 7 days.
 5. **External processors.** Fire deletion API calls in parallel to Stripe, Twilio, SendGrid, Meta, Google, HubSpot for the subject's identifiers. Track per-provider acknowledgment in `data_deletion_completed.scope_summary`.
-6. **Suppression preserved.** `suppression_list` rows are **never** deleted on subject deletion. We must continue to honor an opt-out forever â€” that requires keeping the hashed identifier.
+6. **Suppression preserved.** `suppression_list` rows are **never** deleted on subject deletion. We must continue to honor an opt-out forever — that requires keeping the hashed identifier.
 7. **Tombstone.** Insert into `deletion_tombstones` and emit `data_deletion_completed` with a `tombstone_ids[]` referencing every system scrubbed. The tombstone is the proof artifact returned in regulator audits.
 
 **Workspace closure (`workspace_closed`)** triggers the same cascade for every user and contact whose **only** workspace was the closed one, after a 30-day grace period.
 
 **Backups.** Postgres PITR snapshots are encrypted and retained 35 days. Restoring a backup that pre-dates a DSAR re-injects deleted PII; the privacy worker maintains a `deletion_replay_log` and re-applies all pending deletions immediately after any restore.
 
-### C.4 Learning flywheel â€” S3 / Iceberg lake structure
+### C.4 Learning flywheel — S3 / Iceberg lake structure
 
 The lake is the canonical training-data store. Postgres is operational; Kafka is the bus; Iceberg is the warehouse.
 
@@ -1201,21 +1201,21 @@ s3://funnel-lake-us-east-1/
   raw/
     events/
       identity/        year=2026/month=05/day=25/hour=17/*.parquet
-      generation/      year=â€¦/â€¦/â€¦/â€¦/
-      publish/         â€¦
-      distribution/    â€¦
-      lead/            â€¦
-      revenue_funnel/  â€¦
-      revenue_saas/    â€¦
-      support/         â€¦
-      governance/      â€¦
+      generation/      year=…/…/…/…/
+      publish/         …
+      distribution/    …
+      lead/            …
+      revenue_funnel/  …
+      revenue_saas/    …
+      support/         …
+      governance/      …
     integrations/
       stripe/          (raw webhook payloads, encrypted)
       twilio/
       meta_ads/
       ...
     agent_io/
-      generations/     gen_id=gen_01HXâ€¦/agent=copy_agent/{input.json,output.json,trace.jsonl}
+      generations/     gen_id=gen_01HX…/agent=copy_agent/{input.json,output.json,trace.jsonl}
   curated/
     fact_users/        Iceberg table, scd-2
     fact_workspaces/
@@ -1271,11 +1271,11 @@ s3://funnel-lake-us-east-1/
 
 **Flywheel data contract.**
 
-1. `agent_invoked` and `generation_completed` write a `trace.jsonl` to `raw/agent_io/generations/â€¦` synchronously before acking. Each line is one tool call or model turn with token usage, latency, and hashes.
-2. `quality_score_computed`, `quality_failed`, and human review decisions land in `raw/events/generation/â€¦` and are joined nightly into `curated/fact_generation_quality/`.
+1. `agent_invoked` and `generation_completed` write a `trace.jsonl` to `raw/agent_io/generations/…` synchronously before acking. Each line is one tool call or model turn with token usage, latency, and hashes.
+2. `quality_score_computed`, `quality_failed`, and human review decisions land in `raw/events/generation/…` and are joined nightly into `curated/fact_generation_quality/`.
 3. A dataset-build job materializes per-agent training corpora into `training/datasets/<agent>/`, **only including rows whose workspace has `workspaces.ai_training_opt_in = TRUE`** and whose `consent.ai_training` flag was `true` at event time. Manifests include the SQL provenance query so any row can be traced back to its source events.
 4. `model_version_promoted` and `bias_audit_completed` are gating events: the model registry refuses to promote without both, plus a green eval report in `training/models/<agent>/<version>/eval_report.json`.
-5. DSAR deletes propagate to the lake via row-level deletes keyed on `subject_id_hash` (see C.3). Training datasets older than the deletion are NOT retroactively rebuilt â€” but any **future** model training must filter against the current tombstone table, joined by hash. The model registry enforces this via the `lineage.json` audit.
+5. DSAR deletes propagate to the lake via row-level deletes keyed on `subject_id_hash` (see C.3). Training datasets older than the deletion are NOT retroactively rebuilt — but any **future** model training must filter against the current tombstone table, joined by hash. The model registry enforces this via the `lineage.json` audit.
 
 ### C.5 Cross-system reconciliation
 
@@ -1293,7 +1293,7 @@ Drift greater than threshold pages the on-call data engineer and freezes the aff
 
 ---
 
-## Appendix â€” Event quick-reference index
+## Appendix — Event quick-reference index
 
 | Family | Events |
 |---|---|
@@ -1302,9 +1302,9 @@ Drift greater than threshold pages the on-call data engineer and freezes the aff
 | Publish | `funnel_published`, `funnel_unpublished`, `funnel_archived`, `funnel_cloned`, `funnel_imported`, `custom_domain_connected`, `ssl_provisioned`, `publish_acknowledged` |
 | Distribution | `ad_campaign_created`, `ad_campaign_launched`, `ad_campaign_paused`, `ad_rejected`, `social_post_scheduled`, `social_post_published`, `qr_generated`, `short_link_created` |
 | Lead | `lead_captured`, `lead_scored`, `lead_sms_sent`, `lead_sms_delivered`, `lead_sms_opted_out`, `lead_revtry_call_started`, `lead_revtry_call_completed`, `lead_voicemail_left`, `lead_qualified`, `lead_disqualified`, `lead_booking_created`, `lead_booking_canceled` |
-| Revenue â€” customer | `checkout_started`, `checkout_paid`, `checkout_failed`, `refund_issued`, `dispute_opened`, `dispute_resolved` |
-| Revenue â€” SaaS | `trial_started`, `trial_ended`, `plan_upgraded`, `plan_downgraded`, `plan_paused`, `plan_resumed`, `subscription_canceled`, `payment_succeeded`, `payment_failed`, `dunning_step_executed`, `account_suspended`, `account_restored`, `account_closed` |
+| Revenue — customer | `checkout_started`, `checkout_paid`, `checkout_failed`, `refund_issued`, `dispute_opened`, `dispute_resolved` |
+| Revenue — SaaS | `trial_started`, `trial_ended`, `plan_upgraded`, `plan_downgraded`, `plan_paused`, `plan_resumed`, `subscription_canceled`, `payment_succeeded`, `payment_failed`, `dunning_step_executed`, `account_suspended`, `account_restored`, `account_closed` |
 | Support | `ticket_opened`, `ticket_assigned`, `ticket_resolved`, `impersonation_started`, `impersonation_ended`, `internal_note_added`, `admin_credit_applied`, `admin_refund_issued` |
 | Governance | `ai_disclosure_rendered`, `consent_captured`, `consent_withdrawn`, `data_export_requested`, `data_export_delivered`, `data_deletion_requested`, `data_deletion_completed`, `model_version_promoted`, `kb_pack_updated`, `bias_audit_completed`, `pii_leak_blocked`, `recon_drift_detected` |
 
-â€” End of document â€”
+— End of document —

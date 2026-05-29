@@ -11,7 +11,7 @@
  *    only places an attacker can learn anything, and both apply on a per-IP
  *    basis to attenuate enumeration.
  *  - Before checking the password, we ALWAYS run argon2.verify on a sentinel
- *    hash if the user doesn't exist â€” this makes the timing of "no such user"
+ *    hash if the user doesn't exist — this makes the timing of "no such user"
  *    and "wrong password" indistinguishable.
  *  - New-device detection: if (ip_hash, ua_class) doesn't match any prior
  *    successful login in the last 30d, we mark `new_device=true` and queue

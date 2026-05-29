@@ -1,5 +1,5 @@
 /**
- * Domain resolution â€” given an incoming `hostname` (e.g. `tx-solar.gofunnelai.com`
+ * Domain resolution — given an incoming `hostname` (e.g. `tx-solar.gofunnelai.com`
  * or `quote.acmesolar.com`), find the matching workspace + funnel.
  *
  * Resolution order:
@@ -10,7 +10,7 @@
  *   4. Custom domain (any other hostname) â†’ custom_domains lookup.
  *
  * Caches are written with a short fresh TTL (60s) and a longer SWR window.
- * On funnel publish, apps/api purges the cache by tag â€” see edge-cache.ts.
+ * On funnel publish, apps/api purges the cache by tag — see edge-cache.ts.
  */
 
 import type { Env } from "../env.js";
@@ -74,7 +74,7 @@ export async function resolveRoute(
   hostname = hostname.toLowerCase();
   const apex = env.APEX_DOMAIN.toLowerCase();
 
-  // 1. Apex hostname â€” marketing redirect, never resolved here.
+  // 1. Apex hostname — marketing redirect, never resolved here.
   if (hostname === apex || hostname === "www." + apex) {
     return { kind: "marketing_redirect", row: null, is_custom_domain: false };
   }

@@ -1,5 +1,5 @@
 /**
- * GoFunnelAI â€” Durable Object class implementations.
+ * GoFunnelAI — Durable Object class implementations.
  *
  * These classes are bundled into `apps/api` (their canonical owner) but are
  * also re-exported here so other workers can re-use the same code without
@@ -34,7 +34,7 @@ export interface RateLimitResponse {
 }
 
 /**
- * RateLimitDO â€” fixed-window counter keyed by the DO instance id (one DO per
+ * RateLimitDO — fixed-window counter keyed by the DO instance id (one DO per
  * rate-limit-key, e.g. one DO per tenant or one DO per IP).
  *
  * Why a DO rather than `[[unsafe.bindings]].type = "ratelimit"`:
@@ -86,7 +86,7 @@ export class RateLimitDO {
 }
 
 // ---------------------------------------------------------------------------
-// GenerationActor â€” drives a single funnel-generation lifecycle.
+// GenerationActor — drives a single funnel-generation lifecycle.
 // ---------------------------------------------------------------------------
 
 interface GenerationStep {
@@ -283,7 +283,7 @@ export class GenerationActor {
 }
 
 // ---------------------------------------------------------------------------
-// GenerationStreamDO â€” SSE pub/sub for in-flight generations.
+// GenerationStreamDO — SSE pub/sub for in-flight generations.
 // ---------------------------------------------------------------------------
 
 export class GenerationStreamDO {

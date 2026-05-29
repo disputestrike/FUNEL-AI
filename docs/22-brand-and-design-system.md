@@ -1,16 +1,16 @@
-﻿# 22 â€” Brand Voice and Design System
+# 22 — Brand Voice and Design System
 
 **Owner:** Brand + Design
-**Status:** v1.0 â€” Day 90 launch baseline
-**Audience:** Designers, engineers, marketers, support, anyone writing copy or shipping pixels under the FunelAI name
+**Status:** v1.0 — Day 90 launch baseline
+**Audience:** Designers, engineers, marketers, support, anyone writing copy or shipping pixels under the GoFunnelAI name
 
 ---
 
 ## 0. Why this doc exists
 
-FunelAI sits in a category that has spent a decade trending ugly. ClickFunnels taught a generation of marketers that "louder = converts." HighLevel taught agencies that "more features visible = more value." Every DIY tool taught founders that "templates = professional."
+GoFunnelAI sits in a category that has spent a decade trending ugly. ClickFunnels taught a generation of marketers that "louder = converts." HighLevel taught agencies that "more features visible = more value." Every DIY tool taught founders that "templates = professional."
 
-We're betting the opposite. The premium feel is the wedge. Linear-grade craft, Vercel-grade polish, Notion-grade clarity, Stripe-grade discipline â€” applied to a category that has never seen it. This document is the operating manual for that bet.
+We're betting the opposite. The premium feel is the wedge. Linear-grade craft, Vercel-grade polish, Notion-grade clarity, Stripe-grade discipline — applied to a category that has never seen it. This document is the operating manual for that bet.
 
 **Two anti-positions to hold in your head at all times:**
 
@@ -21,7 +21,7 @@ If you find yourself reaching for a stock SaaS pattern, stop. That's the tell.
 
 ---
 
-## PART A â€” Brand Voice Principles
+## PART A — Brand Voice Principles
 
 Seven principles. They are ordered. When two conflict, the earlier one wins.
 
@@ -36,7 +36,7 @@ Seven principles. They are ordered. When two conflict, the earlier one wins.
 
 **Don't:**
 - "We might be the best AI funnel builder out there." â†’ Hedging signals doubt. Either it's true or don't say it.
-- "FunelAI is REVOLUTIONIZING the industry." â†’ Caps + verb inflation reads as insecurity. Confident people don't shout.
+- "GoFunnelAI is REVOLUTIONIZING the industry." â†’ Caps + verb inflation reads as insecurity. Confident people don't shout.
 - "Built by ex-Stripe, ex-Google, ex-OpenAI engineers." â†’ Credentials as leading argument is a flex. Earn it with the product.
 
 ### 2. Specific, never vague
@@ -58,7 +58,7 @@ Seven principles. They are ordered. When two conflict, the earlier one wins.
 **Definition:** A real person on the other end of the screen. Not a cheerleader.
 
 **Do:**
-- "First funnel live. Nice work â€” here's what to do next."
+- "First funnel live. Nice work — here's what to do next."
 - "Welcome back. Your leads have been busy."
 - "We can fix this. Give us 20 minutes."
 
@@ -73,7 +73,7 @@ Seven principles. They are ordered. When two conflict, the earlier one wins.
 
 **Do:**
 - "Your funnel is live. Share it." (5 words, complete.)
-- "Payment failed. Card expired Tuesday â€” update and we'll retry automatically." (Specific, action, reassurance.)
+- "Payment failed. Card expired Tuesday — update and we'll retry automatically." (Specific, action, reassurance.)
 - "Two leads in the last hour. Both qualified." (Reports the news, then adds the meaningful bit.)
 
 **Don't:**
@@ -115,7 +115,7 @@ Seven principles. They are ordered. When two conflict, the earlier one wins.
 
 **Do:**
 - "Funnels don't fix bad offers. They amplify whatever's underneath."
-- "This will take you 20 minutes to set up. We tried to make it 5 â€” we couldn't honestly do it in 5."
+- "This will take you 20 minutes to set up. We tried to make it 5 — we couldn't honestly do it in 5."
 - "We can't promise you'll 10x. We can promise the funnel won't be the reason you didn't."
 
 **Don't:**
@@ -125,7 +125,7 @@ Seven principles. They are ordered. When two conflict, the earlier one wins.
 
 ---
 
-## PART B â€” Tone Matrix by Surface
+## PART B — Tone Matrix by Surface
 
 The voice is constant. The tone shifts by where the user meets us. Below: notes, sample copy that nails it, and what to avoid for each surface.
 
@@ -168,7 +168,7 @@ The voice is constant. The tone shifts by where the user meets us. Below: notes,
 
 **Nails it:**
 - "Tell us what you sell. We'll handle the rest."
-- "Nice. That's enough to get started â€” let's build."
+- "Nice. That's enough to get started — let's build."
 - "One more thing, then you're done."
 
 **Avoid:** "Just a few more questions! ðŸ™" Stacking forms. Empty-fields-no-progress screens.
@@ -176,7 +176,7 @@ The voice is constant. The tone shifts by where the user meets us. Below: notes,
 ### Generation screen
 **Tone:** confident, magical, never overpromising.
 - The system is doing real work; say what it's doing in plain words.
-- Streaming text where it suits (headlines, hero copy) â€” never spinners.
+- Streaming text where it suits (headlines, hero copy) — never spinners.
 - No fake progress bars. If we don't know the percentage, don't fake one.
 - Celebrate the finish quietly, not with confetti.
 
@@ -194,7 +194,7 @@ The voice is constant. The tone shifts by where the user meets us. Below: notes,
 - Never blame the user for the empty state.
 
 **Nails it:**
-- "No leads yet. That's about to change â€” share your funnel."
+- "No leads yet. That's about to change — share your funnel."
 - "Nothing to review. Your queue is clean."
 - "Add your first integration to see data here."
 
@@ -209,7 +209,7 @@ The voice is constant. The tone shifts by where the user meets us. Below: notes,
 
 **Nails it:**
 - "Stripe declined the card. Check the number or try a different one."
-- "We couldn't publish â€” your domain isn't pointing here yet. Fix DNS, then retry."
+- "We couldn't publish — your domain isn't pointing here yet. Fix DNS, then retry."
 - "RevTry can't dial that number. Looks like the country code is missing."
 
 **Avoid:** "Error 500." "Something went wrong, please try again." "Internal server error." Any technical code surfaced without translation.
@@ -222,11 +222,11 @@ The voice is constant. The tone shifts by where the user meets us. Below: notes,
 - No legalese, no "we appreciate your patience" filler.
 
 **Nails it:**
-- "Hi Maya â€” I pulled up your account. The publish failed because the staging URL hadn't propagated yet. I retried; it's live now. Anything else looking off?"
+- "Hi Maya — I pulled up your account. The publish failed because the staging URL hadn't propagated yet. I retried; it's live now. Anything else looking off?"
 - "Sorry about the delay on this one. I'm escalating it to engineering and will write back by end of day Thursday."
 - "That's a fair point and we don't have a clean answer yet. Here's what we know and what we're trying."
 
-**Avoid:** "Dear valued customer." "We appreciate your patience." Anything signed "The FunelAI Team." Anything that reads like the same email three users got.
+**Avoid:** "Dear valued customer." "We appreciate your patience." Anything signed "The GoFunnelAI Team." Anything that reads like the same email three users got.
 
 ### Billing emails
 **Tone:** clear, professional, never scary.
@@ -236,8 +236,8 @@ The voice is constant. The tone shifts by where the user meets us. Below: notes,
 - No "URGENT" or red banners.
 
 **Nails it:**
-- Subject: "$200 charge to FunelAI on May 18"
-- "We tried to charge your card and it didn't go through. The card on file expired. Update it here and we'll try again â€” no service interruption yet."
+- Subject: "$200 charge to GoFunnelAI on May 18"
+- "We tried to charge your card and it didn't go through. The card on file expired. Update it here and we'll try again — no service interruption yet."
 - "Receipt attached. Next charge: June 18."
 
 **Avoid:** Subject lines like "ACTION REQUIRED" or "Your account is at risk." Red exclamation mark icons in the email body. Anything that reads like a debt collector.
@@ -258,17 +258,17 @@ The voice is constant. The tone shifts by where the user meets us. Below: notes,
 
 ### Community
 **Tone:** warm, peer-to-peer, never corporate.
-- FunelAI staff post under their real names with a "Team" badge â€” never under a brand handle.
+- GoFunnelAI staff post under their real names with a "Team" badge — never under a brand handle.
 - Acknowledge member wins specifically, not with generic congratulations.
 - Disagree publicly when we disagree. Don't ghost criticism.
 - No marketing speak in community channels. Ever.
 
 **Nails it:**
-- "Saw your launch â€” the offer rewrite is the move. Congrats."
+- "Saw your launch — the offer rewrite is the move. Congrats."
 - "Fair criticism. Here's what we're doing about it: ..."
 - "We tried that pattern. It didn't work. Here's what we learned."
 
-**Avoid:** "Thanks for being a part of the FunelAI family!" Pinned posts that read like press releases. Removing critical posts (unless they violate a stated rule).
+**Avoid:** "Thanks for being a part of the GoFunnelAI family!" Pinned posts that read like press releases. Removing critical posts (unless they violate a stated rule).
 
 ### Crisis comms
 **Tone:** serious, accountable, never defensive.
@@ -278,7 +278,7 @@ The voice is constant. The tone shifts by where the user meets us. Below: notes,
 - One spokesperson. One channel. One version of the truth.
 
 **Nails it:**
-- "On May 14 between 9:02 and 9:47 UTC, FunelAI was unreachable for most users. The cause was a deploy we shipped that bypassed our staging check. We've rolled back, added the missing guardrail, and we're crediting affected accounts."
+- "On May 14 between 9:02 and 9:47 UTC, GoFunnelAI was unreachable for most users. The cause was a deploy we shipped that bypassed our staging check. We've rolled back, added the missing guardrail, and we're crediting affected accounts."
 - "We were wrong on this. Here's what we're changing."
 - "We don't have a full answer yet. We'll have one by Friday and we'll publish it whether or not it's flattering."
 
@@ -292,7 +292,7 @@ The voice is constant. The tone shifts by where the user meets us. Below: notes,
 - One paragraph of company description, max.
 
 **Nails it:**
-- Headline: "FunelAI launches with autonomous funnel generation in 30 industries."
+- Headline: "GoFunnelAI launches with autonomous funnel generation in 30 industries."
 - "Founders have generated 14,000 funnels in private beta. The median time from signup to live page is 14 minutes."
 - "'We started this because the existing tools punished us for not being designers,' said [founder]. 'We wanted a tool that did the work and got out of the way.'"
 
@@ -300,29 +300,29 @@ The voice is constant. The tone shifts by where the user meets us. Below: notes,
 
 ---
 
-## PART C â€” Naming Rules
+## PART C — Naming Rules
 
 ### Locked names
 
 | Entity | Form | Notes |
 |---|---|---|
-| Product | **FunelAI** | Period always included. Even mid-sentence. |
+| Product | **GoFunnelAI** | Period always included. Even mid-sentence. |
 | Platform / AI | **Funnel** | Capitalized when referring to the system itself, like "Siri" or "Alexa." |
 | Voice agent | **RevTry** | Capital R, capital T. Pronounced "rev-try." |
 | Free tool | **Funnel Grader** | Two words, both capitalized. |
-| Community | **The Funnel Community** (working) / **Funnel Network** (alt) | TBD â€” pick one before launch and never split. |
+| Community | **The Funnel Community** (working) / **Funnel Network** (alt) | TBD — pick one before launch and never split. |
 | Conference | **FunnelCon** | One word, capital F, capital C. |
-| Awards program | **FunelAI Awards** | Tiers: Bronze, Silver, Gold, Platinum, Diamond â€” always capitalized as tier names. |
-| Certifications | **Certified FunelAI Operator** / **Certified FunelAI Strategist** | Always "Certified FunelAI [Title]." Never abbreviated to CFO/CFS in product. |
+| Awards program | **GoFunnelAI Awards** | Tiers: Bronze, Silver, Gold, Platinum, Diamond — always capitalized as tier names. |
+| Certifications | **Certified GoFunnelAI Operator** / **Certified GoFunnelAI Strategist** | Always "Certified GoFunnelAI [Title]." Never abbreviated to CFO/CFS in product. |
 | Book | **$0 to $1M in 30 Days** (working title) | Dollar signs, no comma in $1M. |
 
 ### Capitalization: "funnel" vs "Funnel"
 
-- **Lowercase "funnel"** â€” the generic noun. The thing you're building. The category.
+- **Lowercase "funnel"** — the generic noun. The thing you're building. The category.
   - "Funnel writes the funnel."
   - "Most funnels lose people on page two."
   - "Your funnel is live."
-- **Capital "Funnel"** â€” the product/system as a named entity. Treat it as a proper noun referring to the AI.
+- **Capital "Funnel"** — the product/system as a named entity. Treat it as a proper noun referring to the AI.
   - "Funnel decided to lead with the testimonial."
   - "Ask Funnel to rewrite the hero."
   - "Funnel and RevTry handed off the lead at 9:14."
@@ -331,24 +331,24 @@ Rule of thumb: if you could substitute "Siri" or "Claude" into the sentence, cap
 
 ### Capitalization: "AI" vs "ai"
 
-- **Capital "AI"** â€” when used as the acronym for "artificial intelligence" or in a proper noun.
-  - "FunelAI is an AI company."
+- **Capital "AI"** — when used as the acronym for "artificial intelligence" or in a proper noun.
+  - "GoFunnelAI is an AI company."
   - "The AI generated this page."
   - "Our AI team."
-- **Lowercase "ai"** â€” only inside the product name "FunelAI" and product family names ("FunelAI Operator"). Never standalone.
+- **Lowercase "ai"** — only inside the product name "GoFunnelAI" and product family names ("GoFunnelAI Operator"). Never standalone.
 
 Wrong: "The ai wrote it." Right: "The AI wrote it." or "Funnel wrote it."
 
 ### Article usage
 
-- "FunelAI" takes no article. Not "the FunelAI." Just "FunelAI."
+- "GoFunnelAI" takes no article. Not "the GoFunnelAI." Just "GoFunnelAI."
 - "Funnel" (the system) takes no article. "Funnel knows your category." Not "The Funnel knows."
 - "RevTry" takes no article. "RevTry answered." Not "The RevTry answered."
 - The book and the conference take "the." "The book launches in September." "The conference sold out."
 
 ### Possessives
 
-- "FunelAI's" â€” fine, period inside the apostrophe-s. "FunelAI's pricing is..."
+- "GoFunnelAI's" — fine, period inside the apostrophe-s. "GoFunnelAI's pricing is..."
 - Avoid possessives on "Funnel" when ambiguous. Rewrite to "Funnel did X" rather than "Funnel's X."
 
 ### Tier and product version names
@@ -358,7 +358,7 @@ Wrong: "The ai wrote it." Right: "The AI wrote it." or "Funnel wrote it."
 
 ---
 
-## PART D â€” Logo and Wordmark
+## PART D — Logo and Wordmark
 
 This is the design brief for the mark and wordmark. Treat this as direction to a designer, not finished art.
 
@@ -366,27 +366,27 @@ This is the design brief for the mark and wordmark. Treat this as direction to a
 
 **Concept brief:**
 
-A geometric, modern mark that reads as "funnel" without being literal. The kitchen-funnel silhouette is off-limits â€” too consumer, too obvious, owned by ClickFunnels' visual lineage. We want a mark that nods to *flow, convergence, focus* without iconography that's been used a thousand times.
+A geometric, modern mark that reads as "funnel" without being literal. The kitchen-funnel silhouette is off-limits — too consumer, too obvious, owned by ClickFunnels' visual lineage. We want a mark that nods to *flow, convergence, focus* without iconography that's been used a thousand times.
 
 **Three directions to prototype:**
 
-1. **Downward-narrowing triangle, stepped** â€” Three or four horizontal bars stacked, each narrower than the last. Reads as a funnel diagram (top-of-funnel â†’ bottom-of-funnel) without being a kitchen tool. Strongest semantic link to the category.
-2. **Layered cones / nested chevrons** â€” Two or three thin chevron shapes nested inside each other, pointing down or right. Suggests motion through stages. More abstract; more "smart tech" than #1.
-3. **Negative-space arrow inside a square** â€” A solid rounded square with a downward arrow carved out via negative space. The arrow is the funnel. Reads tech-first, category-second.
+1. **Downward-narrowing triangle, stepped** — Three or four horizontal bars stacked, each narrower than the last. Reads as a funnel diagram (top-of-funnel â†’ bottom-of-funnel) without being a kitchen tool. Strongest semantic link to the category.
+2. **Layered cones / nested chevrons** — Two or three thin chevron shapes nested inside each other, pointing down or right. Suggests motion through stages. More abstract; more "smart tech" than #1.
+3. **Negative-space arrow inside a square** — A solid rounded square with a downward arrow carved out via negative space. The arrow is the funnel. Reads tech-first, category-second.
 
 Designer should produce all three at small (24px) and large (256px) sizes. Pick at design review.
 
 **Constraints:**
 - Single color (brand primary). No gradients in the mark.
-- Constructible on a grid â€” no organic curves except as deliberate corner radii.
+- Constructible on a grid — no organic curves except as deliberate corner radii.
 - Works at 16px favicon size. If it doesn't read at 16px, it fails.
 - Pixel-precise alignment at every standard size.
 
 ### The wordmark
 
-- Lowercase **funelai.com**.
-- Geometric sans-serif, custom or modified from a base (Inter Display, SÃ¶hne, or similar). Tight letter spacing â€” about -0.02em to -0.03em at large sizes.
-- The period before "ai" is a separate element, sized slightly larger than a typographic period â€” about 1.2x â€” and rendered in **brand primary color**. This is the only place the brand color appears in the wordmark.
+- Lowercase **gofunnelai.com**.
+- Geometric sans-serif, custom or modified from a base (Inter Display, SÃ¶hne, or similar). Tight letter spacing — about -0.02em to -0.03em at large sizes.
+- The period before "ai" is a separate element, sized slightly larger than a typographic period — about 1.2x — and rendered in **brand primary color**. This is the only place the brand color appears in the wordmark.
 - Weight: 500 (medium). Not 700; we are not shouting.
 - No italic version. Ever.
 
@@ -400,13 +400,13 @@ Designer should produce all three at small (24px) and large (256px) sizes. Pick 
 ### Color logic
 
 - **Light backgrounds:** wordmark in black (Neutral-900), period dot in brand primary, mark in brand primary or black depending on context.
-- **Dark backgrounds:** wordmark in white (Neutral-50), period dot in brand primary (slightly muted for dark mode â€” see Part M), mark in white or brand primary.
+- **Dark backgrounds:** wordmark in white (Neutral-50), period dot in brand primary (slightly muted for dark mode — see Part M), mark in white or brand primary.
 - Brand color is **reserved for the period dot and the mark.** It does not appear on the letterforms of the wordmark.
 
 ### Sizing and clear space
 
 - **Minimum height:** 24px for the wordmark. 16px for the mark alone (favicon).
-- **Clear space:** 1x the height of the mark on all four sides. No other elements may enter this area â€” including text, photo edges, or other logos in co-branded layouts.
+- **Clear space:** 1x the height of the mark on all four sides. No other elements may enter this area — including text, photo edges, or other logos in co-branded layouts.
 
 ### Don'ts
 
@@ -415,15 +415,15 @@ Designer should produce all three at small (24px) and large (256px) sizes. Pick 
 - Don't recolor outside the approved palette (period dot can shift across the brand primary 500-700 range only).
 - Don't place over busy photography without a solid backplate.
 - Don't replace the period with any other character (no asterisk, no slash, no emoji).
-- Don't animate the wordmark beyond a 200ms entrance fade. The mark may animate (see Part I) â€” the wordmark does not.
+- Don't animate the wordmark beyond a 200ms entrance fade. The mark may animate (see Part I) — the wordmark does not.
 
 ---
 
-## PART E â€” Color Palette
+## PART E — Color Palette
 
 All HEX values are Tailwind-compatible (drop them straight into a `tailwind.config` extension).
 
-### Primary â€” Indigo-Violet "Signal"
+### Primary — Indigo-Violet "Signal"
 
 A confident blue-violet. Reads as "smart tech, not consumer SaaS." Sits between Stripe's purple and Linear's indigo.
 
@@ -434,7 +434,7 @@ A confident blue-violet. Reads as "smart tech, not consumer SaaS." Sits between 
 | signal-200 | `#CFCBFF` | Borders on selected inputs |
 | signal-300 | `#A8A1FF` | Disabled states of brand elements |
 | signal-400 | `#827AFF` | Hover state on primary buttons in dark mode |
-| **signal-500** | **`#5B4FFF`** | **Default brand primary** â€” period dot, primary buttons, links |
+| **signal-500** | **`#5B4FFF`** | **Default brand primary** — period dot, primary buttons, links |
 | signal-600 | `#4A3FE0` | Hover state on primary buttons in light mode |
 | signal-700 | `#3A30B8` | Pressed state, focused outlines |
 | signal-800 | `#2B238A` | Dark accents, sparingly used |
@@ -443,16 +443,16 @@ A confident blue-violet. Reads as "smart tech, not consumer SaaS." Sits between 
 **Accessibility:**
 - signal-500 on white = 5.41:1 (passes AA for normal text)
 - signal-600 on white = 7.21:1 (passes AAA for normal text)
-- White on signal-500 = 4.86:1 (passes AA for normal text â€” use signal-600 background for AAA)
+- White on signal-500 = 4.86:1 (passes AA for normal text — use signal-600 background for AAA)
 
 **Usage:**
 - Reserved primarily for the period dot in the wordmark, primary buttons, links, focus rings, and the active state of any control.
 - Do not use as a large background fill on more than 10% of any given screen.
 - Never combine signal- shades with secondary or accent colors in a single element (no gradient mixing).
 
-### Secondary â€” Amber "Ember"
+### Secondary — Amber "Ember"
 
-A warm amber used sparingly for accent moments â€” never for primary CTAs (which stay in Signal). Use for "good news" highlights, achievement states, and the awards program tier colors at lower tiers.
+A warm amber used sparingly for accent moments — never for primary CTAs (which stay in Signal). Use for "good news" highlights, achievement states, and the awards program tier colors at lower tiers.
 
 | Token | HEX | Use |
 |---|---|---|
@@ -461,7 +461,7 @@ A warm amber used sparingly for accent moments â€” never for primary CTAs (
 | ember-200 | `#FFE0A8` | Pill backgrounds for "new" tags |
 | ember-300 | `#FFC766` | Awards: Bronze tier accent |
 | ember-400 | `#FFB13D` | Awards: Silver tier accent |
-| **ember-500** | **`#F59020`** | **Default accent** â€” used for highlight moments only |
+| **ember-500** | **`#F59020`** | **Default accent** — used for highlight moments only |
 | ember-600 | `#D6741A` | Hover state for ember-500 elements |
 | ember-700 | `#A85714` | Awards: Gold tier deep |
 | ember-800 | `#7A3E0E` | Dark theme ember accents |
@@ -471,9 +471,9 @@ A warm amber used sparingly for accent moments â€” never for primary CTAs (
 - ember-500 on white = 3.12:1 (large text only, AA)
 - ember-700 on white = 6.84:1 (AAA for normal text)
 
-### Accent â€” Teal "Aqua"
+### Accent — Teal "Aqua"
 
-A calm teal used as a tertiary accent â€” typically for info states, secondary highlights, and the higher-tier awards (Platinum, Diamond).
+A calm teal used as a tertiary accent — typically for info states, secondary highlights, and the higher-tier awards (Platinum, Diamond).
 
 | Token | HEX | Use |
 |---|---|---|
@@ -482,7 +482,7 @@ A calm teal used as a tertiary accent â€” typically for info states, second
 | aqua-200 | `#A8EAEA` |  |
 | aqua-300 | `#66D9D9` | Awards: Platinum tier |
 | aqua-400 | `#33C7C7` |  |
-| **aqua-500** | **`#15A8A8`** | **Default accent** â€” info icons, peripheral highlights |
+| **aqua-500** | **`#15A8A8`** | **Default accent** — info icons, peripheral highlights |
 | aqua-600 | `#0E8A8A` |  |
 | aqua-700 | `#0A6B6B` | Awards: Diamond tier deep |
 | aqua-800 | `#074D4D` |  |
@@ -493,7 +493,7 @@ A calm teal used as a tertiary accent â€” typically for info states, second
 - aqua-600 on white = 4.92:1 (AA for normal text)
 - aqua-700 on white = 7.14:1 (AAA for normal text)
 
-### Neutral â€” Warm Gray "Slate"
+### Neutral — Warm Gray "Slate"
 
 A warm-leaning gray scale, not the typical cold blue-gray. Softer feel, closer to Notion than Linear.
 
@@ -512,14 +512,14 @@ A warm-leaning gray scale, not the typical cold blue-gray. Softer feel, closer t
 
 **Accessibility:**
 - slate-700 on slate-50 = 11.2:1 (AAA, default body text combo)
-- slate-500 on slate-50 = 5.4:1 (AA normal text â€” use for secondary)
-- slate-400 on slate-50 = 3.1:1 (large text only â€” never body)
+- slate-500 on slate-50 = 5.4:1 (AA normal text — use for secondary)
+- slate-400 on slate-50 = 3.1:1 (large text only — never body)
 
 ### Semantic colors
 
 | Role | Token | HEX | Notes |
 |---|---|---|---|
-| Success | success-500 | `#10A37F` | Slightly desaturated green â€” feels editorial, not "Slack green" |
+| Success | success-500 | `#10A37F` | Slightly desaturated green — feels editorial, not "Slack green" |
 | Success | success-600 | `#0E8268` | Hover/pressed |
 | Warning | warning-500 | `#E0A030` | Reads as caution without alarm |
 | Warning | warning-600 | `#B87E1F` | Hover/pressed |
@@ -529,8 +529,8 @@ A warm-leaning gray scale, not the typical cold blue-gray. Softer feel, closer t
 | Info | info-600 | `#2B5FB8` | Hover/pressed |
 
 **Accessibility (all semantic colors):**
-- 500 variants on white: â‰¥ 4.5:1 (AA normal text) â€” verified.
-- 600 variants on white: â‰¥ 7.0:1 (AAA normal text) â€” verified.
+- 500 variants on white: â‰¥ 4.5:1 (AA normal text) — verified.
+- 600 variants on white: â‰¥ 7.0:1 (AAA normal text) — verified.
 - Pair every semantic color with an icon. Never communicate state with color alone.
 
 ### Palette discipline
@@ -541,7 +541,7 @@ A warm-leaning gray scale, not the typical cold blue-gray. Softer feel, closer t
 
 ---
 
-## PART F â€” Typography
+## PART F — Typography
 
 ### Families
 
@@ -549,7 +549,7 @@ A warm-leaning gray scale, not the typical cold blue-gray. Softer feel, closer t
 - **Heading + Body:** Inter (variable). One family for everything else.
 - **Mono:** JetBrains Mono (or fallback: IBM Plex Mono). Used for code, IDs, technical UI, and tabular data when it improves readability.
 
-We use a single primary family (Inter) for the entire product. Display is reserved for marketing. This is a deliberate restraint move â€” most SaaS pairs two or three families and the result is noise.
+We use a single primary family (Inter) for the entire product. Display is reserved for marketing. This is a deliberate restraint move — most SaaS pairs two or three families and the result is noise.
 
 ### Type scale
 
@@ -573,10 +573,10 @@ We use a single primary family (Inter) for the entire product. Display is reserv
 
 Only **400, 500, 600, 700**. No 300, no 800, no 900. Hairline weights read amateur. Black weights read corporate.
 
-- 400 â€” body text, default
-- 500 â€” emphasized inline text, button labels, captions
-- 600 â€” all headings, button labels in primary buttons
-- 700 â€” reserved for editorial moments (book covers, press materials). Not used in product UI.
+- 400 — body text, default
+- 500 — emphasized inline text, button labels, captions
+- 600 — all headings, button labels in primary buttons
+- 700 — reserved for editorial moments (book covers, press materials). Not used in product UI.
 
 ### Numbers
 
@@ -595,12 +595,12 @@ Only **400, 500, 600, 700**. No 300, no 800, no 900. Hairline weights read amate
 ### Hierarchy rules
 
 - Maximum **three type sizes per screen** in product UI. If you need a fourth, restructure the screen.
-- Heading and body never share a size â€” there is always a step.
+- Heading and body never share a size — there is always a step.
 - Buttons always use body or body-sm size with weight 600. Never display-size button labels.
 
 ---
 
-## PART G â€” Spacing and Layout
+## PART G — Spacing and Layout
 
 ### Spacing scale
 
@@ -608,7 +608,7 @@ Only **400, 500, 600, 700**. No 300, no 800, no 900. Hairline weights read amate
 
 Map to Tailwind tokens: `1, 2, 3, 4, 6, 8, 12, 16, 24, 32`.
 
-Use this scale exclusively. No 10px, no 20px, no 36px. If a design needs 20px, round to 16 or 24 â€” pick the one that preserves the rhythm.
+Use this scale exclusively. No 10px, no 20px, no 36px. If a design needs 20px, round to 16 or 24 — pick the one that preserves the rhythm.
 
 ### Vertical rhythm
 
@@ -636,7 +636,7 @@ No 6px, no 10px, no 20px. The ladder is fixed.
 
 ### Elevation / shadows
 
-Four elevations. Use shadow sparingly â€” flat is the default.
+Four elevations. Use shadow sparingly — flat is the default.
 
 | Token | CSS |
 |---|---|
@@ -649,7 +649,7 @@ Cards default to `shadow-sm`. Modals to `shadow-xl`. Hover lifts add one tier.
 
 ---
 
-## PART H â€” Components
+## PART H — Components
 
 References Doc 18 (component library). Brand-specific overrides below.
 
@@ -677,7 +677,7 @@ Button text is always **weight 600**, body or body-sm size. Sentence case, not T
 - **Focus state:** 2px signal-500 ring, border lifts to slate-300.
 - **Filled but unfocused:** border slate-300, value text slate-900.
 - **Error state:** border error-500, helper text error-600, error icon on the right.
-- **Success state:** border success-500, success icon on the right. Used sparingly â€” only after validation that the user cares about (email available, domain valid).
+- **Success state:** border success-500, success icon on the right. Used sparingly — only after validation that the user cares about (email available, domain valid).
 - **Loading state:** input becomes read-only, right-side area shows a spinner-replacement skeleton dot.
 - Min height: 40px. Padding: 12px horizontal, 10px vertical.
 - Labels above the field, not floating. Weight 500, body-sm size.
@@ -726,16 +726,16 @@ Button text is always **weight 600**, body or body-sm size. Sentence case, not T
 - Skeleton fill: slate-100 base with a shimmer animation.
 - **Shimmer:** linear gradient from slate-100 â†’ slate-200 â†’ slate-100, animated left-to-right over 1.5s, infinite loop.
 - Respect `prefers-reduced-motion`: shimmer freezes to static slate-100 fill if reduce-motion is enabled.
-- Spinner exception: button loading state may use an inline animated dot pattern (three dots, 200ms stagger) â€” not a circular spinner.
+- Spinner exception: button loading state may use an inline animated dot pattern (three dots, 200ms stagger) — not a circular spinner.
 
 ### Empty states
 
 Structure (top to bottom):
-1. **Illustration** â€” geometric, brand-color-led, ~120px tall. See Part K.
-2. **Headline** â€” H4 size, weight 600, slate-900.
-3. **Body** â€” body size, weight 400, slate-600. One or two sentences.
-4. **Primary CTA** â€” primary button.
-5. **Secondary action** â€” tertiary button or text link.
+1. **Illustration** — geometric, brand-color-led, ~120px tall. See Part K.
+2. **Headline** — H4 size, weight 600, slate-900.
+3. **Body** — body size, weight 400, slate-600. One or two sentences.
+4. **Primary CTA** — primary button.
+5. **Secondary action** — tertiary button or text link.
 
 Never show an empty state without a clear next action. "There's nothing here" is not enough.
 
@@ -759,7 +759,7 @@ Never show an empty state without a clear next action. "There's nothing here" is
 
 ---
 
-## PART I â€” Motion and Animation
+## PART I — Motion and Animation
 
 ### Duration tokens
 
@@ -775,8 +775,8 @@ Never show an empty state without a clear next action. "There's nothing here" is
 
 | Token | CSS | Use |
 |---|---|---|
-| ease-out | `cubic-bezier(0.0, 0.0, 0.2, 1)` | Entrances â€” feels fast on entry, settles into place |
-| ease-in | `cubic-bezier(0.4, 0.0, 1, 1)` | Exits â€” gathers speed leaving the screen |
+| ease-out | `cubic-bezier(0.0, 0.0, 0.2, 1)` | Entrances — feels fast on entry, settles into place |
+| ease-in | `cubic-bezier(0.4, 0.0, 1, 1)` | Exits — gathers speed leaving the screen |
 | ease-in-out | `cubic-bezier(0.4, 0.0, 0.2, 1)` | State changes, tab switches, expand/collapse |
 | ease-linear | `linear` | Loops only (shimmer, infinite gradient) |
 
@@ -803,7 +803,7 @@ Implement this once at the CSS layer (a global media query that overrides motion
 - Marketing surfaces only.
 - Two-color radial gradient between signal-500 at low opacity (~12%) and slate-50.
 - 8s cycle, ease-in-out, gradient origin shifts subtly between four anchor points (corners).
-- Static fallback below 1024px viewport width â€” animation only on desktop.
+- Static fallback below 1024px viewport width — animation only on desktop.
 - Static fallback always for reduce-motion.
 
 ### Generation streaming
@@ -822,7 +822,7 @@ When Funnel is actively writing copy on screen:
 
 ---
 
-## PART J â€” Iconography
+## PART J — Iconography
 
 ### Primary icon set
 
@@ -837,9 +837,9 @@ When Funnel is actively writing copy on screen:
 
 We commission custom icons for three sets only:
 
-1. **The Funnel mark itself** â€” see Part D.
-2. **Industry icons (30)** â€” one custom icon per supported industry (Solar, Roofing, HVAC, Cosmetic Dental, etc.). Same visual system: geometric, 2px stroke, 24px artboard, single brand-primary color, drawn on a 24px grid. Each icon should be readable at 20px.
-3. **Voice persona icons (5)** â€” portrait-style icons for each RevTry persona. These are stylized character marks (not photographs), 64px artboard, drawn in two tones: slate-700 line work over a signal-50 fill plate.
+1. **The Funnel mark itself** — see Part D.
+2. **Industry icons (30)** — one custom icon per supported industry (Solar, Roofing, HVAC, Cosmetic Dental, etc.). Same visual system: geometric, 2px stroke, 24px artboard, single brand-primary color, drawn on a 24px grid. Each icon should be readable at 20px.
+3. **Voice persona icons (5)** — portrait-style icons for each RevTry persona. These are stylized character marks (not photographs), 64px artboard, drawn in two tones: slate-700 line work over a signal-50 fill plate.
 
 ### Icon sizes
 
@@ -849,12 +849,12 @@ We commission custom icons for three sets only:
 
 - Don't mix icon sets. Lucide everywhere except the three custom sets above.
 - Don't fill Lucide icons. They are line icons.
-- Don't rotate icons to make them point a different direction â€” pick the right icon.
+- Don't rotate icons to make them point a different direction — pick the right icon.
 - Don't use emoji as icons in product UI.
 
 ---
 
-## PART K â€” Photography and Imagery
+## PART K — Photography and Imagery
 
 ### Photography style
 
@@ -863,7 +863,7 @@ We commission custom icons for three sets only:
 - People mid-action, not posed.
 - Natural light or considered editorial light. Never ring-light flat fill.
 - Hands, screens, signs of real work. Not stock-clean desks.
-- Diverse across age, race, gender, body type, ability â€” and this must be reflected throughout the library, not concentrated in one or two "diversity" shots.
+- Diverse across age, race, gender, body type, ability — and this must be reflected throughout the library, not concentrated in one or two "diversity" shots.
 - Real customers wherever possible. Stock as fallback only.
 
 ### Stock policy
@@ -877,7 +877,7 @@ We commission custom icons for three sets only:
 - Minimal geometric. Built from the same shape primitives as the mark.
 - One or two brand colors per illustration. Mostly neutrals with a single brand accent.
 - 2px line weight matching iconography.
-- Limited shading â€” flat fills or single-color tints.
+- Limited shading — flat fills or single-color tints.
 - Used for: empty states, onboarding screens, feature cards on marketing, error pages.
 
 ### 3D and AI-generated imagery
@@ -895,7 +895,7 @@ We commission custom icons for three sets only:
 
 ---
 
-## PART L â€” Accessibility
+## PART L — Accessibility
 
 **Standard:** WCAG 2.2 AA across every surface. AAA on body text wherever achievable.
 
@@ -957,7 +957,7 @@ Tests on NVDA + JAWS (Windows), VoiceOver (macOS, iOS), TalkBack (Android). Pass
 
 ---
 
-## PART M â€” Dark Mode
+## PART M — Dark Mode
 
 Dark mode is a first-class citizen, not an afterthought. Default to system preference. Toggle available in user settings.
 
@@ -991,16 +991,16 @@ Dark mode is a first-class citizen, not an afterthought. Default to system prefe
 
 ---
 
-## PART N â€” Voice and Design Together
+## PART N — Voice and Design Together
 
 A brand identity is voice plus visual, working as one system. Below: five canonical examples where voice principles and design decisions reinforce each other. These set the standard for everything we ship.
 
 ### 1. Marketing site hero
 
 **Voice principles applied:**
-- *Confident, never arrogant* â€” one declarative sentence, no hedges.
-- *Specific, never vague* â€” "ninety seconds" is the proof point.
-- *Concise, never terse* â€” 8 words of headline, one short subhead.
+- *Confident, never arrogant* — one declarative sentence, no hedges.
+- *Specific, never vague* — "ninety seconds" is the proof point.
+- *Concise, never terse* — 8 words of headline, one short subhead.
 
 **Copy:**
 > **Funnel writes the funnel. You launch it.**
@@ -1014,14 +1014,14 @@ A brand identity is voice plus visual, working as one system. Below: five canoni
 - No hero illustration competing with the type. Type *is* the hero.
 
 **Reinforcement:**
-The copy makes a confident claim ("Funnel writes the funnel") and the design refuses to clutter it â€” no glassmorphic cards, no badge of logos, no scrolling testimonial ticker. The restraint *is* the claim. Loud SaaS sites have to shout because they don't trust the words alone. We don't shout because we do.
+The copy makes a confident claim ("Funnel writes the funnel") and the design refuses to clutter it — no glassmorphic cards, no badge of logos, no scrolling testimonial ticker. The restraint *is* the claim. Loud SaaS sites have to shout because they don't trust the words alone. We don't shout because we do.
 
-### 2. Generation screen â€” "polishing" state
+### 2. Generation screen — "polishing" state
 
 **Voice principles applied:**
-- *Specific, never vague* â€” name the actual work, not "AI magic."
-- *Honest, never naive* â€” don't fake a percentage we don't know.
-- *Smart, never showy* â€” the system reports what it's doing without performing.
+- *Specific, never vague* — name the actual work, not "AI magic."
+- *Honest, never naive* — don't fake a percentage we don't know.
+- *Smart, never showy* — the system reports what it's doing without performing.
 
 **Copy (streaming through the generation):**
 > Researching your category.
@@ -1032,7 +1032,7 @@ The copy makes a confident claim ("Funnel writes the funnel") and the design ref
 
 **Design decisions:**
 - Lines appear one at a time, current line in slate-900 weight 500, completed lines fade to slate-400.
-- Each line preceded by a 12px signal-500 dot (filled when active, signal-200 when complete â€” never a check mark, which would feel like a kids' chore chart).
+- Each line preceded by a 12px signal-500 dot (filled when active, signal-200 when complete — never a check mark, which would feel like a kids' chore chart).
 - The dot has a subtle pulse animation (1.2s ease-in-out) on the active step. Pulse stops when step completes.
 - No progress bar. No percentage. No estimated time.
 - When complete, the entire panel scales up 1.005 â†’ 1.0 over 200ms (subtle settle), and the final line becomes a button.
@@ -1043,9 +1043,9 @@ The voice refuses to overclaim ("AI magic in progress"). The design refuses to f
 ### 3. Empty CRM (zero leads yet)
 
 **Voice principles applied:**
-- *Warm, never saccharine* â€” no "Oops!" no exclamation marks.
-- *Direct, never aggressive* â€” tells them what's happening and what to do.
-- *Concise, never terse* â€” short, but with one beat of acknowledgment.
+- *Warm, never saccharine* — no "Oops!" no exclamation marks.
+- *Direct, never aggressive* — tells them what's happening and what to do.
+- *Concise, never terse* — short, but with one beat of acknowledgment.
 
 **Copy:**
 > **No leads yet.**
@@ -1058,20 +1058,20 @@ The voice refuses to overclaim ("AI magic in progress"). The design refuses to f
 - Headline H4 size (22px), weight 600, slate-900.
 - Body in body size (16px), slate-600.
 - Primary CTA in signal-500 ("Share funnel"). Secondary as tertiary button ("See traffic guide").
-- Generous vertical spacing â€” 32px between illustration and headline, 16px between headline and body, 32px to the buttons.
+- Generous vertical spacing — 32px between illustration and headline, 16px between headline and body, 32px to the buttons.
 
 **Reinforcement:**
-The voice acknowledges the empty state without making it the user's fault ("hasn't found it" puts agency on the traffic, not the user). The design uses negative space generously â€” the emptiness is intentional, not embarrassing. The user feels supported, not scolded.
+The voice acknowledges the empty state without making it the user's fault ("hasn't found it" puts agency on the traffic, not the user). The design uses negative space generously — the emptiness is intentional, not embarrassing. The user feels supported, not scolded.
 
-### 4. Error state â€” failed payment
+### 4. Error state — failed payment
 
 **Voice principles applied:**
-- *Honest, never naive* â€” say what failed and why.
-- *Direct, never aggressive* â€” no alarm bells, just facts and a path forward.
-- *Confident, never arrogant* â€” we will fix this; here's how.
+- *Honest, never naive* — say what failed and why.
+- *Direct, never aggressive* — no alarm bells, just facts and a path forward.
+- *Confident, never arrogant* — we will fix this; here's how.
 
 **Copy (email subject):**
-> Card on file expired â€” payment didn't go through
+> Card on file expired — payment didn't go through
 
 **Copy (email body):**
 > Hi Maya,
@@ -1084,33 +1084,33 @@ The voice acknowledges the empty state without making it the user's fault ("hasn
 >
 > If something else is going on and you need a moment, reply to this email and I'll sort it.
 >
-> â€” Sam, FunelAI support
+> — Sam, GoFunnelAI support
 
 **Design decisions:**
 - No red banner, no alarm icon at the top of the email.
 - Small warning-500 dot next to the subject line in the email client preview, that's it.
 - Body text in slate-700, body size, 1.5 line height.
-- Single primary button in signal-500. No red destructive styling â€” this isn't a destructive moment, it's a "we need a thing from you" moment.
-- Sent from a real person's email address (sam@funelai.com), not noreply@.
+- Single primary button in signal-500. No red destructive styling — this isn't a destructive moment, it's a "we need a thing from you" moment.
+- Sent from a real person's email address (sam@gofunnelai.com), not noreply@.
 - Signature includes name, role, no banner image.
 
 **Reinforcement:**
-Failed payments are where most SaaS becomes hostile â€” red banners, "URGENT" subject lines, threat language. We do the opposite. The voice stays calm and specific; the design refuses to escalate visually. We treat the user as someone with a busy life and an expired card, not a deadbeat. They update the card, we move on. They reply, a real person answers.
+Failed payments are where most SaaS becomes hostile — red banners, "URGENT" subject lines, threat language. We do the opposite. The voice stays calm and specific; the design refuses to escalate visually. We treat the user as someone with a busy life and an expired card, not a deadbeat. They update the card, we move on. They reply, a real person answers.
 
 ### 5. First-lead-captured email
 
 **Voice principles applied:**
-- *Warm, never saccharine* â€” acknowledge the moment without theatre.
-- *Specific, never vague* â€” the actual lead's first name, the actual time, the actual source.
-- *Concise, never terse* â€” short, but with the meaningful detail.
+- *Warm, never saccharine* — acknowledge the moment without theatre.
+- *Specific, never vague* — the actual lead's first name, the actual time, the actual source.
+- *Concise, never terse* — short, but with the meaningful detail.
 
 **Copy (email subject):**
-> First lead just came in â€” Jamie from solar-quotes-fl.com
+> First lead just came in — Jamie from solar-quotes-fl.com
 
 **Copy (email body):**
 > A lead just hit your funnel.
 >
-> **Jamie M.** â€” Tampa, FL â€” interested in solar quotes
+> **Jamie M.** — Tampa, FL — interested in solar quotes
 > Came in at 2:14 PM via Facebook ad
 >
 > RevTry is calling them now. We'll keep you posted.
@@ -1121,20 +1121,20 @@ Failed payments are where most SaaS becomes hostile â€” red banners, "URGEN
 
 **Design decisions:**
 - Email is 480px wide max, generous padding.
-- Subject line uses the real lead's first name (privacy-respecting, just first name) â€” feels personal in the inbox.
+- Subject line uses the real lead's first name (privacy-respecting, just first name) — feels personal in the inbox.
 - Body uses h5 size for the lead's name, body for details.
 - One button, signal-500, sentence case.
-- The closing line is set apart with extra space above (32px) and in slate-500 weight 400 â€” a quiet acknowledgment.
+- The closing line is set apart with extra space above (32px) and in slate-500 weight 400 — a quiet acknowledgment.
 - No confetti animation, no "ðŸŽ‰" emoji, no balloons. The moment is special enough on its own.
 
 **Reinforcement:**
-This is a high-emotion moment for the user â€” their first lead, the proof that the thing works. The voice acknowledges the emotion ("First leads always feel different") without performing it. The design stays restrained â€” the news *is* the celebration. If we threw confetti at every first lead, we'd be ClickFunnels. We're not. We're the friend who says "Congrats on shipping" and means it.
+This is a high-emotion moment for the user — their first lead, the proof that the thing works. The voice acknowledges the emotion ("First leads always feel different") without performing it. The design stays restrained — the news *is* the celebration. If we threw confetti at every first lead, we'd be ClickFunnels. We're not. We're the friend who says "Congrats on shipping" and means it.
 
 ---
 
-## Appendix â€” Quick reference card
+## Appendix — Quick reference card
 
-**Voice in one paragraph:** FunelAI talks like a senior operator who's seen the category and built the better tool. Confident without bragging. Specific without hedging. Warm without performing. We respect the user's time, intelligence, and money. We say what we mean, in the shortest sentence that still feels human.
+**Voice in one paragraph:** GoFunnelAI talks like a senior operator who's seen the category and built the better tool. Confident without bragging. Specific without hedging. Warm without performing. We respect the user's time, intelligence, and money. We say what we mean, in the shortest sentence that still feels human.
 
 **Visual in one paragraph:** Restrained, geometric, type-led. One brand color (a confident indigo-violet). Warm neutrals. Inter typography. Generous spacing. Skeleton loading, never spinners. Editorial photography, never stock SaaS. Motion that serves the work, not motion that performs.
 
@@ -1142,4 +1142,4 @@ This is a high-emotion moment for the user â€” their first lead, the proof 
 
 ---
 
-*This is v1.0. Treat the system as living â€” propose changes via the brand-design channel with the principle it improves and one example showing the before/after.*
+*This is v1.0. Treat the system as living — propose changes via the brand-design channel with the principle it improves and one example showing the before/after.*

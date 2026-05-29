@@ -2,7 +2,7 @@
   "name": "@funnel/academy",
   "version": "0.1.0",
   "private": true,
-  "description": "GoFunnelAI Academy â€” courses, certifications, capstones, college pipeline, paid programs. See docs/17-prd-pack-v2.md (Section 17) and docs/13-agency-enablement-kit.md (Section 3).",
+  "description": "GoFunnelAI Academy — courses, certifications, capstones, college pipeline, paid programs. See docs/17-prd-pack-v2.md (Section 17) and docs/13-agency-enablement-kit.md (Section 3).",
   "license": "UNLICENSED",
   "type": "module",
   "main": "./dist/index.js",

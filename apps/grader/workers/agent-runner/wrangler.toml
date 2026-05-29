@@ -3,7 +3,7 @@ main = "src/index.ts"
 compatibility_date = "2024-10-01"
 compatibility_flags = ["nodejs_compat"]
 
-# Public route â€” only used by the Next.js app for /dispatch, /preview, /pdf.
+# Public route — only used by the Next.js app for /dispatch, /preview, /pdf.
 # In production this lives at grader-agents.gofunnelai.com (Cloudflare Pages routing).
 [[routes]]
 pattern = "grader-agents.gofunnelai.com/*"
@@ -19,7 +19,7 @@ binding = "ASSETS"
 bucket_name = "funnel-grader"
 preview_bucket_name = "funnel-grader-preview"
 
-# Cloudflare Queues â€” `dispatchAuditJob` produces, the runner consumes.
+# Cloudflare Queues — `dispatchAuditJob` produces, the runner consumes.
 [[queues.producers]]
 queue = "audit-jobs"
 binding = "AUDIT_QUEUE"
@@ -40,7 +40,7 @@ id = "REPLACE_AT_DEPLOY"
 #   ANTHROPIC_API_KEY
 #   DATABASE_URL       (Neon serverless connection string)
 #   AGENT_RUNNER_SECRET (shared bearer with the Next.js app)
-#   PAGESPEED_API_KEY  (Google PageSpeed Insights â€” for the speed agent)
+#   PAGESPEED_API_KEY  (Google PageSpeed Insights — for the speed agent)
 #   R2_PUBLIC_BASE     (e.g. https://r2.gofunnelai.com)
 
 [vars]

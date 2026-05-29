@@ -1,5 +1,5 @@
 ################################################################################
-# GoFunnelAI â€” Cloudflare KV namespace manifest.
+# GoFunnelAI — Cloudflare KV namespace manifest.
 #
 # Consumed by infrastructure/cloudflare/provision.sh; for each entry the script
 # runs `wrangler kv namespace create <name>` and `wrangler kv namespace create

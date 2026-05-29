@@ -1,6 +1,6 @@
-﻿#!/usr/bin/env bash
+#!/usr/bin/env bash
 ###############################################################################
-# GoFunnelAI â€” verify required env vars + connectivity to providers.
+# GoFunnelAI — verify required env vars + connectivity to providers.
 #
 # Usage:
 #   ./scripts/env-check.sh                    # local
@@ -173,7 +173,7 @@ if [[ -n "${SENTRY_AUTH_TOKEN:-}" ]]; then
 fi
 
 if [[ "$failures" -gt 0 ]]; then
-  printf "\n\033[31m%d failure(s) â€” fix before deploying.\033[0m\n" "$failures"
+  printf "\n\033[31m%d failure(s) — fix before deploying.\033[0m\n" "$failures"
   exit 1
 fi
 

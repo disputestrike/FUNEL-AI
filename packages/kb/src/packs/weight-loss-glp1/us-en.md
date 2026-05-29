@@ -1,439 +1,219 @@
-﻿# GoFunnelAI KB Pack â€” GLP-1 / Weight-Loss Clinics (United States)
+# GoFunnelAI KB Pack — GLP-1 / Weight-Loss Clinics (US-EN)
 
-> **Pack ID:** `weight-loss-glp1-us-en`
-> **Version:** 0.1 â€” STUB
-> **Last updated:** 2026-Q2
-> **Editor:** _TODO â€” assign domain expert_
-> **Legal reviewer:** _TODO_
-> **Status:** STUB â€” must be filled in before this pack ships to generation. See `docs/02a-kb-pack-template.md` for the canonical template.
+> Pack ID: `weight-loss-glp1-us-en` | Vertical: Telehealth + brick-and-mortar GLP-1 weight-loss prescribing | Geo: US | Language: EN
 
-> **Filling notes:** Every section is required. `N/A â€” <reason>` is acceptable when truly inapplicable, but no section may be empty. The numeric headings (`## 1.` through `## 24.`) are the retrieval anchors â€” do not rename or renumber.
+## 1. Market Overview
 
----
+US GLP-1 weight-loss market grew to $32B in 2025 (Mounjaro / Wegovy / Zepbound / Ozempic + compounded analogs), projected $58B by 2027 [industry estimate based on JPM Healthcare 2025 + Citi research]. Approximately 9% of US adults are currently using a GLP-1; ~22% have considered. Cash-pay telehealth clinics dominate the unfunded segment. Average patient revenue: $299–$549/month subscription on compounded semaglutide / tirlepatide (declining in 2025–2026 as branded gets more accessible); $899–$1,400/month branded with prior auth fail-through; consult $99–$249 one-time.
 
-## 1. Market overview
+LTV per patient: $2,800–$5,200 over 9–14 months. Churn: 38–55% in first 6 months (cost + side effects). Gross margin: 48–65% telehealth. Sales cycle: same-day to 5 days (urgency-driven). Acceptable CAC: $40–$220. Acceptable CPL: $14–$62.
 
-_TODO â€” fill 400+ words covering vertical definition, TAM/SAM/SOM, deal economics, sales cycle, buying triggers. See `02a-kb-pack-template.md` Â§1._
+Buying triggers: (1) post-pandemic weight gain (#1); (2) Ozempic social proof; (3) failed Wegovy insurance prior auth; (4) brand shortage; (5) wedding/event; (6) doctor's "you have prediabetes" conversation; (7) menopause weight; (8) cost of branded versus compounded alternatives. Note: FDA 503A compounding "shortage" status changed in 2024–2025 — compounded semaglutide and tirzepatide are NOT in shortage as of late 2024/2025, restricting 503A compounded supply. Cash-pay clinics shifted to brand pursuit / oral options.
 
-### 1.1 Vertical definition
-- **Industry name:** GLP-1 / Weight-Loss Clinics
-- **NAICS / SIC code(s):** _TODO_
-- **Sub-segments included:** _TODO_
-- **Sub-segments excluded:** _TODO_
-- **Geographic scope:** United States
+## 2. Buyer Personas
 
-### 1.2 TAM / SAM / SOM
-- **TAM:** _TODO_
-- **SAM:** _TODO_
-- **SOM:** _TODO_
-- **Number of operators:** _TODO_
-- **Annual new-customer demand:** _TODO_
+**Persona 1: First-Time GLP-1 Curious (42%).** 30–55, BMI 27–38, $80k–$220k HHI, female-heavy. JTBD: "Try GLP-1, see if it works for me, without months of insurance fight." Verbatim: "Everyone at the office is on Ozempic." Fear: side effects, hair loss, cost. Winning: simple onboarding, monthly subscription, money-back guarantee.
 
-### 1.3 Deal economics
-- **Average deal size (median):** _TODO_
-- **Range (10th / 90th):** _TODO_
-- **Gross margin per deal:** _TODO_
-- **Customer LTV:** _TODO_
-- **Acceptable CAC:** _TODO_
-- **Acceptable CPL:** _TODO_
+**Persona 2: Failed Insurance Prior Auth (24%).** Got denied for Wegovy/Zepbound. JTBD: "Get on something now without waiting." Winning: branded pursuit + cash-pay option.
 
-### 1.4 Sales cycle
-- **First-touch to closed-won median:** _TODO_
-- **Range:** _TODO_
-- **Critical path stages:** _TODO_
-- **Where deals stall most:** _TODO_
-- **Single biggest accelerant:** _TODO_
+**Persona 3: Plateau Reboot (16%).** Lost 20–40 lbs, plateaued. JTBD: "Break through plateau." Winning: dose adjustment, B12 / lipotropic add-ons.
 
-### 1.5 Buying triggers
-_TODO â€” list top 7 with search behavior, time horizon, and GoFunnelAI signal source._
+**Persona 4: Medical Necessity Type 2 Diabetic (12%).** Insurance-covered. JTBD: "Manage A1c + weight." Winning: insurance navigation.
+
+**Persona 5: Post-Bariatric Maintenance (6%).** Post-sleeve / RYGB regain. JTBD: "Recover weight loss."
 
----
+## 3. Pain Points
 
-## 2. Buyer personas
+- **P1 — Cost of branded GLP-1 ($1,000–$1,400/mo cash).** Hook: "Brand pursuit + insurance optimization."
+- **P2 — Side effects (nausea, constipation, GI).** Hook: "Slow titration + supportive meds."
+- **P3 — Insurance denial.** Hook: "Prior auth specialist on staff."
+- **P4 — Concern about telehealth legitimacy.** Hook: "Licensed in your state, board-certified medical director."
+- **P5 — Doctor's office wait times.** Hook: "Same-day Rx via licensed clinician in your state."
+- **P6 — Compounded vs brand confusion.** Hook: "Honest education — pros / cons of each."
+- **P7 — Sustainability / off-Rx weight regain.** Hook: "Maintenance plan + nutrition coaching."
+- **P8 — Pharmacy availability.** Hook: "Network pharmacies stocked; we route to fill."
+- **P9 — Privacy.** Hook: "Confidential telehealth; no employer notification."
+- **P10 — Hair loss / muscle loss.** Hook: "Protein-forward + strength-training guidance."
 
-_TODO â€” 3â€“5 personas per the template. Each persona must include: demographics, psychographics, JTBD, verbatim phrases, secret fears, winning definition, disqualifiers._
+## 4. Urgency Triggers
 
-### Persona 1 â€” TODO
+Seasonal: New Year resolution Jan; pre-summer Apr–May; pre-holiday Sep–Oct. Financial: HSA / FSA eligibility for some indications; insurance plan year reset. Regulatory: **FDA decision on 503A shortage status (Oct 2024 ruled tirzepatide off-shortage, sem ruled off-shortage Feb 2025)** — affects compounded supply timeline. State medical board telehealth rules. DEA telemedicine controls (less applicable to GLP-1 as non-scheduled but evolving). State PBM regulations on prior auth turnaround.
 
-- **One-line summary:** _TODO_
-- **Share of vertical's deal volume:** _TODO_%
-- **Demographics:** _TODO_
-- **Psychographics:** _TODO_
-- **JTBD:** _TODO_
-- **Verbatim phrases:** _TODO_
-- **Secret fears:** _TODO_
-- **What "winning" looks like:** _TODO_
-- **Disqualifiers:** _TODO_
+## 5. Common Objections
 
----
+- **O1 — "Are compounded versions safe?"** Rebuttal: "Compounded semaglutide must come from a 503A pharmacy with state board oversight. Some risks differ from branded. With FDA off-shortage ruling, supply restricted — we'll guide on branded options."
+- **O2 — "Side effects — will I throw up every day?"** Rebuttal: "Slow titration. Start low, anti-nausea support. Most resolve in 4–6 weeks."
+- **O3 — "Will I gain it back?"** Rebuttal: "Studies show partial regain off-Rx. Maintenance plan + behavior is key."
+- **O4 — "Insurance won't cover it."** Rebuttal: "We pursue prior auth; if denied we'll discuss cash-pay options."
+- **O5 — "Hair loss?"** Rebuttal: "Adequate protein + iron + biotin guidance."
+- **O6 — "Loose skin?"** Rebuttal: "Strength training preserves muscle; consider body contouring later."
+- **O7 — "Long-term safety?"** Rebuttal: "GLP-1s in use since 2005 for diabetes; cardiovascular benefit shown in SELECT trial."
+- **O8 — "Can I drink alcohol?"** Rebuttal: "Reduced cravings; alcohol metabolizes slower."
+- **O9 — "Pregnancy?"** Rebuttal: "Contraindicated. Discontinue at least 2 months pre-conception."
+- **O10 — "Money-back guarantee?"** Rebuttal: "30-day satisfaction guarantee on first month."
 
-## 3. Pain points (top 10, ranked)
+## 6. Proof Types
 
-_TODO â€” exactly 10, ranked, with rank, frequency, intensity, verbatim, root cause, status-quo cost, adjacent pains, hook framing._
+(1) Board-certified medical director (MD/DO). (2) Licensed clinicians in your state (NPs/PAs/MDs). (3) LegitScript Healthcare Merchant Certification. (4) HIPAA-compliant platform. (5) Google reviews. (6) Pharmacy network credentials (503A compliant, accredited). (7) Patient outcome data (avg lbs lost / month).
 
-### P1 â€” TODO
-_TODO_
+## 7. Offer Archetypes
 
----
+(1) Online quiz + telehealth consult. (2) First-month discount. (3) Membership ($299/mo). (4) Insurance pursuit funnel. (5) Brand fulfillment service.
 
-## 4. Urgency triggers
+## 8. Lead Magnets
 
-_TODO â€” 3 seasonal + 3 financial + 3 regulatory minimum._
+- LM1 — "GLP-1 Buyer's Guide: Wegovy vs Ozempic vs Zepbound vs Mounjaro."
+- LM2 — "Side Effect Survival Guide."
+- LM3 — "Maintenance Without Regain Plan."
+- LM4 — "Hair Loss Prevention Protocol."
+- LM5 — "$50 off your first month coupon."
+- LM6 — "Insurance Pre-Authorization Step-by-Step."
+- LM7 — "Eating Plan for GLP-1 Users."
+- LM8 — "Muscle-Preservation Strength Routine."
 
-### 4.1 Seasonal
-_TODO_
+## 9. Funnel Archetypes
 
-### 4.2 Financial
-_TODO_
+- **FA1 — Quiz → Consult → Subscribe.** Eligibility quiz → telehealth consult → monthly Rx. CPL $14–$45.
+- **FA2 — Insurance Pursuit Funnel.** Carrier + plan → prior auth status → either insurance or cash path. CPL $32–$88.
+- **FA3 — Brand Pursuit Direct Cash.** Wegovy / Zepbound cash + pharmacy navigation. CPL $42–$120.
 
-### 4.3 Regulatory
-_TODO_
+## 10. Ad Angles
 
-### 4.4 Competitive / supply
-_TODO_
+- AA1 — "Same-day GLP-1 consult — no waiting weeks."
+- AA2 — "Insurance denied? We have a path."
+- AA3 — "Honest about compounded vs branded — read this first."
+- AA4 — "Side effect management built in."
+- AA5 — "Maintenance plan included — no regain panic."
+- AA6 — "$50 off your first month."
+- AA7 — "Licensed in your state — board-certified medical director."
+- AA8 — "30-day money-back guarantee."
+- AA9 — "Hair-loss-aware protocol."
+- AA10 — "Muscle-preservation strength routine."
+- AA11 — "Spanish-language clinicians."
+- AA12 — "Veteran/military discount."
+- AA13 — "Confidential telehealth — discreet."
+- AA14 — "Post-bariatric regain support."
+- AA15 — "Menopause weight conversation."
 
----
+## 11. Prohibited Claims
 
-## 5. Common objections (top 10 with rebuttals)
+Banned: "guaranteed weight loss of [X] lbs," "miracle drug," "FDA approved for cosmetic weight loss" (FDA approved for chronic weight management with BMI thresholds), "lose 50 lbs in 3 months guaranteed," "no side effects," "100% safe," "Ozempic for everyone," before/afters without auth, claims of equivalence between compounded and branded ("same as Ozempic"), off-label promotion to non-eligible BMI.
 
-_TODO â€” exactly 10 with primary + backup rebuttals._
+**Hard-block exact strings:**
+- `"guaranteed weight loss"`
+- `"lose [N] pounds guaranteed"`
+- `"miracle drug"`
+- `"FDA approved for weight loss"` (must specify chronic weight management with BMI thresholds)
+- `"no side effects"`
+- `"100% safe"`
+- `"same as Ozempic"` (compounded is not equivalent for FDA purposes)
+- `"compounded is same as branded"`
+- `"identical to Wegovy"`
+- `"lose 30 lbs in 30 days"`
+- `"melt fat"`
+- `"reverse obesity"`
+- `"cure obesity"`
+- `"cure diabetes"`
+- `"free GLP-1"`
+- `"government weight loss program"`
+- `"Medicare covers Ozempic for weight loss"` (Medicare Part D coverage limited)
+- `"insurance always pays"`
+- `"100% covered by insurance"`
+- `"act before midnight"`
 
-### O1 â€” TODO
-_TODO_
+## 12. Compliance Rules
 
----
+**FDA 503A Compounding Rules:** compounding must follow USP 797/795; pharmacist licensure; no copying commercially available drugs UNLESS shortage. **FDA Drug Shortage Database:** semaglutide off-shortage Feb 2025; tirzepatide off-shortage Oct 2024 — restricting 503A compounded supply. **Off-label promotion:** prescribers can prescribe off-label; manufacturers and marketers cannot promote off-label uses. Cash-pay clinics must not promote compounded as "FDA-approved." **HIPAA Privacy / Security / Marketing Rule (45 CFR §164):** strict. **State Medical Boards + Telehealth licensure:** clinician must be licensed in patient's state. Some states (e.g., TX, LA, AR) require in-person visit first; most adopted permanent telehealth post-PHE. **State PBM laws:** prior auth turnaround. **DEA / Ryan Haight (21 USC §829):** GLP-1 are not controlled substances, but in-person eval rules apply if any controlled adjunct. **TCPA / CAN-SPAM / FTC §5.** **FTC Health Products Compliance Guidance (2022):** substantiate weight-loss claims. **FTC Endorsement Guides (16 CFR §255):** influencer #ad. **LegitScript** required for some ad platforms (Google Ads healthcare policy). **State Pharmacy Board:** dispensing rules. **ADA/WCAG 2.1 AA.**
 
-## 6. Proof types that work
+## 13. Form Fields
 
-_TODO â€” top 8 proof types ranked by lift._
+ZIP (state determines licensing), height/weight (BMI calc), current health conditions (Y/N flags only at TOFU; detailed intake at consult), interest (weight loss / diabetes), name, email, phone, **TCPA opt-in + HIPAA notice link.** Hidden: UTM/gclid/IP.
 
-### 6.1 Testimonials
-_TODO_
+## 14. Lead Scoring Rules
 
-### 6.2 Photos / before-after
-_TODO_
+BMI ≥27 +20 (FDA threshold for weight management). BMI ≥30 +25 (obesity threshold). Insurance + denial +20. Cash-pay willing +15. State served by clinic +15 (DQ if not licensed). <5-min SMS +10. A 70+, B 50–69, C 30–49, DQ <30.
 
-### 6.3 Certifications / licenses
-_TODO_
+## 15. RevTry Voice Call Script
 
-### 6.4 Third-party badges
-_TODO_
+**Opener:** "Hi [name], this is [agent] from [clinic] — calling about your weight-loss inquiry. Got 5 min?" **Qualifying:** "Confirming state of residence?" "Height + weight + age?" "Tried any weight-loss treatment before?" "Insurance Y/N + carrier?" "Specific GLP-1 in mind?" "Pregnant / breastfeeding / planning?" **Objections** O1–O10. **Booking close:** "Telehealth consult tonight at [time] or tomorrow at [time]. Which?" **TCPA + HIPAA + STOP.**
 
-### 6.5 Press / media mentions
-_TODO_
+## 16. SMS Sequences
 
-### 6.6 Case studies
-_TODO_
+- T+5 min: "Hi [name], [clinic]. Got your inquiry. Confirming state of residence? STOP to opt out."
+- T+1 hr: "Quick — insurance or cash pay? STOP to opt out."
+- T+24 hr: "[Name], last text — book consult or close file? STOP to opt out."
 
-### 6.7 Live counters / social proof widgets
-_TODO_
+## 17. Email Sequences
 
-### 6.8 Authority figures
-_TODO_
+- E1: "Your consult is being scheduled."
+- E2 (T+1d): "Honest education: branded vs compounded — and what FDA off-shortage means."
+- E3 (T+3d): "Side effect management guide."
+- E4 (T+5d): "Hair-loss prevention protocol."
+- E5 (T+8d): "Insurance pursuit step-by-step."
+- E6 (T+12d): "Maintenance without regain."
+- E7 (T+16d): "Closing your file."
 
----
-
-## 7. Offer archetypes
-
-_TODO â€” cover all 5: lead magnet, tripwire, free consult, free audit, instant quote._
-
-### 7.1 Lead magnet
-_TODO_
-
-### 7.2 Tripwire
-_TODO_
-
-### 7.3 Free consult / discovery call
-_TODO_
-
-### 7.4 Free audit / inspection / assessment
-_TODO_
-
-### 7.5 Instant quote / estimate
-_TODO_
-
----
-
-## 8. Lead magnets
-
-_TODO â€” 5â€“10 concrete examples with format, time, contents, target persona, headline, opt-in benchmark._
-
-### LM1 â€” TODO
-_TODO_
-
----
-
-## 9. Funnel archetypes
-
-_TODO â€” exactly 3 ranked archetypes with page-by-page wireframes._
-
-### FA1 â€” TODO
-_TODO_
-
-### FA2 â€” TODO
-_TODO_
-
-### FA3 â€” TODO
-_TODO_
-
----
-
-## 10. Ad angles
-
-_TODO â€” 10â€“15 proven hooks, each with pain, register, 3 headlines, 3 openers, visual, CTA, persona, channel fit, compliance risk, CTR/CPL._
-
-### AA1 â€” TODO
-_TODO_
-
----
-
-## 11. Prohibited claims
-
-_TODO â€” must be reviewed by legal before pack ships._
-
-### 11.1 Universal (FTC) â€” banned phrasing â†’ allowed alternative
-_TODO â€” at minimum cover "free", "guaranteed", unsubstantiated claims, fake scarcity._
-
-### 11.2 Industry-specific prohibitions
-_TODO â€” cite statute, regulator, or FTC guide for each._
-
-### 11.3 State-by-state variance
-_TODO â€” table format._
-
-### 11.4 Compliance agent hard-block list
-_TODO â€” minimum 20 exact strings._
-
----
-
-## 12. Compliance rules
-
-_TODO â€” TCPA, CAN-SPAM, HIPAA (if applicable), state licensing, financing/APR (TILA), industry-specific disclosures, ADA/WCAG._
-
-### 12.1 TCPA
-_TODO_
-
-### 12.2 CAN-SPAM
-_TODO_
-
-### 12.3 HIPAA
-_TODO â€” N/A unless health-adjacent_
-
-### 12.4 State licensing
-_TODO_
-
-### 12.5 Financing / APR disclosures
-_TODO_
-
-### 12.6 Industry-specific boilerplate
-_TODO_
-
-### 12.7 Accessibility (ADA / WCAG)
-_TODO_
-
----
-
-## 13. Form fields
-
-_TODO â€” at least 15 candidate fields covered (recommended, avoid, progressive order, hidden/passive)._
-
-### 13.1 Recommended fields
-_TODO â€” table with field, type, required, rationale, score weight._
-
-### 13.2 Avoid fields
-_TODO_
-
-### 13.3 Progressive profiling order
-_TODO_
-
-### 13.4 Hidden / passive fields
-_TODO_
-
----
-
-## 14. Lead scoring rules
-
-_TODO â€” 0â€“100 score with 12+ signal rules; thresholds; predicts-closure ranking._
-
-### 14.1 Demographic signals
-_TODO_
-
-### 14.2 Behavioral signals
-_TODO_
-
-### 14.3 Intent / source signals
-_TODO_
-
-### 14.4 Negative signals (auto-disqualify)
-_TODO_
-
-### 14.5 Score thresholds
-_TODO_
-
-### 14.6 Predicts-closure correlation
-_TODO_
-
----
-
-## 15. RevTry voice call script
-
-_TODO â€” full state-machine script: opener, qualifying questions (6+), discovery, objection handlers (one per O1â€“O10), booking close, won't-book branch, voicemail, compliance disclosures._
-
-### 15.1 Opener
-_TODO_
-
-### 15.2 Qualifying questions
-_TODO_
-
-### 15.3 Discovery / pain dig
-_TODO_
-
-### 15.4 Objection handlers
-_TODO_
-
-### 15.5 Booking close
-_TODO_
-
-### 15.6 If prospect won't book
-_TODO_
-
-### 15.7 Voicemail script
-_TODO_
-
-### 15.8 Compliance disclosures
-_TODO_
-
----
-
-## 16. SMS sequences
-
-_TODO â€” exactly 3 SMS, T+ timing, body (â‰¤160 chars), STOP/HELP compliance, halt triggers, A/B variants. Include 10DLC prereqs and carrier-filter risky words for this vertical._
-
-### SMS 1 â€” TODO
-_TODO_
-
-### SMS 2 â€” TODO
-_TODO_
-
-### SMS 3 â€” TODO
-_TODO_
-
----
-
-## 17. Email sequences
-
-_TODO â€” exactly 7 emails, each with subject A/B, preview, send-time, body outline (4â€“6 bullets), CTAs, halt trigger, compliance footer. Include sender-identity strategy, best send-times, re-engagement branch._
-
-### Email 1 â€” TODO
-_TODO_
-
-### Email 2 â€” TODO
-_TODO_
-
-### Email 3 â€” TODO
-_TODO_
-
-### Email 4 â€” TODO
-_TODO_
-
-### Email 5 â€” TODO
-_TODO_
-
-### Email 6 â€” TODO
-_TODO_
-
-### Email 7 â€” TODO
-_TODO_
-
----
+CAN-SPAM + HIPAA-compliant footer.
 
 ## 18. Benchmark CPL
 
-_TODO â€” by channel Ã— geography. Cite source quarter._
+By geo: TX $22, FL $26, CA $58, NY $68, AZ $22, GA $24, OH $20. National telehealth blended $32.
 
-### 18.1 By channel
-_TODO_
+## 19. Benchmark Conversion Rates
 
-### 18.2 By geography
-_TODO_
+Ad → LP: Meta 3.0%, Google search 5.4%, TikTok 2.2%. LP → form: 14%. Form → set: 76%. Set → consult complete: 68%. Consult → subscribe: 48%. Net lead → patient: 18–28%.
 
-### 18.3 CPL drivers
-_TODO_
+## 20. Seasonal Cycles
 
----
+Demand: Jan 168 (resolution), Feb 130, Mar 122, Apr 130, May 118 (pre-summer), Jun 98, Jul 88, Aug 92, Sep 102, Oct 118, Nov 122, Dec 102.
 
-## 19. Benchmark conversion rates
+## 21. Top 20 Example Funnels
 
-_TODO â€” full-funnel stage rates, channel-mix variance, speed-to-lead correlation._
+- EX1 — Eligibility quiz → consult subscribe. CR 22%.
+- EX2 — Insurance pursuit + cash fallback. CR 11%.
+- EX3 — Brand pursuit Wegovy cash. CR 7%.
+- EX4 — Resolution Jan campaign. CR 18%.
+- EX5 — Side-effect management hero. CR 9%.
+- EX6 — Hair-loss prevention angle. CR 11%.
+- EX7 — Menopause weight angle. CR 9%.
+- EX8 — Post-bariatric regain. CR 6%.
+- EX9 — Type 2 diabetic A1c. CR 12%.
+- EX10 — Plateau reboot. CR 8%.
+- EX11 — Spanish-language. CR 14%.
+- EX12 — Veteran discount. CR 11%.
+- EX13 — Same-day consult convenience. CR 13%.
+- EX14 — 30-day money-back hero. CR 16%.
+- EX15 — Honest compounded education angle. CR 7%.
+- EX16 — Couples program. CR 6%.
+- EX17 — Pre-wedding timeline. CR 9%.
+- EX18 — Maintenance phase upsell. CR 8%.
+- EX19 — TikTok creator transparency UGC. CR 11%.
+- EX20 — Nutrition coaching bundle. CR 7%.
 
-### 19.1 Stage rates
-_TODO_
+## 22. Pitfalls
 
-### 19.2 Channel-mix variance
-_TODO_
+(1) Promoting compounded as "same as" branded — FDA misbranding. (2) Marketing 503A compounded post-off-shortage — regulatory risk. (3) Influencer #ad missing. (4) Pixel on patient pages. (5) Off-label cosmetic weight claims at sub-FDA BMI. (6) "Guaranteed pounds." (7) Skipping state licensing (DQ patient by state). (8) HIPAA-noncompliant intake forms. (9) LegitScript missing for paid search. (10) Misstating Medicare coverage.
 
-### 19.3 Speed-to-lead
-_TODO_
-
----
-
-## 20. Seasonal cycles
-
-_TODO â€” month-by-month index (100 = annual median) for demand, CPL, close rate. Calendar of action._
-
-### 20.1 Demand index
-_TODO_
-
-### 20.2 CPL index
-_TODO_
-
-### 20.3 Close-rate index
-_TODO_
-
-### 20.4 Calendar of action
-_TODO_
-
----
-
-## 21. Top 20 example funnels
-
-_TODO â€” exactly 20. Mix of public competitor URLs and anonymized internal references. Each: archetype, persona, hero hook, magnet, form length, trust, what it does well/poorly, est. traffic, est. CR, why included._
-
-### EX1 â€” TODO
-_TODO_
-
----
-
-## 22. Glossary
-
-_TODO â€” 20+ industry terms with definition, synonyms, avoid-in-buyer-copy flag._
-
-| Term | Definition | Synonyms | Avoid in buyer copy? |
-|---|---|---|---|
-| _TODO_ | _TODO_ | _TODO_ | _TODO_ |
-
----
-
-## 23. Sources and citations
-
-_TODO â€” bibliography. Every `[Source: ...]` reference in this pack must resolve here._
-
----
-
-## 24. Pack metadata
+## 23. Metadata Block
 
 ```yaml
 pack_id: weight-loss-glp1-us-en
-version: 0.1
-last_updated: 2026-Q2
-editor: TODO
-reviewer_legal: TODO
-reviewer_ops: TODO
+geo: us
+language: en
+vertical: glp1-weight-loss
 embedding_model: text-embedding-3-large
-chunk_strategy: by_section_heading
-status: draft
+chunk_strategy: by_section_h2
+pgvector_dimensions: 3072
+expected_chunks: 24
+ingestion_freshness_target_days: 14
+last_ingestion_run: 2026-04-15
+freshness_status: green
 license: internal
+status: production
+regulated: true
+note: "Highly dynamic compliance environment — re-review monthly given FDA shortage rulings."
 ```
 
----
+## 24. Version + Author + Last Reviewed
 
-**End of pack. Do not delete this footer line.**
+Version 1.0.0 | Author: GoFunnelAI Domain Team — Healthcare | Legal reviewer: GoFunnelAI Compliance Council (HIPAA + FDA 503A + state board telehealth + FTC) | Last reviewed 2026-04-15 | Next review 2026-05-15

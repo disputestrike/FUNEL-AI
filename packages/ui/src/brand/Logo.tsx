@@ -2,7 +2,7 @@
  * GoFunnelAI Logo component
  *
  * Renders the official logo. Auto-picks light vs dark variant based on theme.
- * Source files live in ./logos/ â€” see logos/README.md for the required filenames.
+ * Source files live in ./logos/ — see logos/README.md for the required filenames.
  *
  * Usage:
  *   <Logo />                           // default: horizontal, theme-aware

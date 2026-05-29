@@ -2,7 +2,7 @@
   "name": "@funnel/shopify-app",
   "version": "0.1.0",
   "private": true,
-  "description": "GoFunnelAI Shopify app â€” capture funnel leads inside the Shopify admin, embed funnels on storefront pages via theme app extension, sync orders back to GoFunnelAI CRM, and auto-issue discount codes on funnel completion.",
+  "description": "GoFunnelAI Shopify app — capture funnel leads inside the Shopify admin, embed funnels on storefront pages via theme app extension, sync orders back to GoFunnelAI CRM, and auto-issue discount codes on funnel completion.",
   "scripts": {
     "build": "remix vite:build",
     "dev": "shopify app dev",

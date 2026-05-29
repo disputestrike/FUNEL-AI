@@ -1,5 +1,5 @@
 ###############################################################################
-# GoFunnelAI â€” Alertmanager configuration (Grafana Cloud-hosted).
+# GoFunnelAI — Alertmanager configuration (Grafana Cloud-hosted).
 #
 # Implements the paging matrix from 08-engineering-ops-spec.md Â§C.5:
 #   - Critical: PagerDuty page + #ops-alerts Slack.
@@ -28,7 +28,7 @@ route:
   group_interval: 5m
   repeat_interval: 4h
   routes:
-    # Hard pages â€” page on-call + Slack.
+    # Hard pages — page on-call + Slack.
     - matchers:
         - severity = critical
       receiver: page-default
@@ -44,11 +44,11 @@ route:
         - matchers: [team = platform]
           receiver: page-platform
 
-    # Warnings â€” Slack only.
+    # Warnings — Slack only.
     - matchers: [severity = warning]
       receiver: slack-ops
 
-    # Info â€” daily digest at 09:00 UTC.
+    # Info — daily digest at 09:00 UTC.
     - matchers: [severity = info]
       receiver: digest-email
       group_wait: 8h
@@ -56,7 +56,7 @@ route:
       repeat_interval: 24h
 
 # -----------------------------------------------------------------------------
-# Inhibitions â€” suppress duplicate / cascading pages.
+# Inhibitions — suppress duplicate / cascading pages.
 # -----------------------------------------------------------------------------
 inhibit_rules:
   # If the renderer is down at the edge, the lead-capture alerts are
@@ -98,7 +98,7 @@ receivers:
     slack_configs:
       - channel: "#ops-alerts"
         send_resolved: true
-        title: "PAGE â€” {{ template \"funnel.title\" . }}"
+        title: "PAGE — {{ template \"funnel.title\" . }}"
         text: "{{ template \"funnel.body\" . }}"
 
   - name: page-billing

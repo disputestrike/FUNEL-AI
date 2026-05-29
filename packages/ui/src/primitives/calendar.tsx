@@ -9,7 +9,7 @@ import { buttonVariants } from "./button";
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
 /**
- * Calendar â€” react-day-picker themed for GoFunnelAI brand tokens.
+ * Calendar — react-day-picker themed for GoFunnelAI brand tokens.
  */
 export function Calendar({ className, classNames, showOutsideDays = true, ...props }: CalendarProps): JSX.Element {
   return (

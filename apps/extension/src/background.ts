@@ -10,7 +10,7 @@
  *      via @funnel/sdk so the speed-to-lead pipeline picks them up.
  *
  * Notes:
- *   - Service worker may be torn down at any moment â€” all state lives in
+ *   - Service worker may be torn down at any moment — all state lives in
  *     chrome.storage via @plasmohq/storage and the auth module.
  *   - No SendGrid/Twilio anywhere; lead routing is purely @funnel/sdk.
  */
@@ -77,7 +77,7 @@ async function runAudit(tabId: number, url: string) {
 async function saveFunnel(tabId: number, url: string) {
   const sdk = client()
   // Pull the page DOM via scripting so we don't depend on a content script
-  // being injected â€” context menu can fire on edge-case pages where the
+  // being injected — context menu can fire on edge-case pages where the
   // content-script match patterns don't apply (e.g. file:// or extensions).
   const [{ result: html } = { result: "" }] = await chrome.scripting.executeScript({
     target: { tabId },
@@ -103,7 +103,7 @@ async function importFunnel(tabId: number, url: string) {
     url,
     html: html ?? "",
   })
-  notify("Imported", `Created funnel â€œ${imported.name}â€ from ${detection.platform}`)
+  notify("Imported", `Created funnel “${imported.name}” from ${detection.platform}`)
 }
 
 // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -120,7 +120,7 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
     return true // keep channel open for async response
   }
   if (msg?.type === "competitor-detected") {
-    chrome.action.setBadgeText({ text: "â€¢", tabId: msg.tabId })
+    chrome.action.setBadgeText({ text: "•", tabId: msg.tabId })
     chrome.action.setBadgeBackgroundColor({ color: "#7c3aed", tabId: msg.tabId })
     return false
   }

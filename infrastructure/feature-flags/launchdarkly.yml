@@ -1,5 +1,5 @@
 ###############################################################################
-# GoFunnelAI â€” LaunchDarkly flag definitions (managed via the LD Terraform
+# GoFunnelAI — LaunchDarkly flag definitions (managed via the LD Terraform
 # provider + this YAML manifest). Synced by tooling/launchdarkly-sync.
 #
 # All flags use the OpenFeature spec: variation values are typed and the
@@ -11,7 +11,7 @@ environments: [production, staging, preview]
 default_tags: [funnel, managed-by-launchdarkly-yml]
 
 # ---------------------------------------------------------------------------
-# Agent flags â€” one per planned change to each agent.
+# Agent flags — one per planned change to each agent.
 # ---------------------------------------------------------------------------
 flags:
   - key: release.agents.planner-v2
@@ -78,7 +78,7 @@ flags:
     variations: [false, true]
 
   - key: killswitch.agents.all-generation
-    name: Emergency kill-switch â€” all generation
+    name: Emergency kill-switch — all generation
     description: Hard-disable all generation API endpoints. Used during incidents.
     kind: boolean
     temporary: false
@@ -108,7 +108,7 @@ flags:
       production: { default: false, percentage: 5 }
 
   - key: killswitch.billing.paypal
-    name: Kill-switch â€” PayPal subscription path
+    name: Kill-switch — PayPal subscription path
     kind: boolean
     temporary: false
     default_variation: false
@@ -116,7 +116,7 @@ flags:
     notify_on_change: [pagerduty-billing, slack-#billing-alerts]
 
   - key: killswitch.billing.stripe
-    name: Kill-switch â€” Stripe payment path
+    name: Kill-switch — Stripe payment path
     kind: boolean
     temporary: false
     default_variation: false
@@ -219,7 +219,7 @@ flags:
         rollout: { percentage: 100, weights: { control: 50, three_step: 25, five_step: 25 } }
 
   - key: experiment.grader.report-style
-    name: Grader report style â€” pdf-only vs interactive
+    name: Grader report style — pdf-only vs interactive
     kind: string
     temporary: true
     default_variation: control

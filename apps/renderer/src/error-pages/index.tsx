@@ -32,7 +32,7 @@ function ErrorBase(props: ErrorBaseProps): React.ReactElement {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="robots" content="noindex,follow" />
-        <title>{`${props.code} â€” ${props.title}`}</title>
+        <title>{`${props.code} — ${props.title}`}</title>
         <style>{globalStyles}</style>
       </head>
       <body>

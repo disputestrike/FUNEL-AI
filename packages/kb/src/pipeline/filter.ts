@@ -1,7 +1,7 @@
 /**
  * LLM-as-judge filter.
  *
- * Every raw ingested item is gated by Haiku 4.5 (chosen for speed + cost â€”
+ * Every raw ingested item is gated by Haiku 4.5 (chosen for speed + cost —
  * we filter thousands of items per night). The judge returns:
  *
  *   {
@@ -16,7 +16,7 @@
  * queue. Items with `keep=false` are dropped but the verdict is event-logged
  * for later eval / model improvement.
  *
- * The prompt is intentionally strict â€” better to under-keep than to pollute
+ * The prompt is intentionally strict — better to under-keep than to pollute
  * the KB. The domain-expert review step is the final approval, not the LLM.
  */
 import type { Anthropic } from "@anthropic-ai/sdk";
@@ -54,7 +54,7 @@ DROP IF:
 - Generic marketing fluff, listicles, SEO content with no substance
 - Off-topic for the vertical
 - Defamatory, NSFW, or politically inflammatory in a way that taints the KB
-- Personally identifiable information (names + addresses) â€” these must not enter the KB
+- Personally identifiable information (names + addresses) — these must not enter the KB
 - Anything that promotes a specific competitor product line (we want angles, not endorsements)
 
 Return STRICT JSON with no commentary, matching this schema:
@@ -67,10 +67,10 @@ Return STRICT JSON with no commentary, matching this schema:
 }
 
 Quality scale:
-  0.0â€“0.3 â€” low, drop or candidate-only
-  0.3â€“0.6 â€” workable
-  0.6â€“0.9 â€” strong
-  0.9â€“1.0 â€” gold (verbatim buyer phrase, sourced benchmark, regulatory citation)`;
+  0.0–0.3 — low, drop or candidate-only
+  0.3–0.6 — workable
+  0.6–0.9 — strong
+  0.9–1.0 — gold (verbatim buyer phrase, sourced benchmark, regulatory citation)`;
 
 function buildUserPrompt(item: RawIngestedItem): string {
   return [

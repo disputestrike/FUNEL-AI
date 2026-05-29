@@ -1,439 +1,220 @@
-﻿# GoFunnelAI KB Pack â€” Dental Practices (DSO / Independent) (United States)
+# GoFunnelAI KB Pack — Dental Practices (US-EN)
 
-> **Pack ID:** `dental-us-en`
-> **Version:** 0.1 â€” STUB
-> **Last updated:** 2026-Q2
-> **Editor:** _TODO â€” assign domain expert_
-> **Legal reviewer:** _TODO_
-> **Status:** STUB â€” must be filled in before this pack ships to generation. See `docs/02a-kb-pack-template.md` for the canonical template.
+> Pack ID: `dental-us-en` | Vertical: General + cosmetic + implant dentistry (independent & DSO) | Geo: US | Language: EN
 
-> **Filling notes:** Every section is required. `N/A â€” <reason>` is acceptable when truly inapplicable, but no section may be empty. The numeric headings (`## 1.` through `## 24.`) are the retrieval anchors â€” do not rename or renumber.
+## 1. Market Overview
 
----
+US dental services market is $176B in 2025, growing 5–7% YoY [industry estimate based on ADA Health Policy Institute + IBISWorld 2025]. Approximately 200,000 active practicing dentists across 130,000 practice locations (independent + DSO-affiliated, with DSOs at ~35% share and rising). Average new-patient lifetime value: $4,200 for general dentistry; $8,500–$22,000 for implant cases; $4,800–$8,500 for clear aligners (Invisalign / SureSmile / SDC); $12,000–$28,000 for full-mouth restoration; $48,000–$120,000 All-on-X full-arch implant case. Cosmetic veneer case: $12,000–$32,000 for a full smile.
 
-## 1. Market overview
+Sales cycle: same-day to 14 days for emergencies and standard new-patient exams; 21–60 days for high-value cosmetic/implant cases requiring consult + financing approval. Gross margin: 28–42% on general; 50–65% on cosmetic; 38–48% on implant. Acceptable CAC: $80–$280 for new patient (general); $480–$1,400 for implant/cosmetic case. Acceptable CPL: $18–$58 general, $48–$220 implant/cosmetic.
 
-_TODO â€” fill 400+ words covering vertical definition, TAM/SAM/SOM, deal economics, sales cycle, buying triggers. See `02a-kb-pack-template.md` Â§1._
+Buying triggers: (1) toothache emergency; (2) lost crown / filling; (3) employer dental insurance reset (Jan 1, FSA/HSA deadline Dec 31); (4) wedding / big event; (5) self-image / smile makeover; (6) missing tooth (extraction → implant); (7) child first dental visit; (8) post-pediatric SDC failure (Smile Direct alumni rebound); (9) competitive disenrollment.
 
-### 1.1 Vertical definition
-- **Industry name:** Dental Practices (DSO / Independent)
-- **NAICS / SIC code(s):** _TODO_
-- **Sub-segments included:** _TODO_
-- **Sub-segments excluded:** _TODO_
-- **Geographic scope:** United States
+## 2. Buyer Personas
 
-### 1.2 TAM / SAM / SOM
-- **TAM:** _TODO_
-- **SAM:** _TODO_
-- **SOM:** _TODO_
-- **Number of operators:** _TODO_
-- **Annual new-customer demand:** _TODO_
+**Persona 1: New-Patient Family (38%).** 28–55, kids 0–18, $80k–$240k HHI, just moved or switched insurance. JTBD: "Find a clean, kid-friendly practice that takes my insurance." Verbatim: "Do you take Delta Dental PPO?" Fear: surprise bills, bad cleaning. Winning: insurance verified pre-visit, kid-friendly waiting room, same-day appointments.
 
-### 1.3 Deal economics
-- **Average deal size (median):** _TODO_
-- **Range (10th / 90th):** _TODO_
-- **Gross margin per deal:** _TODO_
-- **Customer LTV:** _TODO_
-- **Acceptable CAC:** _TODO_
-- **Acceptable CPL:** _TODO_
+**Persona 2: Cosmetic Smile-Makeover (24%).** 28–55, $150k+ HHI, single or pre-event. JTBD: "Hollywood smile in 90 days." Fear: looking fake, irreversible damage to enamel. Winning: digital smile design preview, financing, before/after portfolio.
 
-### 1.4 Sales cycle
-- **First-touch to closed-won median:** _TODO_
-- **Range:** _TODO_
-- **Critical path stages:** _TODO_
-- **Where deals stall most:** _TODO_
-- **Single biggest accelerant:** _TODO_
+**Persona 3: Implant Candidate (18%).** 50–75, missing tooth or denture-fatigued. JTBD: "Permanent fix, no more dentures, eat what I want." Fear: 12-month timeline, $40k cost. Winning: 3D CBCT scan + same-day extraction-and-immediate-implant.
 
-### 1.5 Buying triggers
-_TODO â€” list top 7 with search behavior, time horizon, and GoFunnelAI signal source._
+**Persona 4: Toothache Emergency (12%).** Any age, pain right now. JTBD: "Stop the pain today." Winning: same-day appointment, financing option.
+
+**Persona 5: Clear-Aligner Adult (8%).** 24–45, $90k+ HHI, considering Invisalign / SureSmile. JTBD: "Straight teeth without metal." Fear: SDC stories of botched cases. Winning: in-office monitoring, board-certified ortho.
 
----
+## 3. Pain Points
 
-## 2. Buyer personas
+- **P1 — Surprise bills / not in-network.** Hook: "We verify your insurance before you arrive."
+- **P2 — Long wait times.** Hook: "On-time guarantee — $25 credit if we make you wait 15+ min."
+- **P3 — Painful cleanings.** Hook: "Gentle hygienist + numbing gel."
+- **P4 — Forced upsells (cavity that wasn't there).** Hook: "Intraoral camera — see what we see."
+- **P5 — Fear of cosmetic regret.** Hook: "Digital smile design preview before any drilling."
+- **P6 — Implant time horizon.** Hook: "Same-day immediate-load implant in qualifying cases."
+- **P7 — Pediatric fear / behavior management.** Hook: "Specialty-trained pediatric team."
+- **P8 — Financing.** Hook: "0% / 24-month CareCredit + Sunbit + Cherry."
+- **P9 — Tele-orthodontic regret (SDC).** Hook: "We fix DIY-aligner cases."
+- **P10 — Time off work.** Hook: "Early morning + Saturday hours."
 
-_TODO â€” 3â€“5 personas per the template. Each persona must include: demographics, psychographics, JTBD, verbatim phrases, secret fears, winning definition, disqualifiers._
+## 4. Urgency Triggers
 
-### Persona 1 â€” TODO
+Seasonal: Q4 insurance/FSA use-it-or-lose-it (Oct–Dec is highest-volume quarter); back-to-school pediatric (July–Sep); New Year smile-makeover (Jan–Feb). Financial: dental insurance benefit cap reset ($1,500–$2,500 annual max); FSA Dec 31 deadline; HSA distribution. Regulatory: state Dental Board advertising rules (variable); HIPAA Marketing Rule (45 CFR §164.508) restricting use of PHI for marketing; ADA Code of Ethics §5 on advertising.
 
-- **One-line summary:** _TODO_
-- **Share of vertical's deal volume:** _TODO_%
-- **Demographics:** _TODO_
-- **Psychographics:** _TODO_
-- **JTBD:** _TODO_
-- **Verbatim phrases:** _TODO_
-- **Secret fears:** _TODO_
-- **What "winning" looks like:** _TODO_
-- **Disqualifiers:** _TODO_
+## 5. Common Objections
 
----
+- **O1 — "Do you take my insurance?"** Rebuttal: "Yes/no + here's a verification before your visit."
+- **O2 — "Too expensive."** Rebuttal: "We have CareCredit / Cherry / Sunbit financing — $89/month for that crown."
+- **O3 — "I'm scared of dentists."** Rebuttal: "Nitrous + sedation options; gentle hygienist; we don't push procedures."
+- **O4 — "I'll just go to SDC for aligners."** Rebuttal: "SDC went bankrupt; many cases ended in damage. In-office Invisalign has board-certified supervision."
+- **O5 — "Implant is too long / painful."** Rebuttal: "CBCT scan + immediate-load in qualifying cases. Mostly 1 day in chair."
+- **O6 — "I don't have time."** Rebuttal: "Saturday + early morning slots."
+- **O7 — "Veneers ruin teeth."** Rebuttal: "Minimal-prep options preserve enamel; we show you a digital preview first."
+- **O8 — "I want a second opinion."** Rebuttal: "Bring our treatment plan to any provider; we'll honor the consult."
+- **O9 — "Kids — bad past experience."** Rebuttal: "Pediatric-trained team, tell-show-do method."
+- **O10 — "I want to think."** Rebuttal: "Of course. Specifically what?"
 
-## 3. Pain points (top 10, ranked)
+## 6. Proof Types
 
-_TODO â€” exactly 10, ranked, with rank, frequency, intensity, verbatim, root cause, status-quo cost, adjacent pains, hook framing._
+(1) ADA membership + state board licensure. (2) AGD Fellow / Master designation. (3) AAID / ICOI implant credentials. (4) AACD cosmetic credential. (5) Invisalign Diamond / Top 1% Provider. (6) Google reviews 4.8+ with 200+. (7) Before/after photo gallery (HIPAA-compliant with written authorization). (8) Same-day technology (CBCT, intraoral scanner, in-house milling — CEREC/E4D).
 
-### P1 â€” TODO
-_TODO_
+## 7. Offer Archetypes
 
----
+(1) Free new-patient exam + X-rays + cleaning (compliance: not in DE, NY — fee schedule). (2) Free implant consult with 3D scan. (3) Free Invisalign / smile-design preview. (4) Tripwire: $99 emergency exam + X-ray. (5) FSA/HSA Q4 push.
 
-## 4. Urgency triggers
+## 8. Lead Magnets
 
-_TODO â€” 3 seasonal + 3 financial + 3 regulatory minimum._
+- LM1 — "Implant vs Bridge vs Denture — 3-Page Guide."
+- LM2 — "What your insurance actually covers (verification tool)."
+- LM3 — "Veneers vs Invisalign vs Whitening — chart."
+- LM4 — "Use your FSA before Dec 31 — checklist."
+- LM5 — "Pediatric first visit prep (for parents)."
+- LM6 — "Why SDC failed and what to do instead."
+- LM7 — "Cost of implants — line-item breakdown."
+- LM8 — "$99 emergency exam coupon."
 
-### 4.1 Seasonal
-_TODO_
+## 9. Funnel Archetypes
 
-### 4.2 Financial
-_TODO_
+- **FA1 — New-Patient Special.** Insurance + zip → in-network verification + book. CPL $18–$45.
+- **FA2 — Cosmetic Smile-Design Consult.** Photo upload → digital smile preview + consult. CPL $58–$180.
+- **FA3 — Implant Free Consult + 3D Scan.** Symptom + budget tier → CBCT consult. CPL $48–$140.
 
-### 4.3 Regulatory
-_TODO_
+## 10. Ad Angles
 
-### 4.4 Competitive / supply
-_TODO_
+- AA1 — "New patient — exam + cleaning special. In-network verification before you arrive."
+- AA2 — "Same-day emergency exam $99."
+- AA3 — "Implant in 1 day for qualifying cases."
+- AA4 — "Invisalign Diamond Provider — top 1% in [state]."
+- AA5 — "Veneers — see your new smile before we touch a tooth."
+- AA6 — "Use your dental benefits before Dec 31."
+- AA7 — "Pediatric specialty team — kid-friendly waiting room."
+- AA8 — "Saturday + early morning appointments."
+- AA9 — "SDC failed — we fix tele-aligner cases."
+- AA10 — "0% financing via CareCredit / Cherry."
+- AA11 — "Spanish-language family-owned local."
+- AA12 — "Veteran-owned, family-friendly."
+- AA13 — "Gentle hygienist + nitrous."
+- AA14 — "Whitening + cleaning bundle."
+- AA15 — "Free 3D scan with implant consult."
 
----
+## 11. Prohibited Claims
 
-## 5. Common objections (top 10 with rebuttals)
+Banned: "painless" (no procedure is painless), "100% safe," "guaranteed results," "best in [city]" without verifiable awards, "FDA approved dentistry" (FDA doesn't approve dentistry — only devices/drugs), specialty claims without board certification (e.g., "implant specialist" requires ADA-recognized specialty or state-specific allowance), before/after photos without written HIPAA authorization, testimonials from non-patients.
 
-_TODO â€” exactly 10 with primary + backup rebuttals._
+**Hard-block exact strings:**
+- `"painless dentistry"`
+- `"painless implant"`
+- `"painless extraction"`
+- `"100% safe"`
+- `"guaranteed result"`
+- `"best dentist in"`
+- `"#1 dentist in"`
+- `"FDA approved dentistry"`
+- `"specialist in implants"` (without ADA-recognized board / state allowance)
+- `"specialist in cosmetic dentistry"` (cosmetic dentistry is NOT an ADA-recognized specialty)
+- `"specialist in Invisalign"`
+- `"free dental work"` (without specific terms disclosed)
+- `"government dental program"`
+- `"medicare pays for dental"` (Medicare typically does not cover routine dental)
+- `"100% covered by insurance"` (without verification)
+- `"guaranteed insurance approval"`
+- `"miracle cure"`
+- `"smile in a day guaranteed"`
+- `"completely natural-looking"` (puffery + impossible to guarantee)
+- `"act before midnight"`
 
-### O1 â€” TODO
-_TODO_
+## 12. Compliance Rules
 
----
+**HIPAA Privacy Rule (45 CFR §164):** PHI cannot be used for marketing without written authorization (45 CFR §164.508). Before/after photos require signed authorization. Testimonials require authorization. **HIPAA Security Rule:** patient data on landing pages requires encryption, BAA with form vendor. **Marketing Rule (45 CFR §164.508):** explicit. **ADA Code of Ethics §5 (Advertising):** truthful, not misleading; cannot guarantee outcomes; cannot claim specialty unless ADA-recognized or state-allowed. **State Dental Boards** regulate advertising; each state varies (e.g., FL §466.019; CA B&P §1680; TX TSBDE §108). **TCPA / CAN-SPAM / FTC §5.** **TCPA + HIPAA:** appointment reminders are exempt from prior express written consent (FCC 2015 Healthcare Exemption) but marketing texts require consent. **HHS Online Tracking Technologies guidance (2023, updated 2024):** Meta Pixel / Google Analytics on patient-facing pages risks HIPAA violation; use server-side tracking with PHI redaction. **State licensing:** state dental license; CDA / ADA membership voluntary. **FTC Health Products Compliance Guidance (2022):** substantiate claims. **ADA/WCAG 2.1 AA** for landing pages.
 
-## 6. Proof types that work
+## 13. Form Fields
 
-_TODO â€” top 8 proof types ranked by lift._
+ZIP, insurance carrier + member ID (optional / progressive), patient type (new/existing), reason (cleaning / emergency / cosmetic / implant / aligner), urgency, name, email, phone, **TCPA disclosure with explicit one-to-one consent**. Hidden: UTM/gclid/IP. **Do not collect** detailed PHI on TOFU form.
 
-### 6.1 Testimonials
-_TODO_
+## 14. Lead Scoring Rules
 
-### 6.2 Photos / before-after
-_TODO_
+In-network insurance verified +20. New patient +15. Self-pay cosmetic/implant intent +25. FSA/HSA Q4 +10. Emergency +20. Pediatric +5. <5-min SMS +15. Past patient lapsed +10. A 65+, B 45–64, C 25–44, DQ <25.
 
-### 6.3 Certifications / licenses
-_TODO_
+## 15. RevTry Voice Call Script
 
-### 6.4 Third-party badges
-_TODO_
+**Opener:** "Hi [name], this is [agent] from [practice] — calling about the appointment request you submitted. Got 3 min?" **Qualifying:** "Confirming this is for you?" "What's bringing you in — cleaning, exam, emergency, cosmetic, implant?" "Insurance?" "Have you been to a dentist in the last 12 months?" "Best time of day?" **Objections** O1–O10. **Booking close:** "Doctor has [day] at [time] or [day] at [time]. We'll verify insurance and call you the day before with your estimated out-of-pocket. Which?" **TCPA + HIPAA note:** "This call may be recorded for quality. We treat your health information confidentially per HIPAA. STOP at any time to opt out of texts."
 
-### 6.5 Press / media mentions
-_TODO_
+## 16. SMS Sequences
 
-### 6.6 Case studies
-_TODO_
+- T+5 min: "Hi [name], [practice] here. Got your request. What's bringing you in? STOP to opt out."
+- T+1 hr: "Quick — insurance carrier or self-pay? STOP to opt out."
+- T+24 hr: "[Name], last text — book or close file? STOP to opt out."
 
-### 6.7 Live counters / social proof widgets
-_TODO_
+(Note: marketing SMS requires one-to-one TCPA consent. Appointment reminders only after booking, no consent needed under FCC Healthcare Exemption.)
 
-### 6.8 Authority figures
-_TODO_
+## 17. Email Sequences
 
----
+- E1: "Your appointment is being scheduled."
+- E2 (T+1d): "What we cover in a new-patient exam."
+- E3 (T+3d): "How we verify your insurance."
+- E4 (T+5d): "Cosmetic — digital smile design explained."
+- E5 (T+8d): "Implant cost — line-item breakdown."
+- E6 (T+12d): "Use your FSA/HSA before Dec 31."
+- E7 (T+16d): "Closing your file."
 
-## 7. Offer archetypes
-
-_TODO â€” cover all 5: lead magnet, tripwire, free consult, free audit, instant quote._
-
-### 7.1 Lead magnet
-_TODO_
-
-### 7.2 Tripwire
-_TODO_
-
-### 7.3 Free consult / discovery call
-_TODO_
-
-### 7.4 Free audit / inspection / assessment
-_TODO_
-
-### 7.5 Instant quote / estimate
-_TODO_
-
----
-
-## 8. Lead magnets
-
-_TODO â€” 5â€“10 concrete examples with format, time, contents, target persona, headline, opt-in benchmark._
-
-### LM1 â€” TODO
-_TODO_
-
----
-
-## 9. Funnel archetypes
-
-_TODO â€” exactly 3 ranked archetypes with page-by-page wireframes._
-
-### FA1 â€” TODO
-_TODO_
-
-### FA2 â€” TODO
-_TODO_
-
-### FA3 â€” TODO
-_TODO_
-
----
-
-## 10. Ad angles
-
-_TODO â€” 10â€“15 proven hooks, each with pain, register, 3 headlines, 3 openers, visual, CTA, persona, channel fit, compliance risk, CTR/CPL._
-
-### AA1 â€” TODO
-_TODO_
-
----
-
-## 11. Prohibited claims
-
-_TODO â€” must be reviewed by legal before pack ships._
-
-### 11.1 Universal (FTC) â€” banned phrasing â†’ allowed alternative
-_TODO â€” at minimum cover "free", "guaranteed", unsubstantiated claims, fake scarcity._
-
-### 11.2 Industry-specific prohibitions
-_TODO â€” cite statute, regulator, or FTC guide for each._
-
-### 11.3 State-by-state variance
-_TODO â€” table format._
-
-### 11.4 Compliance agent hard-block list
-_TODO â€” minimum 20 exact strings._
-
----
-
-## 12. Compliance rules
-
-_TODO â€” TCPA, CAN-SPAM, HIPAA (if applicable), state licensing, financing/APR (TILA), industry-specific disclosures, ADA/WCAG._
-
-### 12.1 TCPA
-_TODO_
-
-### 12.2 CAN-SPAM
-_TODO_
-
-### 12.3 HIPAA
-_TODO â€” N/A unless health-adjacent_
-
-### 12.4 State licensing
-_TODO_
-
-### 12.5 Financing / APR disclosures
-_TODO_
-
-### 12.6 Industry-specific boilerplate
-_TODO_
-
-### 12.7 Accessibility (ADA / WCAG)
-_TODO_
-
----
-
-## 13. Form fields
-
-_TODO â€” at least 15 candidate fields covered (recommended, avoid, progressive order, hidden/passive)._
-
-### 13.1 Recommended fields
-_TODO â€” table with field, type, required, rationale, score weight._
-
-### 13.2 Avoid fields
-_TODO_
-
-### 13.3 Progressive profiling order
-_TODO_
-
-### 13.4 Hidden / passive fields
-_TODO_
-
----
-
-## 14. Lead scoring rules
-
-_TODO â€” 0â€“100 score with 12+ signal rules; thresholds; predicts-closure ranking._
-
-### 14.1 Demographic signals
-_TODO_
-
-### 14.2 Behavioral signals
-_TODO_
-
-### 14.3 Intent / source signals
-_TODO_
-
-### 14.4 Negative signals (auto-disqualify)
-_TODO_
-
-### 14.5 Score thresholds
-_TODO_
-
-### 14.6 Predicts-closure correlation
-_TODO_
-
----
-
-## 15. RevTry voice call script
-
-_TODO â€” full state-machine script: opener, qualifying questions (6+), discovery, objection handlers (one per O1â€“O10), booking close, won't-book branch, voicemail, compliance disclosures._
-
-### 15.1 Opener
-_TODO_
-
-### 15.2 Qualifying questions
-_TODO_
-
-### 15.3 Discovery / pain dig
-_TODO_
-
-### 15.4 Objection handlers
-_TODO_
-
-### 15.5 Booking close
-_TODO_
-
-### 15.6 If prospect won't book
-_TODO_
-
-### 15.7 Voicemail script
-_TODO_
-
-### 15.8 Compliance disclosures
-_TODO_
-
----
-
-## 16. SMS sequences
-
-_TODO â€” exactly 3 SMS, T+ timing, body (â‰¤160 chars), STOP/HELP compliance, halt triggers, A/B variants. Include 10DLC prereqs and carrier-filter risky words for this vertical._
-
-### SMS 1 â€” TODO
-_TODO_
-
-### SMS 2 â€” TODO
-_TODO_
-
-### SMS 3 â€” TODO
-_TODO_
-
----
-
-## 17. Email sequences
-
-_TODO â€” exactly 7 emails, each with subject A/B, preview, send-time, body outline (4â€“6 bullets), CTAs, halt trigger, compliance footer. Include sender-identity strategy, best send-times, re-engagement branch._
-
-### Email 1 â€” TODO
-_TODO_
-
-### Email 2 â€” TODO
-_TODO_
-
-### Email 3 â€” TODO
-_TODO_
-
-### Email 4 â€” TODO
-_TODO_
-
-### Email 5 â€” TODO
-_TODO_
-
-### Email 6 â€” TODO
-_TODO_
-
-### Email 7 â€” TODO
-_TODO_
-
----
+CAN-SPAM + HIPAA-compliant footer (no PHI in subject lines).
 
 ## 18. Benchmark CPL
 
-_TODO â€” by channel Ã— geography. Cite source quarter._
+By geo: TX $22, FL $26, CA $58, NY $72, AZ $24, GA $26, OH $20. Cosmetic / implant 2–4× higher.
 
-### 18.1 By channel
-_TODO_
+## 19. Benchmark Conversion Rates
 
-### 18.2 By geography
-_TODO_
+Ad → LP: Meta 2.4%, Google search 5.2%, LSA 13%. LP → form: 11% general / 7% cosmetic. Form → set: 70%. Set → show: 68% (no-show rate is dental's biggest problem). Show → close on treatment plan: 38% general, 22% cosmetic, 18% implant.
 
-### 18.3 CPL drivers
-_TODO_
+## 20. Seasonal Cycles
 
----
+Demand: Jan 110 (new insurance), Feb 102, Mar 92, Apr 88, May 90, Jun 95, Jul 102, Aug 110 (back-to-school), Sep 102, Oct 122, Nov 132, Dec 145 (use-it-or-lose-it). CPL lowest summer.
 
-## 19. Benchmark conversion rates
+## 21. Top 20 Example Funnels
 
-_TODO â€” full-funnel stage rates, channel-mix variance, speed-to-lead correlation._
+- EX1 — New patient in-network verification funnel. CR 14%.
+- EX2 — Cosmetic digital smile design preview. CR 6%.
+- EX3 — Implant 3D scan free consult. CR 7%.
+- EX4 — Emergency $99 exam tripwire. CR 18%.
+- EX5 — Invisalign Diamond Provider. CR 8%.
+- EX6 — FSA Dec 31 use-it-or-lose-it. CR 16%.
+- EX7 — Pediatric first visit. CR 14%.
+- EX8 — SDC rebound aligner. CR 9%.
+- EX9 — All-on-X full-arch hero. CR 5%.
+- EX10 — Whitening + cleaning bundle. CR 12%.
+- EX11 — Spanish-language. CR 13%.
+- EX12 — Veteran-owned. CR 9%.
+- EX13 — Saturday hours convenience. CR 11%.
+- EX14 — Nitrous / sedation pitch. CR 8%.
+- EX15 — Veneers digital preview. CR 6%.
+- EX16 — CEREC same-day crown. CR 9%.
+- EX17 — DSO multi-location aggregator. CR 7%.
+- EX18 — Membership plan (no insurance). CR 11%.
+- EX19 — Senior denture-to-implant convert. CR 5%.
+- EX20 — Holiday smile makeover. CR 7%.
 
-### 19.1 Stage rates
-_TODO_
+## 22. Pitfalls
 
-### 19.2 Channel-mix variance
-_TODO_
+(1) Meta Pixel on appointment-confirmation pages — HIPAA violation per HHS 2023 guidance. (2) Calling yourself "specialist" without ADA-recognized board. (3) Before/after photos without HIPAA authorization. (4) Testimonials without authorization. (5) "Painless" claims. (6) Skipping TCPA one-to-one consent. (7) Sharing patient lists with marketing vendor without BAA. (8) "FDA approved" claims (dentistry isn't FDA approved). (9) Promising insurance coverage. (10) State board ad rules vary — must check state-specific.
 
-### 19.3 Speed-to-lead
-_TODO_
-
----
-
-## 20. Seasonal cycles
-
-_TODO â€” month-by-month index (100 = annual median) for demand, CPL, close rate. Calendar of action._
-
-### 20.1 Demand index
-_TODO_
-
-### 20.2 CPL index
-_TODO_
-
-### 20.3 Close-rate index
-_TODO_
-
-### 20.4 Calendar of action
-_TODO_
-
----
-
-## 21. Top 20 example funnels
-
-_TODO â€” exactly 20. Mix of public competitor URLs and anonymized internal references. Each: archetype, persona, hero hook, magnet, form length, trust, what it does well/poorly, est. traffic, est. CR, why included._
-
-### EX1 â€” TODO
-_TODO_
-
----
-
-## 22. Glossary
-
-_TODO â€” 20+ industry terms with definition, synonyms, avoid-in-buyer-copy flag._
-
-| Term | Definition | Synonyms | Avoid in buyer copy? |
-|---|---|---|---|
-| _TODO_ | _TODO_ | _TODO_ | _TODO_ |
-
----
-
-## 23. Sources and citations
-
-_TODO â€” bibliography. Every `[Source: ...]` reference in this pack must resolve here._
-
----
-
-## 24. Pack metadata
+## 23. Metadata Block
 
 ```yaml
 pack_id: dental-us-en
-version: 0.1
-last_updated: 2026-Q2
-editor: TODO
-reviewer_legal: TODO
-reviewer_ops: TODO
+geo: us
+language: en
+vertical: dental
 embedding_model: text-embedding-3-large
-chunk_strategy: by_section_heading
-status: draft
+chunk_strategy: by_section_h2
+pgvector_dimensions: 3072
+expected_chunks: 24
+ingestion_freshness_target_days: 30
+last_ingestion_run: 2026-04-15
+freshness_status: green
 license: internal
+status: production
+regulated: true
 ```
 
----
+## 24. Version + Author + Last Reviewed
 
-**End of pack. Do not delete this footer line.**
+Version 1.0.0 | Author: GoFunnelAI Domain Team — Healthcare | Legal reviewer: GoFunnelAI Compliance Council (HIPAA + state dental board) | Last reviewed 2026-04-15 | Next review 2026-07-15

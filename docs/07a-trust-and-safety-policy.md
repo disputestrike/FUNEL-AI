@@ -1,4 +1,4 @@
-﻿# 07a â€” Trust & Safety Policy
+# 07a — Trust & Safety Policy
 
 Owner: Head of Trust & Safety
 Status: Day-90 launch baseline
@@ -9,7 +9,7 @@ Review cadence: Monthly (policy), quarterly (thresholds), annually (public repor
 
 ## 1. Purpose & scope
 
-FunelAI publishes marketing assets (pages, ads, emails, SMS, voice, video, lead magnets) on behalf of customers at autonomous scale. Every published asset is a potential attack surface for fraud, regulatory exposure, and platform abuse. This policy defines the controls, signals, thresholds, and workflows that gate generation and publication.
+GoFunnelAI publishes marketing assets (pages, ads, emails, SMS, voice, video, lead magnets) on behalf of customers at autonomous scale. Every published asset is a potential attack surface for fraud, regulatory exposure, and platform abuse. This policy defines the controls, signals, thresholds, and workflows that gate generation and publication.
 
 Scope: every workspace, every customer, every generation, every published asset, every paid send (SMS/email/voice), every ad spend, every customer-of-customer (CoC) transaction processed through a Funnel-hosted funnel.
 
@@ -34,7 +34,7 @@ This document is enforceable through the **Trust & Safety Service** (`ts-svc`), 
 
 ---
 
-## 3. R1 â€” Phishing & impersonation detection
+## 3. R1 — Phishing & impersonation detection
 
 ### 3.1 Trigger surface
 Every text artifact produced by any generation agent (page copy, email body, SMS body, voice script, ad creative text) is passed through `ts-svc.classify_phishing` before being persisted as `approved` status.
@@ -54,7 +54,7 @@ Every text artifact produced by any generation agent (page copy, email body, SMS
 
 ### 3.3 Action thresholds
 - Score < 40 â†’ `pass`, log only.
-- Score 40â€“69 â†’ `human_review` (route to 07b queue, severity = phishing-suspect).
+- Score 40–69 â†’ `human_review` (route to 07b queue, severity = phishing-suspect).
 - Score â‰¥ 70 â†’ `block` + flag user account (`user.flags += phishing_attempt`), notify ops Slack `#ts-alerts`, freeze all in-flight generations for that workspace pending review.
 - Repeat (â‰¥2 confirmed phishing blocks within 30 days) â†’ permanent ban, all domains taken down, payment refunds withheld pending investigation, report to ic3.gov and the impersonated brand's abuse contact.
 
@@ -65,7 +65,7 @@ Every text artifact produced by any generation agent (page copy, email body, SMS
 
 ---
 
-## 4. R2 â€” Fake business detection (KYB-lite, every account)
+## 4. R2 — Fake business detection (KYB-lite, every account)
 
 ### 4.1 Cross-check at signup + first publish
 On signup, capture: business name, business domain (if any), claimed city/state/country, claimed monthly revenue band, vertical.
@@ -97,13 +97,13 @@ On signup, capture: business name, business domain (if any), claimed city/state/
 
 ### 4.3 Action thresholds
 - Score < 30 â†’ auto-approve, re-check at 30 / 90 days.
-- Score 30â€“59 â†’ `kyb_required`: customer must upload (a) gov-issued ID of an officer + (b) EIN letter or equivalent + (c) recent utility/bank statement for business address. Persona or Stripe Identity is the verification vendor (see Â§9 for KYC stack).
+- Score 30–59 â†’ `kyb_required`: customer must upload (a) gov-issued ID of an officer + (b) EIN letter or equivalent + (c) recent utility/bank statement for business address. Persona or Stripe Identity is the verification vendor (see Â§9 for KYC stack).
 - Score â‰¥ 60 â†’ `manual_review` by Trust & Safety analyst before any ad publishing or paid send is enabled. Free-tier non-paid features remain available.
 - Score â‰¥ 60 **AND** declared/observed ad spend â‰¥ $5K/mo â†’ freeze ad publishing entirely until cleared.
 
 ---
 
-## 5. R3 â€” Adult / illegal offer blocking
+## 5. R3 — Adult / illegal offer blocking
 
 ### 5.1 Prohibited categories (hard block, no review override)
 
@@ -133,9 +133,9 @@ On signup, capture: business name, business domain (if any), claimed city/state/
 
 ---
 
-## 6. R4 â€” Affiliate fraud detection
+## 6. R4 — Affiliate fraud detection
 
-FunelAI runs an affiliate / partner program. The affiliate tracker (`aff-svc`) emits events: `click`, `signup`, `trial_start`, `paid_conversion`.
+GoFunnelAI runs an affiliate / partner program. The affiliate tracker (`aff-svc`) emits events: `click`, `signup`, `trial_start`, `paid_conversion`.
 
 ### 6.1 Fraud patterns
 
@@ -164,7 +164,7 @@ Score â†’ quarantine_payout if score â‰¥ 60. Review by ops within 7 day
 
 ---
 
-## 7. R5 â€” SMS spam prevention
+## 7. R5 — SMS spam prevention
 
 ### 7.1 Per-recipient opt-in proof
 Before any SMS is sent to a phone number from any Funnel workspace:
@@ -182,7 +182,7 @@ Before any SMS is sent to a phone number from any Funnel workspace:
 ### 7.3 DNC integration
 - Federal DNC list synced daily (cost: ~$70/area-code/year via dnc.gov subscription).
 - State DNC for states that maintain separate registries.
-- Internal DNC: any number that has STOP'd to any Funnel-originated SMS is added globally â€” a STOP to one customer's campaign blocks all future Funnel SMS to that number regardless of customer or opt-in claim.
+- Internal DNC: any number that has STOP'd to any Funnel-originated SMS is added globally — a STOP to one customer's campaign blocks all future Funnel SMS to that number regardless of customer or opt-in claim.
 - DNC check at queue-time AND at send-time (numbers can be added between queue and send).
 
 ### 7.4 Content rules
@@ -195,13 +195,13 @@ Before any volume sending: A2P 10DLC brand + campaign registration completed via
 
 ---
 
-## 8. R6 â€” Voice consent (RevTry)
+## 8. R6 — Voice consent (RevTry)
 
 ### 8.1 Preamble (every outbound or inbound-recorded call)
 First 7 seconds of every call, before any agent dialogue:
 > "Hi, this is [agent name] calling on behalf of [customer business]. This call is being recorded for quality and compliance. If you'd prefer not to be recorded, say 'opt out' now and I'll end the call."
 
-Implementation: hard-coded preamble in the RevTry TTS pipeline, prepended in audio pipeline (not in the LLM prompt â€” model cannot remove it). A preamble-played event is logged to `consent_ledger` before the LLM is allowed to speak.
+Implementation: hard-coded preamble in the RevTry TTS pipeline, prepended in audio pipeline (not in the LLM prompt — model cannot remove it). A preamble-played event is logged to `consent_ledger` before the LLM is allowed to speak.
 
 ### 8.2 Consent record per called number
 `consent_ledger.voice` row per call: `e164`, `direction`, `preamble_played_at`, `opt_out_detected` (bool, from speech classifier in first 15s), `state_law` ({one-party, two-party, mixed}), `call_recording_url`, `retention_until`.
@@ -223,14 +223,14 @@ Implementation: hard-coded preamble in the RevTry TTS pipeline, prepended in aud
 
 ---
 
-## 9. R7 â€” Ad-policy pre-flight
+## 9. R7 — Ad-policy pre-flight
 
 ### 9.1 Pre-publish classifier chain
 Every ad creative (image, video, copy, headline, CTA, landing-page URL) routed through `ad-policy-svc.classify` before being pushed to Meta / Google / TikTok / LinkedIn / Microsoft Ads APIs.
 
 Classifiers:
-1. **Meta policy classifier** â€” LLM (Haiku) prompted with the current Meta Advertising Standards, fed (image, copy, landing-page snapshot). Returns: `{verdict: pass|warn|fail, categories: [...], explanation: ...}`.
-2. **Google Ads policy classifier** â€” same pattern, Google's policy.
+1. **Meta policy classifier** — LLM (Haiku) prompted with the current Meta Advertising Standards, fed (image, copy, landing-page snapshot). Returns: `{verdict: pass|warn|fail, categories: [...], explanation: ...}`.
+2. **Google Ads policy classifier** — same pattern, Google's policy.
 3. **Sensitive-vertical hard rules** (codified):
    - Personalized attributes ban (Meta): copy implies knowledge of the viewer's race, religion, sexual orientation, health condition, criminal history, financial status.
    - Before/after imagery ban (Meta + Google healthcare): pairs of images implying body-weight/cosmetic change.
@@ -249,7 +249,7 @@ Classifiers:
 
 ---
 
-## 10. R8 â€” Payment fraud (customer-of-customer)
+## 10. R8 — Payment fraud (customer-of-customer)
 
 When Funnel-hosted checkout / payment forms collect end-consumer payments (via Stripe Connect on behalf of customers), the **Funnel platform is the processor of record** and inherits the risk.
 
@@ -274,7 +274,7 @@ When Funnel-hosted checkout / payment forms collect end-consumer payments (via S
 
 ---
 
-## 11. R9 â€” KYC / KYB triggers
+## 11. R9 — KYC / KYB triggers
 
 ### 11.1 Volume triggers (any one fires KYC)
 
@@ -298,11 +298,11 @@ When Funnel-hosted checkout / payment forms collect end-consumer payments (via S
 
 ---
 
-## 12. R10 â€” Domain reputation monitoring
+## 12. R10 — Domain reputation monitoring
 
 ### 12.1 Monthly scan
 Cron `domain-rep-scan` runs first day of each month (and on-demand when a domain is reported):
-- Google Safe Browsing API v4 â€” every published apex + subdomain.
+- Google Safe Browsing API v4 — every published apex + subdomain.
 - Microsoft SmartScreen via Defender feed.
 - Spamhaus DBL.
 - SURBL.
@@ -329,7 +329,7 @@ Cron `domain-rep-scan` runs first day of each month (and on-demand when a domain
 | **Warning** | First medium-severity violation (e.g., one phishing-suspect block, one ad-policy fail repeat) | Email + in-app banner with specific reason + remediation steps | 24-hour response window |
 | **Auto-suspend** | No response in 24h OR second medium violation OR any high-severity (R1 confirmed, R3 hard category, R6 two-party violation, R8 chargeback >1%) | Generation paused, scheduled sends paused, ads paused, hosted funnels returned with 503 + branded message | Open until resolved |
 | **Manual appeal** | Customer files appeal via form | Confirmation email; reviewed by tier-2 T&S analyst | 5 business days to decision |
-| **Reinstate** | Appeal granted, remediation verified | All services resumed; flag retained on account | â€” |
+| **Reinstate** | Appeal granted, remediation verified | All services resumed; flag retained on account | — |
 | **Permanent ban** | Appeal denied OR repeat post-reinstate violation OR R1/R3/R9 confirmed severe | Account closed; data export window 30 days; refund per ToS; domains removed | Final |
 
 ### 13.2 Audit log
@@ -348,7 +348,7 @@ Published Q1 each year for the prior year. Aggregated, no PII.
 Contents:
 1. Total accounts created / total accounts suspended / total accounts permanently banned (with % breakdown by category).
 2. Total artifacts generated / total artifacts blocked at gen-time / total blocked at publish-time / total taken down post-publish.
-3. Breakdown by risk class (R1â€“R10) and by industry.
+3. Breakdown by risk class (R1–R10) and by industry.
 4. SMS / voice DNC compliance metrics: opt-in proof rate, STOP honor latency, complaint volume.
 5. Ad-platform rejection rates per platform.
 6. Human review queue metrics (from 07b): volume, SLA adherence, reviewer accuracy.
@@ -356,7 +356,7 @@ Contents:
 8. Notable policy changes during the year.
 9. Cooperation with law enforcement: number of valid requests received, number complied with, number declined, by jurisdiction.
 
-Format: hosted at `funelai.com/trust-report/<year>`. PDF + machine-readable JSON.
+Format: hosted at `gofunnelai.com/trust-report/<year>`. PDF + machine-readable JSON.
 
 ---
 
@@ -370,7 +370,7 @@ ts-svc.payment_check(payment_intent_id) -> {action, rules_fired[]}
 aff-svc.cluster_score(affiliate_id) -> {score, components}
 ad-policy-svc.classify(ad_id) -> {verdict, categories[], explanation}
 consent_ledger.record_sms_optin(workspace_id, e164, source, evidence) -> id
-consent_ledger.record_voice_consent(call_id, â€¦) -> id
+consent_ledger.record_voice_consent(call_id, …) -> id
 domain-rep-scan.run(domain) -> {flags[], action}
 ```
 
@@ -380,7 +380,7 @@ All emit events on `ts.events` Kafka topic for downstream consumers (07b queue, 
 
 ## 16. Open items (track for Day-180 review)
 
-- Brand list curation pipeline (currently manual PR â€” does not scale past ~500 brands).
+- Brand list curation pipeline (currently manual PR — does not scale past ~500 brands).
 - Two-party-consent recording-state list needs legal-counsel sign-off quarterly (laws change).
 - KYB SoS coverage is US-only top-10 states programmatically; international expansion needs vendor (Middesk or Trulioo) selection.
 - Affiliate cluster analysis is nightly batch; consider near-real-time for high-value referrals.

@@ -1,5 +1,5 @@
 ################################################################################
-# Funnel Admin Console ” Cloudflare Pages project (Next.js)
+# Funnel Admin Console — Cloudflare Pages project (Next.js)
 #
 # Deployed at:  admin.gofunnelai.com
 #               admin.staging.gofunnelai.com
@@ -28,7 +28,7 @@ API_BASE_URL = "https://api.funnel.local"
 ASSETS_PUBLIC_BASE = "https://assets.funnel.local"
 LOG_LEVEL = "info"
 
-# Admin uses the API service binding for all data access ” no direct DB.
+# Admin uses the API service binding for all data access — no direct DB.
 [[services]]
 binding = "API"
 service = "funnel-api"
