@@ -9,7 +9,7 @@ RUN apk add --no-cache libc6-compat python3 make g++ openssl \
  && corepack enable \
  && corepack prepare pnpm@9.12.0 --activate
 WORKDIR /app
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml .npmrc ./
 RUN pnpm install --frozen-lockfile
 
 # -------- Stage 2: build -----------------------------------------------------
@@ -17,12 +17,24 @@ FROM deps AS build
 WORKDIR /app
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
-RUN pnpm prisma generate
+
+# Generate Prisma client. pnpm writes it into the .pnpm content-addressable
+# store at .pnpm/@prisma+client@*/node_modules/.prisma — not at the top level.
+# Materialize a real top-level node_modules/.prisma so the runtime stage can
+# COPY a deterministic path. Fail LOUDLY if the source isn't where we expect.
+RUN pnpm prisma generate \
+ && PRISMA_GEN_DIR="$(find /app/node_modules/.pnpm -maxdepth 4 -type d -path '*@prisma+client@*/node_modules/.prisma' | head -n1)" \
+ && test -n "$PRISMA_GEN_DIR" || (echo "ERROR: generated .prisma not found in .pnpm store" && exit 1) \
+ && rm -rf /app/node_modules/.prisma \
+ && cp -RL "$PRISMA_GEN_DIR" /app/node_modules/.prisma \
+ && PRISMA_NS_DIR="$(find /app/node_modules/.pnpm -maxdepth 4 -type d -path '*@prisma+client@*/node_modules/@prisma' | head -n1)" \
+ && test -n "$PRISMA_NS_DIR" || (echo "ERROR: @prisma namespace not found in .pnpm store" && exit 1) \
+ && rm -rf /app/node_modules/@prisma \
+ && cp -RL "$PRISMA_NS_DIR" /app/node_modules/@prisma \
+ && echo "Hoisted .prisma + @prisma to top-level node_modules" \
+ && ls /app/node_modules/.prisma /app/node_modules/@prisma | head -20
+
 RUN pnpm build
-# pnpm symlinks .prisma to .pnpm — flatten so the runtime stage can COPY
-# from predictable paths regardless of pnpm's internal layout.
-RUN cp -RL /app/node_modules/.prisma /app/_prisma_client 2>/dev/null || true \
- && cp -RL /app/node_modules/@prisma /app/_prisma_namespace 2>/dev/null || true
 
 # -------- Stage 3: runtime ---------------------------------------------------
 FROM node:20-alpine AS runtime
@@ -39,9 +51,10 @@ COPY --from=build --chown=funnel:funnel /app/.next/standalone ./
 COPY --from=build --chown=funnel:funnel /app/.next/static ./.next/static
 COPY --from=build --chown=funnel:funnel /app/public ./public
 COPY --from=build --chown=funnel:funnel /app/prisma ./prisma
-# Prisma client (resolved through pnpm symlinks at build time, flattened above).
-COPY --from=build --chown=funnel:funnel /app/_prisma_client ./node_modules/.prisma
-COPY --from=build --chown=funnel:funnel /app/_prisma_namespace ./node_modules/@prisma
+# Prisma client + namespace — public-hoisted via .npmrc so these are real
+# directories at top-level node_modules, not pnpm symlinks.
+COPY --from=build --chown=funnel:funnel /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=build --chown=funnel:funnel /app/node_modules/@prisma ./node_modules/@prisma
 USER funnel
 EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
