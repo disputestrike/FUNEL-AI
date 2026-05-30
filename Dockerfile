@@ -19,6 +19,12 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN pnpm prisma generate
 RUN pnpm build
+# pnpm stores packages in a content-addressable store under node_modules/.pnpm/.
+# The runtime stage expects node_modules/.prisma and node_modules/@prisma at the
+# top level. Materialise them as real directories so COPY --from=build works.
+RUN mkdir -p node_modules/.prisma node_modules/@prisma && \
+    cp -rL node_modules/.pnpm/@prisma+client@*/node_modules/.prisma/* node_modules/.prisma/ 2>/dev/null || true && \
+    cp -rL node_modules/.pnpm/@prisma+client@*/node_modules/@prisma/* node_modules/@prisma/ 2>/dev/null || true
 
 # -------- Stage 3: runtime ---------------------------------------------------
 FROM node:20-alpine AS runtime
@@ -43,3 +49,4 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
   CMD wget -qO- http://127.0.0.1:3000/api/healthz >/dev/null 2>&1 || exit 1
 ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["node", "server.js"]
+
