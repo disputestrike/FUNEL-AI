@@ -114,18 +114,41 @@ export default function HomePage() {
             homeowner vs. what hook converts a CFO. Tap one to preview a sample funnel.
           </p>
           <div className="mt-12 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-3">
-            {INDUSTRY_HOOKS.map((ind) => (
-              <Link
-                key={ind.slug}
-                href={`/industries#${ind.slug}`}
-                className="group flex flex-col gap-2 rounded-lg border border-slate-200 bg-white p-4 transition-all duration-small ease-out-brand hover:-translate-y-px hover:shadow-md hover:border-signal-300 dark:border-slate-700 dark:bg-slate-900"
-              >
-                <div className="aspect-video rounded bg-slate-100 dark:bg-slate-800 skeleton" />
-                <div className="text-body-sm font-medium text-slate-900 dark:text-slate-50">
-                  {ind.name}
-                </div>
-              </Link>
-            ))}
+            {INDUSTRY_HOOKS.map((ind, idx) => {
+              // Stable per-industry gradient — picked from a small brand-aligned palette
+              // by index so each tile gets a distinct but coherent color story.
+              const palettes = [
+                "from-signal-400/15 via-signal-200/10 to-transparent",
+                "from-violet-400/15 via-violet-200/10 to-transparent",
+                "from-orange-400/15 via-orange-200/10 to-transparent",
+                "from-emerald-400/15 via-emerald-200/10 to-transparent",
+                "from-sky-400/15 via-sky-200/10 to-transparent",
+                "from-rose-400/15 via-rose-200/10 to-transparent",
+              ];
+              const initials = ind.name
+                .split(/\s+/)
+                .map((w) => w[0]?.toUpperCase() ?? "")
+                .join("")
+                .slice(0, 2);
+              return (
+                <Link
+                  key={ind.slug}
+                  href={`/industries#${ind.slug}`}
+                  className="group flex flex-col gap-2 rounded-lg border border-slate-200 bg-white p-4 transition-all duration-small ease-out-brand hover:-translate-y-px hover:shadow-md hover:border-signal-300 dark:border-slate-700 dark:bg-slate-900"
+                >
+                  <div
+                    className={`aspect-video rounded bg-gradient-to-br ${palettes[idx % palettes.length]} flex items-center justify-center`}
+                  >
+                    <span className="text-h4 font-display font-semibold tracking-tight text-slate-700 dark:text-slate-200">
+                      {initials}
+                    </span>
+                  </div>
+                  <div className="text-body-sm font-medium text-slate-900 dark:text-slate-50">
+                    {ind.name}
+                  </div>
+                </Link>
+              );
+            })}
           </div>
           <p className="mt-10 text-center text-body text-slate-600 dark:text-slate-300">
             Don't see yours? You're probably still covered.{" "}
@@ -290,7 +313,17 @@ export default function HomePage() {
                     "{t.quote}"
                   </blockquote>
                   <div className="flex items-center gap-3 pt-2 border-t border-slate-100">
-                    <div className="size-10 rounded-full bg-slate-200" aria-hidden />
+                    {/* Branded initials avatar — replaces gray placeholder dot. */}
+                    <div
+                      className="flex size-10 items-center justify-center rounded-full bg-gradient-to-br from-signal-500 to-violet-500 text-white text-body-sm font-semibold shadow-sm"
+                      aria-hidden
+                    >
+                      {t.name
+                        .split(/\s+/)
+                        .map((w) => w[0]?.toUpperCase() ?? "")
+                        .join("")
+                        .slice(0, 2)}
+                    </div>
                     <div>
                       <div className="text-body-sm font-medium text-slate-900 dark:text-slate-50">
                         {t.name}

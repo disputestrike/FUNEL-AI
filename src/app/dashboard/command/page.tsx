@@ -16,7 +16,6 @@
 import { redirect } from "next/navigation";
 import { withWorkspaceContext } from "@funnel/db";
 import { getCurrentSession } from "@/lib/auth/current-user";
-import { Header } from "@/components/site/Header";
 import { listConversations } from "@/lib/command/conversation-store";
 import { CommandPageClient } from "./CommandPageClient";
 
@@ -58,7 +57,6 @@ export default async function CommandCenterPage({
 
   return (
     <div className="flex h-screen flex-col bg-slate-50">
-      <Header />
       <CommandPageClient
         workspaceId={session.workspace.id}
         workspaceName={session.workspace.name}

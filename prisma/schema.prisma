@@ -183,6 +183,11 @@ model User {
   email           String     @unique @db.Citext
   emailVerified   DateTime?  @map("email_verified") @db.Timestamptz(6)
   image           String?
+  // Email + password credentials (Auth.js Credentials provider) -----------
+  // OAuth-only users (e.g. Google) leave these NULL; password rows are only
+  // written on email/password signup or password change.
+  passwordHash    String?    @map("password_hash")
+  passwordSetAt   DateTime?  @map("password_set_at") @db.Timestamptz(6)
   // Legacy / GoFunnel-specific extras ------------------------------------
   emailNormalized String?    @map("email_normalized") @db.Citext
   locale          String     @default("en-US")

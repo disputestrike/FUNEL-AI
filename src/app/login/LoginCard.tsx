@@ -2,18 +2,50 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useState, type FormEvent } from "react";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { GoogleG } from "@/components/auth/GoogleG";
 
 /**
- * Client-side card for /login. Hosts the "Continue with Google" CTA and
- * reads `callbackUrl` off the query string so middleware-bounced visitors
- * land back on whatever they were trying to reach.
+ * Client-side card for /login. Hosts both the email/password form and the
+ * "Continue with Google" CTA. Reads `callbackUrl` off the query string so
+ * middleware-bounced visitors land back on whatever they were trying to
+ * reach.
  */
 export function LoginCard() {
   const params = useSearchParams();
   const callbackUrl = params.get("callbackUrl") ?? "/dashboard";
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setError(null);
+    setSubmitting(true);
+    try {
+      const result = await signIn("credentials", {
+        email,
+        password,
+        callbackUrl,
+        redirect: false,
+      });
+      if (result?.error) {
+        setError("Invalid email or password.");
+        setSubmitting(false);
+        return;
+      }
+      // Successful → bounce to callbackUrl (signIn doesn't auto-redirect
+      // when redirect: false).
+      window.location.href = result?.url ?? callbackUrl;
+    } catch {
+      setError("Could not sign in. Try again.");
+      setSubmitting(false);
+    }
+  }
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-slate-50">
@@ -44,10 +76,80 @@ export function LoginCard() {
             Sign in to your workspace.
           </p>
 
+          <form className="mt-6 space-y-4" onSubmit={onSubmit} noValidate>
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-caption font-medium text-slate-700"
+              >
+                Email
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="mt-1 block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-body text-slate-900 shadow-sm focus:border-signal-500 focus:outline-none focus:ring-1 focus:ring-signal-500"
+              />
+            </div>
+            <div>
+              <div className="flex items-center justify-between">
+                <label
+                  htmlFor="password"
+                  className="block text-caption font-medium text-slate-700"
+                >
+                  Password
+                </label>
+                <Link
+                  href="/forgot-password"
+                  className="text-caption text-signal-600 hover:underline"
+                >
+                  Forgot?
+                </Link>
+              </div>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="mt-1 block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-body text-slate-900 shadow-sm focus:border-signal-500 focus:outline-none focus:ring-1 focus:ring-signal-500"
+              />
+            </div>
+
+            {error && (
+              <p
+                role="alert"
+                className="rounded-md border border-rose-200 bg-rose-50 px-3 py-2 text-caption text-rose-700"
+              >
+                {error}
+              </p>
+            )}
+
+            <button
+              type="submit"
+              disabled={submitting}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-signal-600 px-4 py-3 text-body font-semibold text-white shadow-sm transition hover:bg-signal-700 focus:outline-none focus:ring-2 focus:ring-signal-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {submitting ? "Signing in…" : "Sign in"}
+            </button>
+          </form>
+
+          <div className="my-6 flex items-center gap-3 text-caption text-slate-400">
+            <span className="h-px flex-1 bg-slate-200" />
+            <span>or</span>
+            <span className="h-px flex-1 bg-slate-200" />
+          </div>
+
           <button
             type="button"
             onClick={() => signIn("google", { callbackUrl })}
-            className="mt-8 inline-flex w-full items-center justify-center gap-3 rounded-md border border-slate-300 bg-white px-4 py-3 text-body font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-signal-500 focus:ring-offset-2"
+            className="inline-flex w-full items-center justify-center gap-3 rounded-md border border-slate-300 bg-white px-4 py-3 text-body font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-signal-500 focus:ring-offset-2"
           >
             <GoogleG />
             <span>Continue with Google</span>
