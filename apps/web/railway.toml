@@ -1,20 +1,18 @@
-# funnel-web — Next.js 14 (standalone output) marketing + app.
+# GoFunnelAI web — Railway service config.
+# Authoritative settings live in /railway.toml at repo root.
+# This file is a thin alias so Railway's per-app detector finds a config.
+
 [build]
 builder = "DOCKERFILE"
-dockerfilePath = "apps/web/Dockerfile"
+dockerfilePath = "Dockerfile"
 
 [deploy]
-startCommand = "node apps/web/server.js"
+startCommand = "node server.js"
 healthcheckPath = "/api/healthz"
-healthcheckTimeout = 30
+healthcheckTimeout = 60
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 10
-numReplicas = 2
+numReplicas = 1
+sleepApplication = false
 
-[deploy.resources]
-cpu = 1
-memoryMB = 1024
-
-# Custom domains:
-#   gofunnelai.com, www.gofunnelai.com     â†’ production
-#   staging.gofunnelai.com            â†’ staging
+preDeployCommand = "pnpm --filter @funnel/db db:migrate:deploy"
