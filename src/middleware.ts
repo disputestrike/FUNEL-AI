@@ -11,6 +11,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { applySecurityHeaders } from "@/lib/platform/security";
+import { isInternalPreviewMode } from "@/lib/session";
 
 const PUBLIC_PATHS = [
   "/",
@@ -55,6 +56,17 @@ export default auth((req) => {
   const { pathname } = req.nextUrl;
 
   if (isPublic(pathname)) {
+    const res = NextResponse.next();
+    applySecurityHeaders(res.headers);
+    return res;
+  }
+
+  // INTERNAL_PREVIEW_MODE=1 — bypass the login wall entirely. Dashboard
+  // pages still call getSession() which returns a synthetic team session,
+  // so the app works exactly as if the user were signed in. Use ONLY for
+  // not-yet-public deploys where the dashboard is shared with the internal
+  // team and trusted collaborators.
+  if (isInternalPreviewMode()) {
     const res = NextResponse.next();
     applySecurityHeaders(res.headers);
     return res;

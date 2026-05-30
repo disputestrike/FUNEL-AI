@@ -14,6 +14,7 @@
  * `app.workspace_id`. There is no silent cross-tenant leak.
  */
 import { auth } from "@/lib/auth";
+import { getSession, isInternalPreviewMode } from "@/lib/session";
 import { withWorkspaceContext, prisma, withAdminContext } from "@funnel/db";
 import type { TxClient } from "@funnel/db";
 
@@ -34,11 +35,15 @@ export class NoWorkspaceError extends Error {
 export async function withWorkspace<T>(
   fn: (tx: TxClient, workspaceId: string) => Promise<T>,
 ): Promise<T> {
-  const session = await auth();
+  // getSession() handles both real auth() and the INTERNAL_PREVIEW_MODE
+  // fallback that returns a synthetic team workspace. This means every
+  // dashboard query Just Works without a real signed-in user when the
+  // app is in internal-preview mode.
+  const session = await getSession();
   if (!session?.workspaceId) throw new NoWorkspaceError();
 
   return withWorkspaceContext(session.workspaceId, (tx) =>
-    fn(tx, session.workspaceId!),
+    fn(tx, session.workspaceId),
   );
 }
 
@@ -61,24 +66,46 @@ export interface DashboardSession {
 }
 
 /**
- * Resolve `auth()` + the workspace name in one call. Returns null on
- * unauthenticated requests so page components can `redirect("/login")`.
+ * Resolve the session + workspace name in one call. Returns null on
+ * unauthenticated requests when preview mode is off so page components can
+ * `redirect("/login")`. In INTERNAL_PREVIEW_MODE the synthetic team session
+ * is returned so the dashboard is usable without signing in.
  */
 export async function getDashboardSession(): Promise<DashboardSession | null> {
-  const session = await auth();
+  const session = await getSession();
   if (!session?.user?.id || !session.workspaceId) return null;
 
   const workspace = await withAdminContext((tx) =>
     tx.workspace.findUnique({
-      where: { id: session.workspaceId! },
+      where: { id: session.workspaceId },
       select: { name: true, slug: true, plan: true },
     }),
   );
 
-  if (!workspace) return null;
+  if (!workspace) {
+    // In preview mode, the in-memory provisioning latch may have raced with
+    // a fresh container — the synthetic session points at a row that hasn't
+    // been written yet. Fall through with a synthesized workspace so the
+    // dashboard still renders rather than redirecting to /login.
+    if (isInternalPreviewMode()) {
+      return {
+        userId: session.user.id,
+        email: session.user.email,
+        firstName: (session.user.name ?? "Team").split(" ")[0] ?? "Team",
+        fullName: session.user.name ?? "GoFunnelAI Team",
+        image: session.user.image,
+        workspaceId: session.workspaceId,
+        workspaceSlug: session.workspaceSlug,
+        workspaceName: "GoFunnelAI Internal",
+        role: session.role,
+        plan: session.plan,
+      };
+    }
+    return null;
+  }
 
-  const fullName = session.user.name ?? null;
-  const email = session.user.email ?? "";
+  const fullName = session.user.name;
+  const email = session.user.email;
   const firstName =
     fullName?.split(" ")[0] ?? email.split("@")[0] ?? "there";
 
@@ -87,11 +114,11 @@ export async function getDashboardSession(): Promise<DashboardSession | null> {
     email,
     firstName,
     fullName,
-    image: session.user.image ?? null,
-    workspaceId: session.workspaceId!,
+    image: session.user.image,
+    workspaceId: session.workspaceId,
     workspaceSlug: session.workspaceSlug ?? workspace.slug,
     workspaceName: workspace.name,
-    role: (session.role ?? "viewer") as DashboardSession["role"],
+    role: session.role,
     plan: (workspace.plan ?? "free") as DashboardSession["plan"],
   };
 }
