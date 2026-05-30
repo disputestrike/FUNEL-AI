@@ -35,7 +35,7 @@ export class NoWorkspaceError extends Error {
 export async function withWorkspace<T>(
   fn: (tx: TxClient, workspaceId: string) => Promise<T>,
 ): Promise<T> {
-  // getSession() handles both real auth() and the INTERNAL_PREVIEW_MODE
+  // getSession() handles both real auth() and the OPEN_ACCESS_MODE
   // fallback that returns a synthetic team workspace. This means every
   // dashboard query Just Works without a real signed-in user when the
   // app is in internal-preview mode.
@@ -67,8 +67,8 @@ export interface DashboardSession {
 
 /**
  * Resolve the session + workspace name in one call. Returns null on
- * unauthenticated requests when preview mode is off so page components can
- * `redirect("/login")`. In INTERNAL_PREVIEW_MODE the synthetic team session
+ * unauthenticated requests when open-access mode is off so page components
+ * can `redirect("/login")`. In OPEN_ACCESS_MODE the synthetic team session
  * is returned so the dashboard is usable without signing in.
  */
 export async function getDashboardSession(): Promise<DashboardSession | null> {
