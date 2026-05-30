@@ -1,25 +1,25 @@
 #!/bin/sh
 # GoFunnelAI runtime boot script.
 #
-# Goals:
-#   1. ALWAYS start the Next.js server, even if migrations or env vars are
-#      missing — so Railway can health-check the container and we can see
-#      real logs in the dashboard instead of cryptic preDeploy failures.
-#   2. Run prisma migrate deploy if DATABASE_URL is set. Log success or
-#      failure loudly. Do NOT exit non-zero on migration failure.
-#   3. Print env-var inventory at boot so we can see what's configured
-#      without exposing secret values.
+# NEVER blocks server startup on anything. Even if every env var is unset
+# and migrations would fail, the Next.js server starts and /api/healthz
+# returns 200. Diagnostics print to stdout (visible in Railway Deploy Logs)
+# so we can see what's missing without preventing the container from booting.
+#
+# Migrations run in the BACKGROUND — server is healthy in seconds.
 
-set -u
+# Intentionally NO `set -u` — we want unset vars to be empty strings, not
+# fatal errors. Same reason no `set -e`.
 
 echo "=================================================================="
-echo "GoFunnelAI boot — $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+echo "GoFunnelAI boot — $(date -u +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || echo unknown-time)"
 echo "=================================================================="
-
-# Env-var inventory (names only, no values)
 echo ""
-echo "[boot] env vars present:"
-for var in DATABASE_URL REDIS_URL NEXTAUTH_URL NEXTAUTH_SECRET \
+
+# Env-var inventory — names only, no secret values.
+echo "[boot] env vars present (set/MISSING):"
+for var in DATABASE_URL DIRECT_DATABASE_URL REDIS_URL \
+           NEXTAUTH_URL NEXTAUTH_SECRET AUTH_SECRET \
            GOOGLE_CLIENT_ID GOOGLE_CLIENT_SECRET \
            ANTHROPIC_API_KEY OPENAI_API_KEY REPLICATE_API_TOKEN \
            R2_ACCESS_KEY_ID R2_SECRET_ACCESS_KEY R2_BUCKET R2_ENDPOINT \
@@ -29,50 +29,66 @@ for var in DATABASE_URL REDIS_URL NEXTAUTH_URL NEXTAUTH_SECRET \
            PORT HOSTNAME NODE_ENV RAILWAY_ENVIRONMENT \
            ENABLE_EMBEDDED_WORKERS RAILWAY_PUBLIC_DOMAIN
 do
-  eval val=\"\$$var\"
-  if [ -n "${val:-}" ]; then
-    echo "  [+] $var (set)"
+  # Use parameter expansion that NEVER errors on unset vars.
+  val=$(printenv "$var" 2>/dev/null || echo "")
+  if [ -n "$val" ]; then
+    echo "  [+] $var"
   else
     echo "  [-] $var (MISSING)"
   fi
 done
 echo ""
 
-# Run migrations if DATABASE_URL is set. Non-fatal.
-#
-# If a previous deploy left a migration marked "failed" in _prisma_migrations
-# (e.g. the BOM-in-SQL bug we just fixed), prisma migrate deploy refuses to
-# proceed. Auto-recover by rolling back the failed marker first, then retry.
-if [ -n "${DATABASE_URL:-}" ]; then
-  echo "[boot] DATABASE_URL is set — running prisma migrate deploy..."
-  if prisma migrate deploy --schema=./prisma/schema.prisma 2>&1 | tee /tmp/migrate.log; then
-    echo "[boot] migrations OK"
-  else
-    rc=$?
-    echo "[boot] migrations FAILED (exit=$rc) — attempting recovery..."
-    # Detect a "failed migration" lockout and roll it back so the next
-    # deploy attempt can re-apply the (now-fixed) SQL.
-    if grep -q "following migration(s) have failed" /tmp/migrate.log 2>/dev/null \
-       || grep -q "P3009" /tmp/migrate.log 2>/dev/null; then
-      stuck=$(grep -oE '20[0-9]{12}_[a-z_]+' /tmp/migrate.log | head -1)
-      if [ -n "$stuck" ]; then
-        echo "[boot] rolling back stuck migration: $stuck"
-        prisma migrate resolve --rolled-back "$stuck" --schema=./prisma/schema.prisma || true
-        echo "[boot] re-running migrate deploy after rollback..."
-        if prisma migrate deploy --schema=./prisma/schema.prisma; then
-          echo "[boot] migrations OK (after recovery)"
+# Migrations run in BACKGROUND. Server boots immediately. If migrations
+# fail (BOM-bug stuck row, network, missing DB, anything), they log but
+# don't block /api/healthz from returning 200.
+DATABASE_URL_VAL=$(printenv DATABASE_URL 2>/dev/null || echo "")
+if [ -n "$DATABASE_URL_VAL" ]; then
+  echo "[boot] DATABASE_URL set — running prisma migrate deploy in background"
+  (
+    echo "[migrate-bg] $(date -u +%H:%M:%S) starting prisma migrate deploy"
+    OUT=$(prisma migrate deploy --schema=./prisma/schema.prisma 2>&1)
+    RC=$?
+    echo "$OUT"
+    if [ $RC -ne 0 ]; then
+      echo "[migrate-bg] migrate deploy exit=$RC — checking for stuck migration"
+      # Detect P3009 / failed-migrations lockout and auto-recover.
+      if echo "$OUT" | grep -qE "P3009|have failed|migration.* failed"; then
+        STUCK=$(echo "$OUT" | grep -oE '20[0-9]{12}_[a-z_]+' | head -1)
+        if [ -n "$STUCK" ]; then
+          echo "[migrate-bg] rolling back stuck migration: $STUCK"
+          prisma migrate resolve --rolled-back "$STUCK" --schema=./prisma/schema.prisma 2>&1
+          echo "[migrate-bg] retrying migrate deploy after rollback"
+          prisma migrate deploy --schema=./prisma/schema.prisma 2>&1
+          echo "[migrate-bg] retry exit=$?"
         else
-          echo "[boot] migrations still failing after recovery — starting server anyway"
+          echo "[migrate-bg] could not parse stuck migration name from error"
         fi
       fi
+    else
+      echo "[migrate-bg] migrate deploy OK"
     fi
-  fi
+    echo "[migrate-bg] $(date -u +%H:%M:%S) done"
+  ) &
+  MIGRATE_PID=$!
+  echo "[boot] migrate background pid=$MIGRATE_PID"
 else
-  echo "[boot] DATABASE_URL is NOT set — skipping migrations"
-  echo "[boot] set DATABASE_URL in Railway Variables tab, then redeploy"
+  echo "[boot] DATABASE_URL NOT set — skipping migrations"
+  echo "[boot] >>> set DATABASE_URL in Railway Variables tab and redeploy <<<"
 fi
 
 echo ""
-echo "[boot] starting Next.js server on ${HOSTNAME:-0.0.0.0}:${PORT:-3000}"
+PORT_VAL=$(printenv PORT 2>/dev/null || echo "3000")
+HOSTNAME_VAL=$(printenv HOSTNAME 2>/dev/null || echo "0.0.0.0")
+echo "[boot] starting Next.js standalone server on ${HOSTNAME_VAL}:${PORT_VAL}"
 echo "=================================================================="
-exec node server.js
+
+# Ensure server.js exists at expected location.
+if [ ! -f /app/server.js ]; then
+  echo "[boot] FATAL: /app/server.js not found"
+  ls -la /app | head -30
+  exit 1
+fi
+
+# exec replaces this shell with node so signals reach the server properly.
+exec node /app/server.js
