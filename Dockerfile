@@ -19,6 +19,10 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN pnpm prisma generate
 RUN pnpm build
+# pnpm symlinks .prisma to .pnpm — flatten so the runtime stage can COPY
+# from predictable paths regardless of pnpm's internal layout.
+RUN cp -RL /app/node_modules/.prisma /app/_prisma_client 2>/dev/null || true \
+ && cp -RL /app/node_modules/@prisma /app/_prisma_namespace 2>/dev/null || true
 
 # -------- Stage 3: runtime ---------------------------------------------------
 FROM node:20-alpine AS runtime
@@ -35,8 +39,9 @@ COPY --from=build --chown=funnel:funnel /app/.next/standalone ./
 COPY --from=build --chown=funnel:funnel /app/.next/static ./.next/static
 COPY --from=build --chown=funnel:funnel /app/public ./public
 COPY --from=build --chown=funnel:funnel /app/prisma ./prisma
-COPY --from=build --chown=funnel:funnel /app/node_modules/.prisma ./node_modules/.prisma
-COPY --from=build --chown=funnel:funnel /app/node_modules/@prisma ./node_modules/@prisma
+# Prisma client (resolved through pnpm symlinks at build time, flattened above).
+COPY --from=build --chown=funnel:funnel /app/_prisma_client ./node_modules/.prisma
+COPY --from=build --chown=funnel:funnel /app/_prisma_namespace ./node_modules/@prisma
 USER funnel
 EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
