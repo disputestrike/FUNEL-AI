@@ -1,21 +1,16 @@
 # GoFunnelAI — Railway single-service deploy
 #
-# This is the ONLY railway config Railway should read.
-# It declares ONE service: the Next.js web app.
-# Everything else (Cloudflare Workers for renderer/short-links, App Store for
-# mobile, Chrome Store for extension, Shopify Partners for shopify-app) deploys
-# elsewhere — they are not Railway services.
-#
-# Background jobs (BullMQ workers) run inside the same Node process as the web
-# app via Next.js instrumentation hook. Add a separate `funnel-workers` service
-# later only if you need to scale workers independently.
+# ONE Next.js app at repo root. ONE Railway service. No monorepo.
+# Background jobs (BullMQ workers) run in-process via Next.js instrumentation hook.
+# Scale them out by setting ENABLE_EMBEDDED_WORKERS=0 and deploying a worker
+# service that runs `node dist/workers/index.js` separately.
 
 [build]
 builder = "DOCKERFILE"
-dockerfilePath = "apps/web/Dockerfile"
+dockerfilePath = "Dockerfile"
 
 [deploy]
-startCommand = "node apps/web/server.js"
+startCommand = "node server.js"
 healthcheckPath = "/api/healthz"
 healthcheckTimeout = 60
 restartPolicyType = "ON_FAILURE"
@@ -25,17 +20,4 @@ sleepApplication = false
 
 # Run Prisma migrations before the new container takes traffic.
 # Idempotent: safe to re-run on every deploy.
-preDeployCommand = "pnpm --filter @funnel/db db:migrate:deploy"
-
-# Watch only what affects the web build.
-# Changes to apps/mobile, apps/extension, etc. will NOT trigger a redeploy.
-[deploy.watch]
-paths = [
-  "apps/web/**",
-  "packages/**",
-  "package.json",
-  "pnpm-lock.yaml",
-  "pnpm-workspace.yaml",
-  "turbo.json",
-  "railway.toml",
-]
+preDeployCommand = "pnpm prisma migrate deploy"
