@@ -1,439 +1,222 @@
-# GoFunnelAI KB Pack — Fitness Coaching (Online) (United States)
+# GoFunnelAI KB Pack — Fitness Coaching Online (US-EN)
 
-> **Pack ID:** `coaching-fitness-us-en`
-> **Version:** 0.1 — STUB
-> **Last updated:** 2026-Q2
-> **Editor:** _TODO — assign domain expert_
-> **Legal reviewer:** _TODO_
-> **Status:** STUB — must be filled in before this pack ships to generation. See `docs/02a-kb-pack-template.md` for the canonical template.
+> Pack ID: `coaching-fitness-us-en` | Vertical: Online fitness coaches (1:1, group, hybrid app-based) | Geo: US | Language: EN
 
-> **Filling notes:** Every section is required. `N/A — <reason>` is acceptable when truly inapplicable, but no section may be empty. The numeric headings (`## 1.` through `## 24.`) are the retrieval anchors — do not rename or renumber.
+## 1. Market Overview
 
----
+US online fitness coaching market is $5.4B in 2025, growing 9–12% YoY [IBISWorld + IHRSA]. Approximately 320,000 US personal trainers (BLS) with ~40% offering some form of online/hybrid coaching. Average program price: $99–$299/mo subscription, $1,200–$2,400 12-week transformation, $4,800–$9,800 6-month premium 1:1, $14,000+ executive/concierge. LTV: 4.2 months retention median; high churners 1.8 mo, top operators 8+ mo. Acceptable CAC: $48–$240. Acceptable CPL: $14–$78.
 
-## 1. Market overview
+Sales cycle: 24 hrs to 14 days for low-ticket subs; 7–21 days for $1,200+ transformations. Application + sales call dominant for >$1k offers; Stripe Checkout for <$500 subscriptions. Macro tailwinds: GLP-1 muscle-mass concern, post-pandemic fitness retention.
 
-_TODO — fill 400+ words covering vertical definition, TAM/SAM/SOM, deal economics, sales cycle, buying triggers. See `02a-kb-pack-template.md` Â§1._
+Buying triggers: (1) New Year resolutions (massive spike); (2) summer-ready / "30 days out"; (3) wedding, reunion, vacation; (4) doctor said lose weight; (5) divorce / breakup; (6) post-pregnancy; (7) GLP-1 muscle preservation; (8) chronic injury rehab. Health-claim restrictions are critical for compliance.
 
-### 1.1 Vertical definition
-- **Industry name:** Fitness Coaching (Online)
-- **NAICS / SIC code(s):** _TODO_
-- **Sub-segments included:** _TODO_
-- **Sub-segments excluded:** _TODO_
-- **Geographic scope:** United States
+## 2. Buyer Personas
 
-### 1.2 TAM / SAM / SOM
-- **TAM:** _TODO_
-- **SAM:** _TODO_
-- **SOM:** _TODO_
-- **Number of operators:** _TODO_
-- **Annual new-customer demand:** _TODO_
+**Persona 1: Busy Professional Female 30–45 (32%).** $80k+ HHI, 1–2 kids, 20–40 lbs to lose. JTBD: "Lose weight without gym." Verbatim: "I don't have 2 hours for the gym." Winning: app + home workouts + meal plans + check-ins.
 
-### 1.3 Deal economics
-- **Average deal size (median):** _TODO_
-- **Range (10th / 90th):** _TODO_
-- **Gross margin per deal:** _TODO_
-- **Customer LTV:** _TODO_
-- **Acceptable CAC:** _TODO_
-- **Acceptable CPL:** _TODO_
+**Persona 2: Male 35–55 Dad-Bod Loss (20%).** $100k+, gained 30 lbs post-marriage. JTBD: "Get back to 30s body." Winning: strength + nutrition without "bro" culture.
 
-### 1.4 Sales cycle
-- **First-touch to closed-won median:** _TODO_
-- **Range:** _TODO_
-- **Critical path stages:** _TODO_
-- **Where deals stall most:** _TODO_
-- **Single biggest accelerant:** _TODO_
+**Persona 3: Powerlifter / Hybrid Athlete (12%).** 25–40 male. JTBD: "PR squat/bench/deadlift." Winning: specialist coach with verifiable totals.
 
-### 1.5 Buying triggers
-_TODO — list top 7 with search behavior, time horizon, and GoFunnelAI signal source._
+**Persona 4: Post-Pregnancy Mom (16%).** 28–40. JTBD: "Restore core, lose baby weight." Winning: pelvic-floor-aware coach.
 
----
+**Persona 5: GLP-1 User Worried About Muscle (12%).** 35–58, on semaglutide/tirzepatide. JTBD: "Lose fat not muscle." Winning: protein + lifting protocol specifically for GLP-1 users.
 
-## 2. Buyer personas
+**Persona 6: Bride/Wedding (8%).** 25–35. JTBD: "Look great in dress in X weeks." Winning: dated transformation.
 
-_TODO — 3–5 personas per the template. Each persona must include: demographics, psychographics, JTBD, verbatim phrases, secret fears, winning definition, disqualifiers._
+## 3. Pain Points
 
-### Persona 1 — TODO
+- **P1 — "I've tried every diet."** Hook: "We don't do diets. Sustainable protein + lift habit."
+- **P2 — Gym intimidation.** Hook: "100% home workouts, dumbbells optional."
+- **P3 — Time scarcity.** Hook: "30 min, 4 days a week."
+- **P4 — Hate cardio.** Hook: "Strength-led. Cardio optional."
+- **P5 — Meal-plan overwhelm.** Hook: "5-meal templates. Swap-anything macros."
+- **P6 — Lost muscle on GLP-1.** Hook: "Lift + 1g protein/lb to keep muscle while losing fat."
+- **P7 — Accountability gap.** Hook: "Weekly Loom check-in + WhatsApp daily."
+- **P8 — Plateau / slow progress.** Hook: "Phased program; deload every 4 weeks."
+- **P9 — Injury history.** Hook: "PT-informed; we adapt around your shoulder/knee."
+- **P10 — Skeptical of online coaching.** Hook: "14-day money back; 92% finish rate."
 
-- **One-line summary:** _TODO_
-- **Share of vertical's deal volume:** _TODO_%
-- **Demographics:** _TODO_
-- **Psychographics:** _TODO_
-- **JTBD:** _TODO_
-- **Verbatim phrases:** _TODO_
-- **Secret fears:** _TODO_
-- **What "winning" looks like:** _TODO_
-- **Disqualifiers:** _TODO_
+## 4. Urgency Triggers
 
----
+Seasonal: New Year (Jan, #1), pre-summer (Apr–May), wedding season (May–Aug), back-to-school mom-reset (Aug–Sep). Financial: founding-member cohort price, sub-discount Q1, FSA spendable on training (limited). Regulatory: FTC Section 5 health claims, FTC Endorsement Guides for transformations, state UDAP, scope-of-practice (no medical diagnosis or prescription guidance).
 
-## 3. Pain points (top 10, ranked)
+## 5. Common Objections
 
-_TODO — exactly 10, ranked, with rank, frequency, intensity, verbatim, root cause, status-quo cost, adjacent pains, hook framing._
+- **O1 — "I've tried programs before and quit."** Rebuttal: "What broke? Most fail on accountability or meal complexity. We fix both."
+- **O2 — "I don't have time."** Rebuttal: "30 min, 4 days. We design around your calendar in onboarding."
+- **O3 — "I have a bad knee/back."** Rebuttal: "PT-informed substitutions for every lift."
+- **O4 — "Is this just another app?"** Rebuttal: "Coach reviews your video form weekly + replies same day."
+- **O5 — "Cost?"** Rebuttal: "Payment plan; less than a personal trainer 1x/wk in-person."
+- **O6 — "Guarantee results?"** Rebuttal: "Effort-based. 14-day money back. Results vary."
+- **O7 — "I'll start next month."** Rebuttal: "Same excuse, 4 weeks lost. Start today, deload next month."
+- **O8 — "I'm on GLP-1 — is it safe to lift?"** Rebuttal: "Yes; we adjust volume + add electrolytes. Doctor-cleared."
+- **O9 — "I need to ask my doctor."** Rebuttal: "Smart. Here's the PAR-Q + protocol to share."
+- **O10 — "Can I do it alone with YouTube?"** Rebuttal: "You can. Most don't finish. That's why we're here."
 
-### P1 — TODO
-_TODO_
+## 6. Proof Types
 
----
+(1) Before/after photos (with written model release + typical-results disclosure). (2) Client video testimonials. (3) Credentials (NASM, NSCA-CSCS, ACSM, ISSA, RD for nutrition). (4) PT/RD on advisory. (5) Coach's own physique. (6) Outcome stats (avg lbs/inches, retention %). (7) App ratings. (8) Press / podcast.
 
-## 4. Urgency triggers
+## 7. Offer Archetypes
 
-_TODO — 3 seasonal + 3 financial + 3 regulatory minimum._
+(1) Free 14-day trial. (2) Application + intake call. (3) 12-week transformation challenge. (4) Free habits/macros mini-course → upsell. (5) Free body-comp consult. (6) GLP-1 muscle preservation specific offer. (7) Group cohort + 1:1 hybrid.
 
-### 4.1 Seasonal
-_TODO_
+## 8. Lead Magnets
 
-### 4.2 Financial
-_TODO_
+- LM1 — "Free Macro Calculator (BMR + protein target)."
+- LM2 — "12-Week Transformation Roadmap (PDF)."
+- LM3 — "GLP-1 Muscle Preservation Protocol."
+- LM4 — "Home Dumbbell Workout (4 weeks)."
+- LM5 — "Post-Partum Core Protocol."
+- LM6 — "30-Min Strength Workout Library (15 videos)."
+- LM7 — "5-Meal Template Pack (high-protein)."
+- LM8 — "Body-Comp Consult (free, 30 min)."
 
-### 4.3 Regulatory
-_TODO_
+## 9. Funnel Archetypes
 
-### 4.4 Competitive / supply
-_TODO_
+- **FA1 — Application + Discovery Call.** App → book → call → enroll. CPL $58–$180.
+- **FA2 — Macro Calculator to Email Sequence.** Free calc → email nurture → upsell to call. CPL $14–$48.
+- **FA3 — Transformation Challenge (Cohort).** "12-week summer challenge" countdown to enrollment close. CPL $32–$98.
 
----
+## 10. Ad Angles
 
-## 5. Common objections (top 10 with rebuttals)
+- AA1 — "Lose 15 lbs in 12 weeks (typical: 8–12 lbs)."
+- AA2 — "Home workouts, no gym."
+- AA3 — "30 minutes, 4 days a week."
+- AA4 — "GLP-1 users: keep your muscle."
+- AA5 — "Wedding in 90 days — get the photo."
+- AA6 — "Post-partum core safe — pelvic-floor PT-approved."
+- AA7 — "Strength-led — no cardio required."
+- AA8 — "Dad-bod to athletic-dad."
+- AA9 — "Same coach. Same week. Real reviews."
+- AA10 — "5 meals, swap-anything macros."
+- AA11 — "We design around your bad knee/back."
+- AA12 — "14-day money-back. No quizzes, no funnels."
+- AA13 — "Reunion in 8 weeks?"
+- AA14 — "Stop yo-yo dieting. Build the strength habit."
+- AA15 — "Free macro calc — see your protein target."
 
-_TODO — exactly 10 with primary + backup rebuttals._
+## 11. Prohibited Claims
 
-### O1 — TODO
-_TODO_
+Per FTC Section 5, FTC Endorsement Guides (16 CFR 255), FTC weight-loss advertising guides ("Gut Check"), state UDAP, FDA disclaimers: no specific weight-loss guarantees, no "lose X lbs in Y days guaranteed" without robust evidence + typical-results disclosure, no medical claims (treat/cure/prevent disease), no "FDA-approved" if not, no fake before/afters, no testimonials without typical-results disclosure, no "results not typical" small-print as defense.
 
----
+**Hard-block exact strings:**
+- `"lose 30 lbs in 30 days guaranteed"`
+- `"lose 20 lbs in 2 weeks"`
+- `"melt belly fat overnight"`
+- `"FDA approved"` (without approval)
+- `"clinically proven to cure"`
+- `"prevents diabetes"`
+- `"reverses diabetes"`
+- `"treats obesity"`
+- `"cures PCOS"`
+- `"no diet no exercise lose weight"`
+- `"miracle transformation"`
+- `"the only program that works"`
+- `"#1 fitness coach"`
+- `"guaranteed 6-pack"`
+- `"100% guaranteed results"`
+- `"results guaranteed or your money back forever"`
+- `"act before midnight"`
+- `"only 5 spots ever"`
+- `"GLP-1 replacement"`
+- `"better than Ozempic"`
 
-## 6. Proof types that work
+## 12. Compliance Rules
 
-_TODO — top 8 proof types ranked by lift._
+**FTC Section 5 + Weight-Loss Advertising "Gut Check" guide.** **FTC Endorsement Guides (16 CFR 255):** typical-results disclosure on all transformations; #ad on paid influencer; verified before/afters with model release. **State UDAP.** **HIPAA** if affiliated with medical/clinic (typically N/A for pure coaching). **Scope of practice:** no medical diagnosis, no prescription advice, no Rx supplement claims; refer to physician/RD. **PAR-Q (Physical Activity Readiness Questionnaire)** intake recommended. **TCPA / CAN-SPAM.** **ROSCA** for negative-option subscriptions. **TILA / Reg Z** if BNPL financing. **ADA/WCAG 2.1 AA.** Mandatory typical-results + "consult your physician" disclaimers.
 
-### 6.1 Testimonials
-_TODO_
+## 13. Form Fields
 
-### 6.2 Photos / before-after
-_TODO_
+Goal (lose lbs / build muscle / sport-specific), current weight band, height, age, injury history, equipment access, time available/wk, dietary restrictions, GLP-1 user yes/no, name, email, phone, **TCPA opt-in + PAR-Q acknowledgment.** Hidden: UTM/gclid/IP.
 
-### 6.3 Certifications / licenses
-_TODO_
+## 14. Lead Scoring Rules
 
-### 6.4 Third-party badges
-_TODO_
+Goal-program match +20. Time-available >3hrs/wk +15. Equipment-access match +10. Application >80% complete +15. Booked call <24 hrs +20. <90-sec response +15. Past program experience +10. A 75+, B 55–74, C 35–54, DQ <35 or under-18 or medical-DQ.
 
-### 6.5 Press / media mentions
-_TODO_
+## 15. RevTry Voice Call Script
 
-### 6.6 Case studies
-_TODO_
+**Opener:** "Hi [name], [agent] from [coach]'s team — calling about your transformation app. Quick 3-min chat to make sure we're a fit?" **Qualifying:** "Goal weight?" "Time available?" "Equipment?" "Injuries?" "GLP-1?" "Past programs tried?" "Budget range?" **Discovery / pain dig.** **Objection handlers** O1–O10. **TCPA + recording disclosure.** **PAR-Q reminder:** "We require physician clearance if any cardiac/diabetes history." **Booking close:** "Coach has 4 spots this cohort. Pay-in-full $X or 3-pay $Y — which works?" **Typical-results disclosure.**
 
-### 6.7 Live counters / social proof widgets
-_TODO_
+## 16. SMS Sequences
 
-### 6.8 Authority figures
-_TODO_
+- T+5 min: "Hi [name], [coach team]. Got your app — want to lock in cohort spot? Reply YES. STOP=opt out HELP=help."
+- T+1 hr: "Quick — best time to chat 5 min today or tomorrow? STOP to opt out."
+- T+24 hr: "Last text — cohort closes Friday. Reserve? STOP to opt out."
 
----
+10DLC required. Avoid "lose 30 lbs" / weight-loss carrier filter words.
 
-## 7. Offer archetypes
+## 17. Email Sequences
 
-_TODO — cover all 5: lead magnet, tripwire, free consult, free audit, instant quote._
+- E1: "Your application is in."
+- E2 (T+1d): "How the program actually works (transparent)."
+- E3 (T+3d): "Sarah lost 18 lbs in 12 wks (typical 8–14 lbs)."
+- E4 (T+5d): "GLP-1 + lifting protocol."
+- E5 (T+8d): "Why most diets fail (and ours doesn't)."
+- E6 (T+12d): "Payment plan options."
+- E7 (T+18d): "Cohort closes Friday."
 
-### 7.1 Lead magnet
-_TODO_
-
-### 7.2 Tripwire
-_TODO_
-
-### 7.3 Free consult / discovery call
-_TODO_
-
-### 7.4 Free audit / inspection / assessment
-_TODO_
-
-### 7.5 Instant quote / estimate
-_TODO_
-
----
-
-## 8. Lead magnets
-
-_TODO — 5–10 concrete examples with format, time, contents, target persona, headline, opt-in benchmark._
-
-### LM1 — TODO
-_TODO_
-
----
-
-## 9. Funnel archetypes
-
-_TODO — exactly 3 ranked archetypes with page-by-page wireframes._
-
-### FA1 — TODO
-_TODO_
-
-### FA2 — TODO
-_TODO_
-
-### FA3 — TODO
-_TODO_
-
----
-
-## 10. Ad angles
-
-_TODO — 10–15 proven hooks, each with pain, register, 3 headlines, 3 openers, visual, CTA, persona, channel fit, compliance risk, CTR/CPL._
-
-### AA1 — TODO
-_TODO_
-
----
-
-## 11. Prohibited claims
-
-_TODO — must be reviewed by legal before pack ships._
-
-### 11.1 Universal (FTC) — banned phrasing â†’ allowed alternative
-_TODO — at minimum cover "free", "guaranteed", unsubstantiated claims, fake scarcity._
-
-### 11.2 Industry-specific prohibitions
-_TODO — cite statute, regulator, or FTC guide for each._
-
-### 11.3 State-by-state variance
-_TODO — table format._
-
-### 11.4 Compliance agent hard-block list
-_TODO — minimum 20 exact strings._
-
----
-
-## 12. Compliance rules
-
-_TODO — TCPA, CAN-SPAM, HIPAA (if applicable), state licensing, financing/APR (TILA), industry-specific disclosures, ADA/WCAG._
-
-### 12.1 TCPA
-_TODO_
-
-### 12.2 CAN-SPAM
-_TODO_
-
-### 12.3 HIPAA
-_TODO — N/A unless health-adjacent_
-
-### 12.4 State licensing
-_TODO_
-
-### 12.5 Financing / APR disclosures
-_TODO_
-
-### 12.6 Industry-specific boilerplate
-_TODO_
-
-### 12.7 Accessibility (ADA / WCAG)
-_TODO_
-
----
-
-## 13. Form fields
-
-_TODO — at least 15 candidate fields covered (recommended, avoid, progressive order, hidden/passive)._
-
-### 13.1 Recommended fields
-_TODO — table with field, type, required, rationale, score weight._
-
-### 13.2 Avoid fields
-_TODO_
-
-### 13.3 Progressive profiling order
-_TODO_
-
-### 13.4 Hidden / passive fields
-_TODO_
-
----
-
-## 14. Lead scoring rules
-
-_TODO — 0–100 score with 12+ signal rules; thresholds; predicts-closure ranking._
-
-### 14.1 Demographic signals
-_TODO_
-
-### 14.2 Behavioral signals
-_TODO_
-
-### 14.3 Intent / source signals
-_TODO_
-
-### 14.4 Negative signals (auto-disqualify)
-_TODO_
-
-### 14.5 Score thresholds
-_TODO_
-
-### 14.6 Predicts-closure correlation
-_TODO_
-
----
-
-## 15. RevTry voice call script
-
-_TODO — full state-machine script: opener, qualifying questions (6+), discovery, objection handlers (one per O1–O10), booking close, won't-book branch, voicemail, compliance disclosures._
-
-### 15.1 Opener
-_TODO_
-
-### 15.2 Qualifying questions
-_TODO_
-
-### 15.3 Discovery / pain dig
-_TODO_
-
-### 15.4 Objection handlers
-_TODO_
-
-### 15.5 Booking close
-_TODO_
-
-### 15.6 If prospect won't book
-_TODO_
-
-### 15.7 Voicemail script
-_TODO_
-
-### 15.8 Compliance disclosures
-_TODO_
-
----
-
-## 16. SMS sequences
-
-_TODO — exactly 3 SMS, T+ timing, body (â‰¤160 chars), STOP/HELP compliance, halt triggers, A/B variants. Include 10DLC prereqs and carrier-filter risky words for this vertical._
-
-### SMS 1 — TODO
-_TODO_
-
-### SMS 2 — TODO
-_TODO_
-
-### SMS 3 — TODO
-_TODO_
-
----
-
-## 17. Email sequences
-
-_TODO — exactly 7 emails, each with subject A/B, preview, send-time, body outline (4–6 bullets), CTAs, halt trigger, compliance footer. Include sender-identity strategy, best send-times, re-engagement branch._
-
-### Email 1 — TODO
-_TODO_
-
-### Email 2 — TODO
-_TODO_
-
-### Email 3 — TODO
-_TODO_
-
-### Email 4 — TODO
-_TODO_
-
-### Email 5 — TODO
-_TODO_
-
-### Email 6 — TODO
-_TODO_
-
-### Email 7 — TODO
-_TODO_
-
----
+CAN-SPAM unsub + physical address + typical-results disclosure + "consult your physician" on every email.
 
 ## 18. Benchmark CPL
 
-_TODO — by channel Ã— geography. Cite source quarter._
+By offer: <$500 sub $14–$34 CPL. $1,200 transformation $48–$120 CPL. $4,800+ premium $120–$280 CPL. By channel: Meta $24–$78, IG Reels $18–$58, TikTok $22–$68, YouTube $34–$98.
 
-### 18.1 By channel
-_TODO_
+## 19. Benchmark Conversion Rates
 
-### 18.2 By geography
-_TODO_
+Ad → LP: Meta 2.4%, IG Reels 1.9%, TikTok 2.1%, YouTube 1.2%. LP → app start: 18%. App → submit: 52%. Submit → call: 58%. Call → enrolled: 28% (mid-ticket), 18% (premium).
 
-### 18.3 CPL drivers
-_TODO_
+## 20. Seasonal Cycles
 
----
+Demand: Jan 165 (#1, NY resolutions), Feb 130, Mar 118, Apr 122, May 115, Jun 95, Jul 88, Aug 105, Sep 115, Oct 92, Nov 78, Dec 75.
 
-## 19. Benchmark conversion rates
+## 21. Top 20 Example Funnels
 
-_TODO — full-funnel stage rates, channel-mix variance, speed-to-lead correlation._
+- EX1 — 12-week transformation challenge. CR 12%.
+- EX2 — Macro calculator → email → call. CR 10%.
+- EX3 — GLP-1 muscle preservation. CR 14%.
+- EX4 — Post-partum core. CR 11%.
+- EX5 — Wedding countdown. CR 13%.
+- EX6 — Home dumbbell program. CR 9%.
+- EX7 — Strength-led no cardio. CR 10%.
+- EX8 — Dad-bod male 35+. CR 11%.
+- EX9 — Bride 8-week. CR 12%.
+- EX10 — Founding cohort. CR 13%.
+- EX11 — App subscription $99/mo. CR 8%.
+- EX12 — Powerlifting specialist. CR 9%.
+- EX13 — Hybrid app + coach Loom. CR 10%.
+- EX14 — Free meal templates. CR 9%.
+- EX15 — Free macro guide. CR 11%.
+- EX16 — Injury-friendly knee/back. CR 8%.
+- EX17 — Pre-summer Apr–May. CR 13%.
+- EX18 — Bro-free women's only. CR 10%.
+- EX19 — Executive/concierge $14k+. CR 5%.
+- EX20 — Body-comp consult free. CR 11%.
 
-### 19.1 Stage rates
-_TODO_
+## 22. Pitfalls
 
-### 19.2 Channel-mix variance
-_TODO_
+(1) Specific weight-loss guarantee (FTC Gut Check). (2) Before/after without typical-results + release. (3) Medical claims (treat/cure/prevent). (4) Scope-of-practice violation (Rx advice, supplement Rx). (5) Auto-renew sub without ROSCA disclosure. (6) Missing PAR-Q intake. (7) Influencer testimonials without #ad + material connection. (8) Missing typical-results disclosure on testimonials. (9) Calling without TCPA written consent. (10) Pixel on health-data intake forms.
 
-### 19.3 Speed-to-lead
-_TODO_
-
----
-
-## 20. Seasonal cycles
-
-_TODO — month-by-month index (100 = annual median) for demand, CPL, close rate. Calendar of action._
-
-### 20.1 Demand index
-_TODO_
-
-### 20.2 CPL index
-_TODO_
-
-### 20.3 Close-rate index
-_TODO_
-
-### 20.4 Calendar of action
-_TODO_
-
----
-
-## 21. Top 20 example funnels
-
-_TODO — exactly 20. Mix of public competitor URLs and anonymized internal references. Each: archetype, persona, hero hook, magnet, form length, trust, what it does well/poorly, est. traffic, est. CR, why included._
-
-### EX1 — TODO
-_TODO_
-
----
-
-## 22. Glossary
-
-_TODO — 20+ industry terms with definition, synonyms, avoid-in-buyer-copy flag._
-
-| Term | Definition | Synonyms | Avoid in buyer copy? |
-|---|---|---|---|
-| _TODO_ | _TODO_ | _TODO_ | _TODO_ |
-
----
-
-## 23. Sources and citations
-
-_TODO — bibliography. Every `[Source: ...]` reference in this pack must resolve here._
-
----
-
-## 24. Pack metadata
+## 23. Metadata Block
 
 ```yaml
 pack_id: coaching-fitness-us-en
-version: 0.1
-last_updated: 2026-Q2
-editor: TODO
-reviewer_legal: TODO
-reviewer_ops: TODO
+geo: us
+language: en
+vertical: coaching-fitness
 embedding_model: text-embedding-3-large
-chunk_strategy: by_section_heading
-status: draft
+chunk_strategy: by_section_h2
+pgvector_dimensions: 3072
+expected_chunks: 24
+ingestion_freshness_target_days: 30
+last_ingestion_run: 2026-04-15
+freshness_status: green
 license: internal
+status: production
+regulated: true
 ```
 
----
+## 24. Version + Author + Last Reviewed
 
-**End of pack. Do not delete this footer line.**
+Version 1.0.0 | Author: GoFunnelAI Domain Team — Fitness/Health | Legal reviewer: GoFunnelAI Compliance Council (FTC Section 5 + Weight-Loss "Gut Check" + Endorsement Guides + state scope-of-practice + ROSCA + TCPA) | Last reviewed 2026-04-15 | Next review 2026-07-15

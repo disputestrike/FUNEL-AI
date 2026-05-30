@@ -55,6 +55,9 @@ export type {
   FollowupSequence,
   RetargetingRule,
   LaunchScore,
+  // AI Command Center
+  CommandConversation,
+  CommandMessage,
 } from "@prisma/client";
 
 export {
@@ -87,6 +90,8 @@ export {
   FollowupStatus,
   RetargetingTrigger,
   RetargetingStatus,
+  // AI Command Center
+  CommandConversationRole,
 } from "@prisma/client";
 
 export {

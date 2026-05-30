@@ -1791,3 +1791,59 @@ model LaunchScore {
   @@index([campaignId, computedAt(sort: Desc)], map: "launch_scores_campaign_time_idx")
   @@map("launch_scores")
 }
+
+// =====================================================================
+// AI COMMAND CENTER — conversations + messages
+// Backs apps/web/src/app/dashboard/command — the chat-first surface
+// where users type prompts ("Create a launch campaign for my dental
+// funnel targeting practice managers, goal: booked demos") and the AI
+// orchestrator dispatches the right pipeline (funnel / campaign /
+// edit / query / launch / generic).
+// =====================================================================
+
+enum CommandConversationRole {
+  user
+  assistant
+  system
+
+  @@map("command_conversation_role")
+}
+
+model CommandConversation {
+  id          String   @id @default(dbgenerated("'ccv_' || encode(gen_random_bytes(13), 'hex')"))
+  workspaceId String   @map("workspace_id")
+  userId      String   @map("user_id")
+  title       String   @default("Untitled chat")
+  /// Optional pinned context — e.g. `{ "funnelId": "fnl_..." }` so every
+  /// turn after the user clicks "Pin to chat" carries that scope.
+  pinnedContext Json   @default("{}") @map("pinned_context") @db.JsonB
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
+  archivedAt  DateTime? @map("archived_at") @db.Timestamptz(6)
+
+  messages CommandMessage[]
+
+  @@index([workspaceId, updatedAt(sort: Desc)], map: "command_conv_workspace_updated_idx")
+  @@index([userId], map: "command_conv_user_idx")
+  @@map("command_conversations")
+}
+
+model CommandMessage {
+  id             String                  @id @default(dbgenerated("'cmg_' || encode(gen_random_bytes(13), 'hex')"))
+  conversationId String                  @map("conversation_id")
+  role           CommandConversationRole
+  /// JSON content. For user messages: `{ text }`. For assistant
+  /// messages: an array of blocks (`text`, `funnel_preview`,
+  /// `campaign_summary`, `asset_grid`, `action_chips`,
+  /// `readiness_score`).
+  content        Json                    @db.JsonB
+  /// Intent classifier output for user turns, agent-trace summary for
+  /// assistant turns. Both optional.
+  metadata       Json?                   @db.JsonB
+  createdAt      DateTime                @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  conversation CommandConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId, createdAt], map: "command_msg_conv_time_idx")
+  @@map("command_messages")
+}

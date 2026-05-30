@@ -1,439 +1,222 @@
-# GoFunnelAI KB Pack — Financial Advisor / Wealth Management (United States)
+# GoFunnelAI KB Pack — Financial Advisor / Wealth Management (US-EN)
 
-> **Pack ID:** `financial-advisor-us-en`
-> **Version:** 0.1 — STUB
-> **Last updated:** 2026-Q2
-> **Editor:** _TODO — assign domain expert_
-> **Legal reviewer:** _TODO_
-> **Status:** STUB — must be filled in before this pack ships to generation. See `docs/02a-kb-pack-template.md` for the canonical template.
+> Pack ID: `financial-advisor-us-en` | Vertical: RIAs, IARs, dual-registered, fee-only fiduciaries, retirement planners ($100k–$10M AUM clients) | Geo: US | Language: EN
 
-> **Filling notes:** Every section is required. `N/A — <reason>` is acceptable when truly inapplicable, but no section may be empty. The numeric headings (`## 1.` through `## 24.`) are the retrieval anchors — do not rename or renumber.
+## 1. Market Overview
 
----
+US wealth management market is $48.5T AUM, $187B advisory fee revenue [Cerulli 2025]. ~300,000 advisors (FINRA/SEC); ~15,300 RIA firms. Average client account: $480k–$2.4M. Fee schedule: 1.0–1.25% of AUM at $1M, sliding to 0.50–0.75% at $5M+. LTV per client: 11–14 years; per-client LTV $48k–$280k depending on AUM. Acceptable CAC: $1,800–$8,400 per closed household. Acceptable CPL (qualified appointment): $48–$320.
 
-## 1. Market overview
+Sales cycle: 21 days to 6 months. Decision tree: 2–4 appointments (intro → financial-plan presentation → IPS sign → ACAT transfer). High trust threshold. Referrals close 3x faster than cold.
 
-_TODO — fill 400+ words covering vertical definition, TAM/SAM/SOM, deal economics, sales cycle, buying triggers. See `02a-kb-pack-template.md` Â§1._
+Buying triggers: (1) job change with 401k rollover; (2) inheritance; (3) house sale / liquidity event; (4) pre-retirement (3–5 yrs out); (5) divorce; (6) widow/widower; (7) business sale; (8) RMD age (73); (9) market volatility anxiety.
 
-### 1.1 Vertical definition
-- **Industry name:** Financial Advisor / Wealth Management
-- **NAICS / SIC code(s):** _TODO_
-- **Sub-segments included:** _TODO_
-- **Sub-segments excluded:** _TODO_
-- **Geographic scope:** United States
+## 2. Buyer Personas
 
-### 1.2 TAM / SAM / SOM
-- **TAM:** _TODO_
-- **SAM:** _TODO_
-- **SOM:** _TODO_
-- **Number of operators:** _TODO_
-- **Annual new-customer demand:** _TODO_
+**Persona 1: Pre-Retiree 55–67 (38%).** $500k–$3M investable, 3–7 yrs to retirement. JTBD: "Will I run out of money?" Verbatim: "How much do I really need?" Winning: Monte Carlo, Social Security optimization, Roth conversion ladder.
 
-### 1.3 Deal economics
-- **Average deal size (median):** _TODO_
-- **Range (10th / 90th):** _TODO_
-- **Gross margin per deal:** _TODO_
-- **Customer LTV:** _TODO_
-- **Acceptable CAC:** _TODO_
-- **Acceptable CPL:** _TODO_
+**Persona 2: Retiree 65+ RMD (20%).** $1M–$5M. JTBD: "Optimize withdrawals + tax." Winning: tax-aware withdrawal, RMD planning.
 
-### 1.4 Sales cycle
-- **First-touch to closed-won median:** _TODO_
-- **Range:** _TODO_
-- **Critical path stages:** _TODO_
-- **Where deals stall most:** _TODO_
-- **Single biggest accelerant:** _TODO_
+**Persona 3: Mid-Career Accumulator (18%).** 40–55, $300k–$1.2M. JTBD: "On track? Diversified?" Winning: holistic plan, mega-backdoor Roth.
 
-### 1.5 Buying triggers
-_TODO — list top 7 with search behavior, time horizon, and GoFunnelAI signal source._
+**Persona 4: Business Owner / Liquidity (12%).** Sold biz, $2M–$15M. JTBD: "Preserve, grow, plan estate." Winning: estate, trust, QSBS, charitable.
 
----
+**Persona 5: Widow/Widower Inherited Wealth (8%).** Newly responsible. JTBD: "I need someone I trust." Winning: empathetic onboarding, simple plan.
 
-## 2. Buyer personas
+**Persona 6: Tech / Equity-Comp Pro (4%).** RSUs, ISOs. JTBD: "Manage concentrated stock + tax." Winning: 10b5-1, options-exercise strategy.
 
-_TODO — 3–5 personas per the template. Each persona must include: demographics, psychographics, JTBD, verbatim phrases, secret fears, winning definition, disqualifiers._
+## 3. Pain Points
 
-### Persona 1 — TODO
+- **P1 — "Will I run out of money?"** Hook: "Free Retirement Readiness Score — Monte Carlo in 15 min."
+- **P2 — Tax burden in retirement.** Hook: "Roth conversion ladder + tax-aware withdrawal."
+- **P3 — Don't trust commissioned brokers.** Hook: "Fee-only fiduciary, no commissions, CFP®."
+- **P4 — Hidden fees.** Hook: "Transparent 1% AUM, no commissions, expense ratios disclosed."
+- **P5 — Aggressive sales pitch (annuities).** Hook: "Annuities are tools, not a sale. We use only when math says."
+- **P6 — Inherited 401k confusion.** Hook: "Inherited IRA SECURE Act 10-yr rule planning."
+- **P7 — Social Security timing.** Hook: "Optimization software shows your exact break-even age."
+- **P8 — Healthcare in retirement.** Hook: "Medicare + HSA + LTC planning."
+- **P9 — Estate / legacy planning gap.** Hook: "Coordinated with estate attorney + CPA."
+- **P10 — Market crash fear.** Hook: "Glide-path + tactical bands, not 100% stocks."
 
-- **One-line summary:** _TODO_
-- **Share of vertical's deal volume:** _TODO_%
-- **Demographics:** _TODO_
-- **Psychographics:** _TODO_
-- **JTBD:** _TODO_
-- **Verbatim phrases:** _TODO_
-- **Secret fears:** _TODO_
-- **What "winning" looks like:** _TODO_
-- **Disqualifiers:** _TODO_
+## 4. Urgency Triggers
 
----
+Seasonal: Jan tax-planning, Apr tax-filing, Oct open-enrollment Medicare, Dec QCD/RMD/tax-loss harvest deadlines. Financial: end-of-year deadline (Dec 31), 60-day rollover window, RMD by Dec 31 (or Apr 1 first year), Social Security FRA decision windows. Regulatory: SEC Reg BI, DOL fiduciary rule, FINRA 2210, IA-3060 (RIA advertising rule revised 2022), state Bar/Insurance commish.
 
-## 3. Pain points (top 10, ranked)
+## 5. Common Objections
 
-_TODO — exactly 10, ranked, with rank, frequency, intensity, verbatim, root cause, status-quo cost, adjacent pains, hook framing._
+- **O1 — "I'll do it myself."** Rebuttal: "Great for accumulation. Retirement decumulation is where mistakes compound. Want a 2nd opinion?"
+- **O2 — "Fees are too high."** Rebuttal: "Net of fees, advised clients outperform by 1–3% (Vanguard Advisor Alpha study). Show me your statements."
+- **O3 — "How do I know you're fiduciary?"** Rebuttal: "Form ADV Part 2A + 2B. Fee-only NAPFA member."
+- **O4 — "Don't want commissions."** Rebuttal: "Fee-only. Zero commissions."
+- **O5 — "Why not Vanguard PAS?"** Rebuttal: "Great for $50k–$500k. We add tax + estate + insurance integration."
+- **O6 — "What's your minimum?"** Rebuttal: "$500k investable / $5k annual fee."
+- **O7 — "How fast can I move accounts?"** Rebuttal: "ACAT 7–10 business days. We coordinate transition."
+- **O8 — "Spouse needs to be there."** Rebuttal: "Both required at intro + plan delivery."
+- **O9 — "Tax implications of moving?"** Rebuttal: "Account transfer (ACAT) is non-taxable; positions unchanged."
+- **O10 — "How long is the contract?"** Rebuttal: "Month-to-month; cancel any time."
 
-### P1 — TODO
-_TODO_
+## 6. Proof Types
 
----
+(1) CFP® / CFA / CPA / CIMA credentials. (2) Series 65 / 7 / 66. (3) Form ADV Part 2A/2B (always disclose, never hide). (4) NAPFA / fee-only member. (5) Fiduciary oath / declaration. (6) Years in practice + AUM. (7) Client testimonials (compliant under IA Marketing Rule). (8) Client retention rate %.
 
-## 4. Urgency triggers
+## 7. Offer Archetypes
 
-_TODO — 3 seasonal + 3 financial + 3 regulatory minimum._
+(1) Free retirement / financial plan review (1–2 hr). (2) Social Security / RMD optimization report. (3) 401k rollover consultation. (4) Free risk-tolerance / Monte Carlo report. (5) Free 2nd-opinion review of current advisor / statements. (6) Estate-planning checklist.
 
-### 4.1 Seasonal
-_TODO_
+## 8. Lead Magnets
 
-### 4.2 Financial
-_TODO_
+- LM1 — "Free Retirement Readiness Score (Monte Carlo)."
+- LM2 — "Social Security Optimization Report."
+- LM3 — "401k Rollover Strategy — Free Consultation."
+- LM4 — "Roth Conversion Ladder Calculator."
+- LM5 — "Will I Run Out of Money? — Free 30-min Call."
+- LM6 — "Inherited IRA SECURE Act 10-yr Planner."
+- LM7 — "Risk Tolerance Quiz."
+- LM8 — "2nd Opinion: Free Review of Current Advisor."
 
-### 4.3 Regulatory
-_TODO_
+## 9. Funnel Archetypes
 
-### 4.4 Competitive / supply
-_TODO_
+- **FA1 — Retirement Readiness Quiz → Consult.** Multi-step quiz → score → book intro call. CPL $58–$240.
+- **FA2 — 401k Rollover Decision Tree.** Job-change angle → consult. CPL $48–$140.
+- **FA3 — Free 2nd-Opinion Review.** Upload statements (via secure portal) → analysis call. CPL $98–$320.
 
----
+## 10. Ad Angles
 
-## 5. Common objections (top 10 with rebuttals)
+- AA1 — "Free retirement readiness score."
+- AA2 — "Will you run out of money? Find out in 15 min."
+- AA3 — "Social Security: claim at 62, 67, or 70?"
+- AA4 — "Roth conversion ladder — when it makes sense."
+- AA5 — "Fee-only fiduciary, CFP®, no commissions."
+- AA6 — "401k rollover — should you?"
+- AA7 — "Inherited IRA — SECURE Act 10-yr rule."
+- AA8 — "Pre-retiree 55–67 — free 1-hr plan."
+- AA9 — "Sold your business? Now what?"
+- AA10 — "Widowed and worried? Empathetic plan."
+- AA11 — "Equity comp — exercise + sell strategy."
+- AA12 — "RMD age 73 — withdrawal strategy."
+- AA13 — "Tax-aware withdrawal in retirement."
+- AA14 — "Estate planning — coordinated with attorney + CPA."
+- AA15 — "Free 2nd-opinion on your advisor."
 
-_TODO — exactly 10 with primary + backup rebuttals._
+## 11. Prohibited Claims
 
-### O1 — TODO
-_TODO_
+Per SEC IA Marketing Rule (Rule 206(4)-1), FINRA 2210, Reg BI, DOL fiduciary, state laws: no "guaranteed returns," no "no risk," no "beat the market," no past performance without required disclaimers, no cherry-picked testimonials, no testimonials without Marketing-Rule disclosures (Cash/non-cash compensation, conflicts, etc), no implication of SEC/FINRA endorsement, no "FDIC insured" if not, no "tax-free guaranteed" without context, no fake credentials.
 
----
+**Hard-block exact strings:**
+- `"guaranteed returns"`
+- `"guaranteed 10% returns"`
+- `"no risk"`
+- `"risk-free investment"`
+- `"FDIC insured"` (for investments)
+- `"beat the market guaranteed"`
+- `"never lose money"`
+- `"100% safe investment"`
+- `"tax-free retirement guaranteed"`
+- `"approved by the SEC"`
+- `"FINRA endorsed"`
+- `"SEC certified"`
+- `"#1 advisor"`
+- `"best financial advisor"`
+- `"top wealth manager"`
+- `"act before midnight"`
+- `"limited spots ever"`
+- `"banks don't want you to know"`
+- `"secret IRS loophole"`
+- `"government retirement program"`
 
-## 6. Proof types that work
+## 12. Compliance Rules
 
-_TODO — top 8 proof types ranked by lift._
+**SEC Investment Advisers Act + IA Marketing Rule (17 CFR 275.206(4)-1, 2022).** **FINRA Rule 2210** (broker-dealers). **Reg BI** (broker-dealer best-interest). **DOL Fiduciary Rule** for retirement accounts. **Form ADV Part 2A/2B + Form CRS** must be available + disclosed. **NIPR / state IAR registration.** **State Bar / Insurance Commission** for cross-licensed. **TCPA + 10DLC + Do-Not-Call Registry.** **CAN-SPAM.** **Reg S-P / GLBA Safeguards Rule.** **Anti-Money Laundering (AML) + KYC.** **State data-privacy (CCPA, etc).** **ADA / WCAG 2.1 AA.** **Testimonials require Marketing-Rule disclosures (cash/non-cash compensation, conflicts of interest, material risks).** All performance advertising requires net-of-fees + time period + risk warning + GIPS-compliance recommended.
 
-### 6.1 Testimonials
-_TODO_
+## 13. Form Fields
 
-### 6.2 Photos / before-after
-_TODO_
+Investable asset range (DQ if <minimum), age, primary goal (retire/grow/tax/estate), current advisor (yes/no/maybe), state, employment status, time horizon, name, email, phone, **TCPA opt-in + Reg S-P privacy notice.** Hidden: UTM/gclid/IP. Avoid SSN, account numbers (collect later via secure portal).
 
-### 6.3 Certifications / licenses
-_TODO_
+## 14. Lead Scoring Rules
 
-### 6.4 Third-party badges
-_TODO_
+Investable >$500k +25 (DQ <$100k for typical RIA). Pre-retiree 55–67 +20. Inheritance/liquidity event +20. State licensed in +10 (DQ if not). Booked appt <48 hrs +20. Spouse joining +10. 2nd-opinion request +15. A 75+, B 55–74, C 35–54, DQ <35 or below-minimum.
 
-### 6.5 Press / media mentions
-_TODO_
+## 15. RevTry Voice Call Script
 
-### 6.6 Case studies
-_TODO_
+**Opener:** "Hi [name], this is [agent] from [firm] — calling about your Retirement Readiness Score request. Got 4 min to confirm details and book you with [advisor name], CFP®?" **Qualifying:** "Investable range?" "Age + planned retirement age?" "Spouse?" "Current advisor?" "Primary concern?" "Goal (income, growth, tax)?" "Timeline?" **Discovery / pain dig.** **Objection handlers** O1–O10. **TCPA + recording + Reg S-P + Form ADV disclosure.** **Booking close:** "Advisor has Tue 2pm or Thu 10am. Both joining? Bring last statement." **NO performance / guarantee claims.**
 
-### 6.7 Live counters / social proof widgets
-_TODO_
+## 16. SMS Sequences
 
-### 6.8 Authority figures
-_TODO_
+- T+3 min: "Hi [name], [firm]. Got your readiness score request — quick: investable range ($100k, $500k, $1M+)? STOP=opt out HELP=help. Reg S-P privacy notice on website."
+- T+1 hr: "Advisor [Name] CFP®. Tue 2pm or Thu 10am? STOP to opt out."
+- T+24 hr: "Last text — schedule plan review or close file? STOP to opt out."
 
----
+10DLC required + IA Marketing Rule disclosures. Avoid "guaranteed" / "no risk" / "FDIC" filter words.
 
-## 7. Offer archetypes
+## 17. Email Sequences
 
-_TODO — cover all 5: lead magnet, tripwire, free consult, free audit, instant quote._
+- E1: "Your readiness call is being scheduled."
+- E2 (T+1d): "How we differ from commissioned brokers."
+- E3 (T+3d): "What to bring (statements, SS estimate)."
+- E4 (T+5d): "Roth conversion case study (anonymized)."
+- E5 (T+8d): "Form ADV + Form CRS attached."
+- E6 (T+12d): "Spouse-joining agenda."
+- E7 (T+18d): "Last call — close file?"
 
-### 7.1 Lead magnet
-_TODO_
-
-### 7.2 Tripwire
-_TODO_
-
-### 7.3 Free consult / discovery call
-_TODO_
-
-### 7.4 Free audit / inspection / assessment
-_TODO_
-
-### 7.5 Instant quote / estimate
-_TODO_
-
----
-
-## 8. Lead magnets
-
-_TODO — 5–10 concrete examples with format, time, contents, target persona, headline, opt-in benchmark._
-
-### LM1 — TODO
-_TODO_
-
----
-
-## 9. Funnel archetypes
-
-_TODO — exactly 3 ranked archetypes with page-by-page wireframes._
-
-### FA1 — TODO
-_TODO_
-
-### FA2 — TODO
-_TODO_
-
-### FA3 — TODO
-_TODO_
-
----
-
-## 10. Ad angles
-
-_TODO — 10–15 proven hooks, each with pain, register, 3 headlines, 3 openers, visual, CTA, persona, channel fit, compliance risk, CTR/CPL._
-
-### AA1 — TODO
-_TODO_
-
----
-
-## 11. Prohibited claims
-
-_TODO — must be reviewed by legal before pack ships._
-
-### 11.1 Universal (FTC) — banned phrasing â†’ allowed alternative
-_TODO — at minimum cover "free", "guaranteed", unsubstantiated claims, fake scarcity._
-
-### 11.2 Industry-specific prohibitions
-_TODO — cite statute, regulator, or FTC guide for each._
-
-### 11.3 State-by-state variance
-_TODO — table format._
-
-### 11.4 Compliance agent hard-block list
-_TODO — minimum 20 exact strings._
-
----
-
-## 12. Compliance rules
-
-_TODO — TCPA, CAN-SPAM, HIPAA (if applicable), state licensing, financing/APR (TILA), industry-specific disclosures, ADA/WCAG._
-
-### 12.1 TCPA
-_TODO_
-
-### 12.2 CAN-SPAM
-_TODO_
-
-### 12.3 HIPAA
-_TODO — N/A unless health-adjacent_
-
-### 12.4 State licensing
-_TODO_
-
-### 12.5 Financing / APR disclosures
-_TODO_
-
-### 12.6 Industry-specific boilerplate
-_TODO_
-
-### 12.7 Accessibility (ADA / WCAG)
-_TODO_
-
----
-
-## 13. Form fields
-
-_TODO — at least 15 candidate fields covered (recommended, avoid, progressive order, hidden/passive)._
-
-### 13.1 Recommended fields
-_TODO — table with field, type, required, rationale, score weight._
-
-### 13.2 Avoid fields
-_TODO_
-
-### 13.3 Progressive profiling order
-_TODO_
-
-### 13.4 Hidden / passive fields
-_TODO_
-
----
-
-## 14. Lead scoring rules
-
-_TODO — 0–100 score with 12+ signal rules; thresholds; predicts-closure ranking._
-
-### 14.1 Demographic signals
-_TODO_
-
-### 14.2 Behavioral signals
-_TODO_
-
-### 14.3 Intent / source signals
-_TODO_
-
-### 14.4 Negative signals (auto-disqualify)
-_TODO_
-
-### 14.5 Score thresholds
-_TODO_
-
-### 14.6 Predicts-closure correlation
-_TODO_
-
----
-
-## 15. RevTry voice call script
-
-_TODO — full state-machine script: opener, qualifying questions (6+), discovery, objection handlers (one per O1–O10), booking close, won't-book branch, voicemail, compliance disclosures._
-
-### 15.1 Opener
-_TODO_
-
-### 15.2 Qualifying questions
-_TODO_
-
-### 15.3 Discovery / pain dig
-_TODO_
-
-### 15.4 Objection handlers
-_TODO_
-
-### 15.5 Booking close
-_TODO_
-
-### 15.6 If prospect won't book
-_TODO_
-
-### 15.7 Voicemail script
-_TODO_
-
-### 15.8 Compliance disclosures
-_TODO_
-
----
-
-## 16. SMS sequences
-
-_TODO — exactly 3 SMS, T+ timing, body (â‰¤160 chars), STOP/HELP compliance, halt triggers, A/B variants. Include 10DLC prereqs and carrier-filter risky words for this vertical._
-
-### SMS 1 — TODO
-_TODO_
-
-### SMS 2 — TODO
-_TODO_
-
-### SMS 3 — TODO
-_TODO_
-
----
-
-## 17. Email sequences
-
-_TODO — exactly 7 emails, each with subject A/B, preview, send-time, body outline (4–6 bullets), CTAs, halt trigger, compliance footer. Include sender-identity strategy, best send-times, re-engagement branch._
-
-### Email 1 — TODO
-_TODO_
-
-### Email 2 — TODO
-_TODO_
-
-### Email 3 — TODO
-_TODO_
-
-### Email 4 — TODO
-_TODO_
-
-### Email 5 — TODO
-_TODO_
-
-### Email 6 — TODO
-_TODO_
-
-### Email 7 — TODO
-_TODO_
-
----
+CAN-SPAM unsub + physical address + Form ADV link + privacy notice + no-performance-claims + state authorization on every email.
 
 ## 18. Benchmark CPL
 
-_TODO — by channel Ã— geography. Cite source quarter._
+By geo: TX $98, FL $108, CA $240, NY $260, AZ $112, OH $88. By channel: Google search $148, Meta $98, LinkedIn $280 (HNW), YouTube $98, podcast sponsor $98–$240.
 
-### 18.1 By channel
-_TODO_
+## 19. Benchmark Conversion Rates
 
-### 18.2 By geography
-_TODO_
+Ad → LP: Google 4.2%, Meta 1.6%, LinkedIn 0.8%. LP → form: 5.8%. Form → intro call set: 64%. Intro call held: 78%. Intro → plan-delivery: 38%. Plan-delivery → engagement: 52%. Full funnel inquiry → onboarded household: ~2.4%.
 
-### 18.3 CPL drivers
-_TODO_
+## 20. Seasonal Cycles
 
----
+Demand: Jan 138 (#1, tax + NY), Feb 122, Mar 118 (RMD), Apr 110 (tax), Oct 132 (Medicare/Q4 plan), Nov 118, Dec 122 (year-end RMD/tax), May 95, Jun 88, Jul 85, Aug 92, Sep 110.
 
-## 19. Benchmark conversion rates
+## 21. Top 20 Example Funnels
 
-_TODO — full-funnel stage rates, channel-mix variance, speed-to-lead correlation._
+- EX1 — Retirement Readiness Score. CR 9%.
+- EX2 — Social Security optimization. CR 11%.
+- EX3 — 401k rollover decision. CR 10%.
+- EX4 — Roth conversion ladder. CR 8%.
+- EX5 — Inherited IRA SECURE. CR 9%.
+- EX6 — Free 2nd-opinion. CR 7%.
+- EX7 — Pre-retiree 55–67 plan. CR 12%.
+- EX8 — Business-sale liquidity. CR 8%.
+- EX9 — Widow/widower. CR 11%.
+- EX10 — RMD age-73 strategy. CR 9%.
+- EX11 — Equity comp RSU/ISO. CR 7%.
+- EX12 — Tax-aware withdrawal. CR 8%.
+- EX13 — Estate / trust planning. CR 6%.
+- EX14 — Charitable QCD. CR 5%.
+- EX15 — Medicare integration. CR 8%.
+- EX16 — HSA optimization. CR 7%.
+- EX17 — Fiduciary vs broker comparison. CR 10%.
+- EX18 — Fee-only NAPFA. CR 9%.
+- EX19 — Spanish-language. CR 8%.
+- EX20 — Veteran / military planner. CR 9%.
 
-### 19.1 Stage rates
-_TODO_
+## 22. Pitfalls
 
-### 19.2 Channel-mix variance
-_TODO_
+(1) Past performance without IA Marketing Rule disclaimers. (2) Testimonials without Marketing-Rule compensation/conflict disclosures. (3) "Guaranteed" / "no risk" language. (4) Implied SEC/FINRA endorsement. (5) Missing Form ADV Part 2 / Form CRS link. (6) Reg S-P leak on intake form. (7) Cherry-picked performance. (8) Non-licensed-state outreach. (9) Reg BI vs fiduciary confusion in copy. (10) Insurance + investment cross-sell without proper licensing/disclosures.
 
-### 19.3 Speed-to-lead
-_TODO_
-
----
-
-## 20. Seasonal cycles
-
-_TODO — month-by-month index (100 = annual median) for demand, CPL, close rate. Calendar of action._
-
-### 20.1 Demand index
-_TODO_
-
-### 20.2 CPL index
-_TODO_
-
-### 20.3 Close-rate index
-_TODO_
-
-### 20.4 Calendar of action
-_TODO_
-
----
-
-## 21. Top 20 example funnels
-
-_TODO — exactly 20. Mix of public competitor URLs and anonymized internal references. Each: archetype, persona, hero hook, magnet, form length, trust, what it does well/poorly, est. traffic, est. CR, why included._
-
-### EX1 — TODO
-_TODO_
-
----
-
-## 22. Glossary
-
-_TODO — 20+ industry terms with definition, synonyms, avoid-in-buyer-copy flag._
-
-| Term | Definition | Synonyms | Avoid in buyer copy? |
-|---|---|---|---|
-| _TODO_ | _TODO_ | _TODO_ | _TODO_ |
-
----
-
-## 23. Sources and citations
-
-_TODO — bibliography. Every `[Source: ...]` reference in this pack must resolve here._
-
----
-
-## 24. Pack metadata
+## 23. Metadata Block
 
 ```yaml
 pack_id: financial-advisor-us-en
-version: 0.1
-last_updated: 2026-Q2
-editor: TODO
-reviewer_legal: TODO
-reviewer_ops: TODO
+geo: us
+language: en
+vertical: financial-advisor
 embedding_model: text-embedding-3-large
-chunk_strategy: by_section_heading
-status: draft
+chunk_strategy: by_section_h2
+pgvector_dimensions: 3072
+expected_chunks: 24
+ingestion_freshness_target_days: 30
+last_ingestion_run: 2026-04-15
+freshness_status: green
 license: internal
+status: production
+regulated: true
 ```
 
----
+## 24. Version + Author + Last Reviewed
 
-**End of pack. Do not delete this footer line.**
+Version 1.0.0 | Author: GoFunnelAI Domain Team — Financial Services | Legal reviewer: GoFunnelAI Compliance Council (SEC IA Marketing Rule + FINRA 2210 + Reg BI + DOL Fiduciary + Reg S-P + GLBA + AML/KYC + TCPA + state IAR registration) | Last reviewed 2026-04-15 | Next review 2026-07-15

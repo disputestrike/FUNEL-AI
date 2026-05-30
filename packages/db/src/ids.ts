@@ -48,6 +48,9 @@ export const ID_PREFIXES = {
   customDomain: "dom",
   brand: "brd",
   template: "tmpl",
+  // AI Command Center
+  commandConversation: "ccv",
+  commandMessage: "cmg",
 } as const;
 
 export type IdPrefix = (typeof ID_PREFIXES)[keyof typeof ID_PREFIXES];

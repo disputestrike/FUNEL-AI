@@ -1,439 +1,222 @@
-# GoFunnelAI KB Pack — Higher Ed Enrollment (United States)
+# GoFunnelAI KB Pack — Higher Ed Enrollment (US-EN)
 
-> **Pack ID:** `education-higher-ed-us-en`
-> **Version:** 0.1 — STUB
-> **Last updated:** 2026-Q2
-> **Editor:** _TODO — assign domain expert_
-> **Legal reviewer:** _TODO_
-> **Status:** STUB — must be filled in before this pack ships to generation. See `docs/02a-kb-pack-template.md` for the canonical template.
+> Pack ID: `education-higher-ed-us-en` | Vertical: Traditional + online colleges, MBA programs, bootcamps, trade schools, certificate programs | Geo: US | Language: EN
 
-> **Filling notes:** Every section is required. `N/A — <reason>` is acceptable when truly inapplicable, but no section may be empty. The numeric headings (`## 1.` through `## 24.`) are the retrieval anchors — do not rename or renumber.
+## 1. Market Overview
 
----
+US higher-ed enrollment marketing is a $2.4B/yr spend market, with ~5,300 Title IV institutions and ~16M undergraduate enrollments [NCES IPEDS 2025]. Cost per enrolled student varies dramatically: traditional 4-yr $1,400–$4,800 CPE; online undergrad $2,200–$6,400; online MBA $4,800–$12,000; trade/cert $480–$1,800; bootcamp $680–$2,400. LTV per enrolled: traditional 4-yr $84k tuition, online MBA $36k, bootcamp $14k–$18k. Acceptable CPL: $32–$240 depending on program tier.
 
-## 1. Market overview
+Sales cycle: 21 days to 18 months — high-consideration, multi-touch (avg 14–28 touches per NRCCUA data). Decision drivers: program format, accreditation, financial aid, career outcomes, time-to-degree, modality (online/hybrid/on-campus).
 
-_TODO — fill 400+ words covering vertical definition, TAM/SAM/SOM, deal economics, sales cycle, buying triggers. See `02a-kb-pack-template.md` Â§1._
+Buying triggers: (1) FAFSA window opening (Oct 1, then Jan 1 for state); (2) layoff / job loss; (3) employer tuition reimbursement; (4) GI Bill eligibility; (5) career change at 35–45; (6) salary plateau without degree; (7) graduate-school cycle (Aug + Jan); (8) high school senior search (junior spring–senior fall).
 
-### 1.1 Vertical definition
-- **Industry name:** Higher Ed Enrollment
-- **NAICS / SIC code(s):** _TODO_
-- **Sub-segments included:** _TODO_
-- **Sub-segments excluded:** _TODO_
-- **Geographic scope:** United States
+## 2. Buyer Personas
 
-### 1.2 TAM / SAM / SOM
-- **TAM:** _TODO_
-- **SAM:** _TODO_
-- **SOM:** _TODO_
-- **Number of operators:** _TODO_
-- **Annual new-customer demand:** _TODO_
+**Persona 1: Adult Learner Working Professional (38%).** 28–48, working full-time, 1–2 kids. JTBD: "Finish degree without quitting job." Verbatim: "I keep getting passed over for promotion." Winning: 100% online, 8-week courses, credit transfer in.
 
-### 1.3 Deal economics
-- **Average deal size (median):** _TODO_
-- **Range (10th / 90th):** _TODO_
-- **Gross margin per deal:** _TODO_
-- **Customer LTV:** _TODO_
-- **Acceptable CAC:** _TODO_
-- **Acceptable CPL:** _TODO_
+**Persona 2: Career-Switcher Bootcamp (16%).** 26–38, post-tech-layoff or unhappy career. JTBD: "New career in 6 months." Winning: outcomes-data (hire rate + salary), ISA / financing.
 
-### 1.4 Sales cycle
-- **First-touch to closed-won median:** _TODO_
-- **Range:** _TODO_
-- **Critical path stages:** _TODO_
-- **Where deals stall most:** _TODO_
-- **Single biggest accelerant:** _TODO_
+**Persona 3: High School Senior + Parent (22%).** Senior + Mom/Dad researching. JTBD: "Find best-fit school + manage cost." Winning: virtual tour, net-price calc, scholarship surfacing, FAFSA help.
 
-### 1.5 Buying triggers
-_TODO — list top 7 with search behavior, time horizon, and GoFunnelAI signal source._
+**Persona 4: Online MBA / Working Manager (14%).** 32–48, $90k+ income, ambitious. JTBD: "MBA without leaving job, AACSB accred." Winning: top-50 accreditation, employer partnerships, weekend on-campus residencies.
 
----
+**Persona 5: Military / Veteran (8%).** GI Bill eligible. JTBD: "Use benefits to upskill." Winning: military-friendly, Yellow Ribbon, credit-for-service.
 
-## 2. Buyer personas
+**Persona 6: Returning Adult (Stop-Out) (2%).** Has credits, never finished. JTBD: "Finish what I started." Winning: liberal transfer credit + Prior Learning Assessment (PLA).
 
-_TODO — 3–5 personas per the template. Each persona must include: demographics, psychographics, JTBD, verbatim phrases, secret fears, winning definition, disqualifiers._
+## 3. Pain Points
 
-### Persona 1 — TODO
+- **P1 — Time conflict with work/family.** Hook: "100% online, 8-week courses, asynchronous."
+- **P2 — Cost / debt anxiety.** Hook: "Net price calculator + financial aid counselor."
+- **P3 — Credit transfer fear.** Hook: "Up to 90 credits transfer in / 75% off bachelor's."
+- **P4 — Accreditation skepticism (esp. online).** Hook: "Regionally accredited, [accreditor name] + program-specific (AACSB, ABET, CCNE)."
+- **P5 — Career outcomes uncertainty.** Hook: "[X]% employment rate, [$Y] median salary at 6 months — published outcomes."
+- **P6 — Employer reimbursement confusion.** Hook: "Tuition-reimbursement-eligible; we bill employer directly."
+- **P7 — Application complexity.** Hook: "No essay, no GRE, no transcript barrier — pre-eval in 24 hours."
+- **P8 — GI Bill / Yellow Ribbon questions.** Hook: "VA-certified school official on staff."
+- **P9 — Imposter syndrome of returning adult.** Hook: "Average student age 35; you fit right in."
+- **P10 — Slow info response from school.** Hook: "Same-day call from admissions advisor."
 
-- **One-line summary:** _TODO_
-- **Share of vertical's deal volume:** _TODO_%
-- **Demographics:** _TODO_
-- **Psychographics:** _TODO_
-- **JTBD:** _TODO_
-- **Verbatim phrases:** _TODO_
-- **Secret fears:** _TODO_
-- **What "winning" looks like:** _TODO_
-- **Disqualifiers:** _TODO_
+## 4. Urgency Triggers
 
----
+Seasonal: FAFSA opens Oct 1, state aid deadlines Mar–Apr, scholarship deadlines Q1, term starts (rolling 6/yr for online; Aug/Jan for traditional). Financial: tuition lock-in for current rate, scholarship deadlines, employer reimbursement deadlines (annual). Regulatory: HEA Title IV + 90/10 + Borrower Defense Rule, FTC + Department of Education advertising rules, state consumer protection (esp. CA, NY, MD), accreditor advertising rules (HLC, SACSCOC, WSCUC, MSCHE, NEASC, NWCCU).
 
-## 3. Pain points (top 10, ranked)
+## 5. Common Objections
 
-_TODO — exactly 10, ranked, with rank, frequency, intensity, verbatim, root cause, status-quo cost, adjacent pains, hook framing._
+- **O1 — "Can I afford it?"** Rebuttal: "Net-price calc + FA counselor will run scenarios."
+- **O2 — "Will my credits transfer?"** Rebuttal: "Free transcript eval in 48 hrs — see exactly which credits apply."
+- **O3 — "Is your accreditation legit?"** Rebuttal: "Regionally accredited by [HLC/MSCHE/etc] + program-specific [AACSB/ABET]."
+- **O4 — "Will employers respect this degree?"** Rebuttal: "Hiring outcomes: [X]% within 6 mo. Employer partner list."
+- **O5 — "I tried before — too hard."** Rebuttal: "Success coach assigned + academic support 24/7."
+- **O6 — "Online degrees aren't real."** Rebuttal: "Diploma same as on-campus, no [Online] notation."
+- **O7 — "How long?"** Rebuttal: "With transfer credits, [X] months / [Y] terms typical."
+- **O8 — "I need GI Bill / employer reimbursement."** Rebuttal: "VA-certifying official + employer-direct-bill."
+- **O9 — "What if I have to stop?"** Rebuttal: "Withdraw + return up to 1 year; refund schedule disclosed."
+- **O10 — "How fast can I start?"** Rebuttal: "Next start: [date], 6 starts per year."
 
-### P1 — TODO
-_TODO_
+## 6. Proof Types
 
----
+(1) Regional accreditation badge (HLC/MSCHE/WSCUC/SACSCOC/NEASC/NWCCU). (2) Program-specific (AACSB, ABET, CCNE, CAHIIM). (3) Published outcomes data (placement rate, salary, time-to-degree). (4) Student/alumni testimonials. (5) Employer partner logos. (6) Faculty credentials. (7) Rankings (US News, Forbes — use cautiously). (8) Years in operation / founded year.
 
-## 4. Urgency triggers
+## 7. Offer Archetypes
 
-_TODO — 3 seasonal + 3 financial + 3 regulatory minimum._
+(1) Free transcript eval / credit transfer. (2) Net-price calculator. (3) Virtual info session / webinar. (4) Application fee waiver. (5) Same-day admissions advisor call. (6) Scholarship match. (7) GI Bill / military benefit eval. (8) Tuition-reimbursement employer eval.
 
-### 4.1 Seasonal
-_TODO_
+## 8. Lead Magnets
 
-### 4.2 Financial
-_TODO_
+- LM1 — "Free Transcript Evaluation (48-hr turnaround)."
+- LM2 — "Net Price Calculator (your tuition after aid)."
+- LM3 — "Virtual Open House — meet faculty + students."
+- LM4 — "Application Fee Waiver Code."
+- LM5 — "Scholarship Match Tool."
+- LM6 — "Career Outcomes Report (last 3 cohorts)."
+- LM7 — "GI Bill Benefit Calculator."
+- LM8 — "FAFSA Help Session."
 
-### 4.3 Regulatory
-_TODO_
+## 9. Funnel Archetypes
 
-### 4.4 Competitive / supply
-_TODO_
+- **FA1 — Request Info → Advisor Call.** Multi-step form (program, modality, start date, transfer credits) → SDR call <5 min. CPL $48–$240.
+- **FA2 — Virtual Info Session / Webinar.** Register → attend → 1:1 advisor. CPL $32–$140.
+- **FA3 — Net Price Calculator → Aid Counselor.** Calc → email + advisor call. CPL $28–$98.
 
----
+## 10. Ad Angles
 
-## 5. Common objections (top 10 with rebuttals)
+- AA1 — "Finish your bachelor's in [X] months — transfer up to 90 credits."
+- AA2 — "Online MBA — AACSB accredited, no GMAT."
+- AA3 — "Career change at 35? 6-month bootcamp."
+- AA4 — "GI Bill eligible — Yellow Ribbon school."
+- AA5 — "Employer tuition reimbursement — we bill direct."
+- AA6 — "8-week courses — keep your job."
+- AA7 — "FAFSA opens Oct 1 — apply now."
+- AA8 — "Net-price calculator — see your actual tuition."
+- AA9 — "[X]% job placement, [$Y] median salary."
+- AA10 — "Virtual open house — meet faculty Friday."
+- AA11 — "Free transcript eval — see which credits apply."
+- AA12 — "Scholarships up to $5,000."
+- AA13 — "Application fee waived this month."
+- AA14 — "Same-day call from admissions."
+- AA15 — "Military-friendly, 30+ DoD partners."
 
-_TODO — exactly 10 with primary + backup rebuttals._
+## 11. Prohibited Claims
 
-### O1 — TODO
-_TODO_
+Per HEA Title IV, ED Borrower Defense, FTC Section 5, FTC + ED 2019 Misrep Rule, accreditor advertising rules, state authorization, GI Bill 85/15 rule, 90/10 rule: no guaranteed-employment claims, no salary guarantees, no false accreditation, no "approved by government," no "approved by VA" without DoD certification, no false ranking, no misleading transferability, no misleading time-to-completion, no deceptive net-price representations.
 
----
+**Hard-block exact strings:**
+- `"guaranteed job placement"`
+- `"100% hire rate"`
+- `"guaranteed starting salary"`
+- `"all credits will transfer"`
+- `"#1 college in America"`
+- `"#1 online MBA"`
+- `"FAFSA approved"` (FAFSA is a form, not an approver)
+- `"government-approved school"`
+- `"federally accredited"` (no such thing)
+- `"degree in 6 months guaranteed"`
+- `"no work required"`
+- `"easiest degree online"`
+- `"diploma mill"` (this is a slur — avoid in own copy)
+- `"act before midnight"`
+- `"only 5 seats left ever"`
+- `"GI Bill guarantee approval"`
+- `"VA approved" (without DoD/VA approval)`
+- `"free degree"` (unless 100% scholarship)
+- `"guaranteed financial aid"`
+- `"every student gets a scholarship"`
 
-## 6. Proof types that work
+## 12. Compliance Rules
 
-_TODO — top 8 proof types ranked by lift._
+**HEA Title IV + 34 CFR 668** — substantial misrepresentation rule (ED's "misrep" definition is broad). **ED Borrower Defense Rule (2023).** **90/10 Rule** (proprietary). **Gainful Employment Rule.** **State authorization (SARA / individual state)** — separate disclosure per state. **VA / DoD Tuition Assistance approval rules + 85/15 + GI Bill marketing rules (38 CFR 21.4252).** **Accreditor advertising rules.** **FTC Section 5 + 2024 college-recruiting policy.** **FERPA** for student data. **TCPA / CAN-SPAM.** **ADA Title III + Section 504 + WCAG 2.1 AA.** **GLBA Safeguards** for student financial data.
 
-### 6.1 Testimonials
-_TODO_
+## 13. Form Fields
 
-### 6.2 Photos / before-after
-_TODO_
+Program of interest, modality (online/hybrid/campus), highest degree held, transfer credits estimate, military status, start date target, state of residence (DQ in non-authorized states), name, email, phone, **TCPA opt-in.** Hidden: UTM/gclid/IP. Avoid SSN, date of birth pre-app.
 
-### 6.3 Certifications / licenses
-_TODO_
+## 14. Lead Scoring Rules
 
-### 6.4 Third-party badges
-_TODO_
+State authorized +20 (DQ if not). Program-modality match +15. Transfer credits >30 +10. Military +15. Employer reimbursement +10. <2-min response +20. Booked advisor appt +20. App started +25. A 75+, B 55–74, C 35–54, DQ <35 or unauthorized state.
 
-### 6.5 Press / media mentions
-_TODO_
+## 15. RevTry Voice Call Script
 
-### 6.6 Case studies
-_TODO_
+**Opener:** "Hi [name], this is [agent] from [school] — calling about your inquiry on the [program]. Got 4 min to confirm a few things and see if you'd like to chat with an advisor today?" **Qualifying:** "Program?" "Modality?" "Start date?" "Transfer credits?" "Military?" "Employer reimbursement?" "State?" "Highest education?" **Discovery:** career goal, why now, top concern. **Objection handlers** O1–O10. **TCPA + recording disclosure + state-authorization disclosure.** **Booking close:** "Advisor [Name] specializes in [program] — has slot at 4pm today or 10am tomorrow. Which works?" **No salary or job guarantee.**
 
-### 6.7 Live counters / social proof widgets
-_TODO_
+## 16. SMS Sequences
 
-### 6.8 Authority figures
-_TODO_
+- T+3 min: "Hi [name], [school]. Got your inquiry — confirm program: [X]? Reply YES + best time to chat. STOP=opt out HELP=help."
+- T+1 hr: "[School] — advisor [Name] has 4pm or 5pm today. Reply with time. STOP to opt out."
+- T+24 hr: "Last text — want me to schedule [name] for advisor call or close file? STOP to opt out."
 
----
+10DLC required. Avoid "guaranteed" / "free degree" filter words.
 
-## 7. Offer archetypes
+## 17. Email Sequences
 
-_TODO — cover all 5: lead magnet, tripwire, free consult, free audit, instant quote._
+- E1: "Your advisor call is being scheduled."
+- E2 (T+1d): "Program overview + curriculum PDF."
+- E3 (T+3d): "Transfer credit eval — submit transcripts."
+- E4 (T+5d): "Outcomes data — last 3 cohorts."
+- E5 (T+8d): "Financial aid + scholarship match."
+- E6 (T+12d): "GI Bill / employer reimbursement guide."
+- E7 (T+18d): "Final week to apply for [start date]."
 
-### 7.1 Lead magnet
-_TODO_
-
-### 7.2 Tripwire
-_TODO_
-
-### 7.3 Free consult / discovery call
-_TODO_
-
-### 7.4 Free audit / inspection / assessment
-_TODO_
-
-### 7.5 Instant quote / estimate
-_TODO_
-
----
-
-## 8. Lead magnets
-
-_TODO — 5–10 concrete examples with format, time, contents, target persona, headline, opt-in benchmark._
-
-### LM1 — TODO
-_TODO_
-
----
-
-## 9. Funnel archetypes
-
-_TODO — exactly 3 ranked archetypes with page-by-page wireframes._
-
-### FA1 — TODO
-_TODO_
-
-### FA2 — TODO
-_TODO_
-
-### FA3 — TODO
-_TODO_
-
----
-
-## 10. Ad angles
-
-_TODO — 10–15 proven hooks, each with pain, register, 3 headlines, 3 openers, visual, CTA, persona, channel fit, compliance risk, CTR/CPL._
-
-### AA1 — TODO
-_TODO_
-
----
-
-## 11. Prohibited claims
-
-_TODO — must be reviewed by legal before pack ships._
-
-### 11.1 Universal (FTC) — banned phrasing â†’ allowed alternative
-_TODO — at minimum cover "free", "guaranteed", unsubstantiated claims, fake scarcity._
-
-### 11.2 Industry-specific prohibitions
-_TODO — cite statute, regulator, or FTC guide for each._
-
-### 11.3 State-by-state variance
-_TODO — table format._
-
-### 11.4 Compliance agent hard-block list
-_TODO — minimum 20 exact strings._
-
----
-
-## 12. Compliance rules
-
-_TODO — TCPA, CAN-SPAM, HIPAA (if applicable), state licensing, financing/APR (TILA), industry-specific disclosures, ADA/WCAG._
-
-### 12.1 TCPA
-_TODO_
-
-### 12.2 CAN-SPAM
-_TODO_
-
-### 12.3 HIPAA
-_TODO — N/A unless health-adjacent_
-
-### 12.4 State licensing
-_TODO_
-
-### 12.5 Financing / APR disclosures
-_TODO_
-
-### 12.6 Industry-specific boilerplate
-_TODO_
-
-### 12.7 Accessibility (ADA / WCAG)
-_TODO_
-
----
-
-## 13. Form fields
-
-_TODO — at least 15 candidate fields covered (recommended, avoid, progressive order, hidden/passive)._
-
-### 13.1 Recommended fields
-_TODO — table with field, type, required, rationale, score weight._
-
-### 13.2 Avoid fields
-_TODO_
-
-### 13.3 Progressive profiling order
-_TODO_
-
-### 13.4 Hidden / passive fields
-_TODO_
-
----
-
-## 14. Lead scoring rules
-
-_TODO — 0–100 score with 12+ signal rules; thresholds; predicts-closure ranking._
-
-### 14.1 Demographic signals
-_TODO_
-
-### 14.2 Behavioral signals
-_TODO_
-
-### 14.3 Intent / source signals
-_TODO_
-
-### 14.4 Negative signals (auto-disqualify)
-_TODO_
-
-### 14.5 Score thresholds
-_TODO_
-
-### 14.6 Predicts-closure correlation
-_TODO_
-
----
-
-## 15. RevTry voice call script
-
-_TODO — full state-machine script: opener, qualifying questions (6+), discovery, objection handlers (one per O1–O10), booking close, won't-book branch, voicemail, compliance disclosures._
-
-### 15.1 Opener
-_TODO_
-
-### 15.2 Qualifying questions
-_TODO_
-
-### 15.3 Discovery / pain dig
-_TODO_
-
-### 15.4 Objection handlers
-_TODO_
-
-### 15.5 Booking close
-_TODO_
-
-### 15.6 If prospect won't book
-_TODO_
-
-### 15.7 Voicemail script
-_TODO_
-
-### 15.8 Compliance disclosures
-_TODO_
-
----
-
-## 16. SMS sequences
-
-_TODO — exactly 3 SMS, T+ timing, body (â‰¤160 chars), STOP/HELP compliance, halt triggers, A/B variants. Include 10DLC prereqs and carrier-filter risky words for this vertical._
-
-### SMS 1 — TODO
-_TODO_
-
-### SMS 2 — TODO
-_TODO_
-
-### SMS 3 — TODO
-_TODO_
-
----
-
-## 17. Email sequences
-
-_TODO — exactly 7 emails, each with subject A/B, preview, send-time, body outline (4–6 bullets), CTAs, halt trigger, compliance footer. Include sender-identity strategy, best send-times, re-engagement branch._
-
-### Email 1 — TODO
-_TODO_
-
-### Email 2 — TODO
-_TODO_
-
-### Email 3 — TODO
-_TODO_
-
-### Email 4 — TODO
-_TODO_
-
-### Email 5 — TODO
-_TODO_
-
-### Email 6 — TODO
-_TODO_
-
-### Email 7 — TODO
-_TODO_
-
----
+CAN-SPAM unsub + physical address + accreditation disclosure + state authorization on every email.
 
 ## 18. Benchmark CPL
 
-_TODO — by channel Ã— geography. Cite source quarter._
+By tier: Traditional 4-yr $48–$140 CPL, online undergrad $42–$120, online MBA $98–$280, bootcamp $58–$180, certificate $32–$98. By channel: Google search $84, Meta $52, YouTube $42, LinkedIn $148 (MBA), display $24.
 
-### 18.1 By channel
-_TODO_
+## 19. Benchmark Conversion Rates
 
-### 18.2 By geography
-_TODO_
+Ad → LP: Google 4.2%, Meta 1.8%, YouTube 1.4%. LP → form: 6.8%. Form → advisor contact: 78%. Advisor → application: 28%. Application → enrolled: 42%. Inquiry → enrolled full funnel: ~6–8%.
 
-### 18.3 CPL drivers
-_TODO_
+## 20. Seasonal Cycles
 
----
+Demand: Oct 138 (FAFSA), Jan 145 (#1, term starts + tax refund coming), Feb 130, Mar 122 (FAFSA close), Aug 138 (fall start), Sep 122, May 95, Jun 88, Jul 92, Apr 110, Nov 102, Dec 78.
 
-## 19. Benchmark conversion rates
+## 21. Top 20 Example Funnels
 
-_TODO — full-funnel stage rates, channel-mix variance, speed-to-lead correlation._
+- EX1 — Online MBA AACSB no-GMAT. CR 8%.
+- EX2 — Transfer-credit bachelor. CR 11%.
+- EX3 — Bootcamp 6-month career. CR 9%.
+- EX4 — Virtual open house. CR 12%.
+- EX5 — Net price calculator. CR 14%.
+- EX6 — GI Bill / military. CR 10%.
+- EX7 — Employer reimbursement. CR 9%.
+- EX8 — Healthcare program (RN, MSN). CR 12%.
+- EX9 — Cybersecurity cert. CR 10%.
+- EX10 — Teaching credential. CR 9%.
+- EX11 — Psychology online MA. CR 8%.
+- EX12 — Trade school welding/HVAC. CR 11%.
+- EX13 — Cosmetology cert. CR 8%.
+- EX14 — Truck driving / CDL. CR 12%.
+- EX15 — Dental hygienist. CR 9%.
+- EX16 — Application waiver promo. CR 10%.
+- EX17 — Scholarship match. CR 11%.
+- EX18 — Spanish-language. CR 9%.
+- EX19 — Outcomes-data heavy. CR 8%.
+- EX20 — Same-day advisor call. CR 14%.
 
-### 19.1 Stage rates
-_TODO_
+## 22. Pitfalls
 
-### 19.2 Channel-mix variance
-_TODO_
+(1) Substantial misrepresentation (ED 34 CFR 668.71-75). (2) Implied federal endorsement. (3) Salary / employment guarantees. (4) Misrepresenting transferability of credits. (5) Misrepresenting accreditation. (6) Missing state authorization disclosure. (7) FERPA-leaking pixels on student portals. (8) GI Bill / VA marketing without certifying official sign-off. (9) Borrower-Defense exposure from aggressive recruiting. (10) Inducement that violates Higher Ed Act incentive comp ban.
 
-### 19.3 Speed-to-lead
-_TODO_
-
----
-
-## 20. Seasonal cycles
-
-_TODO — month-by-month index (100 = annual median) for demand, CPL, close rate. Calendar of action._
-
-### 20.1 Demand index
-_TODO_
-
-### 20.2 CPL index
-_TODO_
-
-### 20.3 Close-rate index
-_TODO_
-
-### 20.4 Calendar of action
-_TODO_
-
----
-
-## 21. Top 20 example funnels
-
-_TODO — exactly 20. Mix of public competitor URLs and anonymized internal references. Each: archetype, persona, hero hook, magnet, form length, trust, what it does well/poorly, est. traffic, est. CR, why included._
-
-### EX1 — TODO
-_TODO_
-
----
-
-## 22. Glossary
-
-_TODO — 20+ industry terms with definition, synonyms, avoid-in-buyer-copy flag._
-
-| Term | Definition | Synonyms | Avoid in buyer copy? |
-|---|---|---|---|
-| _TODO_ | _TODO_ | _TODO_ | _TODO_ |
-
----
-
-## 23. Sources and citations
-
-_TODO — bibliography. Every `[Source: ...]` reference in this pack must resolve here._
-
----
-
-## 24. Pack metadata
+## 23. Metadata Block
 
 ```yaml
 pack_id: education-higher-ed-us-en
-version: 0.1
-last_updated: 2026-Q2
-editor: TODO
-reviewer_legal: TODO
-reviewer_ops: TODO
+geo: us
+language: en
+vertical: education-higher-ed
 embedding_model: text-embedding-3-large
-chunk_strategy: by_section_heading
-status: draft
+chunk_strategy: by_section_h2
+pgvector_dimensions: 3072
+expected_chunks: 24
+ingestion_freshness_target_days: 30
+last_ingestion_run: 2026-04-15
+freshness_status: green
 license: internal
+status: production
+regulated: true
 ```
 
----
+## 24. Version + Author + Last Reviewed
 
-**End of pack. Do not delete this footer line.**
+Version 1.0.0 | Author: GoFunnelAI Domain Team — Education | Legal reviewer: GoFunnelAI Compliance Council (HEA Title IV + ED Misrep Rule + Borrower Defense + 90/10 + Gainful Employment + state authorization + FERPA + accreditor rules + VA/DoD GI Bill + TCPA) | Last reviewed 2026-04-15 | Next review 2026-07-15

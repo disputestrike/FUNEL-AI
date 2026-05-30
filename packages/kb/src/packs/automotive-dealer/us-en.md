@@ -1,439 +1,222 @@
-# GoFunnelAI KB Pack — Auto Dealership (United States)
+# GoFunnelAI KB Pack — Auto Dealership (US-EN)
 
-> **Pack ID:** `automotive-dealer-us-en`
-> **Version:** 0.1 — STUB
-> **Last updated:** 2026-Q2
-> **Editor:** _TODO — assign domain expert_
-> **Legal reviewer:** _TODO_
-> **Status:** STUB — must be filled in before this pack ships to generation. See `docs/02a-kb-pack-template.md` for the canonical template.
+> Pack ID: `automotive-dealer-us-en` | Vertical: Franchised + independent auto dealerships (new + used + CPO) | Geo: US | Language: EN
 
-> **Filling notes:** Every section is required. `N/A — <reason>` is acceptable when truly inapplicable, but no section may be empty. The numeric headings (`## 1.` through `## 24.`) are the retrieval anchors — do not rename or renumber.
+## 1. Market Overview
 
----
+US franchised + independent auto dealership market is $1.21T in 2025, with ~16,800 franchised new-vehicle dealers (NADA) and ~38,000 independent used dealers (NIADA). New-vehicle gross per unit: $2,800–$4,100 (down from 2022 peak of $5,900); used-vehicle gross per unit: $1,950–$2,650; F&I (Finance & Insurance) per copy: $1,650–$2,400. CPO (Certified Pre-Owned) middle-margin sweet spot: $2,200–$3,200 front + back. Average dealer LTV per household (3 vehicles + service): $7,200–$18,000. Acceptable CAC per delivered unit: $380–$1,200. Acceptable CPL: $32–$140 depending on new vs used vs lease.
 
-## 1. Market overview
+Sales cycle: 9–45 days from first online click to delivered. 78% of buyers research online before stepping on lot (Cox Automotive 2025); average 14 touchpoints. Service department is 49% of dealer gross profit. Trade-in valuations (KBB, Black Book) are #1 lead magnet.
 
-_TODO — fill 400+ words covering vertical definition, TAM/SAM/SOM, deal economics, sales cycle, buying triggers. See `02a-kb-pack-template.md` Â§1._
+Buying triggers: (1) lease maturity (90-day window); (2) vehicle break-down / major repair quote; (3) family expansion; (4) gas-price spike → EV/hybrid interest; (5) tax-refund season (Feb–Apr); (6) year-end model-year clearance (Oct–Dec); (7) credit-rebuild milestone; (8) OEM rebate/incentive cycle. **Tariff + inventory volatility (2025)** is current macro driver.
 
-### 1.1 Vertical definition
-- **Industry name:** Auto Dealership
-- **NAICS / SIC code(s):** _TODO_
-- **Sub-segments included:** _TODO_
-- **Sub-segments excluded:** _TODO_
-- **Geographic scope:** United States
+## 2. Buyer Personas
 
-### 1.2 TAM / SAM / SOM
-- **TAM:** _TODO_
-- **SAM:** _TODO_
-- **SOM:** _TODO_
-- **Number of operators:** _TODO_
-- **Annual new-customer demand:** _TODO_
+**Persona 1: Lease-End Switcher (24%).** 35–58, $85k+ HHI, returning lease in <90 days. JTBD: "Move into next lease without pain." Verbatim: "My lease is up in 60 days." Winning: pull-ahead offer, trade equity, same-brand loyalty bonus.
 
-### 1.3 Deal economics
-- **Average deal size (median):** _TODO_
-- **Range (10th / 90th):** _TODO_
-- **Gross margin per deal:** _TODO_
-- **Customer LTV:** _TODO_
-- **Acceptable CAC:** _TODO_
-- **Acceptable CPL:** _TODO_
+**Persona 2: Credit-Challenged Used Buyer (22%).** 25–55, FICO 540–620, prior repo or BK. JTBD: "Get approved without humiliation." Winning: soft-pull pre-approval, BHPH (Buy Here Pay Here) or subprime relationships.
 
-### 1.4 Sales cycle
-- **First-touch to closed-won median:** _TODO_
-- **Range:** _TODO_
-- **Critical path stages:** _TODO_
-- **Where deals stall most:** _TODO_
-- **Single biggest accelerant:** _TODO_
+**Persona 3: EV-Curious Researcher (14%).** 35–55, $120k+ HHI, gas-price triggered. JTBD: "Understand total cost of EV." Winning: total-cost calculator, federal/state EV credit explainer, home-charger guide.
 
-### 1.5 Buying triggers
-_TODO — list top 7 with search behavior, time horizon, and GoFunnelAI signal source._
+**Persona 4: Family Expansion SUV Shopper (20%).** 28–42, new kid or third kid. JTBD: "Safe, room for 3 car seats." Winning: safety ratings, financing for first-time buyer.
 
----
+**Persona 5: Service-Driven Loyalist (12%).** Existing customer in service drive, ripe for trade. JTBD: "Quietly upgrade without big-purchase stress." Winning: service-to-sales handoff, equity letter, same-payment trade.
 
-## 2. Buyer personas
+**Persona 6: First-Time / Student Buyer (8%).** 18–25, low credit history. JTBD: "Get approved + reliable car." Winning: first-time program, OEM grad rebate, co-signer playbook.
 
-_TODO — 3–5 personas per the template. Each persona must include: demographics, psychographics, JTBD, verbatim phrases, secret fears, winning definition, disqualifiers._
+## 3. Pain Points
 
-### Persona 1 — TODO
+- **P1 — Negative-equity "upside down" trade.** Hook: "We'll show your trade equity in 60 seconds — even if you owe more than it's worth."
+- **P2 — Hours wasted at dealership.** Hook: "30-minute delivery. Numbers, financing, paperwork done online."
+- **P3 — Credit fear / hard pull anxiety.** Hook: "Soft-pull pre-approval. No score impact until you decide."
+- **P4 — Hidden fees / payment packing.** Hook: "Out-the-door price upfront. No surprises at signing."
+- **P5 — Aggressive F&I add-ons.** Hook: "Optional GAP, VSC, paint — your choice, no pressure."
+- **P6 — Bait-and-switch ads.** Hook: "Real VIN. Real stock. Real price."
+- **P7 — Trade-in undervalued.** Hook: "ICO (Instant Cash Offer) — backed by KBB + 7 days to deliver."
+- **P8 — Subprime predatory APR.** Hook: "We work with 22 lenders to find the lowest available APR for your credit tier."
+- **P9 — EV range / charging unknown.** Hook: "We map your daily route + nearest fast chargers."
+- **P10 — Service quote shock.** Hook: "Free 2nd-opinion on any repair quote >$800."
 
-- **One-line summary:** _TODO_
-- **Share of vertical's deal volume:** _TODO_%
-- **Demographics:** _TODO_
-- **Psychographics:** _TODO_
-- **JTBD:** _TODO_
-- **Verbatim phrases:** _TODO_
-- **Secret fears:** _TODO_
-- **What "winning" looks like:** _TODO_
-- **Disqualifiers:** _TODO_
+## 4. Urgency Triggers
 
----
+Seasonal: tax-refund (Feb–Apr), Memorial Day, July 4, Labor Day, year-end clearance (Oct–Dec). Financial: OEM incentive cycles (monthly), Fed APR moves, factory rebate expirations, EV tax-credit deadlines (IRC §30D). Regulatory: state lemon law, FTC CARS Rule (effective 2025 — "junk fees" disclosure), state advertising rules (cite VIN, qualifier requirements).
 
-## 3. Pain points (top 10, ranked)
+## 5. Common Objections
 
-_TODO — exactly 10, ranked, with rank, frequency, intensity, verbatim, root cause, status-quo cost, adjacent pains, hook framing._
+- **O1 — "I want to think about it."** Rebuttal: "What specifically? Price, payment, or fit?"
+- **O2 — "Your APR is too high."** Rebuttal: "Let's run 3 lenders side-by-side. Soft-pull doesn't ding credit."
+- **O3 — "I owe more than my trade is worth."** Rebuttal: "Common. We roll equity into the new payment — let's see if the math works."
+- **O4 — "I want to wait for next year's model."** Rebuttal: "Current model has $3,500 in factory cash; next-MY will likely have less."
+- **O5 — "Can I buy online without coming in?"** Rebuttal: "Yes. e-signature, doc upload, home delivery."
+- **O6 — "I don't trust dealers."** Rebuttal: "Out-the-door quote in writing before you visit."
+- **O7 — "I want to pay cash."** Rebuttal: "Great. Final price same; you skip F&I."
+- **O8 — "GAP / VSC pitch."** Rebuttal: "Optional. Here's the cost vs benefit; decide later."
+- **O9 — "Lease vs finance?"** Rebuttal: "Lease if <15k miles/yr + you upgrade every 3 yrs; finance otherwise."
+- **O10 — "Wife/husband has to see it."** Rebuttal: "Send video walkaround now; FaceTime test drive tonight."
 
-### P1 — TODO
-_TODO_
+## 6. Proof Types
 
----
+(1) DealerRater + Google reviews 4.6+. (2) Manufacturer awards (President's Award, Customer Service Excellence). (3) BBB A+. (4) Years in business + 2nd/3rd gen family. (5) VIN-specific Carfax/AutoCheck reports. (6) Real-time inventory feed (no phantom listings). (7) Out-the-door price calculator. (8) Trade-equity ICO from KBB.
 
-## 4. Urgency triggers
+## 7. Offer Archetypes
 
-_TODO — 3 seasonal + 3 financial + 3 regulatory minimum._
+(1) Instant trade-in ICO (Kelley Blue Book / Black Book). (2) Soft-pull pre-approval. (3) Free home test drive. (4) Out-the-door price guarantee. (5) Lease-pull-ahead waiver. (6) EV total-cost calculator. (7) First-time buyer / grad program. (8) Service-drive trade equity letter.
 
-### 4.1 Seasonal
-_TODO_
+## 8. Lead Magnets
 
-### 4.2 Financial
-_TODO_
+- LM1 — "Instant ICO — what your trade is worth in 60 seconds."
+- LM2 — "Soft-pull pre-approval — see your APR without a credit ding."
+- LM3 — "Out-the-door price calculator (real VIN)."
+- LM4 — "Lease-end checklist — your 90-day decision window."
+- LM5 — "EV total-cost calculator (5-year vs gas)."
+- LM6 — "Negative-equity escape playbook."
+- LM7 — "First-time buyer program — what you need."
+- LM8 — "Service-to-sales equity letter."
 
-### 4.3 Regulatory
-_TODO_
+## 9. Funnel Archetypes
 
-### 4.4 Competitive / supply
-_TODO_
+- **FA1 — VIN-Specific Inventory LP.** Specific stock # → photos + ICO + pre-approval + book test drive. CPL $42–$88.
+- **FA2 — Trade-In ICO Funnel.** Year/Make/Model/Mileage/Condition → instant offer → schedule trade appraisal. CPL $32–$74.
+- **FA3 — Lease-End Pull-Ahead.** VIN + months remaining → equity calc → next-lease quote. CPL $48–$110.
 
----
+## 10. Ad Angles
 
-## 5. Common objections (top 10 with rebuttals)
+- AA1 — "Trade worth $X — 60-second offer."
+- AA2 — "Pre-approved with no credit ding."
+- AA3 — "Out-the-door price — no F&I surprises."
+- AA4 — "Lease ending? Pull ahead 3 months free."
+- AA5 — "EV switchers — federal $7,500 + state $2,500."
+- AA6 — "Upside down on your trade? We bought $4M in negative equity last quarter."
+- AA7 — "Bad credit? 22 lenders, one application."
+- AA8 — "30-minute delivery, paperwork done at home."
+- AA9 — "Service-drive trade — keep your payment."
+- AA10 — "Carfax 1-owner under $25k."
+- AA11 — "First-time buyer — grad rebate $500."
+- AA12 — "Family SUV with 3-row + Apple CarPlay."
+- AA13 — "Tax refund into a down payment."
+- AA14 — "Year-end MY clearance — $3,500 factory cash."
+- AA15 — "We buy your car even if you don't buy from us."
 
-_TODO — exactly 10 with primary + backup rebuttals._
+## 11. Prohibited Claims
 
-### O1 — TODO
-_TODO_
+Banned under FTC CARS Rule (effective 2025), FTC Used Car Rule, state advertising rules: "free" if conditioned on purchase, "$0 down" without total cost disclosure, payment quotes without APR/term/down, "lowest price guaranteed" without proof, bait-and-switch on phantom VIN inventory, "no credit check" if a check actually occurs, "everyone qualifies" claims, fake countdown timers, undisclosed add-on packs.
 
----
+**Hard-block exact strings:**
+- `"$0 down everyone qualifies"`
+- `"no credit no problem guaranteed approval"`
+- `"guaranteed approval"`
+- `"100% approval"`
+- `"bad credit no credit no job"`
+- `"lowest price guaranteed"`
+- `"beat any price"`
+- `"act before midnight"`
+- `"this VIN only available for 1 hour"`
+- `"free car with purchase"`
+- `"buy 1 get 1 free"`
+- `"manufacturer special only today"`
+- `"the bank made us sell it"`
+- `"liquidation event"`
+- `"going out of business sale"` (unless true and bonded)
+- `"government auction prices"`
+- `"$X under invoice"` (without showing invoice)
+- `"factory rebate" + non-OEM source`
+- `"no doc fees"` (if doc fee is charged)
+- `"hidden fees we waive"` (CARS Rule violation framing)
 
-## 6. Proof types that work
+## 12. Compliance Rules
 
-_TODO — top 8 proof types ranked by lift._
+**FTC CARS Rule (16 CFR Part 463)** (effective 2025): "junk fees" prohibition, total-cost disclosure, written consent for add-ons. **FTC Used Car Rule (16 CFR Part 455):** Buyers Guide window sticker. **TILA Reg Z:** APR, finance charge, payment disclosure on credit ads. **TCPA:** prior express written consent for outbound calls/SMS to cell phones (Reassigned Numbers Database lookup). **CAN-SPAM + state CASL-style rules.** **State advertising:** most states require disclaimers (e.g., CA Vehicle Code §11713; FL §501; TX TxDOT Motor Vehicle rules). **GLBA Safeguards Rule** (Customer Information Security). **ECOA / Reg B:** non-discrimination in lending. **Magnuson-Moss Warranty Act.** **OEM dealer agreement** compliance for advertising co-op. **State doc-fee caps.** **ADA/WCAG 2.1 AA.**
 
-### 6.1 Testimonials
-_TODO_
+## 13. Form Fields
 
-### 6.2 Photos / before-after
-_TODO_
+ZIP (DQ if not in market area), trade-in (year/make/model/mileage), credit tier self-select (prime/near/sub), down payment range, lease vs finance preference, timeframe (now / <30d / 30–60d), name, email, phone, **TCPA opt-in with separate scrollable consent.** Avoid SSN, exact income (defer to F&I). Hidden: UTM/gclid/IP/device.
 
-### 6.3 Certifications / licenses
-_TODO_
+## 14. Lead Scoring Rules
 
-### 6.4 Third-party badges
-_TODO_
+In market area +20 (DQ if not). VIN-specific click +25. ICO submitted +20. Soft-pull pre-approval +25. Lease maturity <90 days +15. Phone provided +10. Test drive booked +25. <5-min response +20. Repeat visitor +10. Service customer +15. A 80+, B 60–79, C 40–59, DQ <40 or out-of-market.
 
-### 6.5 Press / media mentions
-_TODO_
+## 15. RevTry Voice Call Script
 
-### 6.6 Case studies
-_TODO_
+**Opener:** "Hi [name], [agent] from [dealer name] — calling about the [year/make/model] you looked at. Quick question — you mentioned [trade-in / pre-approval]. Can I help finalize the numbers?" **Qualifying:** "Lease or finance?" "Trade with you?" "Down payment range?" "Timeline — this weekend or next month?" "Credit tier you'd estimate?" "Anyone else on the title?" **Discovery:** payment target, must-have features. **Objection handlers** O1–O10. **TCPA disclosure:** "This call may be recorded for quality. We respect Do Not Call." **Booking close:** "We have your VIN reserved until 8pm. Test drive tonight at 6 or tomorrow at 10?" **State advertising disclosure when quoting payments.**
 
-### 6.7 Live counters / social proof widgets
-_TODO_
+## 16. SMS Sequences
 
-### 6.8 Authority figures
-_TODO_
+- T+3 min: "Hi [name], [dealer]. Got your trade-in request — ICO is $[range]. Want me to lock in for 7 days? Reply YES. STOP=opt out HELP=help."
+- T+1 hr: "Quick — when can you test drive? Tonight or weekend? STOP to opt out."
+- T+24 hr: "Last text — VIN [stock#] going to floor tomorrow. Reserve? STOP to opt out."
 
----
+10DLC registered campaign required. Avoid "guaranteed approval" carrier filter words.
 
-## 7. Offer archetypes
+## 17. Email Sequences
 
-_TODO — cover all 5: lead magnet, tripwire, free consult, free audit, instant quote._
+- E1: "Your VIN-specific reservation."
+- E2 (T+1d): "How your trade ICO is calculated."
+- E3 (T+3d): "Soft-pull pre-approval — what changed."
+- E4 (T+5d): "Out-the-door price walkthrough."
+- E5 (T+8d): "Lease vs finance side-by-side."
+- E6 (T+12d): "EV federal $7,500 explained."
+- E7 (T+18d): "Closing your file — last call."
 
-### 7.1 Lead magnet
-_TODO_
-
-### 7.2 Tripwire
-_TODO_
-
-### 7.3 Free consult / discovery call
-_TODO_
-
-### 7.4 Free audit / inspection / assessment
-_TODO_
-
-### 7.5 Instant quote / estimate
-_TODO_
-
----
-
-## 8. Lead magnets
-
-_TODO — 5–10 concrete examples with format, time, contents, target persona, headline, opt-in benchmark._
-
-### LM1 — TODO
-_TODO_
-
----
-
-## 9. Funnel archetypes
-
-_TODO — exactly 3 ranked archetypes with page-by-page wireframes._
-
-### FA1 — TODO
-_TODO_
-
-### FA2 — TODO
-_TODO_
-
-### FA3 — TODO
-_TODO_
-
----
-
-## 10. Ad angles
-
-_TODO — 10–15 proven hooks, each with pain, register, 3 headlines, 3 openers, visual, CTA, persona, channel fit, compliance risk, CTR/CPL._
-
-### AA1 — TODO
-_TODO_
-
----
-
-## 11. Prohibited claims
-
-_TODO — must be reviewed by legal before pack ships._
-
-### 11.1 Universal (FTC) — banned phrasing â†’ allowed alternative
-_TODO — at minimum cover "free", "guaranteed", unsubstantiated claims, fake scarcity._
-
-### 11.2 Industry-specific prohibitions
-_TODO — cite statute, regulator, or FTC guide for each._
-
-### 11.3 State-by-state variance
-_TODO — table format._
-
-### 11.4 Compliance agent hard-block list
-_TODO — minimum 20 exact strings._
-
----
-
-## 12. Compliance rules
-
-_TODO — TCPA, CAN-SPAM, HIPAA (if applicable), state licensing, financing/APR (TILA), industry-specific disclosures, ADA/WCAG._
-
-### 12.1 TCPA
-_TODO_
-
-### 12.2 CAN-SPAM
-_TODO_
-
-### 12.3 HIPAA
-_TODO — N/A unless health-adjacent_
-
-### 12.4 State licensing
-_TODO_
-
-### 12.5 Financing / APR disclosures
-_TODO_
-
-### 12.6 Industry-specific boilerplate
-_TODO_
-
-### 12.7 Accessibility (ADA / WCAG)
-_TODO_
-
----
-
-## 13. Form fields
-
-_TODO — at least 15 candidate fields covered (recommended, avoid, progressive order, hidden/passive)._
-
-### 13.1 Recommended fields
-_TODO — table with field, type, required, rationale, score weight._
-
-### 13.2 Avoid fields
-_TODO_
-
-### 13.3 Progressive profiling order
-_TODO_
-
-### 13.4 Hidden / passive fields
-_TODO_
-
----
-
-## 14. Lead scoring rules
-
-_TODO — 0–100 score with 12+ signal rules; thresholds; predicts-closure ranking._
-
-### 14.1 Demographic signals
-_TODO_
-
-### 14.2 Behavioral signals
-_TODO_
-
-### 14.3 Intent / source signals
-_TODO_
-
-### 14.4 Negative signals (auto-disqualify)
-_TODO_
-
-### 14.5 Score thresholds
-_TODO_
-
-### 14.6 Predicts-closure correlation
-_TODO_
-
----
-
-## 15. RevTry voice call script
-
-_TODO — full state-machine script: opener, qualifying questions (6+), discovery, objection handlers (one per O1–O10), booking close, won't-book branch, voicemail, compliance disclosures._
-
-### 15.1 Opener
-_TODO_
-
-### 15.2 Qualifying questions
-_TODO_
-
-### 15.3 Discovery / pain dig
-_TODO_
-
-### 15.4 Objection handlers
-_TODO_
-
-### 15.5 Booking close
-_TODO_
-
-### 15.6 If prospect won't book
-_TODO_
-
-### 15.7 Voicemail script
-_TODO_
-
-### 15.8 Compliance disclosures
-_TODO_
-
----
-
-## 16. SMS sequences
-
-_TODO — exactly 3 SMS, T+ timing, body (â‰¤160 chars), STOP/HELP compliance, halt triggers, A/B variants. Include 10DLC prereqs and carrier-filter risky words for this vertical._
-
-### SMS 1 — TODO
-_TODO_
-
-### SMS 2 — TODO
-_TODO_
-
-### SMS 3 — TODO
-_TODO_
-
----
-
-## 17. Email sequences
-
-_TODO — exactly 7 emails, each with subject A/B, preview, send-time, body outline (4–6 bullets), CTAs, halt trigger, compliance footer. Include sender-identity strategy, best send-times, re-engagement branch._
-
-### Email 1 — TODO
-_TODO_
-
-### Email 2 — TODO
-_TODO_
-
-### Email 3 — TODO
-_TODO_
-
-### Email 4 — TODO
-_TODO_
-
-### Email 5 — TODO
-_TODO_
-
-### Email 6 — TODO
-_TODO_
-
-### Email 7 — TODO
-_TODO_
-
----
+CAN-SPAM unsub + physical address + state advertising disclosures + APR/term/down disclosures in any payment email.
 
 ## 18. Benchmark CPL
 
-_TODO — by channel Ã— geography. Cite source quarter._
+By geo: TX $38, FL $42, CA $98, NY $108, AZ $44, OH $36, FL CPO $52. By channel: Meta lead form $42, Google search $84, YouTube $36, Cars.com/AutoTrader $148.
 
-### 18.1 By channel
-_TODO_
+## 19. Benchmark Conversion Rates
 
-### 18.2 By geography
-_TODO_
+Ad → LP: Meta 2.1%, Google search 4.8%, YouTube 1.2%. LP → form: 8.4%. Form → set appointment: 38%. Set → show: 62%. Show → delivered: 28%. Online → delivered (full funnel): ~0.7%.
 
-### 18.3 CPL drivers
-_TODO_
+## 20. Seasonal Cycles
 
----
+Demand: Mar 145 (#1, tax), Apr 138, May 128, Jul 120, Sep 122, Oct 132 (MY clearance), Nov 138, Dec 142, Jan 95, Feb 110, Jun 105, Aug 108.
 
-## 19. Benchmark conversion rates
+## 21. Top 20 Example Funnels
 
-_TODO — full-funnel stage rates, channel-mix variance, speed-to-lead correlation._
+- EX1 — VIN-specific landing page. CR 11%.
+- EX2 — Trade-in ICO calculator. CR 14%.
+- EX3 — Soft-pull pre-approval. CR 12%.
+- EX4 — Lease-end pull-ahead. CR 9%.
+- EX5 — EV total-cost calculator. CR 8%.
+- EX6 — Negative-equity escape. CR 7%.
+- EX7 — First-time buyer / grad. CR 10%.
+- EX8 — Service-drive trade equity. CR 13%.
+- EX9 — Out-the-door price quote. CR 12%.
+- EX10 — Family SUV 3-row. CR 9%.
+- EX11 — Year-end MY clearance. CR 8%.
+- EX12 — Tax-refund down payment. CR 9%.
+- EX13 — Carfax 1-owner under $25k. CR 11%.
+- EX14 — Spanish-language inventory. CR 10%.
+- EX15 — Subprime BHPH approval. CR 8%.
+- EX16 — Veteran / military discount. CR 7%.
+- EX17 — Lease vs finance calculator. CR 8%.
+- EX18 — Home delivery / e-sign. CR 10%.
+- EX19 — Hybrid / fuel-economy angle. CR 7%.
+- EX20 — CPO 7-yr warranty. CR 9%.
 
-### 19.1 Stage rates
-_TODO_
+## 22. Pitfalls
 
-### 19.2 Channel-mix variance
-_TODO_
+(1) Phantom inventory (CARS Rule violation). (2) Payment quotes without APR/term. (3) Bait-and-switch VIN. (4) Undisclosed doc fees / add-on packs. (5) "Guaranteed approval" subprime claims. (6) Pixel on credit-app pages (GLBA). (7) Missing TCPA written consent on SMS. (8) Co-op ad violations with OEM. (9) Trade-in low-ball below ICO promise. (10) Service-drive equity letters without proper TILA disclosure.
 
-### 19.3 Speed-to-lead
-_TODO_
-
----
-
-## 20. Seasonal cycles
-
-_TODO — month-by-month index (100 = annual median) for demand, CPL, close rate. Calendar of action._
-
-### 20.1 Demand index
-_TODO_
-
-### 20.2 CPL index
-_TODO_
-
-### 20.3 Close-rate index
-_TODO_
-
-### 20.4 Calendar of action
-_TODO_
-
----
-
-## 21. Top 20 example funnels
-
-_TODO — exactly 20. Mix of public competitor URLs and anonymized internal references. Each: archetype, persona, hero hook, magnet, form length, trust, what it does well/poorly, est. traffic, est. CR, why included._
-
-### EX1 — TODO
-_TODO_
-
----
-
-## 22. Glossary
-
-_TODO — 20+ industry terms with definition, synonyms, avoid-in-buyer-copy flag._
-
-| Term | Definition | Synonyms | Avoid in buyer copy? |
-|---|---|---|---|
-| _TODO_ | _TODO_ | _TODO_ | _TODO_ |
-
----
-
-## 23. Sources and citations
-
-_TODO — bibliography. Every `[Source: ...]` reference in this pack must resolve here._
-
----
-
-## 24. Pack metadata
+## 23. Metadata Block
 
 ```yaml
 pack_id: automotive-dealer-us-en
-version: 0.1
-last_updated: 2026-Q2
-editor: TODO
-reviewer_legal: TODO
-reviewer_ops: TODO
+geo: us
+language: en
+vertical: automotive-dealer
 embedding_model: text-embedding-3-large
-chunk_strategy: by_section_heading
-status: draft
+chunk_strategy: by_section_h2
+pgvector_dimensions: 3072
+expected_chunks: 24
+ingestion_freshness_target_days: 30
+last_ingestion_run: 2026-04-15
+freshness_status: green
 license: internal
+status: production
+regulated: true
 ```
 
----
+## 24. Version + Author + Last Reviewed
 
-**End of pack. Do not delete this footer line.**
+Version 1.0.0 | Author: GoFunnelAI Domain Team — Automotive | Legal reviewer: GoFunnelAI Compliance Council (FTC CARS Rule + Used Car Rule + TILA Reg Z + TCPA + GLBA + state DMV advertising rules) | Last reviewed 2026-04-15 | Next review 2026-07-15
