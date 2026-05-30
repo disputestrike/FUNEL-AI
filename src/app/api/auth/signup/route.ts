@@ -22,13 +22,45 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma, withAdminContext, newId } from "@funnel/db";
 import { ensureWorkspaceForUser } from "@/lib/auth";
+import {
+  checkSignupRateLimit,
+  clientIpFrom,
+} from "@/lib/auth/rate-limit";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const BCRYPT_COST = 12;
+const PASSWORD_MIN = 8;
+const PASSWORD_MAX = 72;   // bcrypt's effective input ceiling; > 72 = DoS
+const NAME_MAX = 200;
+const EMAIL_MAX = 254;     // RFC 5321 max addr-spec length
+const BODY_MAX_BYTES = 4096;
 
 export const runtime = "nodejs";
 
 export async function POST(request: Request) {
+  // Reject oversized bodies before parsing — prevents amplification attacks
+  // where a 10 MB JSON body forces us through full parse + validation.
+  const lenHeader = request.headers.get("content-length");
+  if (lenHeader && Number(lenHeader) > BODY_MAX_BYTES) {
+    return NextResponse.json(
+      { ok: false, error: "Payload too large." },
+      { status: 413 },
+    );
+  }
+
+  // Rate-limit per IP before any DB work or bcrypt — see src/lib/auth/rate-limit.ts.
+  const ip = clientIpFrom(request.headers);
+  const rl = await checkSignupRateLimit(ip);
+  if (!rl.allowed) {
+    return NextResponse.json(
+      { ok: false, error: "Too many signups from this network. Try again later." },
+      {
+        status: 429,
+        headers: { "Retry-After": String(rl.retryAfterSeconds) },
+      },
+    );
+  }
+
   let body: unknown;
   try {
     body = await request.json();
@@ -128,13 +160,24 @@ function parseSignupBody(body: unknown): ParseResult {
   if (!rawName) {
     return { ok: false, error: "Name is required." };
   }
-  if (!EMAIL_RE.test(rawEmail)) {
+  if (rawName.length > NAME_MAX) {
+    return { ok: false, error: `Name must be ${NAME_MAX} characters or less.` };
+  }
+  if (!EMAIL_RE.test(rawEmail) || rawEmail.length > EMAIL_MAX) {
     return { ok: false, error: "Enter a valid email address." };
   }
-  if (rawPassword.length < 8) {
+  if (rawPassword.length < PASSWORD_MIN) {
     return {
       ok: false,
-      error: "Password must be at least 8 characters.",
+      error: `Password must be at least ${PASSWORD_MIN} characters.`,
+    };
+  }
+  // bcrypt silently truncates past 72 bytes AND is CPU-bound at cost 12.
+  // Anything longer is purely a DoS vector.
+  if (rawPassword.length > PASSWORD_MAX) {
+    return {
+      ok: false,
+      error: `Password must be ${PASSWORD_MAX} characters or less.`,
     };
   }
 

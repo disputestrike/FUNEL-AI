@@ -31,6 +31,18 @@ import {
   newId,
   WorkspaceRole,
 } from "@funnel/db";
+import {
+  checkLoginRateLimit,
+  clientIpFrom,
+} from "@/lib/auth/rate-limit";
+
+/**
+ * bcrypt only hashes the first 72 bytes of input. Anything longer is silently
+ * truncated AND becomes a CPU-bound DoS vector at cost 12, so we reject it.
+ * The 8-char floor matches the signup route's validation.
+ */
+const PASSWORD_MIN = 8;
+const PASSWORD_MAX = 72;
 
 function slugify(input: string): string {
   return (
@@ -112,7 +124,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      allowDangerousEmailAccountLinking: true,
+      // SECURITY: NEVER set allowDangerousEmailAccountLinking. An attacker
+      // could pre-register a victim's email via Credentials signup (no email
+      // verification yet) and then have the real owner's Google sign-in get
+      // silently linked to the attacker-controlled account row, granting
+      // ongoing access. When email-verification flow lands, we can revisit
+      // this — but only gated on `emailVerified !== null`.
     }),
     Credentials({
       name: "Email and password",
@@ -120,10 +137,33 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(raw) {
-        const email = typeof raw?.email === "string" ? raw.email.trim().toLowerCase() : "";
+      async authorize(raw, request) {
+        const email =
+          typeof raw?.email === "string" ? raw.email.trim().toLowerCase() : "";
         const password = typeof raw?.password === "string" ? raw.password : "";
-        if (!email || !password) return null;
+
+        // Cheap rejections first — keeps the rate limiter and bcrypt off the
+        // hot path for obviously-invalid input.
+        if (!email || email.length > 254) return null;
+        if (password.length < PASSWORD_MIN || password.length > PASSWORD_MAX) {
+          return null;
+        }
+
+        // Rate-limit BEFORE the password compare so spray attempts can't
+        // amortize bcrypt cost across millions of guesses.
+        const ip =
+          request?.headers instanceof Headers
+            ? clientIpFrom(request.headers)
+            : null;
+        const limit = await checkLoginRateLimit(email, ip);
+        if (!limit.allowed) {
+          // Returning null gives the same UX as a failed password — the
+          // attacker learns nothing about whether the email exists.
+          console.warn(
+            `[auth] login rate-limit hit (retry in ${limit.retryAfterSeconds}s)`,
+          );
+          return null;
+        }
 
         const user = await prisma.user.findUnique({
           where: { email },
