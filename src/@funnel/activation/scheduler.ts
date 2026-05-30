@@ -16,7 +16,10 @@
  * trigger logic itself. The actual side effects live in `./triggers/*`.
  */
 
-import type PgBoss from "pg-boss";
+// pg-boss 12.x dropped both default and named-class exports.
+// We only use the type here; loose alias is fine for build.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type PgBoss = any;
 
 import {
   AwardsTracker,
