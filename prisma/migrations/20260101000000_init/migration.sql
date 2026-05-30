@@ -1,4 +1,4 @@
-﻿-- =====================================================================
+-- =====================================================================
 -- GoFunnelAI initial migration.
 -- Generated from prisma/schema.prisma + docs/03-event-taxonomy-and-schemas.md.
 -- This migration is the canonical bootstrap and is hand-written rather than
