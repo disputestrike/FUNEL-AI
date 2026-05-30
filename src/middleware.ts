@@ -11,7 +11,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { applySecurityHeaders } from "@/lib/platform/security";
-import { isInternalPreviewMode } from "@/lib/session";
+import { isOpenAccessMode } from "@/lib/session";
 
 const PUBLIC_PATHS = [
   "/",
@@ -61,12 +61,11 @@ export default auth((req) => {
     return res;
   }
 
-  // INTERNAL_PREVIEW_MODE=1 — bypass the login wall entirely. Dashboard
-  // pages still call getSession() which returns a synthetic team session,
-  // so the app works exactly as if the user were signed in. Use ONLY for
-  // not-yet-public deploys where the dashboard is shared with the internal
-  // team and trusted collaborators.
-  if (isInternalPreviewMode()) {
+  // OPEN_ACCESS_MODE=1 — no login required. The dashboard runs at full
+  // functionality (funnel gen, voice, ads, CRM, billing, everything) as
+  // the synthetic GoFunnelAI Team owner. Flip the env var off when going
+  // commercial and login is enforced again on the next deploy.
+  if (isOpenAccessMode()) {
     const res = NextResponse.next();
     applySecurityHeaders(res.headers);
     return res;

@@ -88,11 +88,11 @@ export function HomeHero() {
             </p>
             <div className="flex flex-col sm:flex-row sm:items-center gap-4">
               <Button size="lg" asChild>
-                {/* In INTERNAL_PREVIEW_MODE the dashboard is open to the team
-                    without a login wall — point the hero CTA straight at it
-                    instead of the signup form. NEXT_PUBLIC_* prefix lets the
-                    flag reach client components. */}
-                {process.env.NEXT_PUBLIC_INTERNAL_PREVIEW_MODE === "1" ? (
+                {/* When OPEN_ACCESS_MODE is on the dashboard is fully usable
+                    without login — point the hero CTA straight at it. The
+                    NEXT_PUBLIC_ prefix exposes the flag to client components
+                    at build time. */}
+                {process.env.NEXT_PUBLIC_OPEN_ACCESS_MODE === "1" ? (
                   <Link href="/dashboard">
                     Open the dashboard <ArrowRight className="size-4" />
                   </Link>

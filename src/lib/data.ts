@@ -14,7 +14,7 @@
  * `app.workspace_id`. There is no silent cross-tenant leak.
  */
 import { auth } from "@/lib/auth";
-import { getSession, isInternalPreviewMode } from "@/lib/session";
+import { getSession, isOpenAccessMode } from "@/lib/session";
 import { withWorkspaceContext, prisma, withAdminContext } from "@funnel/db";
 import type { TxClient } from "@funnel/db";
 
@@ -83,11 +83,11 @@ export async function getDashboardSession(): Promise<DashboardSession | null> {
   );
 
   if (!workspace) {
-    // In preview mode, the in-memory provisioning latch may have raced with
-    // a fresh container — the synthetic session points at a row that hasn't
-    // been written yet. Fall through with a synthesized workspace so the
-    // dashboard still renders rather than redirecting to /login.
-    if (isInternalPreviewMode()) {
+    // In open-access mode, the in-memory provisioning latch may have raced
+    // with a fresh container — the synthetic session points at a row that
+    // hasn't been written yet. Fall through with a synthesized workspace so
+    // the dashboard still renders rather than redirecting to /login.
+    if (isOpenAccessMode()) {
       return {
         userId: session.user.id,
         email: session.user.email,
@@ -96,7 +96,7 @@ export async function getDashboardSession(): Promise<DashboardSession | null> {
         image: session.user.image,
         workspaceId: session.workspaceId,
         workspaceSlug: session.workspaceSlug,
-        workspaceName: "GoFunnelAI Internal",
+        workspaceName: "GoFunnelAI Team Workspace",
         role: session.role,
         plan: session.plan,
       };
