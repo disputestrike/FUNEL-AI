@@ -10,16 +10,17 @@ builder = "DOCKERFILE"
 dockerfilePath = "Dockerfile"
 
 [deploy]
-startCommand = "node server.js"
+# boot.sh wraps migrations so they NEVER block container startup. If
+# DATABASE_URL is missing or migrations fail, we log loudly and start the
+# web server anyway — better to serve /api/healthz so Railway sees the
+# container alive than to hard-fail at preDeploy with zero diagnostics.
+startCommand = "/app/boot.sh"
 healthcheckPath = "/api/healthz"
-healthcheckTimeout = 60
+healthcheckTimeout = 300
 restartPolicyType = "ON_FAILURE"
-restartPolicyMaxRetries = 10
+restartPolicyMaxRetries = 3
 numReplicas = 1
 sleepApplication = false
 
-# Run Prisma migrations before the new container takes traffic.
-# Idempotent: safe to re-run on every deploy.
-# Runtime image has prisma CLI installed globally via npm (see Dockerfile).
-# pnpm is NOT installed in the runtime stage — keep prisma CLI direct.
-preDeployCommand = "prisma migrate deploy --schema=./prisma/schema.prisma"
+# No preDeployCommand. Migrations run inside boot.sh and are non-fatal —
+# once env vars are configured, migrations apply on next deploy.

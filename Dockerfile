@@ -56,9 +56,12 @@ COPY --from=build --chown=funnel:funnel /app/prisma ./prisma
 # directories at top-level node_modules, not pnpm symlinks.
 COPY --from=build --chown=funnel:funnel /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=build --chown=funnel:funnel /app/node_modules/@prisma ./node_modules/@prisma
+# Boot script — runs migrations (non-fatal) then starts the server.
+COPY --chown=funnel:funnel boot.sh /app/boot.sh
+RUN chmod +x /app/boot.sh
 USER funnel
 EXPOSE 3000
-HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=5 \
   CMD wget -qO- http://127.0.0.1:3000/api/healthz >/dev/null 2>&1 || exit 1
 ENTRYPOINT ["/sbin/tini", "--"]
-CMD ["node", "server.js"]
+CMD ["/app/boot.sh"]
