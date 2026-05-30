@@ -1,3 +1,3 @@
-﻿// Trust & safety — stub package, implement when needed.
+// Trust & safety — stub package, implement when needed.
 export {};
 
