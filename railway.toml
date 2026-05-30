@@ -20,4 +20,6 @@ sleepApplication = false
 
 # Run Prisma migrations before the new container takes traffic.
 # Idempotent: safe to re-run on every deploy.
-preDeployCommand = "pnpm prisma migrate deploy"
+# Runtime image has prisma CLI installed globally via npm (see Dockerfile).
+# pnpm is NOT installed in the runtime stage — keep prisma CLI direct.
+preDeployCommand = "prisma migrate deploy --schema=./prisma/schema.prisma"

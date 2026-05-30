@@ -39,6 +39,7 @@ RUN pnpm build
 # -------- Stage 3: runtime ---------------------------------------------------
 FROM node:20-alpine AS runtime
 RUN apk add --no-cache tini wget openssl \
+ && npm install -g prisma@5.22.0 \
  && addgroup -S -g 1001 funnel \
  && adduser -S -G funnel -u 1001 -h /home/funnel funnel
 ENV NODE_ENV=production \
